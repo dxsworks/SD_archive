@@ -143,11 +143,12 @@ const REACTIONS = ['Cafe_Reaction'];
 const ARMED_IDLE = 'Formation_Idle';
 const ARMED_FIDGETS = ['Rearrange_Idle', 'Victory_End'];
 const ARMED_REACTIONS = ['Rearrange_Reaction', 'Victory_Start'];
-// 전투 자세: 서서 쏘기(Normal) / 방패 뒤에 숨어 쏘기(Stand)
+// 전투 자세: 서서 쏘기(Normal) / 방패 뒤에 숨어 쏘기(Stand) / 무릎 꿇고 쏘기(Kneel). 학생마다 있는 자세만 쓴다
 // 공격 한 번은 시작 → 사격 → 끝 → 대기 순서로 이어야 자연스럽다
-const STANCES = ['Normal', 'Stand'];
+const STANCES = ['Normal', 'Stand', 'Kneel'];
 // 자세별 전투 대기 동작. Stand_Idle은 쓰지 않는다(방패 데이터가 없어 허공을 보고 돌아선 것처럼 보임) → 조준 대기로 대신
-const STANCE_IDLE = { Normal: 'Normal_Idle', Stand: 'Stand_Attack_Delay' };
+// Kneel_Idle도 몸이 쏘는 방향과 90°쯤 어긋나 왼쪽을 볼 때 등만 보인다 → 마찬가지로 조준 대기로 대신
+const STANCE_IDLE = { Normal: 'Normal_Idle', Stand: 'Stand_Attack_Delay', Kneel: 'Kneel_Attack_Delay' };
 const ATTACK_STEPS = ['Attack_Start', 'Attack_Ing', 'Attack_End', 'Attack_Delay'];
 const BATTLE_ENTRY = ['Normal_Callsign'];
 const RUN_CALLSIGN = 'Move_Callsign'; // 뛰면서 하는 구호. 제자리에서 틀면 제자리 뛰기가 되므로 실제로 뛸 때만 쓴다
@@ -451,7 +452,13 @@ let battleRest = 2;
 let lastBattleEnd = -Infinity;
 let runJumpAt = null;              // 뛰다가 남은 거리가 이만큼일 때 구르기
 const stanceReady = (st) => has(STANCE_IDLE[st]) && ATTACK_STEPS.every((step) => has(`${st}_${step}`));
-const otherStance = (st) => (st === 'Normal' ? 'Stand' : 'Normal');
+// 지금 자세 말고 쓸 수 있는 자세 중 아무거나 (없으면 undefined)
+const otherStance = (st) => {
+  const list = STANCES.filter((s) => s !== st && stanceReady(s));
+  return list[Math.floor(Math.random() * list.length)];
+};
+// 구호는 자세마다 있을 수도 없을 수도 있다 (Kneel_Callsign은 무릎 자세 학생 중 일부만)
+const hasCallsign = (st) => has(`${st}_Callsign`) && fitsForm(`${st}_Callsign`);
 const battleReady = () => (performance.now() - lastBattleEnd) / 1000 > BATTLE_COOLDOWN;
 // 한 자리에서는 같은 방향으로 싸우고, 뛰어서 자리를 옮기면 새로 정한다
 const battleFace = () => (battle ? battle.aim : aimFace(Math.random() < 0.5 ? 1 : -1));
@@ -506,9 +513,9 @@ function battleAction() {
   pickWeighted([
     [burst, empty ? 5 : 40],
     [reload, empty ? 60 : battle.ammo < MAGAZINE ? 10 : 3],
-    [switchStance, settings.walk && stanceReady(otherStance(battle.stance)) ? 12 : 0],
+    [switchStance, settings.walk && otherStance(battle.stance) ? 12 : 0],
     [startRun, settings.walk ? 15 : 0],
-    [callsign, fitsForm(`${battle.stance}_Callsign`) ? 10 : 0],
+    [callsign, hasCallsign(battle.stance) ? 10 : 0],
     [exSkill, has(clipName('ex')) ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
   ])();
 }
@@ -528,7 +535,7 @@ function reload() {
   playSequence([`${battle.stance}_Reload`], { face: battleFace() });
 }
 
-const callsign = () => (fitsForm(`${battle.stance}_Callsign`) ? playSequence([`${battle.stance}_Callsign`], { face: battleFace() }) : rest());
+const callsign = () => (hasCallsign(battle.stance) ? playSequence([`${battle.stance}_Callsign`], { face: battleFace() }) : rest());
 
 // 자세 바꾸기: 근처로 뛰어가 도착하며 다른 자세를 잡는다.
 // Move_End_*는 뛰다가 멈추는 동작이라 제자리에서 틀면 제자리에서 몇 걸음 뛰는 것처럼 보인다.
@@ -554,7 +561,7 @@ function startRun({ switchStance = false } = {}) {
 function arriveRun() {
   // 도착하면 자세를 잡는다 (자세 바꾸기로 뛰었거나, 가끔 다른 자세로)
   const next = battle.nextStance ?? (Math.random() < 0.4 ? otherStance(battle.stance) : battle.stance);
-  if (stanceReady(next)) battle.stance = next;
+  if (next && stanceReady(next)) battle.stance = next;
   battle.aim = aimFace(battle.side);
   playSequence([`Move_End_${battle.stance}`], { face: battleFace(), fade: 0.15 });
 }

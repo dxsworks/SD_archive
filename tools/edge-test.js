@@ -1,15 +1,15 @@
 // 동작별로 모델이 펫 창(캔버스) 위·좌·우 끝에서 몇 px 떨어져 있는지 잰다 (0 = 창 끝에 닿아 잘림)
 // 사용: (정적 서버가 8765에서 실행 중일 때) npx electron tools/edge-test.js
 //   __pet.pose(동작, { face, height })로 상태 머신을 멈추고 동작을 반복시키며 매 프레임 캔버스 픽셀을 읽는다.
-//   동작 길이(D)는 호시노 기준. 모델에 없는 동작은 건너뛴다(--model=). 여백이 작은 순으로 출력한다.
+//   동작 길이(D)는 호시노 기준(무릎 동작은 시로코). 모델에 없는 동작은 건너뛴다(--model=). 여백이 작은 순으로 출력한다.
 const { app, BrowserWindow } = require('electron');
 const petUrl = require('./pet-url');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const D = { Cafe_Reaction: 2.7, Cafe_Idle: 2, Cafe_Walk: 1.33, Formation_Idle: 4.4, Formation_Pickup: 6, Exs: 7.63, Victory_End: 2, Victory_Start: 3.33, Normal_Idle: 2, Normal_Attack_Delay: 2, Normal_Attack_End: 0.5, Normal_Attack_Ing: 0.83, Normal_Attack_Start: 0.33, Normal_Callsign: 1.5, Normal_Reload: 2, Stand_Attack_Delay: 2, Stand_Attack_End: 0.5, Stand_Attack_Ing: 0.83, Stand_Attack_Start: 0.33, Stand_Callsign: 1.63, Stand_Reload: 2, Move_Callsign: 1.33, Move_End_Normal: 1.33, Move_End_Stand: 1.33, Move_Ing: 0.67, Move_Jump: 1, Rearrange_Idle: 6.4, Rearrange_Reaction: 3.8 };
+const D = { Cafe_Reaction: 2.7, Cafe_Idle: 2, Cafe_Walk: 1.33, Formation_Idle: 4.4, Formation_Pickup: 6, Exs: 7.63, Victory_End: 2, Victory_Start: 3.33, Normal_Idle: 2, Normal_Attack_Delay: 2, Normal_Attack_End: 0.5, Normal_Attack_Ing: 0.83, Normal_Attack_Start: 0.33, Normal_Callsign: 1.5, Normal_Reload: 2, Stand_Attack_Delay: 2, Stand_Attack_End: 0.5, Stand_Attack_Ing: 0.83, Stand_Attack_Start: 0.33, Stand_Callsign: 1.63, Stand_Reload: 2, Kneel_Idle: 1.3, Kneel_Attack_Delay: 1.3, Kneel_Attack_End: 0.5, Kneel_Attack_Ing: 0.8, Kneel_Attack_Start: 0.8, Kneel_Callsign: 1.5, Kneel_Reload: 1.9, Move_Callsign: 1.33, Move_End_Normal: 1.33, Move_End_Stand: 1.33, Move_End_Kneel: 1.5, Move_Ing: 0.67, Move_Jump: 1, Rearrange_Idle: 6.4, Rearrange_Reaction: 3.8 };
 const calm = ['Cafe_Reaction', 'Cafe_Idle', 'Formation_Idle', 'Victory_End', 'Victory_Start', 'Rearrange_Idle', 'Rearrange_Reaction'];
 const cases = [];
 for (const c of calm) for (const f of [-30, 0, 30]) cases.push([c, f, 0]);
-for (const c of Object.keys(D).filter((n) => /^(Normal|Stand|Move_End|Exs)/.test(n))) for (const f of [-80, -40, 40, 80]) cases.push([c, f, 0]);
+for (const c of Object.keys(D).filter((n) => /^(Normal|Stand|Kneel|Move_End|Exs)/.test(n))) for (const f of [-80, -40, 40, 80]) cases.push([c, f, 0]);
 for (const c of ['Cafe_Walk', 'Move_Ing', 'Move_Callsign', 'Move_Jump']) for (const f of [0, 90, -90, 180]) cases.push([c, f, 0]);
 for (const f of [0]) cases.push(['Formation_Pickup', f, 0.3]);
 app.whenReady().then(async () => {

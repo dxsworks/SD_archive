@@ -95,13 +95,13 @@
 
 | 단계 | 동작 |
 |---|---|
-| 시작 | `Normal_Callsign` |
-| 전투 대기 (1.2~3.5초) | 서서: `Normal_Idle` / 엄폐: `Stand_Attack_Delay` (**`Stand_Idle`은 안 씀**) |
+| 시작 | `Normal_Callsign` (없는 학생은 구호 없이 바로 자세) |
+| 전투 대기 (1.2~3.5초) | 서서: `Normal_Idle` / 엄폐: `Stand_Attack_Delay` / 무릎: `Kneel_Attack_Delay` (**`Stand_Idle`·`Kneel_Idle`은 안 씀**) |
 | 사격 | `{자세}_Attack_Start → Attack_Ing ×1~3 → Attack_End → Attack_Delay` |
 | 재장전 | `{자세}_Reload` (3번 쏘면 확률이 크게 오름) |
-| 자세 바꾸기 | 근처로 뛰어가(`Move_Ing`) 도착하며 다른 자세 `Move_End_{자세}` (돌아다니기를 끄면 안 함) |
+| 자세 바꾸기 | 근처로 뛰어가(`Move_Ing`) 도착하며 그 학생에게 있는 다른 자세 중 아무거나 `Move_End_{자세}` (돌아다니기를 끄면 안 함) |
 | 자리 옮기기 | `Move_Ing` (30% 확률로 처음 1.3초를 `Move_Callsign` 뛰면서 구호, 아니면 30% 확률로 중간에 `Move_Jump`) → `Move_End_{자세}` (40% 확률로 다른 자세) |
-| 구호 | `{자세}_Callsign` (전투 중 클릭해도 이걸로 대답) |
+| 구호 | `{자세}_Callsign` (전투 중 클릭해도 이걸로 대답. `Kneel_Callsign`처럼 없는 자세에서는 안 함) |
 | EX 스킬 | `Exs` (가끔, 탄과 상관없이 가중치 6) → 전투 대기 |
 | 끝 | `Victory_Start → Victory_End` → 평소 대기 |
 
@@ -126,6 +126,7 @@
 | 동작 | 이유 / 계획 |
 |---|---|
 | `Stand_Idle` | **쓰지 않기로 결정.** 방패가 없어 허공을 향해 돌아선 것처럼 보임 → `Stand_Attack_Delay`로 대신 |
+| `Kneel_Idle` (호시노에는 없음) | **쓰지 않음.** 몸이 쏘는 방향과 90°쯤 어긋나 왼쪽을 볼 때 등만 보임(시로코로 확인) → `Kneel_Attack_Delay`로 대신 |
 | `Vital_Panic` | **쓰지 않기로 결정.** (검토했던 후보: 높이서 떨어뜨렸을 때, 클릭 연타) |
 | `Vital_Dying_Ing` | **쓰지 않기로 결정.** (검토했던 후보: 많이 흔들리거나 떨어진 뒤 어지러움) |
 | `Exs_Cutin` | **쓰지 않기로 결정.** 처음 약 1.4초간 캐릭터가 화면 밖(뒤쪽 z −0.66)에서 들어오는 연출 |
@@ -139,7 +140,7 @@
 ## 5. 다른 학생을 붙일 때 체크리스트
 
 1. [models.md](models.md)에서 지원 수준 확인. **"전체"(168개)는 지금 코드로 대부분 동작**, "카페만"(77개, 보조 학생 등)은 전투 모드·낮잠·후퇴가 꺼짐(코드가 동작 유무를 확인해 건너뜀), "불가"(32개)는 카페 동작이 없음.
-2. 자세 확인: `Kneel`(무릎) 자세 모델이 많음(125개). **펫 코드는 아직 `Normal`/`Stand`만 지원** → `STANCES`와 `STANCE_IDLE`에 `Kneel: 'Kneel_Idle'` 추가 필요(`Kneel_Callsign`이 없는 모델이 대부분이라 구호 대체도 필요).
+2. 자세 확인: 서서(`Normal`)·엄폐(`Stand`)·무릎(`Kneel`, 129개) 중 그 학생에게 있는 자세만 쓴다(무릎 자세 학생은 모두 서서 자세도 있음). 구호가 없는 자세(`Kneel_Callsign`은 15개에만 있음)에서는 구호를 건너뛴다. 무릎 동작 방향 기준값(`clip-facing.js`)은 원래 호시노에 없어서 시로코(`Shiroko.glb`)에서 잰 값.
 3. 이름 변형 확인(위 1장의 "이름이 제각각인 경우"). `Vital_Dying_ing`, 번호 붙은 변형이 있으면 별칭 처리 필요.
 4. 무기 확인: [data/model-survey.json](data/model-survey.json)의 `weapons[].animatedIn`이 동작 수보다 훨씬 적은 무기는 호시노 방패처럼 기본 위치에 박혀 보일 수 있음(지금 규칙으로 자동으로 숨겨짐).
 5. 창 크기 확인: `tools/edge-test.js`로 동작별 창 끝 여백을 잰다(호시노는 EX가 가장 넓어 2:1 창이 필요했음).

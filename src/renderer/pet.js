@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
 import { hiddenPartsUpdater } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
-import { measureClipTurns } from './clip-facing.js';
+import { measureClips } from './clip-facing.js';
 
 // ---- 화면 구성 ----
 const VIEW_HEIGHT = 1.3;                         // 창 높이에 들어갈 월드 단위 높이
@@ -13,6 +13,7 @@ const FACE_FRONT = 0;
 const FACE_BATTLE = THREE.MathUtils.degToRad(60); // 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림
 const FACE_SPREAD = THREE.MathUtils.degToRad(30);   // 평소 동작은 정면에서 이만큼 안쪽 아무 방향
 const BATTLE_SPREAD = THREE.MathUtils.degToRad(20); // 전투·EX는 FACE_BATTLE에서 이만큼 안쪽 아무 방향
+const HEAD_LIMIT = THREE.MathUtils.degToRad(45); // 얼굴이 카메라에서 이보다 돌아가면 그만큼 몸을 돌려 얼굴이 보이게
 const FACE_NAP = THREE.MathUtils.degToRad(58);    // 뒤로 눕는 동작을 옆으로 눕는 것처럼 보이게
 const NAP_OFFSET = new THREE.Vector3(0.33, 0.08, 0.1); // 누운 몸이 창 가운데 바닥에 오도록
 
@@ -126,6 +127,7 @@ let updateOutlines = () => {};
 let hands = []; // 밧줄을 잡는 손 뼈
 let clips = {};
 let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도
+let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
 let currentAction = null;
 const weaponMeshes = [];
 
@@ -187,7 +189,7 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   indexClips();
-  clipTurns = measureClipTurns(gltf.scene, gltf.animations, (n) => n.replace(FORM_NUMBER, '$1').toLowerCase());
+  ({ turns: clipTurns, heads: clipHeads } = measureClips(gltf.scene, gltf.animations, (n) => n.replace(FORM_NUMBER, '$1').toLowerCase()));
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -322,6 +324,19 @@ const spread = (range) => (Math.random() * 2 - 1) * range;
 const calmFace = () => (Math.abs(wrapAngle(facing - FACE_FRONT)) <= FACE_SPREAD ? facing : FACE_FRONT + spread(FACE_SPREAD));
 // 전투 방향: 적이 있는 쪽(side = ±1)을 보며 카메라 쪽으로 반쯤, 매번 조금씩 다르게
 const aimFace = (side) => side * (FACE_BATTLE + spread(BATTLE_SPREAD));
+// 얼굴이 보이게: 전투 동작은 얼굴이 총구보다 35~50°(재장전·구호는 90~150°) 왼쪽을 봐서, 왼쪽을 겨누거나 재장전할 때 뒤통수만 보인다.
+// 이어서 틀 동작들의 평균 얼굴 방향이 HEAD_LIMIT를 넘으면 넘는 만큼만 몸을 돌린다 (한 번에 정해서 동작 사이에 몸이 왔다 갔다 하지 않게)
+function showFace(face, names) {
+  let x = 0, z = 0;
+  for (const name of names.map(resolve).filter(Boolean)) {
+    const a = (clipTurns.get(name) ?? 0) + (clipHeads.get(name) ?? 0);
+    x += Math.sin(a); z += Math.cos(a);
+  }
+  if (!x && !z) return face;
+  const head = wrapAngle(face + Math.atan2(x, z));
+  const over = Math.abs(head) - HEAD_LIMIT;
+  return over > 0 ? face - Math.sign(head) * over : face;
+}
 
 let lastSent = '';
 function placeWindow() {
@@ -377,7 +392,7 @@ function playSequence(names, { face = calmFace(), fade = 0.25, stepFade = 0.2, a
   const list = names.map(clipName).filter(has);
   if (!list.length) { onEnd(); return; }
   setState(as);
-  facing = face;
+  facing = showFace(face, list);
   let i = 0;
   const next = () => {
     if (i >= list.length) { onEnd(); return; }
@@ -503,7 +518,7 @@ function battleIdle() {
   if (performance.now() > battle.until) { endBattle({ victory: true }); return; }
   setState('battle');
   battleRest = rand(...BATTLE_REST);
-  facing = battleFace();
+  facing = showFace(battleFace(), [STANCE_IDLE[battle.stance]]);
   play(STANCE_IDLE[battle.stance], { fade: 0.2 });
 }
 
@@ -895,6 +910,7 @@ window.__pet = {
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
   get clip() { return currentAction?.getClip().name; },
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { mixer.timeScale = f; }, // 동작 확인용 느린 재생
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },

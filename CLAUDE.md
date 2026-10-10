@@ -40,6 +40,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
   - `npx electron tools/edge-test.js` 동작·방향별로 모델이 펫 창 끝에서 몇 px 떨어지는지(0 = 잘림)
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
+- 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
 - 브라우저 미리보기 창이 숨겨지면 rAF가 멈춰서 시간 기반 확인이 틀린다 → Electron 테스트 스크립트를 쓴다.
 - 디버그 훅: `window.__pet` (`state`, `clip`, `battle`, `armed`, `floorPos`, 각 명령, `battleFor(초)`, `armFor(초)`, `timeScale` 느린 재생, `pose(동작, {face, height})` 상태 머신 멈추고 동작 반복). `battle`은 상태 getter라 전투 명령은 `battleFor`로 부른다
@@ -68,4 +69,4 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
 4. ~~엄폐 자세에서 방패를 앞에 세우기~~ (결정: 안 함. `Stand_Idle`도 계속 안 씀)
 5. **다른 학생 지원**: `Kneel` 자세 추가, 이름 소문자 비교·오타 별칭(`Vital_Dying_ing` 등), 테스트 스텁이 `Hoshino.glb` 고정인 것 개선. 체크리스트는 docs/animations.md 5장.
 
-아직 확인 못 한 것: 실제 마우스로 끌어 옮기기(실제 앱), 트레이 "종료"로 실제 종료되는지, 다중 모니터 이동, `Move_Jump` 구르기 모습.
+사용자가 실제 앱에서 확인함(2026-10-10): 마우스로 끌어 옮기기, 트레이 "종료", 다중 모니터 이동, `Move_Jump` 구르기.

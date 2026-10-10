@@ -843,7 +843,9 @@ main().catch((err) => console.error('펫 초기화 실패:', err));
 
 // 브라우저에서 열었을 때: 페이지 전체를 작업 영역으로, 캔버스를 펫 창으로 흉내 낸다 (?sim)
 function createBrowserStub() {
-  const sim = new URLSearchParams(location.search).has('sim');
+  const q = new URLSearchParams(location.search);
+  const sim = q.has('sim');
+  const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   const W = 560, H = 280; // main.js SIZES.medium과 같게
   const area = () => ({ x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });
   if (sim) {
@@ -857,7 +859,7 @@ function createBrowserStub() {
     ? { x: parseFloat(canvas.style.left), y: parseFloat(canvas.style.top), width: W, height: H }
     : area());
   return {
-    readModel: () => fetch(new URL('../../models/Hoshino.glb', import.meta.url)).then((r) => r.arrayBuffer()),
+    readModel: () => fetch(new URL(`../../models/${encodeURIComponent(model)}`, import.meta.url)).then((r) => r.arrayBuffer()),
     getSettings: async () => ({ walk: sim }),
     getBounds: async () => ({ win: winRect(), workArea: area() }),
     getWorkArea: async () => area(),

@@ -11,7 +11,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 app.whenReady().then(async () => {
   const win = new BrowserWindow({
     show: false,
-    width: 210,
+    width: 560,
     height: 280,
     webPreferences: { offscreen: true, backgroundThrottling: false },
   });

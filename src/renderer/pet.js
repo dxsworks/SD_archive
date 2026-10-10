@@ -517,7 +517,7 @@ function beginBattle() {
     stance: stances[Math.floor(Math.random() * stances.length)],
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
-    engaged: false, // 조준 대기 자세(엄폐·무릎)를 잡았는지. 잡기 전엔 Attack_Start로 자세부터
+    engaged: false, // 엄폐·무릎 자세에서 엄폐물 밖으로 나가 있는지 (aimsAtRest 설명)
   };
   battle.aim = aimFace(battle.side);
   return true;
@@ -533,16 +533,23 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   if (victory) playSequence([...rise, ...VICTORY], { onEnd: toIdle });
 }
 
-// 무릎·엄폐처럼 조준한 채 대기하는 자세(대기 동작 = Attack_Delay)는 Attack_Start가 선 자세에서 앉으며 조준하고,
-// Attack_End가 일어나 돌아서는 동작이다(시로코 무릎). 사격마다 넣으면 쏘고 → 일어섰다 → 순간이동하듯 앉으므로,
-// Start는 자세를 잡을 때 한 번, End는 자리를 떠날 때(뛰기·승리) 한 번만 쓰고 사이에는 Ing → Delay만 반복한다.
-// 서서 쏘기(대기 = Normal_Idle, 총을 내린 자세)는 예전처럼 사격마다 Start → Ing → End → Delay
+// 무릎·엄폐 자세 동작은 두 자리에서 일어난다: Attack_Delay·Attack_Ing는 엄폐물 밖으로 나간 자리(원점에서 0.3쯤 비켜남),
+// Reload·Callsign·Idle·Move_End·EX는 원래 자리. Attack_Start가 나가는 동작, Attack_End가 돌아오는 동작이다.
+// 펫은 나간 자리의 Attack_Delay를 대기로 쓰므로(Idle은 몸이 돌아가 있어 안 씀), 원래 자리 동작을 하기 전엔 End로 돌아오고
+// 다시 대기할 땐 Start로 나간다 (안 그러면 순간이동하듯 0.3씩 튐. 사격마다 Start·End를 넣으면 쏘고 → 일어섰다 → 튀며 앉음).
+// 서서 쏘기(대기 = Normal_Idle)는 한 자리라 예전처럼 사격마다 Start → Ing → End → Delay
 const aimsAtRest = (st) => STANCE_IDLE[st] === `${st}_Attack_Delay`;
 const leaveSteps = () => (battle?.engaged && aimsAtRest(battle.stance) ? [`${battle.stance}_Attack_End`] : []);
+// 원래 자리에서 할 동작 앞에 (나가 있으면) 돌아오는 동작을 붙인다
+const fromCover = (steps) => {
+  const back = leaveSteps();
+  if (battle) battle.engaged = false;
+  return [...back, ...steps];
+};
 
 function battleIdle() {
   if (performance.now() > battle.until) { endBattle({ victory: true }); return; }
-  if (aimsAtRest(battle.stance) && !battle.engaged) { // 선 자세(구호·EX 등) 다음이면 자세부터 잡는다
+  if (aimsAtRest(battle.stance) && !battle.engaged) { // 원래 자리 동작(구호·재장전·EX·Move_End) 다음이면 Start로 나간다
     battle.engaged = true;
     playSequence([`${battle.stance}_Attack_Start`], { face: battleFace(), onEnd: battleIdle });
     return;
@@ -582,10 +589,10 @@ function burst() {
 
 function reload() {
   battle.ammo = MAGAZINE;
-  playSequence([`${battle.stance}_Reload`], { face: battleFace() });
+  playSequence(fromCover([`${battle.stance}_Reload`]), { face: battleFace() });
 }
 
-const callsign = () => (hasCallsign(battle.stance) ? playSequence([`${battle.stance}_Callsign`], { face: battleFace() }) : rest());
+const callsign = () => (hasCallsign(battle.stance) ? playSequence(fromCover([`${battle.stance}_Callsign`]), { face: battleFace() }) : rest());
 // 전투 중 클릭 대답: 구호 / 재장전 무작위 (구호가 없는 자세·차림이면 재장전)
 const battleReply = () => pickWeighted([[callsign, hasCallsign(battle.stance) ? 1 : 0], [reload, 1]])();
 
@@ -622,7 +629,7 @@ function arriveRun() {
   const next = battle.nextStance ?? (Math.random() < 0.4 ? otherStance(battle.stance) : battle.stance);
   if (next && stanceReady(next)) battle.stance = next;
   battle.aim = aimFace(battle.side);
-  battle.engaged = has(`Move_End_${battle.stance}`); // 뛰어와 멈추며 자세를 잡는 동작
+  battle.engaged = false; // Move_End는 원래 자리에서 끝난다 → 다음 대기 때 Start로 나간다
   playSequence([`Move_End_${battle.stance}`], { face: battleFace(), fade: 0.15 });
 }
 
@@ -630,8 +637,7 @@ function arriveRun() {
 // → 전투 중에 EX를 쓰면 전투가 끝날 때까지 02 차림 동작을 쓴다 (02가 없는 학생은 그대로 01)
 function exSkill() {
   if (battle && forms.has(2)) form = 2;
-  if (battle) battle.engaged = false; // EX는 선 자세로 끝난다
-  playSequence(['ex'], { face: battleFace(), as: 'ex' });
+  playSequence(fromCover(['ex']), { face: battleFace(), as: 'ex' });
 }
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,

@@ -102,7 +102,7 @@
 |---|---|
 | 시작 | 맨손이면 `Public01`(총 꺼내기), 잠깐 무장 중이었거나 `Public01`이 없으면 `Normal_Callsign`(그것도 없으면 바로 자세). 더블클릭으로 시작하면 `Exs` |
 | 전투 대기 (1.2~3.5초) | 서서: `Normal_Idle` / 엄폐: `Stand_Attack_Delay` / 무릎: `Kneel_Attack_Delay` (**`Stand_Idle`·`Kneel_Idle`은 안 씀**) |
-| 사격 | 서서: `Normal_Attack_Start → Attack_Ing ×1~3 → Attack_End → Attack_Delay` / 엄폐·무릎: `Attack_Ing ×1~3 → Attack_Delay` (`Attack_Start`(앉으며 조준)는 자세를 잡을 때 한 번, `Attack_End`(일어나 돌아섬)는 뛰거나 승리 포즈로 넘어갈 때 한 번. 사격마다 넣으면 시로코 무릎처럼 쏘고 → 일어섰다 → 순간이동하듯 앉음) |
+| 사격 | 서서: `Normal_Attack_Start → Attack_Ing ×1~3 → Attack_End → Attack_Delay` / 엄폐·무릎: `Attack_Ing ×1~3 → Attack_Delay` (엄폐·무릎 동작은 두 자리에서 일어남: `Attack_Delay`·`Attack_Ing`는 엄폐물 밖으로 나간 자리(원점에서 약 0.3 비켜남), `Reload`·`Callsign`·`Idle`·`Move_End`·EX는 원래 자리. `Attack_Start`가 나가기, `Attack_End`가 돌아오기. 대기가 나간 자리의 `Attack_Delay`라서 재장전·구호·EX·뛰기·승리 포즈 앞에는 `End`, 그 뒤 다시 대기할 땐 `Start`를 넣음. 안 그러면 0.3씩 순간이동하고, 사격마다 넣으면 쏘고 → 일어섰다 → 튀며 앉음) |
 | 재장전 | `{자세}_Reload` (가중치: 탄 남음 8 / 쏜 적 있음 25 / 3번 쏴서 비었음 60, 사격은 40) |
 | 자세 바꾸기 | 근처로 뛰어가(`Move_Ing`) 도착하며 그 학생에게 있는 다른 자세 중 아무거나 `Move_End_{자세}` (돌아다니기를 끄면 안 함) |
 | 자리 옮기기 | `Move_Ing` (30% 확률로 처음 1.3초를 `Move_Callsign` 뛰면서 구호, 아니면 30% 확률로 중간에 `Move_Jump`) → `Move_End_{자세}` (40% 확률로 다른 자세) |

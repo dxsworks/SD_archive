@@ -153,6 +153,9 @@ const STANCES = ['Normal', 'Stand', 'Kneel'];
 const STANCE_IDLE = { Normal: 'Normal_Idle', Stand: 'Stand_Attack_Delay', Kneel: 'Kneel_Attack_Delay' };
 const ATTACK_STEPS = ['Attack_Start', 'Attack_Ing', 'Attack_End', 'Attack_Delay'];
 const BATTLE_ENTRY = ['Normal_Callsign'];
+// 총 꺼내기: 빈손으로 손짓하다가 끝에 총을 꺼내 드는 동작(Public01, 수영복 호시노는 Normal01_Public01). 약 190개 모델에 있음.
+// 맨손에서 무장·전투로 넘어갈 때 틀면 총이 갑자기 나타나지 않는다. 총을 든 상태에서 틀면 총이 사라졌다 다시 나타나므로 맨손일 때만
+const DRAW_WEAPON = ['Public', 'Normal_Public'];
 const RUN_CALLSIGN = 'Move_Callsign'; // 뛰면서 하는 구호. 제자리에서 틀면 제자리 뛰기가 되므로 실제로 뛸 때만 쓴다
 const VICTORY = ['Victory_Start', 'Victory_End'];
 
@@ -439,7 +442,7 @@ const arm = () => { armed = { until: performance.now() + rand(...ARMED_TIME) * 1
 function startArmed() {
   if (!has(ARMED_IDLE)) { toIdle(); return; }
   arm();
-  armedIdle();
+  playSequence(DRAW_WEAPON.filter(has).slice(0, 1)); // 없으면 바로 무장 대기
 }
 
 function armedIdle() {
@@ -484,9 +487,15 @@ function rest() {
   else toIdle();
 }
 
+// 시작 동작: 맨손이면 총 꺼내기(정면 쪽에서 손짓), 이미 총을 들고 있었거나 총 꺼내기가 없으면 구호.
+// 더블클릭 EX로 시작하는 전투는 여기를 거치지 않고 EX로 바로 시작한다
 function startBattle({ thenAttack = false } = {}) {
+  const wasArmed = Boolean(armed);
   if (!beginBattle()) { fidget(); return; }
-  playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd: thenAttack ? burst : rest });
+  const onEnd = thenAttack ? burst : rest;
+  const draw = wasArmed ? undefined : DRAW_WEAPON.find(has);
+  if (draw) playSequence([draw], { onEnd });
+  else playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd });
 }
 
 // 전투 상태만 만든다 (전투 자세가 없는 학생이면 false)
@@ -551,6 +560,8 @@ function reload() {
 }
 
 const callsign = () => (hasCallsign(battle.stance) ? playSequence([`${battle.stance}_Callsign`], { face: battleFace() }) : rest());
+// 전투 중 클릭 대답: 구호 / 재장전 무작위 (구호가 없는 자세·차림이면 재장전)
+const battleReply = () => pickWeighted([[callsign, hasCallsign(battle.stance) ? 1 : 0], [reload, 1]])();
 
 // 자세 바꾸기: 근처로 뛰어가 도착하며 다른 자세를 잡는다.
 // Move_End_*는 뛰다가 멈추는 동작이라 제자리에서 틀면 제자리에서 몇 걸음 뛰는 것처럼 보인다.
@@ -642,7 +653,7 @@ function react() {
   if (state === 'drag' || state === 'fall' || !mixer) return;
   lastInteraction = performance.now();
   if (state === 'nap') { wakeUp(); return; }
-  if (battle) { callsign(); return; } // 전투 중에는 구호로 대답하고 계속 싸운다
+  if (battle) { battleReply(); return; } // 전투 중에는 구호나 재장전으로 대답하고 계속 싸운다
   playSequence([pickRandom(armed ? ARMED_REACTIONS : REACTIONS)]);
 }
 
@@ -662,7 +673,7 @@ function chooseNextBehavior() {
 const unarmed = (fn) => () => { endBattle(); armed = null; fn(); };
 const COMMANDS = {
   react,
-  battle: () => (battle ? callsign() : startBattle()),
+  battle: () => (battle ? battleReply() : startBattle()),
   attack: burst,
   ex: exSkill,
   nap: unarmed(startNap),

@@ -463,8 +463,14 @@ function rest() {
 }
 
 function startBattle({ thenAttack = false } = {}) {
+  if (!beginBattle()) { fidget(); return; }
+  playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd: thenAttack ? burst : rest });
+}
+
+// 전투 상태만 만든다 (전투 자세가 없는 학생이면 false)
+function beginBattle() {
   const stances = STANCES.filter(stanceReady);
-  if (!stances.length) { fidget(); return; }
+  if (!stances.length) return false;
   armed = null;
   form = 1;
   battle = {
@@ -474,7 +480,7 @@ function startBattle({ thenAttack = false } = {}) {
     side: Math.random() < 0.5 ? 1 : -1,
   };
   battle.aim = aimFace(battle.side);
-  playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd: thenAttack ? burst : rest });
+  return true;
 }
 
 // keepForm: 종료(밧줄)처럼 전투 차림 그대로 이어서 할 동작이 있을 때
@@ -791,6 +797,7 @@ function handleClick() {
   if (state === 'ex') return; // EX 스킬은 끝까지 보여준다
   if (isDouble && state !== 'nap' && has(clipName('ex'))) {
     lastInteraction = now;
+    if (!battle) beginBattle(); // 더블클릭 EX는 전투 모드로 이어진다 (구호 없이 바로 EX)
     exSkill(); // 더블클릭: 첫 클릭의 반응을 끊고 EX 스킬
   } else {
     react();

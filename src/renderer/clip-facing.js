@@ -21,13 +21,17 @@ const REFERENCE = {
 const MIN_TURN = THREE.MathUtils.degToRad(20); // 이보다 작은 차이는 그냥 둔다
 const SAMPLES = 8;
 
-// 동작 이름 → 더 돌려야 할 각도(라디안). nameKey: 동작 이름을 REFERENCE 키로 바꾸는 함수
-export function measureClipTurns(root, animations, nameKey) {
+// 동작마다 잰 방향. nameKey: 동작 이름을 REFERENCE 키로 바꾸는 함수
+//   turns: 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도(라디안)
+//   heads: 동작 이름 → 머리(얼굴)가 평균적으로 보는 방향(라디안, Cafe_Idle = 0). 전투 동작은 얼굴이 총구보다 왼쪽을 본다
+export function measureClips(root, animations, nameKey) {
   const turns = new Map();
-  let pelvis = null;
-  root.traverse((o) => { if (!pelvis && /^bip001[ _]pelvis$/i.test(o.name)) pelvis = o; });
+  const heads = new Map();
+  const bone = (re) => { let b = null; root.traverse((o) => { if (!b && re.test(o.name)) b = o; }); return b; };
+  const pelvis = bone(/^bip001[ _]pelvis$/i);
+  const head = bone(/^bip001[ _]head$/i);
   const base = animations.find((c) => c.name === 'Cafe_Idle');
-  if (!pelvis || !base) return turns;
+  if (!pelvis || !head || !base) return { turns, heads };
 
   // 재는 동안 움직인 뼈·모프를 원래대로 되돌리려고 저장
   const saved = [];
@@ -42,19 +46,22 @@ export function measureClipTurns(root, animations, nameKey) {
     root.updateMatrixWorld(true);
   };
   pose(base, base.duration / 2);
-  const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(pelvis.getWorldQuaternion(q).invert()); // 골반 기준 "앞"
+  // 뼈 기준 "앞" (Cafe_Idle에서 카메라 쪽)
+  const forward = (b) => new THREE.Vector3(0, 0, 1).applyQuaternion(b.getWorldQuaternion(q).invert());
+  const fPelvis = forward(pelvis), fHead = forward(head);
+  const yaw = (b, f) => { const v = f.clone().applyQuaternion(b.getWorldQuaternion(q)); return Math.atan2(v.x, v.z); };
 
   for (const clip of animations) {
-    const ref = REFERENCE[nameKey(clip.name)];
-    if (ref === undefined) continue;
-    let sx = 0, sz = 0;
+    let px = 0, pz = 0, hx = 0, hz = 0;
     for (let k = 0; k < SAMPLES; k++) {
       pose(clip, (clip.duration * (k + 0.5)) / SAMPLES);
-      const f = forward.clone().applyQuaternion(pelvis.getWorldQuaternion(q));
-      const a = Math.atan2(f.x, f.z);
-      sx += Math.sin(a); sz += Math.cos(a);
+      const p = yaw(pelvis, fPelvis), h = yaw(head, fHead);
+      px += Math.sin(p); pz += Math.cos(p); hx += Math.sin(h); hz += Math.cos(h);
     }
-    const d = THREE.MathUtils.degToRad(ref) - Math.atan2(sx, sz);
+    heads.set(clip.name, Math.atan2(hx, hz));
+    const ref = REFERENCE[nameKey(clip.name)];
+    if (ref === undefined) continue;
+    const d = THREE.MathUtils.degToRad(ref) - Math.atan2(px, pz);
     const turn = Math.atan2(Math.sin(d), Math.cos(d));
     if (Math.abs(turn) >= MIN_TURN) turns.set(clip.name, turn);
   }
@@ -66,5 +73,5 @@ export function measureClipTurns(root, animations, nameKey) {
     if (m) o.morphTargetInfluences.splice(0, m.length, ...m);
   }
   root.updateMatrixWorld(true);
-  return turns;
+  return { turns, heads };
 }

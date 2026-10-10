@@ -461,6 +461,7 @@ function battleAction() {
     [switchStance, settings.walk && stanceReady(otherStance(battle.stance)) ? 12 : 0],
     [startRun, settings.walk ? 15 : 0],
     [callsign, 10],
+    [exSkill, has(clipName('ex')) ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
   ])();
 }
 

@@ -145,8 +145,10 @@ const ANIM = {
 const REACTIONS = ['Cafe_Reaction', 'Victory_Start'];
 // 총을 든 동작들. 맨손 ↔ 총 든 동작을 넘나들 때마다 총이 0.25초 만에 생기고 사라지므로, 무장 중에 몰아서 쓴다
 const ARMED_IDLE = 'Formation_Idle';
-const ARMED_FIDGETS = ['Rearrange_Idle', 'Victory_End'];
-const ARMED_REACTIONS = ['Rearrange_Reaction', 'Victory_Start'];
+// 승리 포즈는 넣지 않는다(무장은 총을 들고 있어 전투처럼 보여서, 전투 중간에 승리 포즈가 나오는 것처럼 보였음). 승리 포즈는 평소·전투 끝에
+// 구호·재장전은 카페 동작이 있는 모델 265개 중 약 177개, Rearrange_*는 2~3개에만 있음
+const ARMED_FIDGETS = ['Normal_Callsign', 'Normal_Callsign_Random', 'Normal_Reload', 'Rearrange_Idle'];
+const ARMED_REACTIONS = ['Normal_Callsign', 'Normal_Callsign_Random', 'Rearrange_Reaction'];
 // 전투 자세: 서서 쏘기(Normal) / 방패 뒤에 숨어 쏘기(Stand) / 무릎 꿇고 쏘기(Kneel). 학생마다 있는 자세만 쓴다
 // 공격 한 번은 시작 → 사격 → 끝 → 대기 순서로 이어야 자연스럽다
 const STANCES = ['Normal', 'Stand', 'Kneel'];

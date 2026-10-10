@@ -2,6 +2,7 @@
 // 사용: (정적 서버가 8765에서 실행 중일 때) npx electron tools/retreat-test.js <출력폴더>
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const petUrl = require('./pet-url');
 const fs = require('fs');
 
 const outDir = path.resolve(process.argv.slice(2).find((a) => !a.startsWith('-') && a !== '.' && !a.endsWith('retreat-test.js')) ?? 'retreat-out');
@@ -11,7 +12,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 app.whenReady().then(async () => {
   const win = new BrowserWindow({ show: false, width: 1440, height: 852, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.webContents.setFrameRate(60);
-  await win.loadURL('http://localhost:8765/src/renderer/index.html?sim');
+  await win.loadURL(petUrl({ sim: true }));
   const js = (code) => win.webContents.executeJavaScript(code);
   for (let i = 0; i < 50 && !(await js('Boolean(window.__pet?.state)')); i++) await sleep(200);
   await sleep(1000);

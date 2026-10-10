@@ -3,6 +3,7 @@
 //   __pet.pose(동작, { face, height })로 상태 머신을 멈추고 동작을 반복시키며 매 프레임 캔버스 픽셀을 읽는다.
 //   동작 길이(D)는 호시노 기준. 여백이 작은 순으로 출력한다.
 const { app, BrowserWindow } = require('electron');
+const petUrl = require('./pet-url');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const D = { Cafe_Reaction: 2.7, Cafe_Idle: 2, Cafe_Walk: 1.33, Formation_Idle: 4.4, Formation_Pickup: 6, Exs: 7.63, Victory_End: 2, Victory_Start: 3.33, Normal_Idle: 2, Normal_Attack_Delay: 2, Normal_Attack_End: 0.5, Normal_Attack_Ing: 0.83, Normal_Attack_Start: 0.33, Normal_Callsign: 1.5, Normal_Reload: 2, Stand_Attack_Delay: 2, Stand_Attack_End: 0.5, Stand_Attack_Ing: 0.83, Stand_Attack_Start: 0.33, Stand_Callsign: 1.63, Stand_Reload: 2, Move_Callsign: 1.33, Move_End_Normal: 1.33, Move_End_Stand: 1.33, Move_Ing: 0.67, Move_Jump: 1, Rearrange_Idle: 6.4, Rearrange_Reaction: 3.8 };
 const calm = ['Cafe_Reaction', 'Cafe_Idle', 'Formation_Idle', 'Victory_End', 'Victory_Start', 'Rearrange_Idle', 'Rearrange_Reaction'];
@@ -14,7 +15,7 @@ for (const f of [0]) cases.push(['Formation_Pickup', f, 0.3]);
 app.whenReady().then(async () => {
   const win = new BrowserWindow({ show: false, width: 1440, height: 852, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.webContents.setFrameRate(60);
-  await win.loadURL('http://localhost:8765/src/renderer/index.html?sim');
+  await win.loadURL(petUrl({ sim: true }));
   const js = (c) => win.webContents.executeJavaScript(c);
   for (let i = 0; i < 50 && !(await js('Boolean(window.__pet?.state)')); i++) await sleep(200);
   await sleep(1000);

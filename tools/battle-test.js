@@ -2,6 +2,7 @@
 // 사용: (정적 서버가 8765에서 실행 중일 때) npx electron tools/battle-test.js <출력폴더> [전투 초]
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const petUrl = require('./pet-url');
 const fs = require('fs');
 
 const args = process.argv.slice(2).filter((a) => !a.startsWith('-') && a !== '.' && !a.endsWith('battle-test.js'));
@@ -14,7 +15,7 @@ app.whenReady().then(async () => {
   const win = new BrowserWindow({ show: false, width: 1440, height: 852, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.webContents.setFrameRate(60);
   win.webContents.on('console-message', (_e, level, message) => { if (level >= 2 && !message.includes('Security')) console.log('[page]', message); });
-  await win.loadURL('http://localhost:8765/src/renderer/index.html?sim');
+  await win.loadURL(petUrl({ sim: true }));
   const js = (code) => win.webContents.executeJavaScript(code);
   for (let i = 0; i < 50 && !(await js('Boolean(window.__pet?.state)')); i++) await sleep(200);
   await sleep(1000);

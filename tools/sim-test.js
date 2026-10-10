@@ -3,6 +3,7 @@
 // 마우스 입력은 이 창 안에만 보내므로 실제 바탕화면에는 영향이 없다.
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const petUrl = require('./pet-url');
 const fs = require('fs');
 
 const outDir = path.resolve(process.argv.slice(2).find((a) => !a.startsWith('-') && a !== '.' && !a.endsWith('sim-test.js')) ?? 'sim-out');
@@ -16,7 +17,7 @@ app.whenReady().then(async () => {
   });
   win.webContents.setFrameRate(60);
   win.webContents.on('console-message', (_e, level, message) => { if (level >= 2) console.log('[page]', message); });
-  await win.loadURL('http://localhost:8765/src/renderer/index.html?sim');
+  await win.loadURL(petUrl({ sim: true }));
   const js = (code) => win.webContents.executeJavaScript(code);
   for (let i = 0; i < 50 && !(await js('Boolean(window.__pet?.state)')); i++) await sleep(200);
   await js('__pet.toIdle?.(); 0');

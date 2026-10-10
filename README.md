@@ -44,7 +44,7 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 총 꺼내기(`Public01`, 없거나 이미 총을 들고 있으면 구호 `Normal_Callsign`)로 시작해 30~60초 동안 전투 대기(1~3.5초)와 아래 동작을 무작위로 섞어 하고,
 시간이 다 되면 `Victory_Start → Victory_End`로 마무리합니다.
 
-- 사격: `Attack_Start → Attack_Ing ×1~3 → Attack_End → Attack_Delay`
+- 사격: 서서 `Attack_Start → Attack_Ing ×1~3 → Attack_End → Attack_Delay` / 엄폐·무릎은 앉은 채 `Attack_Ing ×1~3 → Attack_Delay` (앉기·일어나기는 자리를 잡고 떠날 때만)
 - 재장전: 3번 쏘면 재장전할 확률이 크게 오름
 - 자세 바꾸기: 서서 쏘기(`Normal_*`) / 방패 자세(`Stand_*`) / 무릎 쏘기(`Kneel_*`) 중 그 학생에게 있는 것끼리 무작위로
 - 뛰어서 자리 옮기기: `Move_Ing` (가끔 `Move_Jump` 구르기) → `Move_End_Normal/Stand/Kneel`

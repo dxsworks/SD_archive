@@ -25,6 +25,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
 - `src/renderer/pet.js` 렌더링·애니메이션·행동 상태 머신(평소/전투 모드/낮잠/드래그/후퇴)·마우스 통과 판정
 - `src/renderer/floor.js` 바탕화면 = 바닥: 가상 원근 카메라로 바닥 좌표 ↔ 화면 좌표
 - `src/viewer/` 애니메이션 보기 창
+- `src/fx/` 클릭 효과 창: 모니터 전체를 덮는 투명·클릭 통과 창에 [ba-click-fx](https://github.com/CialloKing/ba-click-fx)로 클릭 고리·끌기 트레일. 펫 창이 `petBridge.fx(down|move|up|cancel)` → 메인이 실제 커서 위치로 변환해 전달. 메뉴 "클릭 효과"로 끄기
 - `tools/` 테스트·조사 도구 (아래)
 
 ## 테스트 방법 (중요)
@@ -36,6 +37,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
   - `npx electron tools/battle-test.js <폴더> [초]` 전투 모드 동작 순서 기록 + 동작별 스냅샷
   - `npx electron tools/sim-test.js <폴더>` 바탕화면 흉내 모드(`index.html?sim`)에서 걷기·드래그(창 안에만 입력)
   - `npx electron tools/retreat-test.js <폴더>` 종료 후퇴
+  - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
 - 브라우저 미리보기 창이 숨겨지면 rAF가 멈춰서 시간 기반 확인이 틀린다 → Electron 테스트 스크립트를 쓴다.

@@ -9,11 +9,13 @@ const SIZES = {
   large: { label: '크게', w: 300, h: 400 },
 };
 
-const DEFAULT_SETTINGS = { model: 'Hoshino.glb', size: 'medium', walk: true, alwaysOnTop: true };
+const DEFAULT_SETTINGS = { model: 'Hoshino.glb', size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };
 
 let win = null;
 let tray = null;
 let viewerWin = null;
+let fxWin = null; // 클릭 효과 창 (펫이 있는 모니터 전체를 덮는 투명 창)
+let fxDisplayId = null;
 let settings = { ...DEFAULT_SETTINGS };
 
 function settingsPath() {
@@ -71,7 +73,62 @@ function createWindow() {
   win.setIgnoreMouseEvents(true, { forward: true });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
   win.once('ready-to-show', () => win.showInactive());
-  win.on('closed', () => { win = null; });
+  win.on('closed', () => {
+    win = null;
+    if (fxWin && !fxWin.isDestroyed()) fxWin.close();
+  });
+}
+
+// ---- 클릭 효과 창 ----
+// 펫 창은 작고 캐릭터를 따라 움직이므로, 효과는 화면 전체를 덮는 별도 창에 그린다.
+// 클릭은 항상 아래로 통과하고 포커스도 받지 않는다.
+function createFxWindow() {
+  const display = screen.getDisplayMatching(win.getBounds());
+  fxDisplayId = display.id;
+  fxWin = new BrowserWindow({
+    ...display.bounds,
+    transparent: true,
+    backgroundColor: '#00000000',
+    frame: false,
+    resizable: false,
+    maximizable: false,
+    minimizable: false,
+    fullscreenable: false,
+    focusable: false,
+    hasShadow: false,
+    skipTaskbar: true,
+    show: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'fx', 'preload.js'),
+      backgroundThrottling: false,
+    },
+  });
+  fxWin.setAlwaysOnTop(true, 'screen-saver'); // 펫 창보다 위
+  fxWin.setIgnoreMouseEvents(true);
+  fxWin.loadFile(path.join(__dirname, 'fx', 'index.html'));
+  fxWin.once('ready-to-show', () => fxWin.showInactive());
+  fxWin.on('closed', () => { fxWin = null; });
+}
+
+function sendFx(type, x, y) {
+  if (fxWin && !fxWin.isDestroyed()) fxWin.webContents.send('fx:pointer', type, x, y);
+}
+
+// 펫 창의 포인터 신호(down/move/up/cancel) → 효과 창. 위치는 실제 커서 위치(DIP)를 쓴다.
+function relayFx(type) {
+  if (!fxWin || fxWin.isDestroyed()) return;
+  if (!settings.clickFx) return;
+  const p = screen.getCursorScreenPoint();
+  const display = screen.getDisplayNearestPoint(p);
+  if (display.id !== fxDisplayId) {
+    // 다른 모니터로 넘어감: 효과 창을 옮기고, 끌던 중이면 그 트레일은 끝낸다
+    if (type !== 'down') sendFx('cancel');
+    fxDisplayId = display.id;
+    fxWin.setBounds(display.bounds);
+    if (type !== 'down') return;
+  }
+  const b = fxWin.getBounds();
+  sendFx(type, p.x - b.x, p.y - b.y);
 }
 
 function sendToPet(channel, payload) {
@@ -202,6 +259,17 @@ function buildMenuTemplate() {
         rebuildMenus();
       },
     },
+    {
+      label: '클릭 효과',
+      type: 'checkbox',
+      checked: settings.clickFx,
+      click: (item) => {
+        settings.clickFx = item.checked;
+        if (!item.checked) sendFx('cancel');
+        saveSettings();
+        rebuildMenus();
+      },
+    },
     { label: '위치 초기화', click: resetPosition },
     { type: 'separator' },
     { label: '종료', click: quitWithRetreat },
@@ -261,6 +329,8 @@ ipcMain.on('pet:set-ignore', (_e, ignore) => {
   if (win) win.setIgnoreMouseEvents(ignore, { forward: true });
 });
 
+ipcMain.on('pet:fx', (_e, type) => relayFx(type));
+
 ipcMain.on('pet:quit', () => app.quit());
 
 ipcMain.on('pet:show-menu', () => {
@@ -275,6 +345,7 @@ if (!app.requestSingleInstanceLock()) {
   app.whenReady().then(() => {
     loadSettings();
     createWindow();
+    createFxWindow();
     createTray();
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

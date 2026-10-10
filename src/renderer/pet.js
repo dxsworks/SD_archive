@@ -484,6 +484,7 @@ function retreat() {
   if (state === 'retreat') return;
   endBattle();
   armed = null;
+  if (drag) bridge.fx('cancel');
   drag = null;
   lift = 0;
   const s = floor.toScreen(pos.x, pos.z);
@@ -625,11 +626,13 @@ canvas.addEventListener('pointerdown', (e) => {
   if (e.button !== 0) return;
   canvas.setPointerCapture(e.pointerId);
   drag = { start: cursorOf(e), cursor: cursorOf(e), moved: false, offset: null, switching: false };
+  bridge.fx('down'); // 클릭 효과 (위치는 메인이 실제 커서로 정함)
 });
 
 canvas.addEventListener('pointermove', (e) => {
   if (!drag) return;
   drag.cursor = cursorOf(e);
+  bridge.fx('move'); // 끄는 동안 트레일
   if (!drag.moved && Math.hypot(drag.cursor.x - drag.start.x, drag.cursor.y - drag.start.y) > 4) {
     drag.moved = true;
     lastInteraction = performance.now();
@@ -683,8 +686,9 @@ function handleClick() {
   }
 }
 
-function endDrag() {
+function endDrag(e) {
   if (!drag) return;
+  bridge.fx(e?.type === 'pointercancel' ? 'cancel' : 'up');
   const wasDragged = drag.moved;
   drag = null;
   if (wasDragged) {
@@ -793,7 +797,7 @@ function createBrowserStub() {
     getWorkArea: async () => area(),
     move(x, y) { if (sim) Object.assign(canvas.style, { left: `${x}px`, top: `${y}px` }); },
     cursor: (e) => ({ x: e.clientX, y: e.clientY }),
-    setIgnoreMouse() {}, showMenu() {}, quit() {},
+    setIgnoreMouse() {}, showMenu() {}, quit() {}, fx() {},
     onCommand() {}, onSettings() {}, onBoundsChanged() {},
   };
 }

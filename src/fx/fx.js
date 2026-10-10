@@ -2,10 +2,12 @@
 // 입력은 직접 받지 않고(클릭은 항상 아래로 통과), 메인 프로세스가 보내는 포인터 신호만 따른다.
 import { BAClickFX } from 'ba-click-fx';
 
-if (new URLSearchParams(location.search).has('test')) document.body.classList.add('test');
+const query = new URLSearchParams(location.search);
+if (query.has('test')) document.body.classList.add('test');
 
 const fx = new BAClickFX({
   inputSource: 'manual',
+  scale: Number(query.get('scale')) || 1, // 앱에서는 메인이 펫 크기에 맞춰 fx:config로 다시 정함
   // 투명 창 위에 그릴 때 권장 설정 (CSS 블렌딩은 OS 창 경계를 넘지 못함)
   outputCompositing: 'browser-overlay',
   hostCompositingSurface: 'transparent-window',
@@ -31,5 +33,6 @@ function handle(type, x, y) {
   }
 }
 
+window.fxBridge?.onConfig((cfg) => fx.updateConfig(cfg));
 window.fxBridge?.onPointer(handle);
 window.__fx = { fx, handle }; // 디버그·시험용

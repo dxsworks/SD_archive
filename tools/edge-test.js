@@ -1,7 +1,7 @@
 // 동작별로 모델이 펫 창(캔버스) 위·좌·우 끝에서 몇 px 떨어져 있는지 잰다 (0 = 창 끝에 닿아 잘림)
 // 사용: (정적 서버가 8765에서 실행 중일 때) npx electron tools/edge-test.js
 //   __pet.pose(동작, { face, height })로 상태 머신을 멈추고 동작을 반복시키며 매 프레임 캔버스 픽셀을 읽는다.
-//   동작 길이(D)는 호시노 기준. 여백이 작은 순으로 출력한다.
+//   동작 길이(D)는 호시노 기준. 모델에 없는 동작은 건너뛴다(--model=). 여백이 작은 순으로 출력한다.
 const { app, BrowserWindow } = require('electron');
 const petUrl = require('./pet-url');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -31,6 +31,7 @@ app.whenReady().then(async () => {
     }; requestAnimationFrame(f); })(); 0`);
   const rows = [];
   for (const [clip, face, height] of cases) {
+    if (!(await js(`__pet.has('${clip}')`))) continue; // 이 모델에 없는 동작
     await js(`__pet.pose('${clip}', { face: ${face} * Math.PI / 180, height: ${height} }); 0`);
     await sleep(500); // 돌기·페이드 끝날 때까지
     await js(`window.__m = { top: 1e9, left: 1e9, right: 1e9, n: 0 }; 0`);

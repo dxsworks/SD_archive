@@ -8,6 +8,8 @@ const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에�
 const FOOT_MARGIN = 0.03;                        // 발밑 여백 (월드 단위)
 const FACE_FRONT = 0;
 const FACE_BATTLE = THREE.MathUtils.degToRad(60); // 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림
+const FACE_SPREAD = THREE.MathUtils.degToRad(30);   // 평소 동작은 정면에서 이만큼 안쪽 아무 방향
+const BATTLE_SPREAD = THREE.MathUtils.degToRad(20); // 전투·EX는 FACE_BATTLE에서 이만큼 안쪽 아무 방향
 const FACE_NAP = THREE.MathUtils.degToRad(58);    // 뒤로 눕는 동작을 옆으로 눕는 것처럼 보이게
 const NAP_OFFSET = new THREE.Vector3(0.33, 0.08, 0.1); // 누운 몸이 창 가운데 바닥에 오도록
 
@@ -243,6 +245,11 @@ function syncFloorFromWindow() {
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrapAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+const spread = (range) => (Math.random() * 2 - 1) * range;
+// 평소 방향: 이미 정면 쪽(±FACE_SPREAD)을 보고 있으면 그대로 두고(걷다 멈춘 방향 유지, 동작마다 몸을 돌리지 않음), 아니면 그 안에서 아무 방향
+const calmFace = () => (Math.abs(wrapAngle(facing - FACE_FRONT)) <= FACE_SPREAD ? facing : FACE_FRONT + spread(FACE_SPREAD));
+// 전투 방향: 적이 있는 쪽(side = ±1)을 보며 카메라 쪽으로 반쯤, 매번 조금씩 다르게
+const aimFace = (side) => side * (FACE_BATTLE + spread(BATTLE_SPREAD));
 
 let lastSent = '';
 function placeWindow() {
@@ -287,12 +294,12 @@ function setState(next) {
 function toIdle({ fade = 0.25 } = {}) {
   setState('idle');
   idleDuration = rand(3, 8);
-  facing = FACE_FRONT;
+  facing = calmFace();
   play('idle', { fade });
 }
 
 // 일회성 동작들을 차례로 재생하고 끝나면 onEnd (기본: 전투 중이면 전투 대기, 아니면 평소 대기)
-function playSequence(names, { face = FACE_FRONT, fade = 0.25, stepFade = 0.2, as = 'action', onEnd = rest } = {}) {
+function playSequence(names, { face = calmFace(), fade = 0.25, stepFade = 0.2, as = 'action', onEnd = rest } = {}) {
   const list = names.map(clipName).filter(has);
   if (!list.length) { onEnd(); return; }
   setState(as);
@@ -349,7 +356,7 @@ function startArmed() {
 function armedIdle() {
   setState('armed');
   idleDuration = rand(3, 8);
-  facing = FACE_FRONT;
+  facing = calmFace();
   play(ARMED_IDLE);
 }
 
@@ -366,14 +373,15 @@ function chooseArmedBehavior() {
 
 // ---- 전투 모드 ----
 // BATTLE_TIME 동안 전투 대기 ↔ 무작위 총 동작을 반복하고, 승리 포즈로 끝낸다
-let battle = null;                 // { until, stance, ammo, side, nextStance }
+let battle = null;                 // { until, stance, ammo, side, aim, nextStance }
 let battleRest = 2;
 let lastBattleEnd = -Infinity;
 let runJumpAt = null;              // 뛰다가 남은 거리가 이만큼일 때 구르기
 const stanceReady = (st) => has(STANCE_IDLE[st]) && ATTACK_STEPS.every((step) => has(`${st}_${step}`));
 const otherStance = (st) => (st === 'Normal' ? 'Stand' : 'Normal');
 const battleReady = () => (performance.now() - lastBattleEnd) / 1000 > BATTLE_COOLDOWN;
-const battleFace = () => (battle ? battle.side : 1) * FACE_BATTLE; // 적이 있는 쪽(좌/우)을 보며 카메라 쪽으로 반쯤
+// 한 자리에서는 같은 방향으로 싸우고, 뛰어서 자리를 옮기면 새로 정한다
+const battleFace = () => (battle ? battle.aim : aimFace(Math.random() < 0.5 ? 1 : -1));
 
 function rest() {
   if (battle) battleIdle();
@@ -391,6 +399,7 @@ function startBattle({ thenAttack = false } = {}) {
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
   };
+  battle.aim = aimFace(battle.side);
   playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd: thenAttack ? burst : rest });
 }
 
@@ -463,6 +472,7 @@ function arriveRun() {
   // 도착하면 자세를 잡는다 (자세 바꾸기로 뛰었거나, 가끔 다른 자세로)
   const next = battle.nextStance ?? (Math.random() < 0.4 ? otherStance(battle.stance) : battle.stance);
   if (stanceReady(next)) battle.stance = next;
+  battle.aim = aimFace(battle.side);
   playSequence([`Move_End_${battle.stance}`], { face: battleFace(), fade: 0.15 });
 }
 

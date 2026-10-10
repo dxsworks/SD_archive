@@ -21,7 +21,11 @@ const GRAVITY = 9;             // 놓았을 때 떨어지는 가속도
 const RUN_SPEED = 1.1;         // 전투 중 뛰어서 자리 옮길 때
 // 종료: 위에서 내려온 밧줄에 매달려 끌려 올라간다
 const ROPE_DROP = 0.35;        // 밧줄이 손까지 내려오는 시간(초)
-const HOIST_START = 0.6;       // 이때부터 끌려 올라감(초)
+const HOIST_START = 0.5;       // 이때부터 끌려 올라감(초)
+// 매달린 방향. Vital_Retreat는 카메라 반대쪽을 보도록 만들어져 있고, 손이 얼굴 앞에 있어서
+// 정면(π)에서는 밧줄이 얼굴을 가린다 → π에서 60° 비껴 보면 얼굴이 보이고 밧줄은 얼굴 옆으로 지나간다
+const HANG_FACE = Math.PI - THREE.MathUtils.degToRad(60);
+const HANG_SPREAD = THREE.MathUtils.degToRad(15);
 const HOIST_ACCEL = 4;         // 끌어올리는 가속도(단위/초²)
 const RETREAT_TIME = 3;        // 화면 위로 다 나가지 않아도 이 시간이 지나면 종료(초). 메인은 5초까지 기다림
 
@@ -508,35 +512,29 @@ function arriveRun() {
 
 const exSkill = () => playSequence(['ex'], { face: battleFace(), as: 'ex' });
 
-// 종료: 위에서 밧줄이 내려오면 잡고(Vital_Retreat = 밧줄에 매달린 동작) 점점 빨라지며 끌려 올라가
-// 화면 위로 사라진 뒤 앱을 끈다
+// 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,
+// 점점 빨라지며 끌려 올라가 화면 위로 사라진 뒤 앱을 끈다
 let hoistFrom = 0;
-let grabbed = false;
-function retreat() {
+function retreat({ face = null } = {}) { // face: 시험용으로 매달린 방향 지정
   if (state === 'retreat') return;
   endBattle();
   armed = null;
   if (drag) bridge.fx('cancel');
   drag = null;
   hoistFrom = lift; // 들고 있던 중이면 그 높이에서 바로 올라간다
-  grabbed = false;
   setState('retreat');
-  facing = calmFace(); // 밧줄이 내려오는 동안은 지금 방향 그대로
+  // 돌아서는 모습(대기 자세의 뒷모습)이 보이지 않게 방향과 자세를 한 번에 바꾼다
+  if (has('Vital_Retreat')) {
+    facing = pivot.rotation.y = face ?? HANG_FACE + spread(HANG_SPREAD);
+    play('Vital_Retreat', { fade: 0 });
+  } else {
+    facing = face ?? FACE_FRONT;
+    play('pickup', { fade: 0.15 });
+  }
 }
 
 function updateHoist() {
   const t = stateTime;
-  if (!grabbed && t > ROPE_DROP * 0.8) {
-    grabbed = true;
-    // Vital_Retreat는 카메라 반대쪽을 보도록 만들어져 있어서 π만큼 돌려 얼굴이 보이게 한다.
-    // 돌아서는 모습(뒷모습)이 보이지 않게 방향과 자세를 한 번에 바꾼다(밧줄을 낚아채는 느낌)
-    if (has('Vital_Retreat')) {
-      facing = pivot.rotation.y = Math.PI + spread(FACE_SPREAD);
-      play('Vital_Retreat', { fade: 0 });
-    } else {
-      play('pickup', { fade: 0.15 });
-    }
-  }
   const h = Math.max(0, t - HOIST_START);
   lift = hoistFrom + 0.5 * HOIST_ACCEL * h * h;
   canvas.style.opacity = String(Math.max(0, Math.min(1, 2.6 - t)));

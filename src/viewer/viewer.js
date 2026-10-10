@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { hiddenPartsUpdater } from '../renderer/hidden-parts.js';
+import { addOutlines } from '../renderer/outline.js';
 
 // Electron 창에서는 preload 브리지로, 브라우저에서는 models/ 폴더를 직접 읽는다
 const bridge = window.petBridge ?? {
@@ -47,6 +48,7 @@ new ResizeObserver(resize).observe(canvas);
 let model = null;
 let mixer = null;
 let updateHiddenParts = () => {};
+let updateOutlines = () => {};
 let clips = [];
 let current = null;          // 지금 재생 중인 action
 let sequence = null;         // 공격 순서 재생 중이면 { names, index }
@@ -70,6 +72,7 @@ async function loadModel(name) {
     o.material = Array.isArray(o.material) ? o.material.map(unlit) : unlit(o.material);
   });
   updateHiddenParts = hiddenPartsUpdater(gltf.scene);
+  updateOutlines = addOutlines(gltf.scene);
   model = gltf.scene;
   scene.add(model);
   mixer = new THREE.AnimationMixer(model);
@@ -199,6 +202,7 @@ function frame() {
   const dt = clock.getDelta();
   if (mixer && !paused) mixer.update(dt * Number($('speed').value));
   updateHiddenParts();
+  updateOutlines();
   if (current) {
     const dur = current.getClip().duration;
     const t = Math.min(current.time, dur);

@@ -36,7 +36,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
   - `npx electron tools/armed-test.js <폴더> [초]` 잠깐 무장 순서 기록 + 동작별 스냅샷
   - `npx electron tools/battle-test.js <폴더> [초]` 전투 모드 동작 순서 기록 + 동작별 스냅샷
   - `npx electron tools/sim-test.js <폴더>` 바탕화면 흉내 모드(`index.html?sim`)에서 걷기·드래그(창 안에만 입력)
-  - `npx electron tools/retreat-test.js <폴더>` 종료 후퇴
+  - `npx electron tools/retreat-test.js <폴더>` 종료(밧줄에 매달려 올라감). 캡처하는 동안 시간이 밀리니 정확한 시점 확인은 페이지 안 rAF로
   - `npx electron tools/edge-test.js` 동작·방향별로 모델이 펫 창 끝에서 몇 px 떨어지는지(0 = 잘림)
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
@@ -51,14 +51,14 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
 - 동작을 새로 만들 때(예: 거꾸로 재생) 키프레임을 직접 뒤집으면 안 된다. glTF 곡선 보간은 키마다 접선이 들어 있어 모델이 깨진다 → 원래 보간(`track.createInterpolant()`)으로 일정 간격마다 값을 뽑아 담는다.
 - 무기는 "그 동작이 무기 뼈대를 움직이면 보임" 규칙 하나(`clipAnimates`). 총은 카페 동작에서 애니메이션이 크기 0으로 숨긴다. 호시노 방패는 `Exs`에만 데이터가 있다.
 - `Stand_Idle`은 쓰지 않는다(사용자 결정). 엄폐 자세 대기는 `Stand_Attack_Delay`.
-- `Vital_Retreat`은 카메라 반대쪽(π)으로 달리는 동작이라 진행 방향에서 π를 뺀다.
+- `Vital_Retreat`은 달리기가 아니라 헬기 밧줄에 매달린 동작(카메라 반대쪽을 봄 → π 돌려야 얼굴이 보임). 종료 때 밧줄을 그리고 창이 몸을 따라 위로 올라간다.
 - 뛰는 모양의 동작(`Move_Callsign`, 첫 0.3초가 뛰는 `Move_End_*`)은 실제로 뛸 때만 튼다. 제자리에서 틀면 제자리 뛰기가 된다.
 - 펫 창은 가로 2 : 세로 1(보통 560×280). EX 돌진은 높이의 약 1.95배 폭이 필요해서 이보다 좁히면 옆이 잘린다. 위쪽 여유는 35px 이상.
 - 일반 브라우저에서 file:// fetch가 안 되므로 모델은 IPC(`readModel`)로 읽는다.
 
 ## 현재 상태와 다음 할 일
 
-끝난 것: 바닥 원근 이동·그림자, 랜덤 행동/반응/낮잠/EX, 집어 들기(`Formation_Pickup`), 잠깐 무장(총 든 동작을 15~40초 몰아서), 전투 모드(구호 → 무작위 총 동작 30~60초 + 승리 포즈), 종료 시 후퇴, 애니메이션 보기 창, 모델 295개 조사 문서.
+끝난 것: 바닥 원근 이동·그림자, 랜덤 행동/반응/낮잠/EX, 집어 들기(`Formation_Pickup`), 잠깐 무장(총 든 동작을 15~40초 몰아서), 전투 모드(구호 → 무작위 총 동작 30~60초 + 승리 포즈), 종료 시 밧줄에 매달려 위로 사라짐, 애니메이션 보기 창, 모델 295개 조사 문서.
 
 사용자와 정한 다음 순서 (하나씩, 끝날 때마다 보고):
 

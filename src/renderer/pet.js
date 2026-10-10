@@ -19,8 +19,11 @@ const MAX_WALK = 3;            // 한 번에 걷는 최대 거리
 const DRAG_LIFT = 0.3;         // 들었을 때 바닥에서 뜨는 높이
 const GRAVITY = 9;             // 놓았을 때 떨어지는 가속도
 const RUN_SPEED = 1.1;         // 전투 중 뛰어서 자리 옮길 때
-const RETREAT_SPEED = 1.3;     // 종료할 때 뛰어가는 속도
-const RETREAT_TIME = 2.6;      // 종료까지 걸리는 시간(초), 마지막 1초 동안 흐려짐
+// 종료: 위에서 내려온 밧줄에 매달려 끌려 올라간다
+const ROPE_DROP = 0.35;        // 밧줄이 손까지 내려오는 시간(초)
+const HOIST_START = 0.6;       // 이때부터 끌려 올라감(초)
+const HOIST_ACCEL = 4;         // 끌어올리는 가속도(단위/초²)
+const RETREAT_TIME = 3;        // 화면 위로 다 나가지 않아도 이 시간이 지나면 종료(초). 메인은 5초까지 기다림
 
 // ---- 전투 모드 (총을 꺼내면 한동안 총 관련 동작을 무작위로 한다) ----
 const BATTLE_TIME = [30, 60];   // 전투 지속 시간(초)
@@ -87,7 +90,31 @@ const shadow = (() => {
 })();
 scene.add(shadow);
 
+// 종료할 때 매달리는 밧줄 — 손에서 창 위 끝까지, 위로 갈수록 투명해져 하늘에서 내려온 것처럼 보인다
+const ROPE_TOP = (VIEW_HEIGHT - FOOT_MARGIN) / Math.cos(TILT); // 창 위 끝의 높이
+const rope = (() => {
+  const c = document.createElement('canvas');
+  c.width = 1;
+  c.height = 64;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 64); // 캔버스 위 = 밧줄 위쪽
+  grad.addColorStop(0, '#000');
+  grad.addColorStop(0.45, '#fff');
+  grad.addColorStop(1, '#fff');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 1, 64);
+  const geo = new THREE.CylinderGeometry(0.012, 0.012, 1, 6, 1, true);
+  geo.translate(0, 0.5, 0); // 아래 끝이 원점
+  const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+    color: 0x3d3a33, alphaMap: new THREE.CanvasTexture(c), transparent: true, depthWrite: false,
+  }));
+  mesh.visible = false;
+  return mesh;
+})();
+scene.add(rope);
+
 let mixer = null;
+let hands = []; // 밧줄을 잡는 손 뼈
 let clips = {};
 let currentAction = null;
 const weaponMeshes = [];
@@ -143,6 +170,7 @@ async function loadModel() {
   });
   refreshWeapons(); // 동작을 틀기 전에는 무기를 숨김
   pivot.add(gltf.scene);
+  hands = ['Bip001_L_Hand', 'Bip001_R_Hand'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   mixer = new THREE.AnimationMixer(gltf.scene);
@@ -258,11 +286,13 @@ function placeWindow() {
   const lifted = lift > 0 ? floor.toScreen(pos.x, pos.z, lift) : ground;
   const s = ground.scale;
   root.scale.setScalar(s);
-  root.position.y = (ground.y - lifted.y) / floor.pxNear; // 창 안 1단위 = pxNear px
+  // 끌려 올라갈 때(종료)는 창이 몸을 따라간다. 그 밖에는 창은 바닥에 두고 창 안에서 모델을 올린다
+  const anchor = state === 'retreat' || state === 'gone' ? lifted : ground;
+  root.position.y = (anchor.y - lifted.y) / floor.pxNear; // 창 안 1단위 = pxNear px
   shadow.scale.set(s * (state === 'nap' ? 2.2 : 1), s, 1);
-  shadow.material.opacity = 0.3 * Math.max(0.4, 1 - lift * 2);
-  winX = ground.x - winW / 2;
-  winY = ground.y - winH + footPx();
+  shadow.material.opacity = state === 'retreat' ? 0.3 * Math.max(0, 1 - lift * 3) : 0.3 * Math.max(0.4, 1 - lift * 2);
+  winX = ground.x - winW / 2; // 높이 뜬 점은 원근 때문에 옆으로 밀리므로 가로는 바닥 기준 (똑바로 위로)
+  winY = anchor.y - winH + footPx();
   const x = Math.round(winX);
   const y = Math.round(winY);
   const key = `${x},${y}`;
@@ -478,23 +508,59 @@ function arriveRun() {
 
 const exSkill = () => playSequence(['ex'], { face: battleFace(), as: 'ex' });
 
-// 종료: 화면 안쪽(멀리), 가까운 옆쪽으로 비스듬히 뛰어가며 흐려진 뒤 앱을 끈다
-const retreatDir = new THREE.Vector3();
+// 종료: 위에서 밧줄이 내려오면 잡고(Vital_Retreat = 밧줄에 매달린 동작) 점점 빨라지며 끌려 올라가
+// 화면 위로 사라진 뒤 앱을 끈다
+let hoistFrom = 0;
+let grabbed = false;
 function retreat() {
   if (state === 'retreat') return;
   endBattle();
   armed = null;
   if (drag) bridge.fx('cancel');
   drag = null;
-  lift = 0;
-  const s = floor.toScreen(pos.x, pos.z);
-  const side = s.x < workArea.x + workArea.width / 2 ? -1 : 1;
-  const heading = Math.PI - side * THREE.MathUtils.degToRad(35); // π = 화면 안쪽
-  retreatDir.set(Math.sin(heading), 0, Math.cos(heading));
+  hoistFrom = lift; // 들고 있던 중이면 그 높이에서 바로 올라간다
+  grabbed = false;
   setState('retreat');
-  // Vital_Retreat는 카메라 반대쪽(π)으로 뛰는 동작이라, 진행 방향에서 π를 빼서 돌린다
-  facing = has('Vital_Retreat') ? heading - Math.PI : heading;
-  play(has('Vital_Retreat') ? 'Vital_Retreat' : 'walk', { fade: 0.15 });
+  facing = calmFace(); // 밧줄이 내려오는 동안은 지금 방향 그대로
+}
+
+function updateHoist() {
+  const t = stateTime;
+  if (!grabbed && t > ROPE_DROP * 0.8) {
+    grabbed = true;
+    // Vital_Retreat는 카메라 반대쪽을 보도록 만들어져 있어서 π만큼 돌려 얼굴이 보이게 한다.
+    // 돌아서는 모습(뒷모습)이 보이지 않게 방향과 자세를 한 번에 바꾼다(밧줄을 낚아채는 느낌)
+    if (has('Vital_Retreat')) {
+      facing = pivot.rotation.y = Math.PI + spread(FACE_SPREAD);
+      play('Vital_Retreat', { fade: 0 });
+    } else {
+      play('pickup', { fade: 0.15 });
+    }
+  }
+  const h = Math.max(0, t - HOIST_START);
+  lift = hoistFrom + 0.5 * HOIST_ACCEL * h * h;
+  canvas.style.opacity = String(Math.max(0, Math.min(1, 2.6 - t)));
+  const windowBottom = floor.toScreen(pos.x, pos.z, lift).y + footPx();
+  if (windowBottom < workArea.y || t > RETREAT_TIME) { setState('gone'); bridge.quit(); }
+}
+
+// 밧줄: 두 손 사이에서 창 위 끝까지. 처음 ROPE_DROP초 동안 위에서 내려온다
+const ropeBottom = new THREE.Vector3();
+const handPos = new THREE.Vector3();
+function updateRope() {
+  rope.visible = state === 'retreat';
+  if (!rope.visible) return;
+  if (hands.length) {
+    ropeBottom.set(0, 0, 0);
+    for (const b of hands) ropeBottom.add(b.getWorldPosition(handPos));
+    ropeBottom.divideScalar(hands.length);
+  } else {
+    pivot.getWorldPosition(ropeBottom).y += 0.75 * root.scale.y; // 손 뼈를 못 찾으면 가슴 높이
+  }
+  const k = Math.min(1, stateTime / ROPE_DROP);
+  ropeBottom.y = THREE.MathUtils.lerp(ROPE_TOP, ropeBottom.y, 1 - (1 - k) ** 2);
+  rope.position.copy(ropeBottom);
+  rope.scale.set(root.scale.x, Math.max(0.001, ROPE_TOP - ropeBottom.y), root.scale.x);
 }
 
 function react() {
@@ -585,9 +651,7 @@ function update(dt) {
       updateDrag(dt);
       break;
     case 'retreat':
-      pos.addScaledVector(retreatDir, RETREAT_SPEED * dt); // 화면 밖으로 나가도 되니 범위 제한 없음
-      canvas.style.opacity = String(Math.max(0, Math.min(1, RETREAT_TIME - stateTime)));
-      if (stateTime > RETREAT_TIME) { setState('gone'); bridge.quit(); }
+      updateHoist();
       break;
     case 'fall':
       fallVelocity += GRAVITY * dt;
@@ -735,6 +799,7 @@ function frame(now) {
   if (renderer.getPixelRatio() !== window.devicePixelRatio) layout(); // 배율이 다른 모니터로 옮겨졌을 때
   update(dt);
   mixer.update(dt);
+  updateRope(); // 손 위치는 이번 프레임 자세로
   renderer.render(scene, camera);
   updateMousePassthrough();
 }

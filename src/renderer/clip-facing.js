@@ -11,7 +11,10 @@ const REFERENCE = {
   normal_reload: -50, normal_callsign: -54,
   stand_attack_start: -90, stand_attack_ing: -56, stand_attack_end: -122, stand_attack_delay: -54,
   stand_reload: -161, stand_callsign: -157,
-  move_ing: -1, move_end_normal: -42, move_end_stand: -129, move_jump: 5, move_callsign: -2,
+  // 무릎 자세는 원래 호시노에 없어서 시로코(서서 쏘기 방향이 호시노와 10°쯤 차이)에서 잰 값
+  kneel_idle: -157, kneel_attack_start: -83, kneel_attack_ing: -72, kneel_attack_end: -115, kneel_attack_delay: -73,
+  kneel_reload: -159, kneel_callsign: -157,
+  move_ing: -1, move_end_normal: -42, move_end_stand: -129, move_end_kneel: -129, move_jump: 5, move_callsign: -2,
   exs: -43, victory_start: -11, victory_end: -27, formation_idle: 17, formation_pickup: -8,
   vital_death: -82, vital_retreat: -154,
 };

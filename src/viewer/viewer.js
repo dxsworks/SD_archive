@@ -13,7 +13,7 @@ const bridge = window.petBridge ?? {
 // 동작 이름 앞부분으로 묶어서 보여준다
 const GROUPS = [
   ['Cafe', '카페'], ['Formation', '편성'], ['Rearrange', '재배치'], ['Public', '기타'], ['Victory', '승리'],
-  ['Normal', '전투 · 서서'], ['Stand', '전투 · 방패'], ['Move', '이동'], ['Exs', 'EX 스킬'], ['Vital', '피격 · 쓰러짐'],
+  ['Normal', '전투 · 서서'], ['Stand', '전투 · 방패'], ['Kneel', '전투 · 무릎'], ['Move', '이동'], ['Exs', 'EX 스킬'], ['Vital', '피격 · 쓰러짐'],
 ];
 const ATTACK_STEPS = ['Attack_Start', 'Attack_Ing', 'Attack_End', 'Attack_Delay'];
 
@@ -85,6 +85,7 @@ async function loadModel(name) {
   if (start) playClip(start.name);
   $('attackNormal').disabled = !hasAttack('Normal');
   $('attackStand').disabled = !hasAttack('Stand');
+  $('attackKneel').disabled = !hasAttack('Kneel');
 }
 
 const findClip = (name) => clips.find((c) => c.name === name);
@@ -179,6 +180,7 @@ function playAttack(stance) {
 // ---- 조작 ----
 $('attackNormal').addEventListener('click', () => playAttack('Normal'));
 $('attackStand').addEventListener('click', () => playAttack('Stand'));
+$('attackKneel').addEventListener('click', () => playAttack('Kneel'));
 $('weapons').addEventListener('change', () => current && applyWeapons(current.getClip().name));
 $('loop').addEventListener('change', () => { if (current && !sequence) playClip(current.getClip().name); });
 $('pause').addEventListener('click', () => {

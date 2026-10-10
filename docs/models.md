@@ -3,7 +3,7 @@
 `lihaohong6/BlueArchiveModels`의 모델 295개를 조사한 결과입니다. `python tools/survey_models.py docs/data/model-survey.json` → `python tools/survey_report.py docs/data/model-survey.json docs/models.md`로 다시 만들 수 있습니다.
 
 - **지원 수준**: 전체 = 카페 동작 + 전투 자세 + 집어 들기 / 대부분 = 집어 들기만 대체 동작 / 카페 + 전투 이름 대응 필요 = 전투 동작은 있지만 이름이 달라(`Normal_Attack01_*` 등) 별칭 처리가 필요 / 카페만 = 전투 모드 없음(보조 학생 등) / 불가 = 카페 동작이 없어 펫으로 쓰기 어려움
-- **자세**: N = 서서(Normal), K = 무릎(Kneel, 아직 펫 코드 미지원), S = 방패/엄폐(Stand)
+- **자세**: N = 서서(Normal), K = 무릎(Kneel), S = 방패/엄폐(Stand)
 
 | 지원 수준 | 모델 수 |
 |---|---|

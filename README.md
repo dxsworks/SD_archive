@@ -46,10 +46,10 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 
 - 사격: `Attack_Start → Attack_Ing ×1~3 → Attack_End → Attack_Delay`
 - 재장전: 3번 쏘면 재장전할 확률이 크게 오름
-- 자세 바꾸기: 서서 쏘기(`Normal_*`) ↔ 방패 자세(`Stand_*`)
-- 뛰어서 자리 옮기기: `Move_Ing` (가끔 `Move_Jump` 구르기) → `Move_End_Normal/Stand`
-- 구호: `Normal_Callsign` / `Stand_Callsign`
-- 전투 대기: 서서 `Normal_Idle` / 엄폐 `Stand_Attack_Delay` (`Stand_Idle`은 쓰지 않음)
+- 자세 바꾸기: 서서 쏘기(`Normal_*`) / 방패 자세(`Stand_*`) / 무릎 쏘기(`Kneel_*`) 중 그 학생에게 있는 것끼리 무작위로
+- 뛰어서 자리 옮기기: `Move_Ing` (가끔 `Move_Jump` 구르기) → `Move_End_Normal/Stand/Kneel`
+- 구호: `Normal_Callsign` / `Stand_Callsign` / `Kneel_Callsign` (없으면 건너뜀)
+- 전투 대기: 서서 `Normal_Idle` / 엄폐 `Stand_Attack_Delay` / 무릎 `Kneel_Attack_Delay` (`Stand_Idle`·`Kneel_Idle`은 쓰지 않음)
 
 전투 중 클릭하면 구호로 대답하고, 더블클릭하면 EX 스킬 후 전투로 돌아오며, 집어 들면 전투가 끝납니다.
 

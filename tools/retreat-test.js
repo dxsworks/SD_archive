@@ -1,4 +1,4 @@
-// 종료 후퇴 동작을 화면 밖 창(바탕화면 흉내 모드)에서 시험하고 스냅샷을 저장하는 개발용 스크립트
+// 종료 동작(밧줄에 매달려 끌려 올라감)을 화면 밖 창(바탕화면 흉내 모드)에서 시험하고 스냅샷을 저장하는 개발용 스크립트
 // 사용: (정적 서버가 8765에서 실행 중일 때) npx electron tools/retreat-test.js <출력폴더>
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
@@ -19,10 +19,10 @@ app.whenReady().then(async () => {
   const log = [];
   const t0 = Date.now();
   await js('__pet.retreat(); 0');
-  for (const at of [300, 900, 1500, 2100, 2500, 3000]) {
+  for (const at of [150, 400, 700, 1000, 1300, 1600, 1900, 3300]) {
     await sleep(at - (Date.now() - t0));
     const info = JSON.parse(await js(`JSON.stringify({ s: __pet.state, c: __pet.clip, p: __pet.floorPos, o: document.getElementById('pet').style.opacity, l: document.getElementById('pet').style.left, t: document.getElementById('pet').style.top })`));
-    log.push(`${at}ms state=${info.s} clip=${info.c} scale=${info.p.scale.toFixed(2)} opacity=${info.o} win=(${info.l}, ${info.t})`);
+    log.push(`${at}ms state=${info.s} clip=${info.c} lift=${info.p.lift.toFixed(2)} opacity=${info.o} win=(${info.l}, ${info.t})`);
     fs.writeFileSync(path.join(outDir, `${at}.png`), (await win.webContents.capturePage()).toPNG());
   }
   console.log(log.join('\n'));

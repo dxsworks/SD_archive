@@ -517,6 +517,7 @@ function beginBattle() {
     stance: stances[Math.floor(Math.random() * stances.length)],
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
+    engaged: false, // 조준 대기 자세(엄폐·무릎)를 잡았는지. 잡기 전엔 Attack_Start로 자세부터
   };
   battle.aim = aimFace(battle.side);
   return true;
@@ -525,14 +526,27 @@ function beginBattle() {
 // keepForm: 종료(밧줄)처럼 전투 차림 그대로 이어서 할 동작이 있을 때
 function endBattle({ victory = false, keepForm = false } = {}) {
   if (!battle) return;
+  const rise = leaveSteps(); // 무릎·엄폐 자세면 일어나고 나서 승리 포즈
   battle = null;
   if (!keepForm) form = 1;
   lastBattleEnd = performance.now();
-  if (victory) playSequence(VICTORY, { onEnd: toIdle });
+  if (victory) playSequence([...rise, ...VICTORY], { onEnd: toIdle });
 }
+
+// 무릎·엄폐처럼 조준한 채 대기하는 자세(대기 동작 = Attack_Delay)는 Attack_Start가 선 자세에서 앉으며 조준하고,
+// Attack_End가 일어나 돌아서는 동작이다(시로코 무릎). 사격마다 넣으면 쏘고 → 일어섰다 → 순간이동하듯 앉으므로,
+// Start는 자세를 잡을 때 한 번, End는 자리를 떠날 때(뛰기·승리) 한 번만 쓰고 사이에는 Ing → Delay만 반복한다.
+// 서서 쏘기(대기 = Normal_Idle, 총을 내린 자세)는 예전처럼 사격마다 Start → Ing → End → Delay
+const aimsAtRest = (st) => STANCE_IDLE[st] === `${st}_Attack_Delay`;
+const leaveSteps = () => (battle?.engaged && aimsAtRest(battle.stance) ? [`${battle.stance}_Attack_End`] : []);
 
 function battleIdle() {
   if (performance.now() > battle.until) { endBattle({ victory: true }); return; }
+  if (aimsAtRest(battle.stance) && !battle.engaged) { // 선 자세(구호·EX 등) 다음이면 자세부터 잡는다
+    battle.engaged = true;
+    playSequence([`${battle.stance}_Attack_Start`], { face: battleFace(), onEnd: battleIdle });
+    return;
+  }
   setState('battle');
   battleRest = rand(...BATTLE_REST);
   facing = battleFace();
@@ -558,8 +572,12 @@ function burst() {
   battle.ammo = Math.max(0, battle.ammo - 1);
   const shots = 1 + Math.floor(Math.random() * 3);
   const [start, ing, end, delay] = ATTACK_STEPS.map((step) => `${battle.stance}_${step}`);
+  const steps = aimsAtRest(battle.stance)
+    ? [...(battle.engaged ? [] : [start]), ...Array(shots).fill(ing), delay]
+    : [start, ...Array(shots).fill(ing), end, delay];
+  battle.engaged = true;
   // 이어지도록 만들어진 동작들이라 단계 사이는 짧게 섞는다
-  playSequence([start, ...Array(shots).fill(ing), end, delay], { face: battleFace(), stepFade: 0.08 });
+  playSequence(steps, { face: battleFace(), stepFade: 0.08 });
 }
 
 function reload() {
@@ -587,6 +605,13 @@ function startRun({ switchStance = false } = {}) {
   battle.nextStance = switchStance ? otherStance(battle.stance) : null;
   const shout = has(RUN_CALLSIGN) && fitsForm(RUN_CALLSIGN) && Math.random() < 0.3;
   runJumpAt = !shout && has('Move_Jump') && dist > 1.6 && Math.random() < 0.3 ? dist * 0.6 : null;
+  const rise = leaveSteps();
+  battle.engaged = false;
+  if (rise.length) { playSequence(rise, { face: battleFace(), onEnd: () => run(shout) }); return; } // 일어나고 나서 뛴다
+  run(shout);
+}
+
+function run(shout) {
   setState('run');
   if (shout) play(RUN_CALLSIGN, { once: true, fade: 0.15, onDone: () => { if (state === 'run') play('Move_Ing', { fade: 0.15 }); } });
   else play('Move_Ing', { fade: 0.15 });
@@ -597,6 +622,7 @@ function arriveRun() {
   const next = battle.nextStance ?? (Math.random() < 0.4 ? otherStance(battle.stance) : battle.stance);
   if (next && stanceReady(next)) battle.stance = next;
   battle.aim = aimFace(battle.side);
+  battle.engaged = has(`Move_End_${battle.stance}`); // 뛰어와 멈추며 자세를 잡는 동작
   playSequence([`Move_End_${battle.stance}`], { face: battleFace(), fade: 0.15 });
 }
 
@@ -604,6 +630,7 @@ function arriveRun() {
 // → 전투 중에 EX를 쓰면 전투가 끝날 때까지 02 차림 동작을 쓴다 (02가 없는 학생은 그대로 01)
 function exSkill() {
   if (battle && forms.has(2)) form = 2;
+  if (battle) battle.engaged = false; // EX는 선 자세로 끝난다
   playSequence(['ex'], { face: battleFace(), as: 'ex' });
 }
 

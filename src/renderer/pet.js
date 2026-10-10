@@ -14,6 +14,7 @@ const FACE_BATTLE = THREE.MathUtils.degToRad(60); // 전투 동작은 옆을 보
 const FACE_SPREAD = THREE.MathUtils.degToRad(30);   // 평소 동작은 정면에서 이만큼 안쪽 아무 방향
 const BATTLE_SPREAD = THREE.MathUtils.degToRad(20); // 전투·EX는 FACE_BATTLE에서 이만큼 안쪽 아무 방향
 const HEAD_LIMIT = THREE.MathUtils.degToRad(45); // 얼굴이 카메라에서 이보다 돌아가면 그만큼 몸을 돌려 얼굴이 보이게
+const HEAD_FIX_MAX = THREE.MathUtils.degToRad(30); // 동작 하나 때문에 더 돌리는 건 이만큼까지 (재장전·구호 때 몸이 휙 돌지 않게)
 const FACE_NAP = THREE.MathUtils.degToRad(58);    // 뒤로 눕는 동작을 옆으로 눕는 것처럼 보이게
 const NAP_OFFSET = new THREE.Vector3(0.33, 0.08, 0.1); // 누운 몸이 창 가운데 바닥에 오도록
 
@@ -328,8 +329,10 @@ const calmFace = () => (Math.abs(wrapAngle(facing - FACE_FRONT)) <= FACE_SPREAD 
 // 전투 방향: 적이 있는 쪽(side = ±1)을 보며 카메라 쪽으로 반쯤, 매번 조금씩 다르게
 const aimFace = (side) => side * (FACE_BATTLE + spread(BATTLE_SPREAD));
 // 얼굴이 보이게: 전투 동작은 얼굴이 총구보다 35~50°(재장전·구호는 90~150°) 왼쪽을 봐서, 왼쪽을 겨누거나 재장전할 때 뒤통수만 보인다.
-// 이어서 틀 동작들의 평균 얼굴 방향이 HEAD_LIMIT를 넘으면 넘는 만큼만 몸을 돌린다 (한 번에 정해서 동작 사이에 몸이 왔다 갔다 하지 않게)
-function showFace(face, names) {
+// 이어서 틀 동작들의 평균 얼굴 방향이 HEAD_LIMIT를 넘으면 넘는 만큼만 몸을 돌린다 (한 번에 정해서 동작 사이에 몸이 왔다 갔다 하지 않게).
+// max: 돌리는 양의 한도. 전투 자리 방향은 대기·사격 기준으로 한도 없이 정하고(battleFace), 재장전·구호처럼 얼굴이 훨씬 돌아간
+// 동작은 거기서 HEAD_FIX_MAX까지만 더 돌린다 (엄폐 재장전은 원래 뒤돌아 하는 동작이라 다 맞추려면 160°를 돌았다 돌아와야 함)
+function showFace(face, names, max = Infinity) {
   let x = 0, z = 0;
   for (const name of names.map(resolve).filter(Boolean)) {
     const a = (clipTurns.get(name) ?? 0) + (clipHeads.get(name) ?? 0);
@@ -338,7 +341,7 @@ function showFace(face, names) {
   if (!x && !z) return face;
   const head = wrapAngle(face + Math.atan2(x, z));
   const over = Math.abs(head) - HEAD_LIMIT;
-  return over > 0 ? face - Math.sign(head) * over : face;
+  return over > 0 ? face - Math.sign(head) * Math.min(over, max) : face;
 }
 
 let lastSent = '';
@@ -395,7 +398,7 @@ function playSequence(names, { face = calmFace(), fade = 0.25, stepFade = 0.2, a
   const list = names.map(clipName).filter(has);
   if (!list.length) { onEnd(); return; }
   setState(as);
-  facing = showFace(face, list);
+  facing = showFace(face, list, HEAD_FIX_MAX);
   let i = 0;
   const next = () => {
     if (i >= list.length) { onEnd(); return; }
@@ -479,7 +482,9 @@ const otherStance = (st) => {
 const hasCallsign = (st) => has(`${st}_Callsign`) && fitsForm(`${st}_Callsign`);
 const battleReady = () => (performance.now() - lastBattleEnd) / 1000 > BATTLE_COOLDOWN;
 // 한 자리에서는 같은 방향으로 싸우고, 뛰어서 자리를 옮기면 새로 정한다
-const battleFace = () => (battle ? battle.aim : aimFace(Math.random() < 0.5 ? 1 : -1));
+// 전투 자리 방향: 겨누는 쪽(aim)에서 그 자세의 대기·사격 동작 얼굴이 보이도록 돌린 방향
+const stanceClips = (st) => [STANCE_IDLE[st], ...ATTACK_STEPS.map((step) => `${st}_${step}`)];
+const battleFace = () => (battle ? showFace(battle.aim, stanceClips(battle.stance)) : aimFace(Math.random() < 0.5 ? 1 : -1));
 
 function rest() {
   if (battle) battleIdle();
@@ -527,7 +532,7 @@ function battleIdle() {
   if (performance.now() > battle.until) { endBattle({ victory: true }); return; }
   setState('battle');
   battleRest = rand(...BATTLE_REST);
-  facing = showFace(battleFace(), [STANCE_IDLE[battle.stance]]);
+  facing = battleFace();
   play(STANCE_IDLE[battle.stance], { fade: 0.2 });
 }
 
@@ -920,6 +925,7 @@ window.__pet = {
   get state() { return state; },
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
   get clip() { return currentAction?.getClip().name; },
+  get yaw() { return Math.round(THREE.MathUtils.radToDeg(pivot.rotation.y)); }, // 실제로 돌아가 있는 각도(도)
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { mixer.timeScale = f; }, // 동작 확인용 느린 재생
@@ -928,7 +934,13 @@ window.__pet = {
   get armed() { return armed && { left: Math.round((armed.until - performance.now()) / 1000) }; },
   armFor(seconds) { endBattle(); startArmed(); if (armed) armed.until = performance.now() + seconds * 1000; },
   get battle() { return battle && { ...battle, form, left: Math.round((battle.until - performance.now()) / 1000) }; },
-  battleFor(seconds) { endBattle(); startBattle(); if (battle) battle.until = performance.now() + seconds * 1000; },
+  // stance: 시험용으로 전투 자세 고정 ('Normal' | 'Stand' | 'Kneel', 그 학생에게 있을 때)
+  battleFor(seconds, stance) {
+    endBattle(); startBattle();
+    if (!battle) return;
+    battle.until = performance.now() + seconds * 1000;
+    if (stance && stanceReady(stance)) battle.stance = stance;
+  },
   run() { if (battle) startRun(); }, // 전투 중 뛰어서 자리 옮기기
 };
 

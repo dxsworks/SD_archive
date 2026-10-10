@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
 import { hiddenPartsUpdater } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
+import { measureClipTurns } from './clip-facing.js';
 
 // ---- 화면 구성 ----
 const VIEW_HEIGHT = 1.3;                         // 창 높이에 들어갈 월드 단위 높이
@@ -124,6 +125,7 @@ let updateHiddenParts = () => {};
 let updateOutlines = () => {};
 let hands = []; // 밧줄을 잡는 손 뼈
 let clips = {};
+let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도
 let currentAction = null;
 const weaponMeshes = [];
 
@@ -184,6 +186,7 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   indexClips();
+  clipTurns = measureClipTurns(gltf.scene, gltf.animations, (n) => n.replace(FORM_NUMBER, '$1').toLowerCase());
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -218,6 +221,7 @@ function resolve(name) {
   return (list.find((c) => c.form === currentForm()) ?? list.find((c) => c.form === 1) ?? list[0]).name;
 }
 const has = (name) => Boolean(resolve(name));
+const clipTurn = () => clipTurns.get(currentAction?.getClip().name) ?? 0;
 // 지금 차림에 맞는 동작인지: 01 차림이면 다 맞고, 02 차림이면 02 번호가 붙은 것만
 // (번호 없는 동작은 01 차림 모습이라 02 차림 중에 틀면 벗은 겉옷이 다시 나타난다. 예: 수영복 호시노 Normal_Callsign)
 const fitsForm = (name) => currentForm() === 1
@@ -569,8 +573,9 @@ function retreat({ face = null } = {}) { // face: 시험용으로 매달린 방�
   setState('retreat');
   // 돌아서는 모습(대기 자세의 뒷모습)이 보이지 않게 방향과 자세를 한 번에 바꾼다
   if (has('Vital_Retreat')) {
-    facing = pivot.rotation.y = face ?? HANG_FACE + spread(HANG_SPREAD);
+    facing = face ?? HANG_FACE + spread(HANG_SPREAD);
     play('Vital_Retreat', { fade: 0 });
+    pivot.rotation.y = facing + clipTurn();
   } else {
     facing = face ?? FACE_FRONT;
     play('pickup', { fade: 0.15 });
@@ -707,7 +712,7 @@ function update(dt) {
   }
   placeWindow();
   // 방향 전환과 자세 보정을 부드럽게
-  pivot.rotation.y += wrapAngle(facing - pivot.rotation.y) * Math.min(1, dt * 8);
+  pivot.rotation.y += wrapAngle(facing + clipTurn() - pivot.rotation.y) * Math.min(1, dt * 8); // clipTurn: 학생별 동작 방향 차이 보정
   pivot.position.lerp(pivotTarget, Math.min(1, dt * 3));
 }
 
@@ -871,10 +876,11 @@ async function main() {
 
 // 디버깅/테스트용
 window.__pet = {
-  play, ...COMMANDS,
+  play, has, ...COMMANDS,
   get state() { return state; },
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
   get clip() { return currentAction?.getClip().name; },
+  get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { mixer.timeScale = f; }, // 동작 확인용 느린 재생
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },

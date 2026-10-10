@@ -41,7 +41,7 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 ## 전투 모드
 
 가끔(직전 전투 후 90초 이상 지났을 때), 메뉴 → 동작 → 전투 모드 / 공격, 또는 더블클릭 EX로 시작합니다.
-구호(`Normal_Callsign`/`Move_Callsign`)로 총을 꺼낸 뒤 30~60초 동안 전투 대기(1~3.5초)와 아래 동작을 무작위로 섞어 하고,
+총 꺼내기(`Public01`, 없거나 이미 총을 들고 있으면 구호 `Normal_Callsign`)로 시작해 30~60초 동안 전투 대기(1~3.5초)와 아래 동작을 무작위로 섞어 하고,
 시간이 다 되면 `Victory_Start → Victory_End`로 마무리합니다.
 
 - 사격: `Attack_Start → Attack_Ing ×1~3 → Attack_End → Attack_Delay`
@@ -51,7 +51,7 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 - 구호: `Normal_Callsign` / `Stand_Callsign` / `Kneel_Callsign` (없으면 건너뜀)
 - 전투 대기: 서서 `Normal_Idle` / 엄폐 `Stand_Attack_Delay` / 무릎 `Kneel_Attack_Delay` (`Stand_Idle`·`Kneel_Idle`은 쓰지 않음)
 
-전투 중 클릭하면 구호로 대답하고, 더블클릭하면 EX 스킬 후 전투로 돌아오며, 집어 들면 전투가 끝납니다.
+전투 중 클릭하면 구호나 재장전으로 대답하고, 더블클릭하면 EX 스킬 후 전투로 돌아오며, 집어 들면 전투가 끝납니다.
 
 ## 다른 학생 추가
 

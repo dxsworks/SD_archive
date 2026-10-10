@@ -137,5 +137,6 @@
 2. 자세 확인: `Kneel`(무릎) 자세 모델이 많음(125개). **펫 코드는 아직 `Normal`/`Stand`만 지원** → `STANCES`와 `STANCE_IDLE`에 `Kneel: 'Kneel_Idle'` 추가 필요(`Kneel_Callsign`이 없는 모델이 대부분이라 구호 대체도 필요).
 3. 이름 변형 확인(위 1장의 "이름이 제각각인 경우"). `Vital_Dying_ing`, 번호 붙은 변형이 있으면 별칭 처리 필요.
 4. 무기 확인: [data/model-survey.json](data/model-survey.json)의 `weapons[].animatedIn`이 동작 수보다 훨씬 적은 무기는 호시노 방패처럼 기본 위치에 박혀 보일 수 있음(지금 규칙으로 자동으로 숨겨짐).
-5. 전투 방향(`FACE_BATTLE`), 낮잠 자세(`FACE_NAP`, `NAP_OFFSET`)는 호시노에 맞춘 값. 다른 학생은 애니메이션 보기 창과 `tools/render-sheet.js`로 확인 후 조정.
-6. `tools/behavior-test.js`, `tools/battle-test.js`, `tools/sim-test.js`, `tools/retreat-test.js`로 확인 (모델은 현재 `index.html?sim` 스텁이 `models/Hoshino.glb`를 읽으므로 테스트할 모델로 바꿔야 함).
+5. 창 크기 확인: `tools/edge-test.js`로 동작별 창 끝 여백을 잰다(호시노는 EX가 가장 넓어 2:1 창이 필요했음).
+6. 전투 방향(`FACE_BATTLE`), 낮잠 자세(`FACE_NAP`, `NAP_OFFSET`)는 호시노에 맞춘 값. 다른 학생은 애니메이션 보기 창과 `tools/render-sheet.js`로 확인 후 조정.
+7. `tools/behavior-test.js`, `tools/battle-test.js`, `tools/sim-test.js`, `tools/retreat-test.js`로 확인 (모델은 현재 `index.html?sim` 스텁이 `models/Hoshino.glb`를 읽으므로 테스트할 모델로 바꿔야 함).

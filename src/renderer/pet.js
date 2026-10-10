@@ -767,6 +767,8 @@ window.__pet = {
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
   get clip() { return currentAction?.getClip().name; },
   set timeScale(f) { mixer.timeScale = f; }, // 동작 확인용 느린 재생
+  // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
+  pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },
   get armed() { return armed && { left: Math.round((armed.until - performance.now()) / 1000) }; },
   armFor(seconds) { endBattle(); startArmed(); if (armed) armed.until = performance.now() + seconds * 1000; },
   get battle() { return battle && { ...battle, left: Math.round((battle.until - performance.now()) / 1000) }; },
@@ -778,7 +780,7 @@ main().catch((err) => console.error('펫 초기화 실패:', err));
 // 브라우저에서 열었을 때: 페이지 전체를 작업 영역으로, 캔버스를 펫 창으로 흉내 낸다 (?sim)
 function createBrowserStub() {
   const sim = new URLSearchParams(location.search).has('sim');
-  const W = 210, H = 280;
+  const W = 560, H = 280; // main.js SIZES.medium과 같게
   const area = () => ({ x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });
   if (sim) {
     document.body.classList.add('sim');

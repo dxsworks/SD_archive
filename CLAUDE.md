@@ -37,11 +37,12 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
   - `npx electron tools/battle-test.js <폴더> [초]` 전투 모드 동작 순서 기록 + 동작별 스냅샷
   - `npx electron tools/sim-test.js <폴더>` 바탕화면 흉내 모드(`index.html?sim`)에서 걷기·드래그(창 안에만 입력)
   - `npx electron tools/retreat-test.js <폴더>` 종료 후퇴
+  - `npx electron tools/edge-test.js` 동작·방향별로 모델이 펫 창 끝에서 몇 px 떨어지는지(0 = 잘림)
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
 - 브라우저 미리보기 창이 숨겨지면 rAF가 멈춰서 시간 기반 확인이 틀린다 → Electron 테스트 스크립트를 쓴다.
-- 디버그 훅: `window.__pet` (`state`, `clip`, `battle`, `armed`, `floorPos`, 각 명령, `battleFor(초)`, `armFor(초)`, `timeScale` 느린 재생). `battle`은 상태 getter라 전투 명령은 `battleFor`로 부른다
+- 디버그 훅: `window.__pet` (`state`, `clip`, `battle`, `armed`, `floorPos`, 각 명령, `battleFor(초)`, `armFor(초)`, `timeScale` 느린 재생, `pose(동작, {face, height})` 상태 머신 멈추고 동작 반복). `battle`은 상태 getter라 전투 명령은 `battleFor`로 부른다
 - 코드를 바꾼 뒤에는 실행 중인 앱을 재시작해 둔다: `taskkill //F //IM electron.exe` 후 `node_modules/electron/dist/electron.exe .` (백그라운드)
 
 ## 지켜야 할 것 (겪어서 알게 된 것)
@@ -52,6 +53,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
 - `Stand_Idle`은 쓰지 않는다(사용자 결정). 엄폐 자세 대기는 `Stand_Attack_Delay`.
 - `Vital_Retreat`은 카메라 반대쪽(π)으로 달리는 동작이라 진행 방향에서 π를 뺀다.
 - 뛰는 모양의 동작(`Move_Callsign`, 첫 0.3초가 뛰는 `Move_End_*`)은 실제로 뛸 때만 튼다. 제자리에서 틀면 제자리 뛰기가 된다.
+- 펫 창은 가로 2 : 세로 1(보통 560×280). EX 돌진은 높이의 약 1.95배 폭이 필요해서 이보다 좁히면 옆이 잘린다. 위쪽 여유는 35px 이상.
 - 일반 브라우저에서 file:// fetch가 안 되므로 모델은 IPC(`readModel`)로 읽는다.
 
 ## 현재 상태와 다음 할 일

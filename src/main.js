@@ -3,10 +3,11 @@ const path = require('path');
 const fs = require('fs');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
+// 창은 가로 2 : 세로 1. 캐릭터 크기는 높이로 정해지고, 넓은 폭은 옆으로 뻗는 동작(EX 돌진 ≈ 높이의 1.95배, 구르기·뛰기의 머리카락·총)이 잘리지 않게 하는 여백
 const SIZES = {
-  small: { label: '작게', w: 150, h: 200 },
-  medium: { label: '보통', w: 210, h: 280 },
-  large: { label: '크게', w: 300, h: 400 },
+  small: { label: '작게', w: 400, h: 200 },
+  medium: { label: '보통', w: 560, h: 280 },
+  large: { label: '크게', w: 800, h: 400 },
 };
 
 const DEFAULT_SETTINGS = { model: 'Hoshino.glb', size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };

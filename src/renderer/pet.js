@@ -141,7 +141,8 @@ const ANIM = {
   wake: ['Cafe_Reaction'],
   ex: ['Exs'],
 };
-const REACTIONS = ['Cafe_Reaction'];
+// 클릭 반응: 카페 반응 / 승리 포즈 무작위 (학생마다 승리 포즈에 총을 드는 경우가 있어 그때는 총이 0.25초 만에 생김)
+const REACTIONS = ['Cafe_Reaction', 'Victory_Start'];
 // 총을 든 동작들. 맨손 ↔ 총 든 동작을 넘나들 때마다 총이 0.25초 만에 생기고 사라지므로, 무장 중에 몰아서 쓴다
 const ARMED_IDLE = 'Formation_Idle';
 const ARMED_FIDGETS = ['Rearrange_Idle', 'Victory_End'];
@@ -257,7 +258,7 @@ function refreshWeapons() {
 let lastPicked = '';
 function pickRandom(names) {
   const list = names.filter(has);
-  const pool = list.length > 1 ? list.filter((n) => n !== lastPicked) : list;
+  const pool = list.length > 2 ? list.filter((n) => n !== lastPicked) : list; // 둘뿐이면 피하면 번갈아 나오기만 해서 무작위가 아님
   lastPicked = pool[Math.floor(Math.random() * pool.length)];
   return lastPicked;
 }
@@ -541,7 +542,7 @@ function battleAction() {
   const empty = battle.ammo <= 0;
   pickWeighted([
     [burst, empty ? 5 : 40],
-    [reload, empty ? 60 : battle.ammo < MAGAZINE ? 10 : 3],
+    [reload, empty ? 60 : battle.ammo < MAGAZINE ? 25 : 8],
     [switchStance, settings.walk && otherStance(battle.stance) ? 12 : 0],
     [startRun, settings.walk ? 15 : 0],
     [callsign, hasCallsign(battle.stance) ? 10 : 0],
@@ -662,6 +663,9 @@ function react() {
   playSequence([pickRandom(armed ? ARMED_REACTIONS : REACTIONS)]);
 }
 
+// 승리 포즈: 전투가 끝날 때 말고도 평소에 가끔
+const cheer = () => playSequence(VICTORY);
+
 // 대기 시간이 끝나면 다음 행동을 가중치로 고른다
 function chooseNextBehavior() {
   const idleMinutes = (performance.now() - lastInteraction) / 60000;
@@ -669,6 +673,7 @@ function chooseNextBehavior() {
     [startWalk, settings.walk ? 40 : 0],
     [startArmed, 20],
     [startBattle, battleReady() ? 8 : 0],
+    [cheer, has(VICTORY[0]) ? 8 : 0],
     [startNap, idleMinutes > 2 ? 25 : 3], // 오래 안 건드리면 졸기 쉬움
     [toIdle, 12],
   ])();

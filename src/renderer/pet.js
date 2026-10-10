@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
+import { hiddenPartsUpdater } from './hidden-parts.js';
 
 // ---- 화면 구성 ----
 const VIEW_HEIGHT = 1.3;                         // 창 높이에 들어갈 월드 단위 높이
@@ -118,6 +119,7 @@ const rope = (() => {
 scene.add(rope);
 
 let mixer = null;
+let updateHiddenParts = () => {};
 let hands = []; // 밧줄을 잡는 손 뼈
 let clips = {};
 let currentAction = null;
@@ -172,6 +174,7 @@ async function loadModel() {
     if (/weapon|shield/i.test(obj.name)) weaponMeshes.push(obj);
     obj.material = Array.isArray(obj.material) ? obj.material.map(toUnlit) : toUnlit(obj.material);
   });
+  updateHiddenParts = hiddenPartsUpdater(gltf.scene);
   refreshWeapons(); // 동작을 틀기 전에는 무기를 숨김
   pivot.add(gltf.scene);
   hands = ['Bip001_L_Hand', 'Bip001_R_Hand'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
@@ -798,6 +801,7 @@ function frame(now) {
   if (renderer.getPixelRatio() !== window.devicePixelRatio) layout(); // 배율이 다른 모니터로 옮겨졌을 때
   update(dt);
   mixer.update(dt);
+  updateHiddenParts();
   updateRope(); // 손 위치는 이번 프레임 자세로
   renderer.render(scene, camera);
   updateMousePassthrough();

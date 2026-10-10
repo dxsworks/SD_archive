@@ -18,6 +18,7 @@
     // 사용: tools/anim-sheet.html?model=Hoshino.glb&cols=5&weapons=1&filter=Cafe
     import * as THREE from 'three';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { hiddenPartsUpdater } from '../src/renderer/hidden-parts.js';
 
     const q = new URLSearchParams(location.search);
     const MODEL = q.get('model') ?? 'Hoshino.glb';
@@ -33,10 +34,14 @@
       o.frustumCulled = false;
       if (!SHOW_WEAPONS && /weapon|shield/i.test(o.name)) o.visible = false;
       if (q.get('weapons') === 'gun' && /shield/i.test(o.name)) o.visible = false;
+      if (q.get('hide') && new RegExp(q.get('hide'), 'i').test(o.name)) o.visible = false; // 메시 이름으로 숨기기
       const conv = (m) => new THREE.MeshBasicMaterial({ map: m.map, color: m.color, alphaTest: m.alphaTest, side: THREE.DoubleSide });
       o.material = Array.isArray(o.material) ? o.material.map(conv) : conv(o.material);
     });
 
+    const updateHiddenParts = hiddenPartsUpdater(gltf.scene);
+    const forced = []; // 위 옵션으로 숨긴 메시는 계속 숨김
+    gltf.scene.traverse((o) => { if (o.isMesh && !o.visible) forced.push(o); });
     const scene = new THREE.Scene();
     scene.add(gltf.scene);
     gltf.scene.rotation.y = THREE.MathUtils.degToRad(Number(q.get('rot') ?? 0)); // 모델 회전(도)
@@ -74,6 +79,8 @@
       ctx.fillText(`${clip.name}  (${clip.duration.toFixed(1)}s)`, bx + 4, by + 12);
       for (let f = 0; f < FRAMES; f++) {
         mixer.setTime((clip.duration * f) / Math.max(1, FRAMES - 1) * 0.999);
+        updateHiddenParts();
+        for (const o of forced) o.visible = false;
         renderer.render(scene, camera);
         ctx.drawImage(renderer.domElement, bx + f * CW, by + LABEL);
       }

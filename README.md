@@ -9,7 +9,13 @@ npm install
 npm start
 ```
 
-콘솔 창 없이 실행하려면 `start-pet.vbs`를 더블클릭하세요.
+콘솔 창 없이 실행하려면 `start-pet.vbs`를 더블클릭하세요. 바탕화면 바로가기는 PowerShell에서 이렇게 만들 수 있습니다(아이콘 `assets/pet.ico`):
+
+```powershell
+$s = (New-Object -ComObject WScript.Shell).CreateShortcut("$([Environment]::GetFolderPath('Desktop'))\호시노 펫.lnk")
+$s.TargetPath = "$env:WINDIR\System32\wscript.exe"; $s.Arguments = '"C:\bluearchive\start-pet.vbs"'
+$s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets\pet.ico,0'; $s.Save()
+```
 
 ## 조작
 

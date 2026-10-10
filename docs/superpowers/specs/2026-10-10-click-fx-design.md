@@ -18,8 +18,8 @@
 | `src/fx/index.html`, `src/fx/fx.js` (새) | 효과 창 화면. `BAClickFX`를 `inputSource: 'manual'`, `outputCompositing: 'browser-overlay'`, `hostCompositingSurface: 'transparent-window'`, `hostCompositing: 'source-over'`로 만들고, 받은 신호를 `pointerDown/Move/Up/Cancel`로 넘긴다. 색은 기본 게임 파랑. 모듈은 importmap으로 `node_modules/ba-click-fx/dist/ba-click-fx.js`를 가리킨다 |
 | `src/fx/preload.js` (새) | 효과 창 전용 브리지: 메인에서 오는 포인터 신호 수신 |
 | `src/main.js` | 효과 창 생성·관리, 신호 중계, 모니터 전환 시 이동, 메뉴 "클릭 효과" 체크박스(`settings.clickFx`, 기본 `true`) |
-| `src/preload.js` | `petBridge.fx(type, x, y)` 추가 (`type`: `down` `move` `up` `cancel`) |
-| `src/renderer/pet.js` | 기존 포인터 처리기에서 `e.screenX/Y`를 `bridge.fx`로 보냄 |
+| `src/preload.js` | `petBridge.fx(type)` 추가 (`type`: `down` `move` `up` `cancel`) |
+| `src/renderer/pet.js` | 기존 포인터 처리기에서 `bridge.fx(type)`만 보냄. 위치는 메인이 `screen.getCursorScreenPoint()`로 정함 (배율이 다른 모니터에서도 정확) |
 | `package.json` | `ba-click-fx` 의존성 `1.3.9` 고정 |
 | `tools/fx-test.js` (새) | 효과 창 시험 도구 (아래) |
 
@@ -31,10 +31,10 @@
 
 ### 신호 흐름
 
-1. `pet.js`의 `pointerdown`(펫 위 `hovering`이고 왼쪽 버튼이고 후퇴/종료 상태가 아닐 때, 즉 기존에 `drag`를 시작하는 경우) → `bridge.fx('down', e.screenX, e.screenY)`
+1. `pet.js`의 `pointerdown`(펫 위 `hovering`이고 왼쪽 버튼이고 후퇴/종료 상태가 아닐 때, 즉 기존에 `drag`를 시작하는 경우) → `bridge.fx('down')`
 2. `pointermove`에서 `drag`가 있는 동안 → `bridge.fx('move', ...)`
 3. `pointerup` → `up`, `pointercancel` → `cancel` (기존 `endDrag` 경로에서, `drag`가 있었을 때만)
-4. 메인: `settings.clickFx`가 꺼져 있으면 무시. 아니면 화면 좌표(DIP)에서 효과 창 `bounds.x/y`를 빼서 창 안 좌표로 바꿔 효과 창에 전달.
+4. 메인: `settings.clickFx`가 꺼져 있으면 무시. 아니면 `screen.getCursorScreenPoint()`(DIP)에서 효과 창 `bounds.x/y`를 빼서 창 안 좌표로 바꿔 효과 창에 전달.
 5. 효과 창: 받은 좌표로 `fx.pointerDown({ x, y })` 등 호출. 라이브러리가 좌표를 캔버스 안으로 잘라 준다.
 
 더블클릭은 `down/up`이 두 번 오므로 고리도 두 번 나온다. 우클릭은 보내지 않는다.
@@ -42,7 +42,6 @@
 ## 알려진 한계
 
 - 끄는 도중 다른 모니터로 넘어가면 트레일이 경계에서 끊길 수 있다(효과 창은 모니터 하나만 덮음).
-- 배율이 다른 모니터 사이에서 `screenX/Y`가 약간 어긋날 수 있다. 확인되면 그때 고친다.
 
 ## 테스트 (실제 바탕화면에는 입력을 보내지 않음)
 

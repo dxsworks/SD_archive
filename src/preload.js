@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('petBridge', {
   move: (x, y) => ipcRenderer.send('pet:move', x, y),
   setIgnoreMouse: (ignore) => ipcRenderer.send('pet:set-ignore', ignore),
   showMenu: () => ipcRenderer.send('pet:show-menu'),
+  fx: (type) => ipcRenderer.send('pet:fx', type), // 클릭 효과: down | move | up | cancel
   onCommand: (cb) => ipcRenderer.on('pet:command', (_e, cmd) => cb(cmd)),
   onSettings: (cb) => ipcRenderer.on('pet:settings', (_e, s) => cb(s)),
   onBoundsChanged: (cb) => ipcRenderer.on('pet:bounds-changed', () => cb()),

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>호시노 행동표</title>
+<style>
+  :root {
+    --bg: #f6f7fb; --card: #ffffff; --ink: #1d2433; --sub: #5d6678; --line: #e2e6ef;
+    --accent: #2f7bf5; --chip: #eef3ff; --chip-ink: #1d4fb8; --muted-chip: #f1f2f5; --muted-ink: #8a91a0;
+    --c1: #2f7bf5; --c2: #f0a030; --c3: #e0505e; --c4: #8a63d2; --c5: #9aa3b5; --c6: #25a38a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12151c; --card: #1b2029; --ink: #e8ecf4; --sub: #9aa3b5; --line: #2b313d;
+      --accent: #6aa5ff; --chip: #1f2b44; --chip-ink: #9cc2ff; --muted-chip: #232833; --muted-ink: #7b8292;
+      --c5: #6b7385;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 19px; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+  h3 { font-size: 15px; margin: 18px 0 8px; color: var(--sub); }
+  p { margin: 6px 0; }
+  .lead { color: var(--sub); margin-bottom: 20px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin: 16px 0; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  code, .anim { font-family: Consolas, "D2Coding", monospace; font-size: 13px; }
+  .anim { display: inline-block; background: var(--chip); color: var(--chip-ink); border-radius: 6px; padding: 1px 7px; margin: 1px 2px; white-space: nowrap; }
+  .anim small { opacity: .7; margin-left: 4px; }
+  .anim.off { background: var(--muted-chip); color: var(--muted-ink); text-decoration: line-through; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 13px; color: var(--sub); font-weight: 600; }
+  td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .bar { display: flex; height: 30px; border-radius: 8px; overflow: hidden; margin: 10px 0 6px; }
+  .bar span { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; transition: flex-grow .25s; min-width: 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--sub); }
+  .legend b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .toggles { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 8px; }
+  .toggles label { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; font-size: 13px; user-select: none; }
+  .toggles input { accent-color: var(--accent); }
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
+  .flow .arrow { color: var(--sub); }
+  .note { font-size: 13px; color: var(--sub); }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid3 > div { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .grid3 h4 { margin: 0 0 4px; font-size: 14px; }
+  .tag { font-size: 12px; color: var(--sub); border: 1px solid var(--line); border-radius: 6px; padding: 0 6px; margin-left: 4px; }
+  @media (max-width: 700px) { .grid3 { grid-template-columns: 1fr; } th, td { padding: 6px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>호시노 행동표</h1>
+  <p class="lead">언제 어떤 애니메이션이 나오는지와 확률. <code>src/renderer/pet.js</code> 기준. 숫자 옆 회색 글씨는 동작 길이(초).</p>
+
+  <!-- 1. 평소 -->
+  <section>
+    <h2><span class="dot" style="background:var(--c1)"></span>평소 대기에서 다음 행동 고르기</h2>
+    <p><span class="anim">Cafe_Idle<small>2.0 반복</small></span> 로 <b>3~8초</b> 서 있다가 아래 확률로 다음 행동을 고릅니다. 방향은 정면 ±30° 안에서 무작위.</p>
+    <div class="toggles">
+      <label><input type="checkbox" id="walk" checked> 메뉴 "돌아다니기" 켬</label>
+      <label><input type="checkbox" id="lonely"> 2분 넘게 안 건드림</label>
+      <label><input type="checkbox" id="cool"> 전투 끝난 지 90초 안 됨</label>
+    </div>
+    <div class="bar" id="idleBar"></div>
+    <div class="legend" id="idleLegend"></div>
+    <table>
+      <tr><th>행동</th><th>가중치</th><th>나오는 동작</th></tr>
+      <tr><td>걷기</td><td class="num">40 <span class="tag">돌아다니기 끄면 0</span></td><td><span class="anim">Cafe_Walk<small>1.33 반복</small></span> 바닥의 아무 지점으로 최대 3칸(약 7.5초 이내) → 도착하면 대기</td></tr>
+      <tr><td>잠깐 무장</td><td class="num">20</td><td>아래 "잠깐 무장" 참고 (15~40초 동안 총 든 동작)</td></tr>
+      <tr><td>전투 모드</td><td class="num">8 <span class="tag">쿨다운 중 0</span></td><td>아래 "전투 모드" 참고 (30~60초)</td></tr>
+      <tr><td>낮잠</td><td class="num">3 → <b>25</b> <span class="tag">2분 방치 시</span></td><td><span class="anim">Vital_Death<small>2.0</small></span> 로 옆으로 쓰러져 <b>20~45초</b> 누워 있다가 <span class="anim">Cafe_Reaction<small>2.7</small></span> 으로 일어남</td></tr>
+      <tr><td>그냥 계속 대기</td><td class="num">12</td><td><span class="anim">Cafe_Idle</span> 3~8초 더</td></tr>
+    </table>
+    <p class="note">"건드림" = 클릭 반응, 끌어 옮기기, 더블클릭 EX. 걷기·무장은 건드림으로 치지 않습니다.</p>
+  </section>
+
+  <!-- 2. 잠깐 무장 -->
+  <section>
+    <h2><span class="dot" style="background:var(--c2)"></span>잠깐 무장 (15~40초)</h2>
+    <p>총을 든 대기 <span class="anim">Formation_Idle<small>4.4 반복</small></span> 로 <b>3~8초</b>씩 서 있다가 매번 아래에서 고릅니다. 시간이 다 되면 맨손 대기로 돌아갑니다(총이 0.25초 만에 사라짐).</p>
+    <div class="bar" id="armedBar"></div>
+    <div class="legend" id="armedLegend"></div>
+    <table>
+      <tr><th>행동</th><th>가중치</th><th>나오는 동작</th></tr>
+      <tr><td>총 든 랜덤 동작</td><td class="num">60</td><td><span class="anim">Rearrange_Idle<small>6.4</small></span> 또는 <span class="anim">Victory_End<small>2.0</small></span> (반반, 직전에 한 것은 피함)</td></tr>
+      <tr><td>전투 모드로</td><td class="num">10 <span class="tag">쿨다운 중 0</span></td><td>총을 든 채로 바로 전투 시작</td></tr>
+      <tr><td>계속 무장 대기</td><td class="num">30</td><td><span class="anim">Formation_Idle</span> 3~8초 더</td></tr>
+    </table>
+  </section>
+
+  <!-- 3. 전투 -->
+  <section>
+    <h2><span class="dot" style="background:var(--c3)"></span>전투 모드 (30~60초, 끝나고 90초 쿨다운)</h2>
+    <div class="flow">
+      <span>시작</span><span class="arrow">→</span>
+      <span class="anim">Normal_Callsign<small>1.5</small></span><span class="arrow">→</span>
+      <span>자세 무작위(반반): <b>서서 쏘기</b>(Normal) / <b>방패 뒤 엄폐</b>(Stand)</span>
+    </div>
+    <p>왼쪽·오른쪽 중 한쪽을 적 방향으로 정하고(반반) 카메라 쪽으로 60°±20° 돌아서 싸웁니다.
+       전투 대기 <span class="anim">Normal_Idle<small>2.0</small></span> / <span class="anim">Stand_Attack_Delay<small>2.0</small></span> 로 <b>1.2~3.5초</b> 쉬고 매번 아래에서 고릅니다. 탄창은 3발(사격 한 번 = 1발).</p>
+
+    <h3>다음 행동 확률 (남은 탄에 따라)</h3>
+    <div class="toggles"><label><input type="checkbox" id="walk2" checked> 메뉴 "돌아다니기" 켬 <span class="note">(끄면 뛰기·자세 바꾸기 없음)</span></label></div>
+    <div class="grid3" id="battleGrid"></div>
+
+    <h3>각 행동의 동작</h3>
+    <table>
+      <tr><th>행동</th><th>나오는 동작</th></tr>
+      <tr><td>사격</td><td><span class="anim">{자세}_Attack_Start<small>0.33</small></span> → <span class="anim">{자세}_Attack_Ing<small>0.83</small></span> × <b>1~3번</b>(각 1/3) → <span class="anim">{자세}_Attack_End<small>0.5</small></span> → <span class="anim">{자세}_Attack_Delay<small>2.0</small></span> <span class="note">순서 고정</span></td></tr>
+      <tr><td>재장전</td><td><span class="anim">Normal_Reload<small>2.0</small></span> / <span class="anim">Stand_Reload<small>2.0</small></span> → 탄 3발로</td></tr>
+      <tr><td>구호</td><td><span class="anim">Normal_Callsign<small>1.5</small></span> / <span class="anim">Stand_Callsign<small>1.63</small></span></td></tr>
+      <tr><td>뛰어서 자리 옮기기</td><td>1~2.5칸 떨어진 곳으로 <span class="anim">Move_Ing<small>0.67 반복</small></span>.
+        <b>30%</b> 확률로 뛰면서 <span class="anim">Move_Callsign<small>1.33</small></span>, 아니면 멀 때(1.6칸 넘게) <b>30%</b> 확률로 중간에 <span class="anim">Move_Jump<small>1.0</small></span> 구르기.
+        도착하면 <span class="anim">Move_End_Normal<small>1.33</small></span> / <span class="anim">Move_End_Stand<small>1.33</small></span> 로 자세를 잡음 — 이때 <b>40%</b> 확률로 다른 자세로 바뀜. 새 자리에서 적 방향도 다시 정함</td></tr>
+      <tr><td>자세 바꾸기</td><td>위와 같이 뛰어가되 도착하면 <b>반드시</b> 다른 자세</td></tr>
+      <tr><td>EX 스킬</td><td><span class="anim">Exs<small>7.63</small></span> 방패 돌진 (탄과 상관없음) → 전투 대기</td></tr>
+    </table>
+
+    <h3>끝</h3>
+    <div class="flow">
+      <span>시간이 다 된 뒤 다음 대기 차례에</span><span class="arrow">→</span>
+      <span class="anim">Victory_Start<small>3.33</small></span><span class="arrow">→</span>
+      <span class="anim">Victory_End<small>2.0</small></span><span class="arrow">→</span>
+      <span>맨손 대기</span>
+    </div>
+  </section>
+
+  <!-- 4. 사용자 입력 -->
+  <section>
+    <h2><span class="dot" style="background:var(--c4)"></span>사용자가 건드렸을 때</h2>
+    <table>
+      <tr><th>입력</th><th>그때 상태</th><th>나오는 동작</th></tr>
+      <tr><td rowspan="5">클릭</td><td>평소 (대기·걷기 중 등)</td><td><span class="anim">Cafe_Reaction<small>2.7</small></span> (호시노는 하품) → 대기</td></tr>
+      <tr><td>잠깐 무장 중</td><td><span class="anim">Rearrange_Reaction<small>3.8</small></span> 또는 <span class="anim">Victory_Start<small>3.33</small></span> (반반, 직전 것 피함) → 무장 대기</td></tr>
+      <tr><td>낮잠 중</td><td><span class="anim">Cafe_Reaction</span> 으로 일어남 → 대기</td></tr>
+      <tr><td>전투 중 (뛰는 중 포함)</td><td>지금 자세의 구호 <span class="anim">{자세}_Callsign</span> → 계속 전투</td></tr>
+      <tr><td>EX 중 (전투 중 저절로 나온 EX 포함) / 끌거나 떨어지는 중</td><td>무시</td></tr>
+      <tr><td>더블클릭 (0.35초 안)</td><td>낮잠·EX 중 제외</td><td>첫 클릭 반응을 끊고 <span class="anim">Exs<small>7.63</small></span> (방패 돌진, 전투 방향으로 돌아섬) → 원래 상태의 대기로</td></tr>
+      <tr><td>끌어 옮기기</td><td>아무 때나</td><td><span class="anim">Formation_Pickup<small>6.0 반복</small></span> 으로 매달려 정면을 봄. 전투 중이었으면 전투가 끝나고 <b>무장 상태</b>가 됨. 놓으면 중력으로 떨어져 대기(무장 중이면 무장 대기)</td></tr>
+      <tr><td>트레이 아이콘 클릭</td><td></td><td>클릭과 같음</td></tr>
+    </table>
+
+    <h3>메뉴 → 동작</h3>
+    <table>
+      <tr><th>메뉴</th><th>하는 일</th></tr>
+      <tr><td>반응</td><td>클릭과 같음</td></tr>
+      <tr><td>랜덤 행동</td><td>맨손이면 잠깐 무장 시작 / 무장 중이면 총 든 랜덤 동작 하나 / 전투 중이면 전투 끝내고 무장 + 랜덤 동작</td></tr>
+      <tr><td>낮잠</td><td>전투·무장을 끝내고 바로 낮잠</td></tr>
+      <tr><td>전투 모드</td><td>전투 시작 (이미 전투 중이면 구호)</td></tr>
+      <tr><td>공격</td><td>사격 한 번 (전투 중이 아니면 구호로 전투를 시작하고 바로 사격)</td></tr>
+      <tr><td>EX 스킬</td><td><span class="anim">Exs</span></td></tr>
+      <tr><td>종료</td><td><span class="anim">Vital_Retreat<small>1.67 반복</small></span> 자세로 손을 들면 위에서 밧줄이 내려와 잡고, 점점 빨라지며 화면 위로 끌려 올라감 (최대 3초) → 앱 종료</td></tr>
+    </table>
+    <p class="note">끌거나 떨어지는 중, 종료 중에는 메뉴 동작이 무시됩니다(종료는 예외로 바로 실행).</p>
+  </section>
+
+  <!-- 5. 안 쓰는 것 -->
+  <section>
+    <h2><span class="dot" style="background:var(--c5)"></span>호시노 모델에 있지만 안 쓰는 동작</h2>
+    <p>
+      <span class="anim off">Stand_Idle<small>2.0</small></span>
+      <span class="anim off">Public01<small>2.83</small></span>
+      <span class="anim off">Vital_Panic<small>1.33</small></span>
+      <span class="anim off">Vital_Dying_Ing<small>1.4</small></span>
+      <span class="anim off">Exs_Cutin<small>3.7</small></span>
+      <span class="anim off">Exs_Root<small>7.63</small></span>
+    </p>
+    <p class="note">모두 사용자와 정해서 뺀 것입니다. 이유는 CLAUDE.md "현재 상태와 다음 할 일"과 docs/animations.md 참고.</p>
+  </section>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const pct = (w, total) => (total ? (w / total) * 100 : 0);
+
+  function drawBar(barId, legendId, items) {
+    const total = items.reduce((s, it) => s + it.w, 0);
+    $(barId).innerHTML = items.filter((it) => it.w > 0).map((it) => {
+      const p = pct(it.w, total);
+      return `<span style="flex-grow:${it.w};background:${it.color}" title="${it.label} ${p.toFixed(1)}%">${p >= 7 ? `${it.label} ${p.toFixed(0)}%` : ''}</span>`;
+    }).join('');
+    $(legendId).innerHTML = items.map((it) =>
+      `<span><span class="dot" style="background:${it.color}"></span> ${it.label} <b>${pct(it.w, total).toFixed(1)}%</b></span>`).join('');
+  }
+
+  function update() {
+    const walk = $('walk').checked, lonely = $('lonely').checked, cool = $('cool').checked;
+    drawBar('idleBar', 'idleLegend', [
+      { label: '걷기', w: walk ? 40 : 0, color: 'var(--c1)' },
+      { label: '잠깐 무장', w: 20, color: 'var(--c2)' },
+      { label: '전투', w: cool ? 0 : 8, color: 'var(--c3)' },
+      { label: '낮잠', w: lonely ? 25 : 3, color: 'var(--c4)' },
+      { label: '계속 대기', w: 12, color: 'var(--c5)' },
+    ]);
+    drawBar('armedBar', 'armedLegend', [
+      { label: '총 든 랜덤 동작', w: 60, color: 'var(--c2)' },
+      { label: '전투로', w: cool ? 0 : 10, color: 'var(--c3)' },
+      { label: '계속 무장 대기', w: 30, color: 'var(--c5)' },
+    ]);
+
+    const walk2 = $('walk2').checked;
+    const cases = [
+      { title: '탄 가득 (3발)', ammo: 3 },
+      { title: '탄 1~2발', ammo: 1 },
+      { title: '탄 없음', ammo: 0 },
+    ];
+    $('battleGrid').innerHTML = cases.map(({ title, ammo }) => {
+      const empty = ammo <= 0;
+      const items = [
+        { label: '사격', w: empty ? 5 : 40, color: 'var(--c3)' },
+        { label: '재장전', w: empty ? 60 : ammo < 3 ? 10 : 3, color: 'var(--c2)' },
+        { label: '자세 바꾸기', w: walk2 ? 12 : 0, color: 'var(--c4)' },
+        { label: '뛰어서 이동', w: walk2 ? 15 : 0, color: 'var(--c1)' },
+        { label: '구호', w: 10, color: 'var(--c6)' },
+        { label: 'EX 스킬', w: 6, color: 'var(--c5)' },
+      ];
+      const total = items.reduce((s, it) => s + it.w, 0);
+      const bar = items.filter((it) => it.w > 0).map((it) =>
+        `<span style="flex-grow:${it.w};background:${it.color}" title="${it.label} ${pct(it.w, total).toFixed(1)}%"></span>`).join('');
+      const rows = items.map((it) =>
+        `<tr><td><span class="dot" style="background:${it.color}"></span> ${it.label}</td><td class="num">${it.w}</td><td class="num"><b>${pct(it.w, total).toFixed(1)}%</b></td></tr>`).join('');
+      return `<div><h4>${title}</h4><div class="bar" style="height:14px">${bar}</div><table>${rows}</table></div>`;
+    }).join('');
+  }
+  ['walk', 'lonely', 'cool', 'walk2'].forEach((id) => $(id).addEventListener('change', update));
+  update();
+</script>
+</body>
+</html>

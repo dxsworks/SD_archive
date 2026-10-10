@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>Animation Sheet</title>
+  <style>
+    body { margin: 0; background: #1e1f24; color: #ddd; font: 11px system-ui, sans-serif; }
+    #sheet { display: block; }
+  </style>
+  <script type="importmap">
+    { "imports": { "three": "../node_modules/three/build/three.module.js", "three/addons/": "../node_modules/three/examples/jsm/" } }
+  </script>
+</head>
+<body>
+  <canvas id="sheet"></canvas>
+  <script type="module">
+    // 모델의 모든 애니메이션을 시간별로 샘플링해 한 장에 보여주는 개발용 도구
+    // 사용: tools/anim-sheet.html?model=Hoshino.glb&cols=5&weapons=1&filter=Cafe
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    const q = new URLSearchParams(location.search);
+    const MODEL = q.get('model') ?? 'Hoshino.glb';
+    const FRAMES = Number(q.get('frames') ?? 5);
+    const COLS = Number(q.get('cols') ?? 2);          // 한 줄에 들어갈 클립 수
+    const SHOW_WEAPONS = q.get('weapons') === '1' || q.get('weapons') === 'gun';
+    const FILTER = q.get('filter') ? new RegExp(q.get('filter'), 'i') : null;
+    const CW = Number(q.get("cw") ?? 110), CH = Number(q.get("ch") ?? 150), LABEL = 16, VIEW_H = 1.9;
+
+    const gltf = await new GLTFLoader().loadAsync(`../models/${MODEL}`);
+    gltf.scene.traverse((o) => {
+      if (!o.isMesh) return;
+      o.frustumCulled = false;
+      if (!SHOW_WEAPONS && /weapon|shield/i.test(o.name)) o.visible = false;
+      if (q.get('weapons') === 'gun' && /shield/i.test(o.name)) o.visible = false;
+      const conv = (m) => new THREE.MeshBasicMaterial({ map: m.map, color: m.color, alphaTest: m.alphaTest, side: THREE.DoubleSide });
+      o.material = Array.isArray(o.material) ? o.material.map(conv) : conv(o.material);
+    });
+
+    const scene = new THREE.Scene();
+    scene.add(gltf.scene);
+    gltf.scene.rotation.y = THREE.MathUtils.degToRad(Number(q.get('rot') ?? 0)); // 모델 회전(도)
+    // 바닥 기준선
+    scene.add(new THREE.GridHelper(2, 4, 0x555566, 0x333344));
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setSize(CW, CH);
+    renderer.setClearColor(0x2a2c33, 1);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    const halfH = VIEW_H / 2, halfW = halfH * CW / CH;
+    const camera = new THREE.OrthographicCamera(-halfW, halfW, halfH, -halfH, 0.1, 50);
+    const tilt = THREE.MathUtils.degToRad(12), ty = 0.75;
+    camera.position.set(0, ty + 10 * Math.sin(tilt), 10 * Math.cos(tilt));
+    camera.lookAt(0, ty, 0);
+
+    const clips = gltf.animations.filter((c) => !FILTER || FILTER.test(c.name));
+    const mixer = new THREE.AnimationMixer(gltf.scene);
+    const blockW = CW * FRAMES + 8;
+    const rows = Math.ceil(clips.length / COLS);
+    const sheet = document.getElementById('sheet');
+    sheet.width = blockW * COLS;
+    sheet.height = rows * (CH + LABEL);
+    const ctx = sheet.getContext('2d');
+    ctx.fillStyle = '#1e1f24';
+    ctx.fillRect(0, 0, sheet.width, sheet.height);
+
+    clips.forEach((clip, i) => {
+      const action = mixer.clipAction(clip);
+      mixer.stopAllAction();
+      action.play();
+      const bx = (i % COLS) * blockW, by = Math.floor(i / COLS) * (CH + LABEL);
+      ctx.fillStyle = '#ddd';
+      ctx.font = '12px system-ui';
+      ctx.fillText(`${clip.name}  (${clip.duration.toFixed(1)}s)`, bx + 4, by + 12);
+      for (let f = 0; f < FRAMES; f++) {
+        mixer.setTime((clip.duration * f) / Math.max(1, FRAMES - 1) * 0.999);
+        renderer.render(scene, camera);
+        ctx.drawImage(renderer.domElement, bx + f * CW, by + LABEL);
+      }
+    });
+    document.title = 'done';
+  </script>
+</body>
+</html>

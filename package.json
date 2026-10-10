@@ -1,0 +1,17 @@
+{
+  "name": "bluearchive-desktop-pet",
+  "version": "1.0.0",
+  "description": "블루 아카이브 학생을 바탕화면에서 돌아다니게 하는 데스크톱 펫",
+  "main": "src/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "ba-click-fx": "1.3.9",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1"
+  }
+}

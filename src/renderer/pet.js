@@ -183,6 +183,7 @@ async function loadModel() {
   hands = ['Bip001_L_Hand', 'Bip001_R_Hand'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
+  indexClips();
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -192,7 +193,35 @@ async function loadModel() {
   });
 }
 
-const has = (name) => Boolean(clips[name]);
+// 학생마다 동작 이름이 조금씩 다르다: 대소문자(Vital_Dying_ing), 차림 번호(수영복 호시노 Normal_Idle01/02, Normal_Attack01_Start,
+// 다른 학생 Normal01_Attack_End, Move01_Ing, Exs01 …). 글자 바로 뒤에 붙은 01·02를 차림 번호로 보고 떼어 낸 소문자 이름으로 묶어 두고,
+// 코드에서는 번호 없는 이름(Normal_Idle)으로 부르면 지금 차림의 것을 고른다 (없으면 01, 그것도 없으면 아무거나)
+const FORM_NUMBER = /([a-z])0(\d)/gi;
+let clipIndex = new Map(); // 묶은 이름 → [{ name, form }]
+let forms = new Set();     // 이 모델에 있는 차림 번호들
+function indexClips() {
+  clipIndex = new Map();
+  forms = new Set([1]);
+  for (const name of Object.keys(clips)) {
+    let number = 1;
+    const key = name.replace(FORM_NUMBER, (_, ch, n) => { number = Number(n); return ch; }).toLowerCase();
+    clipIndex.set(key, [...(clipIndex.get(key) ?? []), { name, form: number }]);
+    forms.add(number);
+  }
+}
+let form = 1; // 지금 차림 번호. 전투 중 EX를 쓰면 2, 전투가 끝나면 1
+const currentForm = () => form;
+function resolve(name) {
+  if (!name || clips[name]) return name;
+  const list = clipIndex.get(name.replace(FORM_NUMBER, '$1').toLowerCase());
+  if (!list) return undefined;
+  return (list.find((c) => c.form === currentForm()) ?? list.find((c) => c.form === 1) ?? list[0]).name;
+}
+const has = (name) => Boolean(resolve(name));
+// 지금 차림에 맞는 동작인지: 01 차림이면 다 맞고, 02 차림이면 02 번호가 붙은 것만
+// (번호 없는 동작은 01 차림 모습이라 02 차림 중에 틀면 벗은 겉옷이 다시 나타난다. 예: 수영복 호시노 Normal_Callsign)
+const fitsForm = (name) => currentForm() === 1
+  || Boolean(clipIndex.get(name.replace(FORM_NUMBER, '$1').toLowerCase())?.some((c) => c.form === currentForm()));
 const first = (names) => names.find(has) ?? Object.keys(clips)[0];
 const clipName = (name) => (ANIM[name] ? first(ANIM[name]) : name);
 
@@ -229,7 +258,7 @@ const doneCallbacks = new Map();
 // 그래서 항상 "이전 동작 → 새 동작" 두 개만 합이 1이 되도록 교차 페이드한다.
 // 새 동작을 틀면 이전 동작의 onDone은 버려지므로, 끼어든 동작이 순서를 자연스럽게 취소한다.
 function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
-  const action = mixer.clipAction(clips[clipName(name)]);
+  const action = mixer.clipAction(clips[resolve(clipName(name))]);
   doneCallbacks.clear();
   if (once && onDone) doneCallbacks.set(action, onDone);
   if (action === currentAction && !once) return;
@@ -433,6 +462,7 @@ function startBattle({ thenAttack = false } = {}) {
   const stances = STANCES.filter(stanceReady);
   if (!stances.length) { fidget(); return; }
   armed = null;
+  form = 1;
   battle = {
     until: performance.now() + rand(...BATTLE_TIME) * 1000,
     stance: stances[Math.floor(Math.random() * stances.length)],
@@ -443,9 +473,11 @@ function startBattle({ thenAttack = false } = {}) {
   playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd: thenAttack ? burst : rest });
 }
 
-function endBattle({ victory = false } = {}) {
+// keepForm: 종료(밧줄)처럼 전투 차림 그대로 이어서 할 동작이 있을 때
+function endBattle({ victory = false, keepForm = false } = {}) {
   if (!battle) return;
   battle = null;
+  if (!keepForm) form = 1;
   lastBattleEnd = performance.now();
   if (victory) playSequence(VICTORY, { onEnd: toIdle });
 }
@@ -466,7 +498,7 @@ function battleAction() {
     [reload, empty ? 60 : battle.ammo < MAGAZINE ? 10 : 3],
     [switchStance, settings.walk && stanceReady(otherStance(battle.stance)) ? 12 : 0],
     [startRun, settings.walk ? 15 : 0],
-    [callsign, 10],
+    [callsign, fitsForm(`${battle.stance}_Callsign`) ? 10 : 0],
     [exSkill, has(clipName('ex')) ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
   ])();
 }
@@ -486,7 +518,7 @@ function reload() {
   playSequence([`${battle.stance}_Reload`], { face: battleFace() });
 }
 
-const callsign = () => playSequence([`${battle.stance}_Callsign`], { face: battleFace() });
+const callsign = () => (fitsForm(`${battle.stance}_Callsign`) ? playSequence([`${battle.stance}_Callsign`], { face: battleFace() }) : rest());
 
 // 자세 바꾸기: 근처로 뛰어가 도착하며 다른 자세를 잡는다.
 // Move_End_*는 뛰다가 멈추는 동작이라 제자리에서 틀면 제자리에서 몇 걸음 뛰는 것처럼 보인다.
@@ -502,7 +534,7 @@ function startRun({ switchStance = false } = {}) {
   if (dist < 0.6) { callsign(); return; }
   walkTarget.copy(target);
   battle.nextStance = switchStance ? otherStance(battle.stance) : null;
-  const shout = has(RUN_CALLSIGN) && Math.random() < 0.3;
+  const shout = has(RUN_CALLSIGN) && fitsForm(RUN_CALLSIGN) && Math.random() < 0.3;
   runJumpAt = !shout && has('Move_Jump') && dist > 1.6 && Math.random() < 0.3 ? dist * 0.6 : null;
   setState('run');
   if (shout) play(RUN_CALLSIGN, { once: true, fade: 0.15, onDone: () => { if (state === 'run') play('Move_Ing', { fade: 0.15 }); } });
@@ -517,14 +549,19 @@ function arriveRun() {
   playSequence([`Move_End_${battle.stance}`], { face: battleFace(), fade: 0.15 });
 }
 
-const exSkill = () => playSequence(['ex'], { face: battleFace(), as: 'ex' });
+// EX를 쓰면 차림이 바뀌는 학생이 있다(수영복 호시노: 겉옷을 벗고 고래 튜브를 듦 = 02 동작들)
+// → 전투 중에 EX를 쓰면 전투가 끝날 때까지 02 차림 동작을 쓴다 (02가 없는 학생은 그대로 01)
+function exSkill() {
+  if (battle && forms.has(2)) form = 2;
+  playSequence(['ex'], { face: battleFace(), as: 'ex' });
+}
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,
 // 점점 빨라지며 끌려 올라가 화면 위로 사라진 뒤 앱을 끈다
 let hoistFrom = 0;
 function retreat({ face = null } = {}) { // face: 시험용으로 매달린 방향 지정
   if (state === 'retreat') return;
-  endBattle();
+  endBattle({ keepForm: true }); // 02 차림으로 싸우다 종료하면 02 차림으로 매달린다
   armed = null;
   if (drag) bridge.fx('cancel');
   drag = null;
@@ -843,8 +880,9 @@ window.__pet = {
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },
   get armed() { return armed && { left: Math.round((armed.until - performance.now()) / 1000) }; },
   armFor(seconds) { endBattle(); startArmed(); if (armed) armed.until = performance.now() + seconds * 1000; },
-  get battle() { return battle && { ...battle, left: Math.round((battle.until - performance.now()) / 1000) }; },
+  get battle() { return battle && { ...battle, form, left: Math.round((battle.until - performance.now()) / 1000) }; },
   battleFor(seconds) { endBattle(); startBattle(); if (battle) battle.until = performance.now() + seconds * 1000; },
+  run() { if (battle) startRun(); }, // 전투 중 뛰어서 자리 옮기기
 };
 
 main().catch((err) => console.error('펫 초기화 실패:', err));

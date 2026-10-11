@@ -327,15 +327,16 @@ function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
   if (prev !== action) carryTurn(action.getClip().name);
 }
 
-// ---- 총 든 자세로 넘어갈 때 몸이 휙 도는 것 (비교 중: tools/transition-review.js) ----
-// 총 자세 동작으로 넘어가는 순간, 펫이 정한 방향과 그 동작 자세가 지금 몸 방향과 달라 몸 전체가 0.2~0.3초 만에 50~110° 돌았다
-// (사용자 판단: 맨손으로 정면을 보며 도는 건 괜찮고, 총 자세로 휙 도는 게 이상함).
-//   A 그대로 / B 넘어가는 순간엔 지금 몸 방향을 이어 받고 천천히(약 1초) 원래 방향으로 / C 이어 받은 방향을 총 자세 동안 유지
-// carry: 펫 방향(facing)에 더 돌리는 각도. 맨손 동작으로 넘어가면 0 (정면으로 돌아옴)
+// ---- 총 든 자세로 넘어갈 때 몸 방향 이어 받기 ----
+// 총 자세 동작으로 넘어가는 순간, 펫이 정한 방향과 그 동작 자세가 지금 몸 방향과 달라 몸 전체가 0.2~0.3초 만에 50~110° 휙 돌았다
+// (사용자 판단: 맨손으로 정면을 보며 도는 건 괜찮고, 총 자세로 휙 도는 게 이상함. 총 꺼내기 → 무장 대기, 사격 끝, 뛰고 멈춘 뒤 대기 등).
+// 그래서 총 자세로 넘어갈 때는 지금 몸 방향 그대로 그 동작을 시작하고, 총 자세가 이어지는 동안 그 방향을 유지한다.
+// 맨손 동작으로 넘어가면 0으로 돌아가 펫이 정한 방향(정면 쪽)을 본다.
+// 2026-10-12 세 방법을 확인 창(tools/transition-review.js)에서 비교해 사용자가 고름: A 그대로 / B 이어 받고 1초 동안 풀기 / C 유지(이것)
+// carry: 펫 방향(facing)에 더 돌리는 각도. ?turn=A 또는 __pet.turnMode = 'A'면 끔 (비교용)
 const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
 const CARRY_MAX = THREE.MathUtils.degToRad(120);
-const CARRY_EASE = 2; // B: 1초에 86% 풀림
-let turnMode = new URLSearchParams(location.search).get('turn') ?? 'A';
+let turnMode = new URLSearchParams(location.search).get('turn') === 'A' ? 'A' : 'C';
 let carry = 0;
 function carryTurn(name) {
   if (turnMode === 'A' || !GUN_POSE.test(name) || thighs.length < 2 || !clipHips.has(name)) { carry = 0; return; }
@@ -900,7 +901,6 @@ function update(dt) {
   placeWindow();
   fillTransitionLogs();
   // 방향 전환과 자세 보정을 부드럽게
-  if (turnMode === 'B') carry *= Math.exp(-dt * CARRY_EASE);
   pivot.rotation.y += wrapAngle(facing + clipTurn() + carry - pivot.rotation.y) * Math.min(1, dt * 8); // clipTurn: 학생별 동작 방향 차이 보정
   pivot.position.lerp(pivotTarget, Math.min(1, dt * 3));
 }
@@ -1109,7 +1109,7 @@ window.__pet = {
   bodies(seconds) { const out = []; simulate(seconds, { bodies: out }); return out; }, // 몸 방향 기록만
   replay: startReplay,
   get turnMode() { return turnMode; },
-  set turnMode(m) { turnMode = m; carry = 0; },
+  set turnMode(m) { turnMode = m === 'A' ? 'A' : 'C'; carry = 0; },
   measure: measureTransition,
   // 넘어간 순간에서 t초 뒤(음수면 전) 모습으로 멈춰 그린다 (동작 시트용, 다시 움직이려면 timeScale = 1)
   still(rec, t, { alone = false } = {}) {

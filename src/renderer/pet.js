@@ -1085,6 +1085,15 @@ window.__pet = {
   run() { if (battle) startRun(); }, // 전투 중 뛰어서 자리 옮기기
   simulate,
   replay: startReplay,
+  measure: measureTransition,
+  // 넘어간 순간에서 t초 뒤(음수면 전) 모습으로 멈춰 그린다 (동작 시트용, 다시 움직이려면 timeScale = 1)
+  still(rec, t, { alone = false } = {}) {
+    speed = 0;
+    measureTransition(rec, { span: t, alone, record: false });
+    updateHiddenParts();
+    updateOutlines();
+    renderer.render(scene, camera);
+  },
 };
 
 // ---- 넘어가는 곳 확인 도구용 (tools/transition-review.js) ----
@@ -1138,6 +1147,69 @@ function startReplay(rec) {
   pivot.position.fromArray(rec.pivotPos);
   pivotTarget.fromArray(rec.pivotPos);
 }
+// 기록 하나를 펫과 똑같이 넘기며(자체 시계 1/60초, 그리지 않음) 넘어간 순간부터 span초 동안 매 프레임 잰다.
+// alone: 뒤 동작만 넘어간 뒤 방향으로 처음부터 (그 동작이 원래 도는 만큼을 빼려고)
+//   돌려주는 값: [{ t, hip, feet: [{ x, z, h, dir }] }] hip: 두 허벅지 뼈를 잇는 선의 방향(도, 몸 전체가 도는 양을 볼 때),
+//   발: 바닥 위 위치 x, z와 높이 h(모델 단위), dir 발끝 방향(도). 모두 펫 회전까지 넣은 값
+function measureTransition(rec, { span = 0.8, alone = false, record = true } = {}) {
+  const hips = ['L', 'R'].map((s) => pivot.getObjectByName(`Bip001_${s}_Thigh`));
+  const feet = ['L', 'R'].map((s) => [`Bip001_${s}_Foot`, `Bip001_${s}_Toe0`].map((n) => pivot.getObjectByName(n)));
+  if ([...hips, ...feet.flat()].some((b) => !b)) return null;
+  endBattle();
+  armed = null; drag = null;
+  setState('pose');
+  form = rec.form;
+  lift = 0;
+  mixer.stopAllAction();
+  currentAction = null;
+  const DT = 1 / 60, deg = THREE.MathUtils.radToDeg;
+  let t = 0, switched = alone;
+  if (alone) {
+    facing = rec.faceAfter;
+    play(rec.to, { once: !rec.toLoop, fade: 0 });
+    pivot.rotation.y = facing + clipTurn();
+    pivot.position.fromArray(rec.pivotTarget);
+    pivotTarget.fromArray(rec.pivotTarget);
+  } else {
+    facing = rec.yawBefore - (clipTurns.get(rec.from) ?? 0);
+    play(rec.from, { once: !rec.fromLoop, fade: 0 });
+    currentAction.time = Math.max(0, rec.fromTime - 0.1);
+    t = Math.min(currentAction.time - rec.fromTime, span);
+    if (span < 0) currentAction.time = Math.max(0, rec.fromTime + span);
+    pivot.rotation.y = rec.yawBefore;
+    pivot.position.fromArray(rec.pivotPos);
+    pivotTarget.fromArray(rec.pivotPos);
+  }
+  mixer.update(0);
+  const a = new THREE.Vector3(), b = new THREE.Vector3();
+  const frames = [];
+  for (let n = 0; n < 600 && t < span; n++) {
+    if (!switched && t >= -1e-6) {
+      switched = true;
+      facing = rec.faceAfter;
+      pivotTarget.fromArray(rec.pivotTarget);
+      play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+    }
+    update(DT);
+    mixer.update(DT);
+    t += DT;
+    if (!switched || !record) continue;
+    scene.updateMatrixWorld(true);
+    root.worldToLocal(hips[0].getWorldPosition(a));
+    root.worldToLocal(hips[1].getWorldPosition(b));
+    const hip = deg(Math.atan2(b.x - a.x, b.z - a.z));
+    frames.push({
+      t: +t.toFixed(4), hip: +hip.toFixed(2),
+      feet: feet.map(([foot, toe]) => {
+        root.worldToLocal(foot.getWorldPosition(a));
+        root.worldToLocal(toe.getWorldPosition(b));
+        return { x: +a.x.toFixed(4), z: +a.z.toFixed(4), h: +a.y.toFixed(4), dir: +deg(Math.atan2(b.x - a.x, b.z - a.z)).toFixed(1) };
+      }),
+    });
+  }
+  return frames;
+}
+
 function updateReplay() {
   const { rec, lead, switched } = replaying;
   if (!switched && stateTime >= lead) {

@@ -23,6 +23,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
 - `src/main.js` 투명 창, 트레이/우클릭 메뉴, 설정(`%APPDATA%/bluearchive-desktop-pet/settings.json`), 종료 시 후퇴
 - `src/preload.js` IPC 브리지 `window.petBridge` (캔버스 id가 `pet`이라 `window.pet`은 쓰면 안 됨)
 - `src/renderer/pet.js` 렌더링·애니메이션·행동 상태 머신(평소/전투 모드/낮잠/드래그/후퇴)·마우스 통과 판정
+- `src/renderer/clip-names.js` 동작 이름 규칙(`clipKey`, 차림 번호, `CLIP_TYPOS`)과 펫이 쓰는 동작 목록. 펫과 검사 도구가 같이 씀(Node에서도 읽히게 three.js 없이, 같은 폴더 `package.json`에 `"type": "module"`). 펫이 새 동작 이름을 부르면 여기 목록에도 넣는다
 - `src/renderer/floor.js` 바탕화면 = 바닥: 가상 원근 카메라로 바닥 좌표 ↔ 화면 좌표
 - `src/viewer/` 애니메이션 보기 창
 - `src/fx/` 클릭 효과 창: 모니터 전체를 덮는 투명·클릭 통과 창에 [ba-click-fx](https://github.com/CialloKing/ba-click-fx)로 클릭 고리·끌기 트레일. 펫 창이 `petBridge.fx(down|move|up|cancel)` → 메인이 실제 커서 위치로 변환해 전달. 메뉴 "클릭 효과"로 끄기
@@ -40,6 +41,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
   - `npx electron tools/edge-test.js` 동작·방향별로 모델이 펫 창 끝에서 몇 px 떨어지는지(0 = 잘림)
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
+  - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
 - 브라우저 미리보기 창이 숨겨지면 rAF가 멈춰서 시간 기반 확인이 틀린다 → Electron 테스트 스크립트를 쓴다.
@@ -79,6 +81,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
 **다음 할 일 (2026-10-11 사용자와 정함, 이 순서로 하나씩)** — 후보 목록은 조사 데이터(`docs/data/model-survey.json`)에서 뽑은 것. 모델을 받을 때는 파일 이름·크기를 알리고 허락받기
 
 0. **학생 검사 도구 `tools/check-model.js`** (나중에 캐릭터 추가를 자동화하려는 사용자 계획의 바탕. 1번부터 이걸로 검사): 모델 하나 또는 `models/` 전체를 화면 밖에서 돌려 보고서를 만든다
+   - **완료: 동작 확인** (이름만 봄, `--survey`로 295개 중 경고 15개: `Hoshino (Battle)` `01_` 접두사, `Noa (Pajama)`·`Kaho` `Exs_01`, `Misaki`·`Nonomi (Swimsuit)` `Public_01`, `Tsurugi` 2개 `Normal01_Delay`(Attack 빠짐 → 서서 자세 못 씀), `Shun`·`Eimi (Battle)` 02 차림에 `Move_Ing` 없음, `Otogi`·`Subaru` 02 차림 일부 01로, `Kayoko (New Year)`·`Noa (Pajama)` 02가 변형, `Midori`·`Momoi (Maid)` 컷인 이름 `CH0202_`/`Cutin05`가 차림 번호로 잘못 읽힘). 다음은 아래 각도 → 창 끝 → 행동 테스트
    - 이어지는 곳 각도: 펫이 이어 트는 모든 순서(사격 Start → Ing → End → Delay, 승리 포즈 Start → End, Move_Ing → Move_End, 총 꺼내기 → 무장 대기 등)에서 넘어가는 순간 몸 방향(골반, `clipTurns` 보정 포함) 차이가 20°를 넘으면 경고 (오늘 아리스 Victory_End 41° 같은 것)
    - 창 끝: 펫이 쓰는 모든 동작(EX 변형·승리 포즈 `_Random` 포함, 지금 edge-test는 `Exs`만 봄)이 창 안에 드는지
    - 동작 확인: 꼭 필요한 동작(`Cafe_Idle` 등)이 있는지, 처음 보는 이름 규칙(`01_` 접두사, 새 오타)이 있는지, 찾아낸 특징(차림 02, EX 여러 개, 장비 동작 `gearClips`, 짝 파일) 목록

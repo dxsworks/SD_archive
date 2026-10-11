@@ -13,6 +13,7 @@ const FACE_FRONT = 0;
 const FACE_BATTLE = THREE.MathUtils.degToRad(60); // 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림
 const FACE_SPREAD = THREE.MathUtils.degToRad(30);   // 평소 동작은 정면에서 이만큼 안쪽 아무 방향
 const BATTLE_SPREAD = THREE.MathUtils.degToRad(20); // 전투·EX는 FACE_BATTLE에서 이만큼 안쪽 아무 방향
+const RUN_SPREAD = THREE.MathUtils.degToRad(15);    // 전투 중 자리 옮기기: 도착해서 볼 방향에서 이만큼 흔들어 뛴다
 const HEAD_LIMIT = THREE.MathUtils.degToRad(45); // 얼굴이 카메라에서 이보다 돌아가면 그만큼 몸을 돌려 얼굴이 보이게
 const HEAD_FIX_MAX = THREE.MathUtils.degToRad(30); // 동작 하나 때문에 더 돌리는 건 이만큼까지 (재장전·구호 때 몸이 휙 돌지 않게)
 const FACE_NAP = THREE.MathUtils.degToRad(58);    // 뒤로 눕는 동작을 옆으로 눕는 것처럼 보이게
@@ -471,7 +472,7 @@ function chooseArmedBehavior() {
 
 // ---- 전투 모드 ----
 // BATTLE_TIME 동안 전투 대기 ↔ 무작위 총 동작을 반복하고, 승리 포즈로 끝낸다
-let battle = null;                 // { until, stance, ammo, side, aim, nextStance }
+let battle = null;                 // { until, stance, ammo, side, aim, engaged, next }
 let battleRest = 2;
 let lastBattleEnd = -Infinity;
 let runJumpAt = null;              // 뛰다가 남은 거리가 이만큼일 때 구르기
@@ -604,13 +605,30 @@ const switchStance = () => startRun({ switchStance: true });
 // 근처로 뛰어서 자리 옮기기 (가끔 뛰면서 구호, 가끔 중간에 구르기)
 function startRun({ switchStance = false } = {}) {
   if (!has('Move_Ing')) { callsign(); return; }
-  const angle = Math.random() * Math.PI * 2;
-  const target = pos.clone().add(new THREE.Vector3(Math.sin(angle), 0, Math.cos(angle)).multiplyScalar(rand(1, 2.5)));
-  floor.clamp(target);
-  const dist = target.distanceTo(pos);
+  // 도착해서 잡을 자세·방향을 먼저 정하고 그 방향으로 뛴다. Move_End는 뛰던 방향 그대로 멈추며 자세를 잡는 동작이라,
+  // 아무 방향으로 뛰다가 도착해서 겨누는 방향으로 돌리면 멈추는 순간 몸이 90~150° 휙 돈다
+  const stance = (switchStance || Math.random() < 0.4 ? otherStance(battle.stance) : null) ?? battle.stance;
+  const first = Math.random() < 0.3 ? -battle.side : battle.side; // 가끔 반대쪽을 겨누러 간다
+  let target = null, dist = 0, next = null;
+  for (const side of [first, -first]) { // 그쪽이 바닥 끝에 막혀 있으면 반대쪽으로
+    const aim = aimFace(side);
+    const dir = showFace(aim, stanceClips(stance)) + spread(RUN_SPREAD);
+    target = pos.clone().add(new THREE.Vector3(Math.sin(dir), 0, Math.cos(dir)).multiplyScalar(rand(1, 2.5)));
+    floor.clamp(target);
+    dist = target.distanceTo(pos);
+    next = { stance, side, aim };
+    if (dist >= 0.6) break;
+  }
+  // 앞쪽(카메라 쪽)이 막혀 있으면(창이 화면 아래 끝) 아무 방향으로. 이때는 뛰던 방향으로 멈춘 뒤 자세를 잡으며 돌아본다
+  for (let i = 0; i < 6 && dist < 0.6; i++) {
+    const dir = Math.random() * Math.PI * 2;
+    target = pos.clone().add(new THREE.Vector3(Math.sin(dir), 0, Math.cos(dir)).multiplyScalar(rand(1, 2.5)));
+    floor.clamp(target);
+    dist = target.distanceTo(pos);
+  }
   if (dist < 0.6) { callsign(); return; }
   walkTarget.copy(target);
-  battle.nextStance = switchStance ? otherStance(battle.stance) : null;
+  battle.next = next;
   const shout = has(RUN_CALLSIGN) && fitsForm(RUN_CALLSIGN) && Math.random() < 0.3;
   runJumpAt = !shout && has('Move_Jump') && dist > 1.6 && Math.random() < 0.3 ? dist * 0.6 : null;
   const rise = leaveSteps();
@@ -626,12 +644,12 @@ function run(shout) {
 }
 
 function arriveRun() {
-  // 도착하면 자세를 잡는다 (자세 바꾸기로 뛰었거나, 가끔 다른 자세로)
-  const next = battle.nextStance ?? (Math.random() < 0.4 ? otherStance(battle.stance) : battle.stance);
-  if (next && stanceReady(next)) battle.stance = next;
-  battle.aim = aimFace(battle.side);
+  // 도착하면 뛰기 전에 정해 둔 자세를 잡는다 (뛰던 방향 그대로 멈춘다)
+  const next = battle.next;
+  battle.next = null;
+  if (next) Object.assign(battle, { stance: next.stance, side: next.side, aim: next.aim });
   battle.engaged = false; // Move_End는 원래 자리에서 끝난다 → 다음 대기 때 Start로 나간다
-  playSequence([`Move_End_${battle.stance}`], { face: battleFace(), fade: 0.15 });
+  playSequence([`Move_End_${battle.stance}`], { face: facing, fade: 0.15 });
 }
 
 // EX를 쓰면 차림이 바뀌는 학생이 있다(수영복 호시노: 겉옷을 벗고 고래 튜브를 듦 = 02 동작들)

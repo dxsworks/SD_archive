@@ -145,11 +145,12 @@ const ANIM = {
   walk: ['Cafe_Walk', 'Move_Ing'],
   pickup: ['Formation_Pickup', 'Victory_Start', 'Cafe_Reaction'], // 편성 화면에서 학생을 집어 들었을 때 동작
   nap: ['Vital_Death'],
-  wake: ['Cafe_Reaction', 'Victory_Start'],
+  wake: ['Cafe_Reaction'], // 평소 모습과 다르면(아리스(배틀)) 승리 포즈로 대신
   ex: ['Exs'],
 };
-// 클릭 반응: 카페 반응 / 승리 포즈(두 번째 승리 포즈 _Random이 있으면 그것도) 무작위 (학생마다 승리 포즈에 총을 드는 경우가 있어 그때는 총이 0.25초 만에 생김)
-const REACTIONS = ['Cafe_Reaction', 'Victory_Start', 'Victory_Start_Random'];
+// 클릭 반응: 카페 반응 / 승리 포즈(Start → End 짝, 두 번째 짝 _Random이 있으면 그것도) 무작위
+// (Start만 틀면 포즈를 잡자마자 대기로 돌아가 너무 빨리 끝난 느낌이었음. 학생마다 승리 포즈에 총을 드는 경우가 있어 그때는 총이 0.25초 만에 생김)
+const REACTION = 'Cafe_Reaction';
 // 총을 든 동작들. 맨손 ↔ 총 든 동작을 넘나들 때마다 총이 0.25초 만에 생기고 사라지므로, 무장 중에 몰아서 쓴다
 const ARMED_IDLE = 'Formation_Idle';
 // 승리 포즈는 넣지 않는다(무장은 총을 들고 있어 전투처럼 보여서, 전투 중간에 승리 포즈가 나오는 것처럼 보였음). 승리 포즈는 평소·전투 끝에
@@ -509,7 +510,7 @@ function startWalk() {
 
 // 랜덤 행동 = 잠깐 무장 (이미 무장 중이면 총 든 동작 하나)
 const fidget = () => (armed ? armedFidget() : startArmed());
-const wakeUp = () => playSequence([calmClip('wake')], { fade: 0.8, onEnd: toIdle });
+const wakeUp = () => playSequence(calmOk(clipName('wake')) ? ['wake'] : victoryPose(), { fade: 0.8, onEnd: toIdle });
 
 function startNap() {
   if (!has(clipName('nap'))) { fidget(); return; }
@@ -801,8 +802,11 @@ function react() {
   lastInteraction = performance.now();
   if (state === 'nap') { wakeUp(); return; }
   if (battle) { battleReply(); return; } // 전투 중에는 구호나 재장전으로 대답하고 계속 싸운다
-  const calm = REACTIONS.filter((n) => has(n) && calmOk(n));
-  playSequence([pickRandom(armed ? ARMED_REACTIONS : calm.length ? calm : REACTIONS)]);
+  if (armed) { playSequence([pickRandom(ARMED_REACTIONS)]); return; }
+  const options = [...(has(REACTION) && calmOk(REACTION) ? [[REACTION]] : []), ...victoryPoses()];
+  if (!options.length) options.push([REACTION]);
+  const first = pickRandom(options.map(([name]) => name)); // 바로 전과 같은 반응은 되도록 피함
+  playSequence(options.find(([name]) => name === first) ?? [REACTION]);
 }
 
 // 승리 포즈: 전투가 끝날 때 말고도 평소에 가끔.

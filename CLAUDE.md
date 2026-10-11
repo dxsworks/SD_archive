@@ -41,6 +41,7 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
   - `npx electron tools/edge-test.js` 동작·방향별로 모델이 펫 창 끝에서 몇 px 떨어지는지(0 = 잘림)
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
+  - `npx electron tools/transition-review.js` 넘어가는 곳 확인 창(보이는 창, 사람이 씀, 정적 서버 불필요): 펫 상태 머신을 가상 시계로 30분 빨리 돌려(`__pet.simulate`) 실제로 이어 트는 곳을 모으고, 하나씩 펫과 똑같이 반복 재생(`__pet.replay`)해 이상함/괜찮음 표시 → `docs/data/transition-marks.json`. 펫 페이지 `?review`는 펫 창 크기에 1920×1040 바닥(걷기·뛰기 켬)
   - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.

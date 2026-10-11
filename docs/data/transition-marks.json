@@ -1186,7 +1186,7 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "bad",
     "note": "",
     "claude": "bad",
     "claudeEx": 0
@@ -1294,9 +1294,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -2050,7 +2050,7 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "bad",
     "note": "",
     "claude": "bad",
     "claudeEx": 0
@@ -2158,9 +2158,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -3132,7 +3132,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -3348,7 +3348,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -3454,7 +3454,7 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
     "claude": "ok",
     "claudeEx": 0
@@ -5290,9 +5290,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -5842,9 +5842,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -6144,7 +6144,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -6672,7 +6672,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -7068,7 +7068,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -7356,7 +7356,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    }
   ]
@@ -9198,7 +9198,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 1
    },
    {
@@ -11898,7 +11898,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -12006,7 +12006,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 1
    },
    {
@@ -12342,7 +12342,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -12750,7 +12750,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -12810,7 +12810,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 1
    },
    {
@@ -13314,7 +13314,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -13350,7 +13350,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -13566,7 +13566,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -13602,7 +13602,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -13638,7 +13638,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -14220,7 +14220,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -18216,7 +18216,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -18540,7 +18540,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 2
    },
    {
@@ -19080,7 +19080,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 1
    },
    {
@@ -19356,7 +19356,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -20532,7 +20532,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -20832,7 +20832,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -21012,7 +21012,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -21072,7 +21072,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -21288,7 +21288,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -21648,7 +21648,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -21792,7 +21792,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -22080,7 +22080,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -24282,7 +24282,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 1
    },
    {
@@ -24388,7 +24388,7 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "unsure",
     "note": "",
     "claude": "bad",
     "claudeEx": 1
@@ -25470,7 +25470,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -26010,7 +26010,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 3
    },
    {
@@ -26178,7 +26178,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 1
    },
    {
@@ -26346,7 +26346,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 1
    },
    {
@@ -26406,7 +26406,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -26526,7 +26526,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -27126,7 +27126,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -27198,7 +27198,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -27378,7 +27378,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -27414,7 +27414,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -27486,7 +27486,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -27594,7 +27594,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -27630,7 +27630,7 @@
     ],
     "mark": null,
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    }
   ]

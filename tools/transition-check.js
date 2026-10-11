@@ -15,6 +15,13 @@ const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'applic
 const DEFAULT_MODELS = ['Hoshino.glb', 'Hoshino (Swimsuit).glb', 'Shiroko.glb', 'Arisu (Battle).glb'];
 const SIM_SECONDS = 1800;
 const PX = 215; // 1 모델 단위 ≈ 215px (펫 창 기본 크기)
+// 판단 (2026-10-12 사용자 표시 19곳에 맞춘 것): 총 든 자세 동작(Normal_/Stand_/Kneel_, 총 꺼내기 Public)으로 넘어가는데
+// 그 동작은 별로 안 도는데 몸 전체가 50° 넘게 더 돌면 이상함. 평소 대기·승리 포즈·집어 들기처럼 정면 쪽 맨손 자세로 도는 것,
+// 걷기·뛰기를 시작하며 가는 쪽으로 도는 것은 괜찮음 (걷다 멈추며 150° 돌아 정면을 봐도 사용자는 괜찮다고 함)
+const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
+const MOVING = /^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i;
+const BAD_SPIN = 50;
+const verdict = (to, { spin, own }) => (GUN_POSE.test(to) && !MOVING.test(to) && spin >= BAD_SPIN && own < spin ? 'bad' : 'ok');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const wrap = (d) => ((((d + 180) % 360) + 360) % 360) - 180;
 
@@ -100,12 +107,13 @@ app.whenReady().then(async () => {
       }
       if (!per.length) continue;
       const worst = (k) => Math.max(...per.map((s) => s[k]));
-      rows.push({ key: p.key, count: p.count, mark: p.mark ?? null, spin: worst('spin'), own: per.reduce((a, s) => (s.spin > a.spin ? s : a)).own, gap: worst('gap'), slide: worst('slide'), twist: worst('twist'), examples: per });
+      const top = per.reduce((a, s) => (s.spin > a.spin ? s : a));
+      rows.push({ key: p.key, count: p.count, mark: p.mark ?? null, verdict: verdict(p.to, top), spin: worst('spin'), own: per.reduce((a, s) => (s.spin > a.spin ? s : a)).own, gap: worst('gap'), slide: worst('slide'), twist: worst('twist'), examples: per });
     }
     out[model] = rows;
     console.log(`\n== ${model} (${rows.length}곳)  spin 몸 전체가 더 돈 양° · own 뒤 동작이 원래 도는 양° · gap 넘어갈 때 몸 방향 차이° · slide 발 밀림px · twist 발끝 더 돈°`);
     for (const r of [...rows].sort((a, b) => b.spin - a.spin)) {
-      console.log(`${String(r.spin).padStart(4)} ${String(r.own).padStart(4)} ${String(r.gap).padStart(4)} ${String(r.slide).padStart(4)} ${String(r.twist).padStart(4)}  ${String(r.count).padStart(3)}번  ${r.key}${r.mark ? `  [${r.mark}]` : ''}`);
+      console.log(`${r.verdict === 'bad' ? '이상' : '    '} ${String(r.spin).padStart(4)} ${String(r.own).padStart(4)} ${String(r.gap).padStart(4)} ${String(r.slide).padStart(4)} ${String(r.twist).padStart(4)}  ${String(r.count).padStart(3)}번  ${r.key}${r.mark ? `  [${r.mark}]` : ''}`);
     }
   }
   fs.writeFileSync(METRICS, `${JSON.stringify(out, null, 1)}\n`);

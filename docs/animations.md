@@ -153,6 +153,6 @@
 2. 자세 확인: 서서(`Normal`)·엄폐(`Stand`)·무릎(`Kneel`, 129개) 중 그 학생에게 있는 자세만 쓴다(무릎 자세 학생은 모두 서서 자세도 있음). 구호가 없는 자세(`Kneel_Callsign`은 15개에만 있음)에서는 구호를 건너뛴다. 무릎 동작 방향 기준값(`clip-facing.js`)은 원래 호시노에 없어서 시로코(`Shiroko.glb`)에서 잰 값.
 3. 이름 변형 확인(위 1장의 "이름이 제각각인 경우"). `Vital_Dying_ing`, 번호 붙은 변형이 있으면 별칭 처리 필요.
 4. 무기 확인: [data/model-survey.json](data/model-survey.json)의 `weapons[].animatedIn`이 동작 수보다 훨씬 적은 무기는 호시노 방패처럼 기본 위치에 박혀 보일 수 있음(지금 규칙으로 자동으로 숨겨짐).
-5. 창 크기 확인: `tools/edge-test.js`로 동작별 창 끝 여백을 잰다(호시노는 EX가 가장 넓어 2:1 창이 필요했음).
+5. 창 크기 확인: `tools/edge-test.js`로 동작별 창 끝 여백을 잰다(호시노는 EX 돌진이 옆으로 약 1.3단위. 아리스(배틀) `Exs01`이 가장 커서 창을 4.0 × 2.3단위로 키웠음. `Exs02_01`처럼 edge-test 목록에 없는 동작은 따로 잼).
 6. 전투 방향(`FACE_BATTLE`), 낮잠 자세(`FACE_NAP`, `NAP_OFFSET`)는 호시노에 맞춘 값. 다른 학생은 애니메이션 보기 창과 `tools/render-sheet.js`로 확인 후 조정. 낮잠 위치는 자동으로 맞춤: 학생마다 쓰러지는 방향·거리가 달라(수영복 호시노·시로코는 머리가 창 오른쪽 밖으로 나갔음) 모델을 불러올 때 `Vital_Death` 끝 자세의 몸 가운데를 재서(`clip-facing.js` `ends`) 원래 호시노와 같은 자리(`NAP_BODY`)에 오도록 옮긴다. 낮잠 동작은 학생마다 따로 고르지 않고 모두 `Vital_Death`(총이 바닥에 떨어지고, 수영복 호시노는 선글라스도 날아감 — 그대로 두기로 결정).
 7. `tools/behavior-test.js`, `tools/battle-test.js`, `tools/sim-test.js`, `tools/retreat-test.js`로 확인 (`"--model=파일.glb"`로 테스트할 모델을 고른다).

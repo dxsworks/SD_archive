@@ -12,8 +12,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 app.whenReady().then(async () => {
   const win = new BrowserWindow({
     show: false,
-    width: 560,
-    height: 280,
+    width: 862,
+    height: 495,
     webPreferences: { offscreen: true, backgroundThrottling: false },
   });
   win.webContents.setFrameRate(60);

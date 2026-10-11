@@ -51,6 +51,7 @@ export function measureClips(root, animations, nameKey) {
   const fPelvis = forward(pelvis), fHead = forward(head);
   const yaw = (b, f) => { const v = f.clone().applyQuaternion(b.getWorldQuaternion(q)); return Math.atan2(v.x, v.z); };
 
+  const diffs = new Map(); // 묶음 → 각도 차이 합
   for (const clip of animations) {
     let px = 0, pz = 0, hx = 0, hz = 0;
     for (let k = 0; k < SAMPLES; k++) {
@@ -59,11 +60,21 @@ export function measureClips(root, animations, nameKey) {
       px += Math.sin(p); pz += Math.cos(p); hx += Math.sin(h); hz += Math.cos(h);
     }
     heads.set(clip.name, Math.atan2(hx, hz));
-    const ref = REFERENCE[nameKey(clip.name)];
+    const key = nameKey(clip.name);
+    const ref = REFERENCE[key];
     if (ref === undefined) continue;
+    // 전투 자세 동작(normal_*, stand_*, kneel_*)은 자세·차림마다 한 값으로 돌린다. 동작마다 따로 돌리면
+    // 대기 ↔ 사격처럼 이어지는 동작 사이에 몸이 20°씩 돌아간다(시로코 Normal_Idle만 기준을 넘어 돌던 일)
+    const stance = /^(normal|stand|kneel)_/.exec(key)?.[1];
+    const group = stance ? `${stance}|${/[a-z]0(\d)/i.exec(clip.name)?.[1] ?? '1'}` : clip.name;
     const d = THREE.MathUtils.degToRad(ref) - Math.atan2(px, pz);
-    const turn = Math.atan2(Math.sin(d), Math.cos(d));
-    if (Math.abs(turn) >= MIN_TURN) turns.set(clip.name, turn);
+    const g = diffs.get(group) ?? { x: 0, z: 0, names: [] };
+    g.x += Math.sin(d); g.z += Math.cos(d); g.names.push(clip.name);
+    diffs.set(group, g);
+  }
+  for (const { x, z, names } of diffs.values()) {
+    const turn = Math.atan2(x, z);
+    if (Math.abs(turn) >= MIN_TURN) for (const n of names) turns.set(n, turn);
   }
 
   mixer.stopAllAction();

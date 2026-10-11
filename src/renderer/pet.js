@@ -517,7 +517,7 @@ function beginBattle() {
     stance: stances[Math.floor(Math.random() * stances.length)],
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
-    engaged: false, // 엄폐·무릎 자세에서 엄폐물 밖으로 나가 있는지 (aimsAtRest 설명)
+    engaged: false, // 나간 자세(Attack_Ing·Attack_Delay)인지 (aimsAtRest 설명)
   };
   battle.aim = aimFace(battle.side);
   return true;
@@ -533,14 +533,15 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   if (victory) playSequence([...rise, ...VICTORY], { onEnd: toIdle });
 }
 
-// 무릎·엄폐 자세 동작은 두 자리에서 일어난다: Attack_Delay·Attack_Ing는 엄폐물 밖으로 나간 자리(원점에서 0.3쯤 비켜남),
-// Reload·Callsign·Idle·Move_End·EX는 원래 자리. Attack_Start가 나가는 동작, Attack_End가 돌아오는 동작이다.
-// 펫은 나간 자리의 Attack_Delay를 대기로 쓰므로(Idle은 몸이 돌아가 있어 안 씀), 원래 자리 동작을 하기 전엔 End로 돌아오고
-// 다시 대기할 땐 Start로 나간다 (안 그러면 순간이동하듯 0.3씩 튐. 사격마다 Start·End를 넣으면 쏘고 → 일어섰다 → 튀며 앉음).
-// 서서 쏘기(대기 = Normal_Idle)는 한 자리라 예전처럼 사격마다 Start → Ing → End → Delay
+// 전투 자세 동작은 두 자세(자리)로 나뉜다: Attack_Ing·Attack_Delay는 "나간" 자세, Idle·Reload·Callsign·Move_End·EX는 "원래" 자세.
+// Attack_Start가 나가는 동작, Attack_End가 돌아오는 동작이다. 학생·자세마다 그 차이가 다르다:
+//   엄폐·무릎은 엄폐물 밖으로 0.3쯤 옆으로 나가고(시로코·호시노), 수영복 호시노 02 서서 쏘기는 몸을 낮추고(골반 0.33 → 0.15),
+//   호시노 서서 쏘기는 거의 같다. 그래서 모든 자세에서 순서를 지킨다: 원래 자세 동작 앞엔 End, 나간 자세 동작 앞엔 Start
+//   (안 지키면 순간이동하듯 튐. 사격마다 Start → Ing → End → Delay로 하면 일어섰다 → 튀며 앉음).
+// 전투 대기는 엄폐·무릎이면 나간 자세의 Attack_Delay(Idle은 몸이 돌아가 있어 안 씀), 서서 쏘기면 원래 자세의 Normal_Idle
 const aimsAtRest = (st) => STANCE_IDLE[st] === `${st}_Attack_Delay`;
-const leaveSteps = () => (battle?.engaged && aimsAtRest(battle.stance) ? [`${battle.stance}_Attack_End`] : []);
-// 원래 자리에서 할 동작 앞에 (나가 있으면) 돌아오는 동작을 붙인다
+const leaveSteps = () => (battle?.engaged ? [`${battle.stance}_Attack_End`] : []);
+// 원래 자세에서 할 동작 앞에 (나가 있으면) 돌아오는 동작을 붙인다
 const fromCover = (steps) => {
   const back = leaveSteps();
   if (battle) battle.engaged = false;
@@ -549,9 +550,11 @@ const fromCover = (steps) => {
 
 function battleIdle() {
   if (performance.now() > battle.until) { endBattle({ victory: true }); return; }
-  if (aimsAtRest(battle.stance) && !battle.engaged) { // 원래 자리 동작(구호·재장전·EX·Move_End) 다음이면 Start로 나간다
-    battle.engaged = true;
-    playSequence([`${battle.stance}_Attack_Start`], { face: battleFace(), onEnd: battleIdle });
+  // 대기 동작과 지금 자세가 다르면 먼저 나가거나(Start) 돌아온다(End)
+  if (aimsAtRest(battle.stance) !== battle.engaged) {
+    const step = battle.engaged ? 'Attack_End' : 'Attack_Start';
+    battle.engaged = !battle.engaged;
+    playSequence([`${battle.stance}_${step}`], { face: battleFace(), onEnd: battleIdle });
     return;
   }
   setState('battle');
@@ -578,10 +581,8 @@ function burst() {
   if (!battle) { startBattle({ thenAttack: true }); return; }
   battle.ammo = Math.max(0, battle.ammo - 1);
   const shots = 1 + Math.floor(Math.random() * 3);
-  const [start, ing, end, delay] = ATTACK_STEPS.map((step) => `${battle.stance}_${step}`);
-  const steps = aimsAtRest(battle.stance)
-    ? [...(battle.engaged ? [] : [start]), ...Array(shots).fill(ing), delay]
-    : [start, ...Array(shots).fill(ing), end, delay];
+  const [start, ing, , delay] = ATTACK_STEPS.map((step) => `${battle.stance}_${step}`);
+  const steps = [...(battle.engaged ? [] : [start]), ...Array(shots).fill(ing), delay];
   battle.engaged = true;
   // 이어지도록 만들어진 동작들이라 단계 사이는 짧게 섞는다
   playSequence(steps, { face: battleFace(), stepFade: 0.08 });

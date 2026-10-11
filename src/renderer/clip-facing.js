@@ -24,14 +24,19 @@ const SAMPLES = 8;
 // 동작마다 잰 방향. nameKey: 동작 이름을 REFERENCE 키로 바꾸는 함수
 //   turns: 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도(라디안)
 //   heads: 동작 이름 → 머리(얼굴)가 평균적으로 보는 방향(라디안, Cafe_Idle = 0). 전투 동작은 얼굴이 총구보다 왼쪽을 본다
+//   ends: 동작 이름 → 동작이 끝난 순간 몸(머리·골반·손발 뼈를 감싸는 범위)의 가운데 (모델 기준 좌표, y = 0)
+//         쓰러짐처럼 몸이 멀리 옮겨 가는 동작에서 끝 자세가 창 가운데 오도록 맞출 때 쓴다
 export function measureClips(root, animations, nameKey) {
   const turns = new Map();
   const heads = new Map();
+  const ends = new Map();
   const bone = (re) => { let b = null; root.traverse((o) => { if (!b && re.test(o.name)) b = o; }); return b; };
   const pelvis = bone(/^bip001[ _]pelvis$/i);
   const head = bone(/^bip001[ _]head$/i);
   const base = animations.find((c) => c.name === 'Cafe_Idle');
-  if (!pelvis || !head || !base) return { turns, heads };
+  const limbs = [/^bip001[ _]l[ _]hand$/i, /^bip001[ _]r[ _]hand$/i, /^bip001[ _]l[ _]foot$/i, /^bip001[ _]r[ _]foot$/i].map(bone);
+  if (!pelvis || !head || !base) return { turns, heads, ends };
+  const body = [pelvis, head, ...limbs.filter(Boolean)];
 
   // 재는 동안 움직인 뼈·모프를 원래대로 되돌리려고 저장
   const saved = [];
@@ -60,6 +65,10 @@ export function measureClips(root, animations, nameKey) {
       px += Math.sin(p); pz += Math.cos(p); hx += Math.sin(h); hz += Math.cos(h);
     }
     heads.set(clip.name, Math.atan2(hx, hz));
+    pose(clip, Math.max(0, clip.duration - 1e-3)); // 끝 프레임 (duration에 딱 맞추면 처음으로 돌아감)
+    const box = new THREE.Box3();
+    for (const b of body) box.expandByPoint(root.worldToLocal(b.getWorldPosition(new THREE.Vector3())));
+    ends.set(clip.name, box.getCenter(new THREE.Vector3()).setY(0));
     const key = nameKey(clip.name);
     const ref = REFERENCE[key];
     if (ref === undefined) continue;
@@ -84,5 +93,5 @@ export function measureClips(root, animations, nameKey) {
     if (m) o.morphTargetInfluences.splice(0, m.length, ...m);
   }
   root.updateMatrixWorld(true);
-  return { turns, heads };
+  return { turns, heads, ends };
 }

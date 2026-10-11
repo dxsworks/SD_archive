@@ -300,6 +300,7 @@ function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
   if (once && onDone) doneCallbacks.set(action, onDone);
   if (action === currentAction && !once) return;
   const prev = currentAction;
+  if (transitionLog && prev) logTransition(prev, action, once, fade);
   usedActions.add(action);
   for (const a of usedActions) {
     if (a !== prev && a !== action) a.stop();
@@ -320,6 +321,28 @@ function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
   }
   currentAction = action;
   refreshWeapons();
+}
+
+// ---- 넘어가는 곳 기록 (확인 도구 tools/transition-review.js) ----
+// simulate 동안 동작이 바뀔 때마다 앞 동작과 끊긴 시각, 그 순간 몸 방향을 적는다.
+// 바뀐 뒤 볼 방향은 한 번 더 update가 지난 뒤에 채운다 (뛰기·걷기는 update에서 방향을 정함)
+let transitionLog = null;
+let updates = 0;
+const pendingLogs = [];
+function logTransition(prev, action, once, fade) {
+  const rec = {
+    from: prev.getClip().name, fromTime: prev.time, fromLoop: prev.loop === THREE.LoopRepeat,
+    to: action.getClip().name, toLoop: !once,
+    fade: prev !== action && fade > 0 && prev.enabled && prev.getEffectiveWeight() > 0.99 ? fade : 0,
+    yawBefore: pivot.rotation.y, pivotPos: pivot.position.toArray(), lift, form, at: updates,
+  };
+  transitionLog.push(rec);
+  pendingLogs.push(rec);
+}
+function fillTransitionLogs() {
+  while (pendingLogs.length && pendingLogs[0].at < updates) {
+    Object.assign(pendingLogs.shift(), { faceAfter: facing, state, pivotTarget: pivotTarget.toArray() });
+  }
 }
 
 // ---- 창 / 바닥 ----
@@ -347,6 +370,9 @@ function syncFloorFromWindow() {
   floor.clamp(pos);
 }
 
+// 행동 시간(무장·전투 끝나는 시각 등)을 재는 시계. 확인 도구가 상태 머신을 빨리 돌릴 때(simulate) 앞으로 당긴다
+let clockAhead = 0;
+const clock = () => performance.now() + clockAhead;
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrapAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const spread = (range) => (Math.random() * 2 - 1) * range;
@@ -404,7 +430,7 @@ const walkTarget = new THREE.Vector3();
 let fallVelocity = 0;
 let facing = FACE_FRONT;
 const pivotTarget = new THREE.Vector3(); // 자세에 따라 모델 위치 보정
-let lastInteraction = performance.now();
+let lastInteraction = clock();
 
 function setState(next) {
   state = next;
@@ -470,7 +496,7 @@ function startNap() {
 
 // ---- 잠깐 무장 ----
 let armed = null;                  // { until }
-const arm = () => { armed = { until: performance.now() + rand(...ARMED_TIME) * 1000 }; };
+const arm = () => { armed = { until: clock() + rand(...ARMED_TIME) * 1000 }; };
 
 function startArmed() {
   if (!has(ARMED_IDLE)) { toIdle(); return; }
@@ -488,7 +514,7 @@ function armedIdle() {
 const armedFidget = () => playSequence([pickRandom(ARMED_FIDGETS)]);
 
 function chooseArmedBehavior() {
-  if (performance.now() > armed.until) { armed = null; toIdle(); return; }
+  if (clock() > armed.until) { armed = null; toIdle(); return; }
   pickWeighted([
     [armedFidget, 60],
     [startBattle, battleReady() ? 10 : 0],
@@ -510,7 +536,7 @@ const otherStance = (st) => {
 };
 // 구호는 자세마다 있을 수도 없을 수도 있다 (Kneel_Callsign은 무릎 자세 학생 중 일부만)
 const hasCallsign = (st) => has(`${st}_Callsign`) && fitsForm(`${st}_Callsign`);
-const battleReady = () => (performance.now() - lastBattleEnd) / 1000 > BATTLE_COOLDOWN;
+const battleReady = () => (clock() - lastBattleEnd) / 1000 > BATTLE_COOLDOWN;
 // 한 자리에서는 같은 방향으로 싸우고, 뛰어서 자리를 옮기면 새로 정한다
 // 전투 자리 방향: 겨누는 쪽(aim)에서 그 자세의 대기·사격 동작 얼굴이 보이도록 돌린 방향
 const stanceClips = (st) => [STANCE_IDLE[st], ...ATTACK_STEPS.map((step) => `${st}_${step}`)];
@@ -540,7 +566,7 @@ function beginBattle() {
   armed = null;
   form = 1;
   battle = {
-    until: performance.now() + rand(...BATTLE_TIME) * 1000,
+    until: clock() + rand(...BATTLE_TIME) * 1000,
     stance: stances[Math.floor(Math.random() * stances.length)],
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
@@ -556,7 +582,7 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   const rise = leaveSteps(); // 무릎·엄폐 자세면 일어나고 나서 승리 포즈
   battle = null;
   if (!keepForm) form = 1;
-  lastBattleEnd = performance.now();
+  lastBattleEnd = clock();
   if (victory) playSequence([...rise, ...victoryPose()], { onEnd: toIdle });
 }
 
@@ -576,7 +602,7 @@ const fromCover = (steps) => {
 };
 
 function battleIdle() {
-  if (performance.now() > battle.until) { endBattle({ victory: true }); return; }
+  if (clock() > battle.until) { endBattle({ victory: true }); return; }
   // 대기 동작과 지금 자세가 다르면 먼저 나가거나(Start) 돌아온다(End)
   if (aimsAtRest(battle.stance) !== battle.engaged) {
     const step = battle.engaged ? 'Attack_End' : 'Attack_Start';
@@ -737,7 +763,7 @@ function updateRope() {
 
 function react() {
   if (state === 'drag' || state === 'fall' || !mixer) return;
-  lastInteraction = performance.now();
+  lastInteraction = clock();
   if (state === 'nap') { wakeUp(); return; }
   if (battle) { battleReply(); return; } // 전투 중에는 구호나 재장전으로 대답하고 계속 싸운다
   if (armed) { playSequence([pickRandom(ARMED_REACTIONS)]); return; }
@@ -755,7 +781,7 @@ const cheer = () => playSequence(victoryPose());
 
 // 대기 시간이 끝나면 다음 행동을 가중치로 고른다
 function chooseNextBehavior() {
-  const idleMinutes = (performance.now() - lastInteraction) / 60000;
+  const idleMinutes = (clock() - lastInteraction) / 60000;
   pickWeighted([
     [startWalk, settings.walk ? 40 : 0],
     [startArmed, 20],
@@ -781,7 +807,11 @@ const COMMANDS = {
 
 function update(dt) {
   stateTime += dt;
+  updates++;
   switch (state) {
+    case 'replay':
+      updateReplay();
+      break;
     case 'idle':
       if (lift > 0) { fallVelocity = 0; setState('fall'); }
       else if (stateTime > idleDuration) chooseNextBehavior();
@@ -793,7 +823,7 @@ function update(dt) {
       if (stateTime > napDuration) wakeUp();
       break;
     case 'battle':
-      if (performance.now() > battle.until) endBattle({ victory: true }); // 시간이 다 되면 대기 중 바로 마무리
+      if (clock() > battle.until) endBattle({ victory: true }); // 시간이 다 되면 대기 중 바로 마무리
       else if (stateTime > battleRest) battleAction();
       break;
     case 'run': {
@@ -847,6 +877,7 @@ function update(dt) {
       break;
   }
   placeWindow();
+  fillTransitionLogs();
   // 방향 전환과 자세 보정을 부드럽게
   pivot.rotation.y += wrapAngle(facing + clipTurn() - pivot.rotation.y) * Math.min(1, dt * 8); // clipTurn: 학생별 동작 방향 차이 보정
   pivot.position.lerp(pivotTarget, Math.min(1, dt * 3));
@@ -882,17 +913,27 @@ canvas.addEventListener('pointermove', (e) => {
   bridge.fx('move'); // 끄는 동안 트레일
   if (!drag.moved && Math.hypot(drag.cursor.x - drag.start.x, drag.cursor.y - drag.start.y) > 4) {
     drag.moved = true;
-    lastInteraction = performance.now();
+    lastInteraction = clock();
     // 잡은 지점과 발 사이의 거리를 캐릭터 크기 기준으로 기억 → 멀어져 작아져도 같은 곳을 잡고 있음
     const s = floor.toScreen(pos.x, pos.z, lift);
     const unit = floor.pxNear * s.scale;
     drag.offset = { x: (drag.start.x - s.x) / unit, y: (drag.start.y - s.y) / unit };
-    if (battle) { endBattle(); arm(); } // 집어 들면 전투는 끝 (총은 든 채로 무장 상태)
-    setState('drag');
-    facing = FACE_FRONT;
-    play(armed ? 'pickup' : calmClip('pickup'), { fade: 0.15 }); // 들고 있는 동안 반복
+    pickUp();
   }
 });
+
+function pickUp() {
+  if (battle) { endBattle(); arm(); } // 집어 들면 전투는 끝 (총은 든 채로 무장 상태)
+  setState('drag');
+  facing = FACE_FRONT;
+  play(armed ? 'pickup' : calmClip('pickup'), { fade: 0.15 }); // 들고 있는 동안 반복
+}
+
+function drop() {
+  drag = null;
+  fallVelocity = 0;
+  setState('fall');
+}
 
 function updateDrag(dt) {
   lift += (DRAG_LIFT - lift) * Math.min(1, dt * 12);
@@ -921,28 +962,30 @@ async function switchMonitor(cursor) {
 
 let lastClickAt = 0;
 function handleClick() {
-  const now = performance.now();
+  const now = clock();
   const isDouble = now - lastClickAt < 350;
   lastClickAt = isDouble ? 0 : now;
   if (state === 'ex') return; // EX 스킬은 끝까지 보여준다
   if (isDouble && state !== 'nap' && has(clipName('ex'))) {
     lastInteraction = now;
-    if (!battle) beginBattle(); // 더블클릭 EX는 전투 모드로 이어진다 (구호 없이 바로 EX)
-    exSkill(); // 더블클릭: 첫 클릭의 반응을 끊고 EX 스킬
+    doubleClickEx();
   } else {
     react();
   }
 }
 
+// 더블클릭: 첫 클릭의 반응을 끊고 EX 스킬. 전투 모드로 이어진다 (구호 없이 바로 EX)
+function doubleClickEx() {
+  if (!battle) beginBattle();
+  exSkill();
+}
+
 function endDrag(e) {
   if (!drag) return;
   bridge.fx(e?.type === 'pointercancel' ? 'cancel' : 'up');
-  const wasDragged = drag.moved;
-  drag = null;
-  if (wasDragged) {
-    fallVelocity = 0;
-    setState('fall');
-  } else {
+  if (drag.moved) drop();
+  else {
+    drag = null;
     handleClick();
   }
 }
@@ -973,11 +1016,12 @@ function updateMousePassthrough() {
 
 // ---- 메인 루프 (가만히 있을 땐 30fps, 움직일 땐 60fps) ----
 let lastFrame = performance.now();
+let speed = 1; // 느린 재생 (__pet.timeScale)
 function frame(now) {
   requestAnimationFrame(frame);
   const targetFps = state === 'idle' || state === 'nap' ? 30 : 60;
   if (now - lastFrame < 1000 / targetFps - 2) return;
-  const dt = Math.min((now - lastFrame) / 1000, 0.1);
+  const dt = Math.min((now - lastFrame) / 1000, 0.1) * speed;
   lastFrame = now;
 
   if (renderer.getPixelRatio() !== window.devicePixelRatio) layout(); // 배율이 다른 모니터로 옮겨졌을 때
@@ -1025,21 +1069,84 @@ window.__pet = {
   get gearClips() { return [...gearClips]; },
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
-  set timeScale(f) { mixer.timeScale = f; }, // 동작 확인용 느린 재생
+  set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },
-  get armed() { return armed && { left: Math.round((armed.until - performance.now()) / 1000) }; },
-  armFor(seconds) { endBattle(); startArmed(); if (armed) armed.until = performance.now() + seconds * 1000; },
-  get battle() { return battle && { ...battle, form, left: Math.round((battle.until - performance.now()) / 1000) }; },
+  get armed() { return armed && { left: Math.round((armed.until - clock()) / 1000) }; },
+  armFor(seconds) { endBattle(); startArmed(); if (armed) armed.until = clock() + seconds * 1000; },
+  get battle() { return battle && { ...battle, form, left: Math.round((battle.until - clock()) / 1000) }; },
   // stance: 시험용으로 전투 자세 고정 ('Normal' | 'Stand' | 'Kneel', 그 학생에게 있을 때)
   battleFor(seconds, stance) {
     endBattle(); startBattle();
     if (!battle) return;
-    battle.until = performance.now() + seconds * 1000;
+    battle.until = clock() + seconds * 1000;
     if (stance && stanceReady(stance)) battle.stance = stance;
   },
   run() { if (battle) startRun(); }, // 전투 중 뛰어서 자리 옮기기
+  simulate,
+  replay: startReplay,
 };
+
+// ---- 넘어가는 곳 확인 도구용 (tools/transition-review.js) ----
+// 상태 머신을 가상 시계로 seconds초만큼 한 번에 돌려(그리지 않음) 넘어가는 곳 기록을 돌려준다.
+// 가끔 사람이 하는 것(클릭, 더블클릭 EX, 집어 들었다 놓기, 메뉴 전투)을 섞는다
+const POKES = [
+  [() => react(), 50],
+  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) doubleClickEx(); }, 15],
+  [() => { drag = { moved: true, offset: null }; pickUp(); }, 15],
+  [() => COMMANDS.battle(), 20],
+];
+function simulate(seconds, { dt = 1 / 30, poke = [5, 40] } = {}) {
+  transitionLog = [];
+  pendingLogs.length = 0;
+  let nextPoke = rand(...poke);
+  for (let t = 0; t < seconds; t += dt) {
+    clockAhead += dt * 1000;
+    if (t >= nextPoke && !['drag', 'fall', 'retreat', 'gone'].includes(state)) {
+      pickWeighted(POKES)();
+      lastInteraction = clock();
+      nextPoke = t + rand(...poke);
+    }
+    if (state === 'drag' && stateTime > 1.5) drop();
+    update(dt);
+    mixer.update(dt);
+  }
+  fillTransitionLogs();
+  const log = transitionLog.filter((r) => r.faceAfter !== undefined);
+  transitionLog = null;
+  return log;
+}
+
+// 기록 하나를 펫과 똑같이 반복해서 보여 준다: 앞 동작을 끊긴 시각 REPLAY_LEAD초 전부터 틀다가 그때 몸 방향 그대로 넘어가고
+// REPLAY_TAIL초 더 본 뒤 처음부터 (상태 'replay', 다른 행동은 안 함)
+const REPLAY_LEAD = 1;
+const REPLAY_TAIL = 1.5;
+let replaying = null;
+function startReplay(rec) {
+  endBattle();
+  armed = null; drag = null;
+  setState('replay');
+  form = rec.form;
+  lift = rec.lift;
+  mixer.stopAllAction();
+  currentAction = null;
+  facing = rec.yawBefore - (clipTurns.get(rec.from) ?? 0);
+  play(rec.from, { once: !rec.fromLoop, fade: 0 });
+  currentAction.time = Math.max(0, rec.fromTime - REPLAY_LEAD);
+  replaying = { rec, lead: rec.fromTime - currentAction.time, switched: false };
+  pivot.rotation.y = rec.yawBefore;
+  pivot.position.fromArray(rec.pivotPos);
+  pivotTarget.fromArray(rec.pivotPos);
+}
+function updateReplay() {
+  const { rec, lead, switched } = replaying;
+  if (!switched && stateTime >= lead) {
+    replaying.switched = true;
+    facing = rec.faceAfter;
+    pivotTarget.fromArray(rec.pivotTarget);
+    play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+  } else if (switched && stateTime >= lead + rec.fade + REPLAY_TAIL) startReplay(rec);
+}
 
 main().catch((err) => console.error('펫 초기화 실패:', err));
 
@@ -1049,7 +1156,9 @@ function createBrowserStub() {
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   const W = 862, H = 495; // main.js SIZES.medium과 같게
-  const area = () => ({ x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });
+  // ?review: 넘어가는 곳 확인 도구. 페이지는 펫 창 크기 그대로, 바닥은 1920×1040 바탕화면인 셈 치고 걷기·뛰기도 한다
+  const review = q.has('review');
+  const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });
   if (sim) {
     document.body.classList.add('sim');
     Object.assign(canvas.style, {
@@ -1059,11 +1168,11 @@ function createBrowserStub() {
   }
   const winRect = () => (sim
     ? { x: parseFloat(canvas.style.left), y: parseFloat(canvas.style.top), width: W, height: H }
-    : area());
+    : review ? { x: (1920 - W) / 2, y: 1040 - H, width: W, height: H } : area());
   return {
     readModel: () => fetch(new URL(`../../models/${encodeURIComponent(model)}`, import.meta.url)).then((r) => r.arrayBuffer()),
     readModelFile: (name) => fetch(new URL(`../../models/${encodeURIComponent(name)}`, import.meta.url)).then((r) => r.arrayBuffer()),
-    getSettings: async () => ({ walk: sim, model }),
+    getSettings: async () => ({ walk: sim || review, model }),
     getBounds: async () => ({ win: winRect(), workArea: area() }),
     getWorkArea: async () => area(),
     move(x, y) { if (sim) Object.assign(canvas.style, { left: `${x}px`, top: `${y}px` }); },

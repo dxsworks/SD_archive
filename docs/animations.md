@@ -69,9 +69,9 @@
 | 대기 (3~8초마다 다음 행동 고름) | `Cafe_Idle` |
 | 걷기 (바닥 위 아무 방향) | `Cafe_Walk` |
 | 랜덤 행동 | **잠깐 무장** (아래) |
-| 클릭 반응 | `Cafe_Reaction` / `Victory_Start` / `Victory_Start_Random` 중 있는 것 무작위 (평소 대기와 장비 모습이 다른 동작은 뺌, 아래) |
+| 클릭 반응 | `Cafe_Reaction` / 승리 포즈 `Victory_Start → Victory_End` / `Victory_Start_Random → Victory_End_Random` 중 있는 것 무작위 (평소 대기와 장비 모습이 다른 동작은 뺌, 아래). 예전엔 `Victory_Start`만 틀어서 포즈를 잡자마자 끝나 너무 짧았음 |
 | 승리 포즈 (랜덤 행동) | `Victory_Start → Victory_End` 또는 `Victory_Start_Random → Victory_End_Random`(있으면, 약 35개 모델) 무작위 (전투 끝 말고도 평소에 가끔. 평소 대기와 장비 모습이 다른 짝은 뺌 — 수영복 호시노 `_Random`은 02 차림 모습이라 안 씀) |
-| 낮잠 (2분 이상 방치하면 확률↑) | `Vital_Death`로 쓰러져 20~45초 → 클릭하거나 시간이 되면 `Cafe_Reaction`(장비 모습이 바뀌면 `Victory_Start`)으로 기상 |
+| 낮잠 (2분 이상 방치하면 확률↑) | `Vital_Death`로 쓰러져 20~45초 → 클릭하거나 시간이 되면 `Cafe_Reaction`(장비 모습이 바뀌면 승리 포즈 짝)으로 기상 |
 | 집어 들기 (드래그 중 반복) | `Formation_Pickup` (평소 대기와 장비 모습이 다르면 `Victory_Start` → `Cafe_Reaction` 순으로 대신. 무장·전투 중엔 그대로) |
 | 더블클릭 | `Exs` (방패 돌진) |
 | 종료 | 바로 `Vital_Retreat`(밧줄 잡는 자세, π−60° ±15°) → 위에서 밧줄이 0.35초 동안 손으로 내려옴 → 0.5초부터 점점 빨라지며 똑바로 끌려 올라가 화면 위로 나가면 종료(약 2초, 최대 3초). 밧줄은 두 손 뼈 사이에서 창 위 끝까지, 위쪽은 투명하게 |

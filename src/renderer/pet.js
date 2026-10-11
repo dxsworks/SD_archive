@@ -141,7 +141,7 @@ const weaponMeshes = [];
 
 // 동작 이름 목록. 학생마다 없는 동작이 있으니 앞에서부터 있는 것을 쓴다.
 const ANIM = {
-  idle: ['Cafe_Idle', 'Normal_Idle', 'Formation_Idle'],
+  idle: ['Cafe_Idle', 'Normal_Idle'],
   walk: ['Cafe_Walk', 'Move_Ing'],
   pickup: ['Formation_Pickup', 'Victory_Start', 'Cafe_Reaction'], // 편성 화면에서 학생을 집어 들었을 때 동작
   nap: ['Vital_Death'],
@@ -152,7 +152,9 @@ const ANIM = {
 // (Start만 틀면 포즈를 잡자마자 대기로 돌아가 너무 빨리 끝난 느낌이었음. 학생마다 승리 포즈에 총을 드는 경우가 있어 그때는 총이 0.25초 만에 생김)
 const REACTION = 'Cafe_Reaction';
 // 총을 든 동작들. 맨손 ↔ 총 든 동작을 넘나들 때마다 총이 0.25초 만에 생기고 사라지므로, 무장 중에 몰아서 쓴다
-const ARMED_IDLE = 'Formation_Idle';
+// 무장 대기는 서서 쏘기 대기. 편성 대기(Formation_Idle)는 쓰지 않는다 (사용자 결정 2026-10-11): 구호·재장전·총 꺼내기는 전투 자세(발을 앞뒤로 벌림)라
+// 편성 대기(발을 나란히, 정면)와 오갈 때마다 발이 바닥에서 50~95° 비틀렸다
+const ARMED_IDLE = 'Normal_Idle';
 // 승리 포즈는 넣지 않는다(무장은 총을 들고 있어 전투처럼 보여서, 전투 중간에 승리 포즈가 나오는 것처럼 보였음). 승리 포즈는 평소·전투 끝에
 // 구호·재장전은 카페 동작이 있는 모델 265개 중 약 177개, Rearrange_*는 2~3개에만 있음
 const ARMED_FIDGETS = ['Normal_Callsign', 'Normal_Callsign_Random', 'Normal_Reload', 'Rearrange_Idle'];

@@ -91,7 +91,7 @@
 | 단계 | 동작 |
 |---|---|
 | 시작 | `Public01`(총 꺼내기: 빈손으로 손짓하다 끝에 총을 듦) → 무장 대기. 없는 학생은 바로 무장 대기(총이 0.25초 만에 생김) |
-| 무장 대기 (3~8초마다 다음 행동 고름) | `Formation_Idle` |
+| 무장 대기 (3~8초마다 다음 행동 고름) | `Normal_Idle` (서서 쏘기 대기). **`Formation_Idle`은 안 씀**(사용자 결정): 구호·재장전·총 꺼내기는 전투 자세(발을 앞뒤로 벌림)라 편성 대기(발을 나란히)와 오갈 때마다 발이 바닥에서 50~95° 비틀렸음 |
 | 랜덤 행동 | `Normal_Callsign`, `Normal_Callsign_Random`, `Normal_Reload`, `Rearrange_Idle` 중 그 학생에게 있는 것 하나 (가중치 60), 그냥 대기 30, 전투 모드 10 (쿨다운 90초) |
 | 클릭 반응 | `Normal_Callsign`, `Normal_Callsign_Random`, `Rearrange_Reaction` 중 하나 |
 

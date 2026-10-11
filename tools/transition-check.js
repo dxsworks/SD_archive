@@ -1,7 +1,8 @@
 // 넘어가는 곳 재기 (화면 밖, 정적 서버 불필요): docs/data/transition-marks.json에 모아 둔 넘어가는 곳(없으면 펫을 빨리 돌려 모음)을
 // 펫과 똑같이 넘기며(__pet.measure) 몸 전체가 더 도는 양과 바닥에 닿은 발이 미끄러지고 도는 양을 잰다.
 // 뒤 동작만 틀 때 원래 움직이는 만큼은 뺀다. 결과는 docs/data/transition-metrics.json
-// 사용: npx electron tools/transition-check.js ["모델.glb" …]   (없으면 확인 창의 기본 네 학생)
+// 사용: npx electron tools/transition-check.js ["모델.glb" …] [--turn=A|B|C]   (모델이 없으면 확인 창의 기본 네 학생)
+//   --turn: 총 자세로 넘어갈 때 몸 방향 잇기 방법(pet.js carryTurn)을 바꿔 잼. A가 아니면 transition-metrics.turn-<방법>.json에 저장
 const { app, BrowserWindow } = require('electron');
 const http = require('http');
 const path = require('path');
@@ -68,8 +69,10 @@ function score(trans, alone) {
 app.whenReady().then(async () => {
   const port = await serve();
   const models = process.argv.slice(2).filter((a) => a.endsWith('.glb'));
+  const turn = process.argv.find((a) => a.startsWith('--turn='))?.slice(7) ?? 'A';
+  const metricsFile = turn === 'A' ? METRICS : METRICS.replace(/\.json$/, `.turn-${turn}.json`);
   const marks = fs.existsSync(MARKS) ? JSON.parse(fs.readFileSync(MARKS, 'utf8')) : {};
-  const out = fs.existsSync(METRICS) ? JSON.parse(fs.readFileSync(METRICS, 'utf8')) : {};
+  const out = fs.existsSync(metricsFile) ? JSON.parse(fs.readFileSync(metricsFile, 'utf8')) : {};
   const win = new BrowserWindow({ show: false, width: 862, height: 495, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) console.log('[page]', m); });
   const js = (code) => win.webContents.executeJavaScript(code);
@@ -97,6 +100,7 @@ app.whenReady().then(async () => {
       };
       fs.writeFileSync(MARKS, `${JSON.stringify(marks, null, 1)}\n`);
     }
+    await js(`__pet.turnMode = '${turn}'`);
     const rows = [];
     for (const p of marks[model].pairs) {
       const per = [];
@@ -116,6 +120,6 @@ app.whenReady().then(async () => {
       console.log(`${r.verdict === 'bad' ? '이상' : '    '} ${String(r.spin).padStart(4)} ${String(r.own).padStart(4)} ${String(r.gap).padStart(4)} ${String(r.slide).padStart(4)} ${String(r.twist).padStart(4)}  ${String(r.count).padStart(3)}번  ${r.key}${r.mark ? `  [${r.mark}]` : ''}`);
     }
   }
-  fs.writeFileSync(METRICS, `${JSON.stringify(out, null, 1)}\n`);
+  fs.writeFileSync(metricsFile, `${JSON.stringify(out, null, 1)}\n`);
   app.quit();
 });

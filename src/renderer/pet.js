@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsRevealingParts } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips } from './clip-facing.js';
 
@@ -135,6 +135,7 @@ let clips = {};
 let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도
 let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
 let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가운데 (모델 기준)
+let gearClips = new Set(); // 평소 대기에서 숨겨진 장비 등을 보이게 하는 동작 (아리스(배틀) 등 뒤 장비). 평소 상태에서는 피한다
 let currentAction = null;
 const weaponMeshes = [];
 
@@ -202,6 +203,7 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   indexClips();
+  gearClips = clipsRevealingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
@@ -257,6 +259,10 @@ const fitsForm = (name) => currentForm() === 1
   || Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
 const first = (names) => names.find(has) ?? Object.keys(clips)[0];
 const clipName = (name) => (ANIM[name] ? first(ANIM[name]) : name);
+// 평소(맨손) 상태에 틀어도 되는 동작인지: 숨겨 둔 장비를 꺼내 보이는 동작은 무장·전투 때만
+const calmOk = (name) => !gearClips.has(resolve(name));
+// 평소 상태용: 목록에서 장비가 안 나오는 첫 동작 (전부 나오면 원래대로)
+const calmClip = (key) => ANIM[key].filter(has).find(calmOk) ?? clipName(key);
 
 // 무기는 "지금 동작이 그 무기의 뼈대를 움직일 때만" 보인다. 보이는 동안 실제로 들지 말지는 애니메이션이 정한다.
 // - 총: 모든 동작에 움직임이 있고, 카페 동작은 크기를 0으로 줄여 숨긴다 → 편성·승리·쓰러짐 등에선 자연스럽게 듦
@@ -736,7 +742,8 @@ function react() {
   lastInteraction = performance.now();
   if (state === 'nap') { wakeUp(); return; }
   if (battle) { battleReply(); return; } // 전투 중에는 구호나 재장전으로 대답하고 계속 싸운다
-  playSequence([pickRandom(armed ? ARMED_REACTIONS : REACTIONS)]);
+  const calm = REACTIONS.filter((n) => has(n) && calmOk(n));
+  playSequence([pickRandom(armed ? ARMED_REACTIONS : calm.length ? calm : REACTIONS)]);
 }
 
 // 승리 포즈: 전투가 끝날 때 말고도 평소에 가끔
@@ -749,7 +756,7 @@ function chooseNextBehavior() {
     [startWalk, settings.walk ? 40 : 0],
     [startArmed, 20],
     [startBattle, battleReady() ? 8 : 0],
-    [cheer, has(VICTORY[0]) ? 8 : 0],
+    [cheer, has(VICTORY[0]) && VICTORY.every(calmOk) ? 8 : 0],
     [startNap, idleMinutes > 2 ? 25 : 3], // 오래 안 건드리면 졸기 쉬움
     [toIdle, 12],
   ])();
@@ -879,7 +886,7 @@ canvas.addEventListener('pointermove', (e) => {
     if (battle) { endBattle(); arm(); } // 집어 들면 전투는 끝 (총은 든 채로 무장 상태)
     setState('drag');
     facing = FACE_FRONT;
-    play('pickup', { fade: 0.15 }); // 들고 있는 동안 반복
+    play(armed ? 'pickup' : calmClip('pickup'), { fade: 0.15 }); // 들고 있는 동안 반복
   }
 });
 
@@ -1008,6 +1015,7 @@ window.__pet = {
   get clip() { return currentAction?.getClip().name; },
   get yaw() { return Math.round(THREE.MathUtils.radToDeg(pivot.rotation.y)); }, // 실제로 돌아가 있는 각도(도)
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get gearClips() { return [...gearClips]; },
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { mixer.timeScale = f; }, // 동작 확인용 느린 재생

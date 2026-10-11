@@ -5241,14 +5241,14 @@
    "count": 1,
    "mark": null,
    "verdict": "ok",
-   "spin": 13,
+   "spin": 12,
    "own": 61,
    "gap": 4,
    "slide": 39,
    "twist": 69,
    "examples": [
     {
-     "spin": 13,
+     "spin": 12,
      "own": 61,
      "gap": 4,
      "slide": 39,

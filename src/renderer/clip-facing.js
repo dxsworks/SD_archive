@@ -25,22 +25,33 @@ const REFERENCE = {
 const FOLLOW = { public: 'normal', normal_public: 'normal', normal_callsign_random: 'normal' };
 const MIN_TURN = THREE.MathUtils.degToRad(20); // 이보다 작은 차이는 그냥 둔다
 const SAMPLES = 8;
+const HIP_AT = 0.15; // 넘어갈 때 섞는 시간(0.2초 안팎) 동안의 자세
+
+// 두 허벅지 뼈를 잇는 선의 방향(라디안, space 기준 Y축 회전). 몸 전체가 보는 쪽이 돌면 같이 돈다
+export function hipYaw(thighs, space) {
+  const [a, b] = thighs.map((t) => space.worldToLocal(t.getWorldPosition(new THREE.Vector3())));
+  return Math.atan2(b.x - a.x, b.z - a.z);
+}
+export const thighBones = (root) => ['L', 'R'].map((s) => root.getObjectByName(`Bip001_${s}_Thigh`));
 
 // 동작마다 잰 방향. nameKey: 동작 이름을 REFERENCE 키로 바꾸는 함수
 //   turns: 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도(라디안)
 //   heads: 동작 이름 → 머리(얼굴)가 평균적으로 보는 방향(라디안, Cafe_Idle = 0). 전투 동작은 얼굴이 총구보다 왼쪽을 본다
+//   hips: 동작 이름 → 막 시작했을 때(HIP_AT초) 두 허벅지 뼈를 잇는 선의 방향(라디안, 모델 기준). 넘어갈 때 몸 방향을 이어 붙이는 데 씀
 //   ends: 동작 이름 → 동작이 끝난 순간 몸(머리·골반·손발 뼈를 감싸는 범위)의 가운데 (모델 기준 좌표, y = 0)
 //         쓰러짐처럼 몸이 멀리 옮겨 가는 동작에서 끝 자세가 창 가운데 오도록 맞출 때 쓴다
 export function measureClips(root, animations, nameKey) {
   const turns = new Map();
   const heads = new Map();
   const ends = new Map();
+  const hips = new Map();
+  const thighs = thighBones(root);
   const bone = (re) => { let b = null; root.traverse((o) => { if (!b && re.test(o.name)) b = o; }); return b; };
   const pelvis = bone(/^bip001[ _]pelvis$/i);
   const head = bone(/^bip001[ _]head$/i);
   const base = animations.find((c) => c.name === 'Cafe_Idle');
   const limbs = [/^bip001[ _]l[ _]hand$/i, /^bip001[ _]r[ _]hand$/i, /^bip001[ _]l[ _]foot$/i, /^bip001[ _]r[ _]foot$/i].map(bone);
-  if (!pelvis || !head || !base) return { turns, heads, ends };
+  if (!pelvis || !head || !base) return { turns, heads, ends, hips };
   const body = [pelvis, head, ...limbs.filter(Boolean)];
 
   // 재는 동안 움직인 뼈·모프를 원래대로 되돌리려고 저장
@@ -71,6 +82,10 @@ export function measureClips(root, animations, nameKey) {
       px += Math.sin(p); pz += Math.cos(p); hx += Math.sin(h); hz += Math.cos(h);
     }
     heads.set(clip.name, Math.atan2(hx, hz));
+    if (thighs.every(Boolean)) {
+      pose(clip, Math.min(HIP_AT, clip.duration));
+      hips.set(clip.name, hipYaw(thighs, root));
+    }
     pose(clip, Math.max(0, clip.duration - 1e-3)); // 끝 프레임 (duration에 딱 맞추면 처음으로 돌아감)
     const box = new THREE.Box3();
     for (const b of body) box.expandByPoint(root.worldToLocal(b.getWorldPosition(new THREE.Vector3())));
@@ -107,5 +122,5 @@ export function measureClips(root, animations, nameKey) {
     if (m) o.morphTargetInfluences.splice(0, m.length, ...m);
   }
   root.updateMatrixWorld(true);
-  return { turns, heads, ends };
+  return { turns, heads, ends, hips };
 }

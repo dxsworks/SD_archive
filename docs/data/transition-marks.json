@@ -27638,11 +27638,7 @@
  "__ask": [
   {
    "model": "Hoshino.glb",
-   "key": "Cafe_Walk → Cafe_Idle"
-  },
-  {
-   "model": "Hoshino.glb",
-   "key": "Stand_Attack_End → Move_Ing"
+   "key": "Public01 → Normal_Idle"
   },
   {
    "model": "Hoshino.glb",
@@ -27650,23 +27646,23 @@
   },
   {
    "model": "Hoshino.glb",
-   "key": "Normal_Idle → Cafe_Idle"
-  },
-  {
-   "model": "Hoshino.glb",
    "key": "Move_End_Normal → Normal_Idle"
   },
   {
-   "model": "Hoshino.glb",
-   "key": "Stand_Attack_End → Victory_Start"
+   "model": "Hoshino (Swimsuit).glb",
+   "key": "Normal01_Public01 → Normal_Idle01"
   },
   {
-   "model": "Hoshino.glb",
-   "key": "Cafe_Walk → Formation_Pickup"
+   "model": "Shiroko.glb",
+   "key": "Public01 → Normal_Idle"
   },
   {
    "model": "Arisu (Battle).glb",
-   "key": "Normal_Idle → Normal_Callsign_Random"
+   "key": "Normal_Attack_Delay → Normal_Attack_End"
+  },
+  {
+   "model": "Arisu (Battle).glb",
+   "key": "Normal_Callsign_Random → Normal_Idle"
   }
  ]
 }

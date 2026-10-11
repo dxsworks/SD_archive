@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
 import { hiddenPartsUpdater, clipsChangingParts } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
-import { measureClips } from './clip-facing.js';
+import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
   DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, clipKey, indexClips, exVariants as exVariantsOf,
@@ -139,6 +139,8 @@ let clips = {};
 let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도
 let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
 let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가운데 (모델 기준)
+let clipHips = new Map();  // 동작 이름 → 막 시작했을 때 몸(허벅지 선) 방향 (모델 기준)
+let thighs = [];
 let gearClips = new Set(); // 평소 대기와 장비 모습이 다른 동작 (아리스(배틀) 등 뒤 장비가 생기거나 사라짐). 평소 상태에서는 피한다
 let currentAction = null;
 const weaponMeshes = [];
@@ -229,7 +231,8 @@ async function loadModel() {
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   ({ index: clipIndex, forms } = indexClips(Object.keys(clips)));
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
-  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
+  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
+  thighs = thighBones(gltf.scene).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -321,6 +324,24 @@ function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
   }
   currentAction = action;
   refreshWeapons();
+  if (prev !== action) carryTurn(action.getClip().name);
+}
+
+// ---- 총 든 자세로 넘어갈 때 몸이 휙 도는 것 (비교 중: tools/transition-review.js) ----
+// 총 자세 동작으로 넘어가는 순간, 펫이 정한 방향과 그 동작 자세가 지금 몸 방향과 달라 몸 전체가 0.2~0.3초 만에 50~110° 돌았다
+// (사용자 판단: 맨손으로 정면을 보며 도는 건 괜찮고, 총 자세로 휙 도는 게 이상함).
+//   A 그대로 / B 넘어가는 순간엔 지금 몸 방향을 이어 받고 천천히(약 1초) 원래 방향으로 / C 이어 받은 방향을 총 자세 동안 유지
+// carry: 펫 방향(facing)에 더 돌리는 각도. 맨손 동작으로 넘어가면 0 (정면으로 돌아옴)
+const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
+const CARRY_MAX = THREE.MathUtils.degToRad(120);
+const CARRY_EASE = 2; // B: 1초에 86% 풀림
+let turnMode = new URLSearchParams(location.search).get('turn') ?? 'A';
+let carry = 0;
+function carryTurn(name) {
+  if (turnMode === 'A' || !GUN_POSE.test(name) || thighs.length < 2 || !clipHips.has(name)) { carry = 0; return; }
+  const body = hipYaw(thighs, root); // 지금 몸 방향 (펫 회전 포함)
+  const planned = facing + (clipTurns.get(name) ?? 0) + clipHips.get(name);
+  carry = THREE.MathUtils.clamp(wrapAngle(body - planned), -CARRY_MAX, CARRY_MAX);
 }
 
 // ---- 넘어가는 곳 기록 (확인 도구 tools/transition-review.js) ----
@@ -879,7 +900,8 @@ function update(dt) {
   placeWindow();
   fillTransitionLogs();
   // 방향 전환과 자세 보정을 부드럽게
-  pivot.rotation.y += wrapAngle(facing + clipTurn() - pivot.rotation.y) * Math.min(1, dt * 8); // clipTurn: 학생별 동작 방향 차이 보정
+  if (turnMode === 'B') carry *= Math.exp(-dt * CARRY_EASE);
+  pivot.rotation.y += wrapAngle(facing + clipTurn() + carry - pivot.rotation.y) * Math.min(1, dt * 8); // clipTurn: 학생별 동작 방향 차이 보정
   pivot.position.lerp(pivotTarget, Math.min(1, dt * 3));
 }
 
@@ -1084,7 +1106,10 @@ window.__pet = {
   },
   run() { if (battle) startRun(); }, // 전투 중 뛰어서 자리 옮기기
   simulate,
+  bodies(seconds) { const out = []; simulate(seconds, { bodies: out }); return out; }, // 몸 방향 기록만
   replay: startReplay,
+  get turnMode() { return turnMode; },
+  set turnMode(m) { turnMode = m; carry = 0; },
   measure: measureTransition,
   // 넘어간 순간에서 t초 뒤(음수면 전) 모습으로 멈춰 그린다 (동작 시트용, 다시 움직이려면 timeScale = 1)
   still(rec, t, { alone = false } = {}) {
@@ -1105,8 +1130,11 @@ const POKES = [
   [() => { drag = { moved: true, offset: null }; pickUp(); }, 15],
   [() => COMMANDS.battle(), 20],
 ];
-function simulate(seconds, { dt = 1 / 30, poke = [5, 40] } = {}) {
+// bodies: 배열을 주면 0.25초마다 [상태, 지금 동작, 몸 방향(도, 0 = 평소 대기 정면)]을 넣는다 (방향 잇기 방법 비교용)
+function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null } = {}) {
   transitionLog = [];
+  const front = clipHips.get(resolve('Cafe_Idle')) ?? 0;
+  let nextSample = 0;
   pendingLogs.length = 0;
   let nextPoke = rand(...poke);
   for (let t = 0; t < seconds; t += dt) {
@@ -1119,6 +1147,11 @@ function simulate(seconds, { dt = 1 / 30, poke = [5, 40] } = {}) {
     if (state === 'drag' && stateTime > 1.5) drop();
     update(dt);
     mixer.update(dt);
+    if (bodies && t >= nextSample && thighs.length === 2) {
+      nextSample = t + 0.25;
+      root.updateMatrixWorld(true);
+      bodies.push([state, currentAction.getClip().name, Math.round(THREE.MathUtils.radToDeg(wrapAngle(hipYaw(thighs, root) - front)))]);
+    }
   }
   fillTransitionLogs();
   const log = transitionLog.filter((r) => r.faceAfter !== undefined);
@@ -1141,6 +1174,7 @@ function startReplay(rec) {
   currentAction = null;
   facing = rec.yawBefore - (clipTurns.get(rec.from) ?? 0);
   play(rec.from, { once: !rec.fromLoop, fade: 0 });
+  carry = 0; // 앞 동작은 기록한 몸 방향 그대로 (이어 받는 건 넘어갈 때만 봄)
   currentAction.time = Math.max(0, rec.fromTime - REPLAY_LEAD);
   replaying = { rec, lead: rec.fromTime - currentAction.time, switched: false };
   pivot.rotation.y = rec.yawBefore;
@@ -1167,12 +1201,14 @@ function measureTransition(rec, { span = 0.8, alone = false, record = true } = {
   if (alone) {
     facing = rec.faceAfter;
     play(rec.to, { once: !rec.toLoop, fade: 0 });
+    carry = 0;
     pivot.rotation.y = facing + clipTurn();
     pivot.position.fromArray(rec.pivotTarget);
     pivotTarget.fromArray(rec.pivotTarget);
   } else {
     facing = rec.yawBefore - (clipTurns.get(rec.from) ?? 0);
     play(rec.from, { once: !rec.fromLoop, fade: 0 });
+    carry = 0;
     currentAction.time = Math.max(0, rec.fromTime - 0.1);
     t = Math.min(currentAction.time - rec.fromTime, span);
     if (span < 0) currentAction.time = Math.max(0, rec.fromTime + span);

@@ -292,7 +292,8 @@ function indexClips() {
     let number = 1;
     const key = clipKey(name, (n) => { number = n; });
     clipIndex.set(key, [...(clipIndex.get(key) ?? []), { name, form: number }]);
-    forms.add(number);
+    // EX에만 붙은 번호는 차림이 아니라 EX 종류다 (아리스(배틀) Exs01 = 날아올라 장비 펼치기, Exs02_01 = 레일건 사격)
+    if (!key.startsWith('exs')) forms.add(number);
   }
 }
 let form = 1; // 지금 차림 번호. 전투 중 EX를 쓰면 2, 전투가 끝나면 1
@@ -734,9 +735,14 @@ function arriveRun() {
 
 // EX를 쓰면 차림이 바뀌는 학생이 있다(수영복 호시노: 겉옷을 벗고 고래 튜브를 듦 = 02 동작들)
 // → 전투 중에 EX를 쓰면 전투가 끝날 때까지 02 차림 동작을 쓴다 (02가 없는 학생은 그대로 01)
+// 차림이 바뀌지 않는데 EX가 여러 개면(아리스(배틀) Exs01 / Exs02_01) 그중 무작위로.
+// Exs02_02는 Exs02_01과 같은 데이터라 이름이 _01로 끝나거나 번호가 없는 것만 고른다 (Exs_Cutin·Exs_Root 등은 제외)
+const EX_VARIANT = /^exs(0\d)?(_0?1)?$/i;
+const exVariants = () => (forms.has(2) ? [] : Object.keys(clips).filter((n) => EX_VARIANT.test(n)));
 function exSkill() {
   if (battle && forms.has(2)) form = 2;
-  playSequence(fromCover(['ex']), { face: battleFace(), as: 'ex' });
+  const variants = exVariants();
+  playSequence(fromCover([variants.length > 1 ? pickRandom(variants) : 'ex']), { face: battleFace(), as: 'ex' });
 }
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,
@@ -1067,6 +1073,8 @@ window.__pet = {
   get clip() { return currentAction?.getClip().name; },
   get yaw() { return Math.round(THREE.MathUtils.radToDeg(pivot.rotation.y)); }, // 실제로 돌아가 있는 각도(도)
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get exVariants() { return exVariants(); },
+  get forms() { return [...forms]; },
   get gearClips() { return [...gearClips]; },
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },

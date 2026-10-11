@@ -1114,6 +1114,14 @@ window.__pet = {
   measure: measureTransition,
   edges: measureEdges,
   usedClips,
+  sheet: drawSheet,
+  // 행동 테스트 (tools/behavior-check.js): 사람 손 없이 seconds초 돌리며 바뀐 상태·동작 기록 (until 상태가 되면 멈춤)
+  //   pokes: 가끔 사람이 하는 것(클릭·더블클릭·집어 들기·메뉴 전투)도 섞음
+  run(seconds, { until = null, pokes = false } = {}) { const trace = []; simulate(seconds, { poke: pokes ? [5, 40] : null, trace, until }); return trace; },
+  reset() { endBattle(); armed = null; drag = null; lift = 0; form = 1; toIdle(); },
+  grab() { drag = { moved: true, offset: null }; pickUp(); },
+  release: drop,
+  doubleClick: doubleClickEx,
   // 넘어간 순간에서 t초 뒤(음수면 전) 모습으로 멈춰 그린다 (동작 시트용, 다시 움직이려면 timeScale = 1)
   still(rec, t, { alone = false } = {}) {
     speed = 0;
@@ -1134,12 +1142,14 @@ const POKES = [
   [() => COMMANDS.battle(), 20],
 ];
 // bodies: 배열을 주면 0.25초마다 [상태, 지금 동작, 몸 방향(도, 0 = 평소 대기 정면)]을 넣는다 (방향 잇기 방법 비교용)
-function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null } = {}) {
+// poke: null이면 사람 손 없이. trace: 배열을 주면 상태나 동작이 바뀔 때마다 { t, state, clip }. until: 이 상태가 되면 멈춤
+function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null, trace = null, until = null } = {}) {
   transitionLog = [];
   const front = clipHips.get(resolve('Cafe_Idle')) ?? 0;
   let nextSample = 0;
   pendingLogs.length = 0;
-  let nextPoke = rand(...poke);
+  let nextPoke = poke ? rand(...poke) : Infinity;
+  let last = '';
   for (let t = 0; t < seconds; t += dt) {
     clockAhead += dt * 1000;
     if (t >= nextPoke && !['drag', 'fall', 'retreat', 'gone'].includes(state)) {
@@ -1155,6 +1165,10 @@ function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null } = {}) 
       root.updateMatrixWorld(true);
       bodies.push([state, currentAction.getClip().name, Math.round(THREE.MathUtils.radToDeg(wrapAngle(hipYaw(thighs, root) - front)))]);
     }
+    const now = `${state}|${currentAction?.getClip().name}`;
+    if (trace && now !== last) trace.push({ t: +t.toFixed(2), state, clip: currentAction?.getClip().name });
+    last = now;
+    if (until && state === until) break;
   }
   fillTransitionLogs();
   const log = transitionLog.filter((r) => r.faceAfter !== undefined);
@@ -1305,6 +1319,51 @@ function usedClips() {
   }
   form = keep;
   return [...out];
+}
+
+// 동작 시트 (tools/check-student.js): 동작마다 한 줄, 고르게 frames장. 그 동작이 나올 만한 방향으로 혼자 틀어 그린다
+function drawSheet(names, { frames = 5, cell = [150, 172], label = 210 } = {}) {
+  const [cw, ch] = cell;
+  const sheet = document.createElement('canvas');
+  sheet.width = label + cw * frames;
+  sheet.height = ch * names.length;
+  const g = sheet.getContext('2d');
+  g.fillStyle = '#3c465f';
+  g.fillRect(0, 0, sheet.width, sheet.height);
+  const src = renderer.domElement;
+  const [sx, sw] = [src.width * 0.27, src.width * 0.46];
+  const near = floor.toFloor(workArea.x + workArea.width / 2, workArea.y + workArea.height - 2);
+  const formOf = (name) => [...clipIndex.values()].flat().find((c) => c.name === name)?.form ?? 1;
+  const faceOf = (name) => THREE.MathUtils.degToRad(/^Vital_Death/i.test(name) ? 58
+    : /^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i.test(name) ? 70
+      : /^(Normal|Stand|Kneel|Move_End|Exs)|Public/i.test(name) ? 45 : 15);
+  names.forEach((name, i) => {
+    const clip = clips[name];
+    if (!clip) return;
+    const face = faceOf(name);
+    const rec = { to: name, toLoop: false, faceAfter: face, yawBefore: face, form: formOf(name), fade: 0,
+      lift: /^Formation_Pickup/i.test(name) ? DRAG_LIFT : 0, pivotPos: [0, 0, 0], pivotTarget: [0, 0, 0] };
+    if (/^Vital_Death/i.test(name)) { // 낮잠 자리 (startNap과 같게)
+      const end = clipEnds.get(name);
+      const t = NAP_OFFSET.clone().add(NAP_BODY.clone().applyAxisAngle(UP, FACE_NAP));
+      if (end) t.sub(end.clone().applyAxisAngle(UP, FACE_NAP + (clipTurns.get(name) ?? 0)));
+      rec.pivotTarget = rec.pivotPos = t.toArray();
+    }
+    g.fillStyle = '#fff';
+    g.font = '15px "Malgun Gothic", sans-serif';
+    g.fillText(name, 8, i * ch + 24);
+    g.fillStyle = '#b8c0d0';
+    g.fillText(`${clip.duration.toFixed(2)}초`, 8, i * ch + 46);
+    for (let k = 0; k < frames; k++) {
+      if (near) pos.copy(near);
+      measureTransition(rec, { span: (clip.duration * (k + 0.5)) / frames, alone: true, record: false });
+      updateHiddenParts();
+      updateOutlines();
+      renderer.render(scene, camera);
+      g.drawImage(src, sx, 0, sw, src.height, label + k * cw, i * ch, cw, ch);
+    }
+  });
+  return sheet.toDataURL('image/png');
 }
 
 function updateReplay() {

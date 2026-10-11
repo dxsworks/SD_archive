@@ -177,6 +177,35 @@ function listModels() {
   }
 }
 
+// 펫으로 쓸 수 있는 모델: 카페 대기 동작이 있는 것 (이름에 cafe_idle이 들어간 동작. Hoshino (Battle)의 01_Cafe_Idle 포함)
+// 아리스(배틀) (Carrier)·(Scenario)처럼 동작 몇 개뿐인 장면용 모델은 학생 메뉴에서 뺀다 (애니메이션 보기 창에는 모두 나옴)
+// .glb 앞부분의 JSON만 읽어서 동작 이름을 본다
+const usableCache = new Map(); // 파일 → { mtime, usable }
+function petUsable(file) {
+  const full = path.join(modelsDir(), file);
+  try {
+    const { mtimeMs } = fs.statSync(full);
+    const hit = usableCache.get(file);
+    if (hit?.mtime === mtimeMs) return hit.usable;
+    const fd = fs.openSync(full, 'r');
+    try {
+      const head = Buffer.alloc(20);
+      fs.readSync(fd, head, 0, 20, 0);
+      const json = Buffer.alloc(head.readUInt32LE(12));
+      fs.readSync(fd, json, 0, json.length, 20);
+      const names = (JSON.parse(json.toString('utf8')).animations ?? []).map((a) => a.name ?? '');
+      const usable = names.some((n) => /cafe_idle/i.test(n));
+      usableCache.set(file, { mtime: mtimeMs, usable });
+      return usable;
+    } finally {
+      fs.closeSync(fd);
+    }
+  } catch {
+    return false;
+  }
+}
+const petModels = () => listModels().filter(petUsable);
+
 function setModel(file) {
   settings.model = file;
   saveSettings();
@@ -211,7 +240,7 @@ function quitWithRetreat() {
 }
 
 function buildMenuTemplate() {
-  const models = listModels();
+  const models = petModels();
   return [
     {
       label: '동작',
@@ -352,6 +381,11 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   app.whenReady().then(() => {
     loadSettings();
+    // 설정의 모델이 펫으로 못 쓰는 장면용 모델이면(예: 메뉴에서 빠지기 전에 고른 Arisu (Battle) (Carrier)) 쓸 수 있는 첫 모델로
+    if (fs.existsSync(path.join(modelsDir(), path.basename(settings.model ?? ''))) && !petUsable(path.basename(settings.model))) {
+      const first = petModels()[0];
+      if (first) { settings.model = first; saveSettings(); }
+    }
     createWindow();
     createFxWindow();
     createTray();

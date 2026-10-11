@@ -55,7 +55,7 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 
 ## 다른 학생 추가
 
-저장소에서 `.glb` 파일을 받아 `models/` 폴더에 넣고 앱을 다시 실행하면 트레이 메뉴 → **학생**에 나타납니다.
+저장소에서 `.glb` 파일을 받아 `models/` 폴더에 넣고 앱을 다시 실행하면 트레이 메뉴 → **학생**에 나타납니다. 카페 대기 동작이 없는 장면용 모델(예: `Arisu (Battle) (Carrier)`·`(Scenario)`)은 메뉴에 나오지 않고 애니메이션 보기 창에서만 보입니다. `Arisu (Battle) (Carrier)`는 `Arisu (Battle)`이 장비 두른 대기·걷기를 빌려 쓰므로 같이 받아 둡니다.
 
 ```bash
 curl -L -o "models/Shiroko.glb" "https://github.com/lihaohong6/BlueArchiveModels/raw/main/Shiroko.glb"

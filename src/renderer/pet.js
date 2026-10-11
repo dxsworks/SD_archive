@@ -6,7 +6,7 @@ import { addOutlines } from './outline.js';
 import { measureClips } from './clip-facing.js';
 
 // ---- 화면 구성 ----
-const VIEW_HEIGHT = 1.3;                         // 창 높이에 들어갈 월드 단위 높이
+const VIEW_HEIGHT = 2.3;                         // 창 높이에 들어갈 월드 단위 높이
 const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에서 내려다보는 각도
 const FOOT_MARGIN = 0.03;                        // 발밑 여백 (월드 단위)
 const FACE_FRONT = 0;
@@ -1101,7 +1101,7 @@ function createBrowserStub() {
   const q = new URLSearchParams(location.search);
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
-  const W = 560, H = 280; // main.js SIZES.medium과 같게
+  const W = 862, H = 495; // main.js SIZES.medium과 같게
   const area = () => ({ x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });
   if (sim) {
     document.body.classList.add('sim');

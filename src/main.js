@@ -3,11 +3,13 @@ const path = require('path');
 const fs = require('fs');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
-// 창은 가로 2 : 세로 1. 캐릭터 크기는 높이로 정해지고, 넓은 폭은 옆으로 뻗는 동작(EX 돌진 ≈ 높이의 1.95배, 구르기·뛰기의 머리카락·총)이 잘리지 않게 하는 여백
+// 창은 월드 단위로 가로 4.0 × 세로 2.3 (pet.js VIEW_HEIGHT). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
+// 투명한 창이라 넉넉하게: 아리스(배틀) Exs01은 날아올라 뒤로 1.2단위 갔다 오면서 발밑에서 2.1단위 높이·옆으로 1.8단위까지 간다
+// (예전 2.6 × 1.3 창에서는 위·옆이 크게 잘렸음. 호시노 EX 돌진은 옆으로 약 1.3단위)
 const SIZES = {
-  small: { label: '작게', w: 400, h: 200, fx: 0.4 }, // fx: 클릭 효과 크기 배율
-  medium: { label: '보통', w: 560, h: 280, fx: 0.5 },
-  large: { label: '크게', w: 800, h: 400, fx: 0.65 },
+  small: { label: '작게', w: 615, h: 354, fx: 0.4 }, // fx: 클릭 효과 크기 배율
+  medium: { label: '보통', w: 862, h: 495, fx: 0.5 },
+  large: { label: '크게', w: 1231, h: 708, fx: 0.65 },
 };
 
 const DEFAULT_SETTINGS = { model: 'Hoshino.glb', size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };

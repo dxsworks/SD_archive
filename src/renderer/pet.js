@@ -17,7 +17,11 @@ const RUN_SPREAD = THREE.MathUtils.degToRad(15);    // 전투 중 자리 옮기�
 const HEAD_LIMIT = THREE.MathUtils.degToRad(45); // 얼굴이 카메라에서 이보다 돌아가면 그만큼 몸을 돌려 얼굴이 보이게
 const HEAD_FIX_MAX = THREE.MathUtils.degToRad(30); // 동작 하나 때문에 더 돌리는 건 이만큼까지 (재장전·구호 때 몸이 휙 돌지 않게)
 const FACE_NAP = THREE.MathUtils.degToRad(58);    // 뒤로 눕는 동작을 옆으로 눕는 것처럼 보이게
-const NAP_OFFSET = new THREE.Vector3(0.33, 0.08, 0.1); // 누운 몸이 창 가운데 바닥에 오도록
+const NAP_OFFSET = new THREE.Vector3(0.33, 0.08, 0.1); // 누운 몸이 창 가운데 바닥에 오도록 (원래 호시노 기준)
+// 원래 호시노 Vital_Death가 끝났을 때 몸 가운데(모델 기준, clip-facing.js ends). 학생마다 쓰러지는 방향·거리가 달라서
+// (수영복 호시노·시로코는 머리가 창 오른쪽 밖으로 나감) 끝 자세 몸 가운데가 원래 호시노와 같은 자리에 오도록 NAP_OFFSET을 옮긴다
+const NAP_BODY = new THREE.Vector3(-0.07, 0, -0.334);
+const UP = new THREE.Vector3(0, 1, 0);
 
 // ---- 바닥 위 움직임 (단위: 캐릭터 키 ≈ 1) ----
 const WALK_SPEED = 0.4;        // 단위/초
@@ -130,6 +134,7 @@ let hands = []; // 밧줄을 잡는 손 뼈
 let clips = {};
 let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도
 let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
+let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가운데 (모델 기준)
 let currentAction = null;
 const weaponMeshes = [];
 
@@ -197,7 +202,7 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   indexClips();
-  ({ turns: clipTurns, heads: clipHeads } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
+  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -451,8 +456,12 @@ function startNap() {
   setState('nap');
   napDuration = rand(20, 45);
   facing = FACE_NAP;
-  pivotTarget.copy(NAP_OFFSET);
   play('nap', { once: true, fade: 0.3 });
+  const name = currentAction.getClip().name;
+  const end = clipEnds.get(name);
+  pivotTarget.copy(NAP_OFFSET).add(NAP_BODY.clone().applyAxisAngle(UP, FACE_NAP));
+  if (end) pivotTarget.sub(end.clone().applyAxisAngle(UP, FACE_NAP + (clipTurns.get(name) ?? 0)));
+  else pivotTarget.copy(NAP_OFFSET);
 }
 
 // ---- 잠깐 무장 ----
@@ -999,6 +1008,7 @@ window.__pet = {
   get clip() { return currentAction?.getClip().name; },
   get yaw() { return Math.round(THREE.MathUtils.radToDeg(pivot.rotation.y)); }, // 실제로 돌아가 있는 각도(도)
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { mixer.timeScale = f; }, // 동작 확인용 느린 재생
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복

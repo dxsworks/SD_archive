@@ -77,6 +77,10 @@ const tick = () => new Promise((r) => requestAnimationFrame(() => r()));
 
 let data = await reviewBridge.load();
 let model = null, pairs = [], sel = 0, ex = 0, slow = false;
+let pairModels = [];  // pairs[i]이 어느 학생 것인지 (★ 확인할 것 목록은 여러 학생이 섞임)
+let petModel = null;  // 지금 펫 페이지에 띄운 학생
+const ASK = '__ask';  // ★ 확인할 것: Claude가 판단한 것 중 사람이 맞는지 볼 것 (data.__ask = [{ model, key }], 판단은 각 곳의 claude)
+const VERDICT = { bad: '이상함', ok: '괜찮음' };
 
 const save = (() => {
   let timer = null;
@@ -85,11 +89,14 @@ const save = (() => {
 
 const models = await reviewBridge.models();
 const ordered = [...DEFAULT_MODELS.filter((m) => models.includes(m)), ...models.filter((m) => !DEFAULT_MODELS.includes(m))];
-$('model').innerHTML = ordered.map((m) => `<option>${m}</option>`).join('');
+$('model').innerHTML = (data[ASK]?.length ? `<option value="${ASK}">★ 확인할 것 (${data[ASK].length})</option>` : '')
+  + ordered.map((m) => `<option>${m}</option>`).join('');
 $('model').onchange = () => open($('model').value);
 $('collect').onclick = () => open(model, { recollect: true });
 
 async function loadPet(name) {
+  if (petModel === name && pet()?.clip) return;
+  petModel = name;
   frame.src = `/src/renderer/index.html?review&model=${encodeURIComponent(name)}`;
   await new Promise((r) => { frame.onload = r; });
   for (let i = 0; i < 100 && !pet()?.clip; i++) await new Promise((r) => setTimeout(r, 100));
@@ -126,6 +133,15 @@ async function collect() {
 async function open(name, { recollect = false } = {}) {
   model = name;
   $('model').value = name;
+  $('collect').disabled = name === ASK;
+  if (name === ASK) {
+    const list = data[ASK].map((a) => [a.model, data[a.model]?.pairs.find((p) => p.key === a.key)]).filter(([, p]) => p);
+    pairModels = list.map(([m]) => m);
+    pairs = list.map(([, p]) => p);
+    renderList();
+    await select(Math.max(0, pairs.findIndex((p) => !p.mark)));
+    return;
+  }
   $('status').textContent = '펫 불러오는 중…';
   await loadPet(name);
   if (recollect || !data[name]?.pairs?.length) {
@@ -133,6 +149,7 @@ async function open(name, { recollect = false } = {}) {
     data[name] = { collected: new Date().toISOString().slice(0, 10), simSeconds: SIM_SECONDS, pairs };
     save();
   } else pairs = data[name].pairs;
+  pairModels = pairs.map(() => name);
   pet().timeScale = slow ? 0.35 : 1;
   renderList();
   select(Math.max(0, pairs.findIndex((p) => !p.mark)));
@@ -140,22 +157,31 @@ async function open(name, { recollect = false } = {}) {
 
 function renderList() {
   $('list').innerHTML = pairs.map((p, i) => `<div class="item${i === sel ? ' sel' : ''}" data-i="${i}">
-    <span class="dot ${p.mark ?? ''}"></span><span class="name">${p.key}</span><span class="count">${p.count}번</span></div>`).join('');
+    <span class="dot ${p.mark ?? ''}"></span><span class="name">${model === ASK ? `${pairModels[i].replace('.glb', '')}: ` : ''}${p.key}</span><span class="count">${p.count}번</span></div>`).join('');
   const done = pairs.filter((p) => p.mark).length;
-  $('status').textContent = `${model}: 표시 ${done} / ${pairs.length}곳 (펫 시간 ${SIM_SECONDS / 60}분 동안 넘어간 곳, 많이 나온 순)`;
+  $('status').textContent = model === ASK
+    ? `★ 확인할 것: 표시 ${done} / ${pairs.length}곳. 표시하면 Claude 판단이 보임`
+    : `${model}: 표시 ${done} / ${pairs.length}곳 (펫 시간 ${SIM_SECONDS / 60}분 동안 넘어간 곳, 많이 나온 순)`;
 }
 $('list').onclick = (e) => { const it = e.target.closest('.item'); if (it) select(+it.dataset.i); };
 
-function select(i, exIndex = 0) {
+async function select(i, exIndex = null) {
   if (!pairs.length) return;
   sel = (i + pairs.length) % pairs.length;
   const p = pairs[sel];
+  exIndex ??= model === ASK ? p.claudeEx ?? 0 : 0;
+  if (petModel !== pairModels[sel]) {
+    $('sub').textContent = '펫 불러오는 중…';
+    await loadPet(pairModels[sel]);
+    pet().timeScale = slow ? 0.35 : 1;
+  }
   ex = (exIndex + p.examples.length) % p.examples.length;
   for (const it of document.querySelectorAll('.item')) it.classList.toggle('sel', +it.dataset.i === sel);
   document.querySelector('.item.sel')?.scrollIntoView({ block: 'nearest' });
   $('title').textContent = p.key;
   const r = p.examples[ex];
-  $('sub').textContent = `${p.count}번 나옴 · 예 ${ex + 1}/${p.examples.length} · 섞는 시간 ${r.fade}초 · 넘어간 뒤 상태 ${r.state}`;
+  $('sub').textContent = `${p.count}번 나옴 · 예 ${ex + 1}/${p.examples.length} · 섞는 시간 ${r.fade}초 · 넘어간 뒤 상태 ${r.state}`
+    + (model === ASK && p.mark && p.claude ? ` · Claude 판단: ${VERDICT[p.claude]}${p.mark === p.claude ? ' (같음)' : ''}` : '');
   for (const b of document.querySelectorAll('.mark')) b.classList.toggle('on', b.dataset.mark === p.mark);
   $('note').value = p.note ?? '';
   pet().replay(r);
@@ -168,7 +194,8 @@ function mark(m) {
   renderList();
   const next = pairs.findIndex((q, i) => i > sel && !q.mark);
   const any = pairs.findIndex((q) => !q.mark);
-  select(next >= 0 ? next : any >= 0 ? any : sel);
+  if (model === ASK) select(sel, ex); // 확인 목록은 표시하면 Claude 판단을 보여 주고 그 자리에 머묾 (↓로 다음)
+  else select(next >= 0 ? next : any >= 0 ? any : sel);
 }
 for (const b of document.querySelectorAll('.mark')) b.onclick = () => mark(b.dataset.mark);
 $('note').oninput = () => { pairs[sel].note = $('note').value; save(); };
@@ -197,7 +224,7 @@ addEventListener('keydown', (e) => {
   e.preventDefault();
 });
 
-open(ordered[0]).catch((err) => { $('status').textContent = `오류: ${err.message}`; console.error(err); });
+open(data[ASK]?.length ? ASK : ordered[0]).catch((err) => { $('status').textContent = `오류: ${err.message}`; console.error(err); });
 </script>
 </body>
 </html>

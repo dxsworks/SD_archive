@@ -75,7 +75,10 @@ export function measureClips(root, animations, nameKey) {
     // 전투 자세 동작(normal_*, stand_*, kneel_*)은 자세·차림마다 한 값으로 돌린다. 동작마다 따로 돌리면
     // 대기 ↔ 사격처럼 이어지는 동작 사이에 몸이 20°씩 돌아간다(시로코 Normal_Idle만 기준을 넘어 돌던 일)
     const stance = /^(normal|stand|kneel)_/.exec(key)?.[1];
-    const group = stance ? `${stance}|${/[a-z]0(\d)/i.exec(clip.name)?.[1] ?? '1'}` : clip.name;
+    // 승리 포즈 Start → End도 이어서 트는 짝이라 한 값으로 (따로 돌리면 아리스(배틀)는 End로 넘어갈 때 41° 휙 돌았음)
+    const victory = /^victory_(start|end)(_random)?$/.exec(key);
+    const group = stance ? `${stance}|${/[a-z]0(\d)/i.exec(clip.name)?.[1] ?? '1'}`
+      : victory ? `victory|${victory[2] ?? ''}` : clip.name;
     const d = THREE.MathUtils.degToRad(ref) - Math.atan2(px, pz);
     const g = diffs.get(group) ?? { x: 0, z: 0, names: [] };
     g.x += Math.sin(d); g.z += Math.cos(d); g.names.push(clip.name);

@@ -72,6 +72,6 @@ npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
    - 완료: 테스트 도구 `--model=`, 몸 조각 숨김(모프 숨김 타깃), 외곽선(두께 18%), 이름 소문자 비교·차림 번호(`01`/`02`) 처리, EX 뒤 `02` 차림 유지, 동작별 몸 방향을 원래 호시노에 맞춤(`clip-facing.js`), 글자 오타 별칭(`CLIP_TYPOS`)
    - 무릎(`Kneel`) 자세 완료(시로코 `models/Shiroko.glb`로 시험, `Kneel_Idle`은 안 씀)
    - 낮잠: 모든 학생 `Vital_Death` 그대로 쓰기로 결정(총·소품이 떨어져도 둠). 누운 위치는 끝 자세 몸 가운데를 재서 학생마다 창 가운데로 맞춤(`NAP_BODY`)
-   - 아리스(배틀) `models/Arisu (Battle).glb` 시험 중: 항상 장비 두른 모습으로 하기로 결정 → `(Carrier)`의 장비 대기·걷기를 `Cafe_Idle`/`Cafe_Walk`로 가져다 씀(`BORROWED_CLIPS`), 평소엔 평소 대기와 장비 모습이 다른 동작(`Cafe_Reaction`)을 피함(`clipsChangingParts`). `(Scenario)`는 안 씀. 남은 것: `Exs02_01/02`(두 번째 EX, 사격형)를 차림 번호로 잘못 읽어 EX 뒤 구호가 빠지고 두 번째 EX가 안 나옴, 낮잠 때 장비 조각이 창 오른쪽 아래 끝에 걸림
+   - 아리스(배틀) `models/Arisu (Battle).glb` 시험 중: 항상 장비 두른 모습으로 하기로 결정 → `(Carrier)`의 장비 대기·걷기를 `Cafe_Idle`/`Cafe_Walk`로 가져다 씀(`BORROWED_CLIPS`), 평소엔 평소 대기와 장비 모습이 다른 동작(`Cafe_Reaction`)을 피함(`clipsChangingParts`). `(Scenario)`는 안 씀. EX는 `Exs01`(날아올라 장비 펼치기)·`Exs02_01`(레일건 사격) 무작위(`Exs02_02`는 `_01`과 같은 데이터). EX에만 붙은 번호는 차림으로 안 봄. 남은 것: 두 EX 모두 펫 창 위·옆으로 크게 벗어남, 낮잠 때 장비 조각이 창 오른쪽 아래 끝에 걸림
 
 사용자가 실제 앱에서 확인함(2026-10-10): 마우스로 끌어 옮기기, 트레이 "종료", 다중 모니터 이동, `Move_Jump` 구르기.

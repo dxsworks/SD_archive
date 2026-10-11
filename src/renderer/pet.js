@@ -197,7 +197,7 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   indexClips();
-  ({ turns: clipTurns, heads: clipHeads } = measureClips(gltf.scene, gltf.animations, (n) => n.replace(FORM_NUMBER, '$1').toLowerCase()));
+  ({ turns: clipTurns, heads: clipHeads } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -211,6 +211,19 @@ async function loadModel() {
 // 다른 학생 Normal01_Attack_End, Move01_Ing, Exs01 …). 글자 바로 뒤에 붙은 01·02를 차림 번호로 보고 떼어 낸 소문자 이름으로 묶어 두고,
 // 코드에서는 번호 없는 이름(Normal_Idle)으로 부르면 지금 차림의 것을 고른다 (없으면 01, 그것도 없으면 아무거나)
 const FORM_NUMBER = /([a-z])0(\d)/gi;
+// 글자가 틀린 이름 → 맞는 이름 (모델 295개 조사에서 맞는 이름이 없이 이것만 있는 것들. 괄호는 그 모델)
+const CLIP_TYPOS = {
+  normal_ilde: 'normal_idle',            // Kirino (Swimsuit)
+  normal_callsigh: 'normal_callsign',    // Momoi (Maid)
+  fomation_pickup: 'formation_pickup',   // Tomoe (Qipao)
+  normal_callsign1: 'normal_callsign',   // Koyuki (구호가 1·2 두 개)
+  normal_callsign2: 'normal_callsign',
+};
+// 묶는 이름: 차림 번호를 떼고, 소문자로, 띄어쓰기는 _로 (Hanae "Formation Pickup"), 오타는 맞는 이름으로
+function clipKey(name, onForm) {
+  const key = name.replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; }).toLowerCase().replace(/ /g, '_');
+  return CLIP_TYPOS[key] ?? key;
+}
 let clipIndex = new Map(); // 묶은 이름 → [{ name, form }]
 let forms = new Set();     // 이 모델에 있는 차림 번호들
 function indexClips() {
@@ -218,7 +231,7 @@ function indexClips() {
   forms = new Set([1]);
   for (const name of Object.keys(clips)) {
     let number = 1;
-    const key = name.replace(FORM_NUMBER, (_, ch, n) => { number = Number(n); return ch; }).toLowerCase();
+    const key = clipKey(name, (n) => { number = n; });
     clipIndex.set(key, [...(clipIndex.get(key) ?? []), { name, form: number }]);
     forms.add(number);
   }
@@ -227,7 +240,7 @@ let form = 1; // 지금 차림 번호. 전투 중 EX를 쓰면 2, 전투가 끝�
 const currentForm = () => form;
 function resolve(name) {
   if (!name || clips[name]) return name;
-  const list = clipIndex.get(name.replace(FORM_NUMBER, '$1').toLowerCase());
+  const list = clipIndex.get(clipKey(name));
   if (!list) return undefined;
   return (list.find((c) => c.form === currentForm()) ?? list.find((c) => c.form === 1) ?? list[0]).name;
 }
@@ -236,7 +249,7 @@ const clipTurn = () => clipTurns.get(currentAction?.getClip().name) ?? 0;
 // 지금 차림에 맞는 동작인지: 01 차림이면 다 맞고, 02 차림이면 02 번호가 붙은 것만
 // (번호 없는 동작은 01 차림 모습이라 02 차림 중에 틀면 벗은 겉옷이 다시 나타난다. 예: 수영복 호시노 Normal_Callsign)
 const fitsForm = (name) => currentForm() === 1
-  || Boolean(clipIndex.get(name.replace(FORM_NUMBER, '$1').toLowerCase())?.some((c) => c.form === currentForm()));
+  || Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
 const first = (names) => names.find(has) ?? Object.keys(clips)[0];
 const clipName = (name) => (ANIM[name] ? first(ANIM[name]) : name);
 

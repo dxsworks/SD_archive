@@ -37,7 +37,7 @@
 - **폼 체인지 접두사**: `01_`/`02_`, `Normal01_`/`Normal02_`, `Kneel01_`, `Move01_` (예: `Hoshino (Battle)`)
 - **탈것·소환물·기타**: `Tank_*`, `Riding_*`, `SM0xxxxx_*`, `ST_*`, `NonWeapon_*`(밴드 악기), `DiceRace_*`, `TSS_Interaction01`
 
-→ 펫 코드(`resolve()`)는 **이름을 소문자로 비교하고, 글자 바로 뒤에 붙은 `01`·`02`를 차림 번호로 떼어** 같은 동작으로 묶습니다. 코드에서는 번호 없는 이름(`Normal_Idle`)으로 부르면 지금 차림의 것(`Normal_Idle01`/`02`)을 고릅니다. 대소문자 차이(`Vital_Dying_ing`)와 번호 변형(`Normal01_Attack_End`, `Move01_Ing`, `Exs01` 등 192개 모델)은 이걸로 처리됩니다. **아직 안 되는 것**: 글자가 틀린 오타(`Fomation_Pickup`, `Normal_Ilde` …), 앞에 붙는 숫자 접두사(`01_`)
+→ 펫 코드(`resolve()`)는 **이름을 소문자로 비교하고, 글자 바로 뒤에 붙은 `01`·`02`를 차림 번호로 떼어** 같은 동작으로 묶습니다. 코드에서는 번호 없는 이름(`Normal_Idle`)으로 부르면 지금 차림의 것(`Normal_Idle01`/`02`)을 고릅니다. 대소문자 차이(`Vital_Dying_ing`)와 번호 변형(`Normal01_Attack_End`, `Move01_Ing`, `Exs01` 등 192개 모델)은 이걸로 처리됩니다. 띄어쓰기는 `_`로 바꾸고(`Formation Pickup`), 글자가 틀린 오타는 `CLIP_TYPOS` 표로 맞는 이름에 연결합니다(`Normal_Ilde`, `Normal_Callsigh`, `Fomation_Pickup`, 고유키 `Normal_Callsign1/2`. 맞는 이름 없이 오타만 있는 모델 기준). **아직 안 되는 것**: 앞에 붙는 숫자 접두사(`01_`)
 
 ---
 

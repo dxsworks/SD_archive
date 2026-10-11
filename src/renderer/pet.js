@@ -148,8 +148,8 @@ const ANIM = {
   wake: ['Cafe_Reaction', 'Victory_Start'],
   ex: ['Exs'],
 };
-// 클릭 반응: 카페 반응 / 승리 포즈 무작위 (학생마다 승리 포즈에 총을 드는 경우가 있어 그때는 총이 0.25초 만에 생김)
-const REACTIONS = ['Cafe_Reaction', 'Victory_Start'];
+// 클릭 반응: 카페 반응 / 승리 포즈(두 번째 승리 포즈 _Random이 있으면 그것도) 무작위 (학생마다 승리 포즈에 총을 드는 경우가 있어 그때는 총이 0.25초 만에 생김)
+const REACTIONS = ['Cafe_Reaction', 'Victory_Start', 'Victory_Start_Random'];
 // 총을 든 동작들. 맨손 ↔ 총 든 동작을 넘나들 때마다 총이 0.25초 만에 생기고 사라지므로, 무장 중에 몰아서 쓴다
 const ARMED_IDLE = 'Formation_Idle';
 // 승리 포즈는 넣지 않는다(무장은 총을 들고 있어 전투처럼 보여서, 전투 중간에 승리 포즈가 나오는 것처럼 보였음). 승리 포즈는 평소·전투 끝에
@@ -168,7 +168,8 @@ const BATTLE_ENTRY = ['Normal_Callsign'];
 // 맨손에서 무장·전투로 넘어갈 때 틀면 총이 갑자기 나타나지 않는다. 총을 든 상태에서 틀면 총이 사라졌다 다시 나타나므로 맨손일 때만
 const DRAW_WEAPON = ['Public', 'Normal_Public'];
 const RUN_CALLSIGN = 'Move_Callsign'; // 뛰면서 하는 구호. 제자리에서 틀면 제자리 뛰기가 되므로 실제로 뛸 때만 쓴다
-const VICTORY = ['Victory_Start', 'Victory_End'];
+// 승리 포즈 짝. 두 번째 짝(_Random, 약 35개 모델)이 있으면 무작위로 섞는다 (아리스(배틀): Victory_Start는 하늘에서 떨어져 착지, _Random은 제자리)
+const VICTORIES = [['Victory_Start', 'Victory_End'], ['Victory_Start_Random', 'Victory_End_Random']];
 
 function toUnlit(mat) {
   // 게임 텍스처에 음영이 이미 그려져 있어서 조명 없는 재질이 원작 느낌에 가깝다
@@ -612,7 +613,7 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   battle = null;
   if (!keepForm) form = 1;
   lastBattleEnd = performance.now();
-  if (victory) playSequence([...rise, ...VICTORY], { onEnd: toIdle });
+  if (victory) playSequence([...rise, ...victoryPose()], { onEnd: toIdle });
 }
 
 // 전투 자세 동작은 두 자세(자리)로 나뉜다: Attack_Ing·Attack_Delay는 "나간" 자세, Idle·Reload·Callsign·Move_End·EX는 "원래" 자세.
@@ -804,8 +805,11 @@ function react() {
   playSequence([pickRandom(armed ? ARMED_REACTIONS : calm.length ? calm : REACTIONS)]);
 }
 
-// 승리 포즈: 전투가 끝날 때 말고도 평소에 가끔
-const cheer = () => playSequence(VICTORY);
+// 승리 포즈: 전투가 끝날 때 말고도 평소에 가끔.
+// 이 학생에게 있고 평소 모습과 같은 짝 중에서 고른다 (수영복 호시노 _Random은 겉옷 벗은 02 차림 모습이라 빠짐)
+const victoryPoses = () => VICTORIES.filter((pair) => pair.every(has) && pair.every(calmOk));
+const victoryPose = () => { const pairs = victoryPoses(); return pairs.length ? pairs[Math.floor(Math.random() * pairs.length)] : VICTORIES[0]; };
+const cheer = () => playSequence(victoryPose());
 
 // 대기 시간이 끝나면 다음 행동을 가중치로 고른다
 function chooseNextBehavior() {
@@ -814,7 +818,7 @@ function chooseNextBehavior() {
     [startWalk, settings.walk ? 40 : 0],
     [startArmed, 20],
     [startBattle, battleReady() ? 8 : 0],
-    [cheer, has(VICTORY[0]) && VICTORY.every(calmOk) ? 8 : 0],
+    [cheer, victoryPoses().length ? 8 : 0],
     [startNap, idleMinutes > 2 ? 25 : 3], // 오래 안 건드리면 졸기 쉬움
     [toIdle, 12],
   ])();
@@ -1073,6 +1077,7 @@ window.__pet = {
   get clip() { return currentAction?.getClip().name; },
   get yaw() { return Math.round(THREE.MathUtils.radToDeg(pivot.rotation.y)); }, // 실제로 돌아가 있는 각도(도)
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get victoryPoses() { return victoryPoses(); },
   get exVariants() { return exVariants(); },
   get forms() { return [...forms]; },
   get gearClips() { return [...gearClips]; },

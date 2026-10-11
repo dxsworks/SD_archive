@@ -42,7 +42,7 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 
 가끔(직전 전투 후 90초 이상 지났을 때), 메뉴 → 동작 → 전투 모드 / 공격, 또는 더블클릭 EX로 시작합니다.
 총 꺼내기(`Public01`, 없거나 이미 총을 들고 있으면 구호 `Normal_Callsign`)로 시작해 30~60초 동안 전투 대기(1~3.5초)와 아래 동작을 무작위로 섞어 하고,
-시간이 다 되면 `Victory_Start → Victory_End`로 마무리합니다.
+시간이 다 되면 승리 포즈(`Victory_Start → Victory_End`, 학생에 따라 `Victory_Start_Random → Victory_End_Random`도 무작위)로 마무리합니다.
 
 - 사격: `Attack_Start`(나가기) → `Attack_Ing ×1~3 → Attack_Delay`, 재장전·구호·뛰기·서서 대기 전에는 `Attack_End`(돌아오기). 나가 있는 동안은 `Ing → Delay`만 반복
 - 재장전: 3번 쏘면 재장전할 확률이 크게 오름

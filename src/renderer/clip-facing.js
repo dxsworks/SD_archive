@@ -18,6 +18,11 @@ const REFERENCE = {
   exs: -43, victory_start: -11, victory_end: -27, formation_idle: 17, formation_pickup: -8,
   vital_death: -82, vital_retreat: -154,
 };
+// 원래 호시노에 없거나 따로 맞추면 안 되는 동작: 기준을 재지 않고 그 자세 묶음과 같은 값으로 돌린다
+//   총 꺼내기(Public01, 수영복 호시노 Normal01_Public01)는 서서 쏘기 자세로 끝나고, 구호(Random)는 그 자세 그대로 하는 동작.
+//   빠져 있을 때 수영복 호시노는 이 둘만 38° 더 옆을 봐서 무장 대기와 오갈 때 발이 94° 비틀렸다.
+//   따로 원래 호시노 방향에 맞추면 시로코는 총 꺼내기가 자기 서서 자세에서 멀어져 더 나빠졌음
+const FOLLOW = { public: 'normal', normal_public: 'normal', normal_callsign_random: 'normal' };
 const MIN_TURN = THREE.MathUtils.degToRad(20); // 이보다 작은 차이는 그냥 둔다
 const SAMPLES = 8;
 
@@ -57,6 +62,7 @@ export function measureClips(root, animations, nameKey) {
   const yaw = (b, f) => { const v = f.clone().applyQuaternion(b.getWorldQuaternion(q)); return Math.atan2(v.x, v.z); };
 
   const diffs = new Map(); // 묶음 → 각도 차이 합
+  const followers = [];    // [동작 이름, 따라 돌 묶음] (FOLLOW)
   for (const clip of animations) {
     let px = 0, pz = 0, hx = 0, hz = 0;
     for (let k = 0; k < SAMPLES; k++) {
@@ -71,22 +77,27 @@ export function measureClips(root, animations, nameKey) {
     ends.set(clip.name, box.getCenter(new THREE.Vector3()).setY(0));
     const key = nameKey(clip.name);
     const ref = REFERENCE[key];
-    if (ref === undefined) continue;
+    const form = /[a-z]0(\d)/i.exec(clip.name)?.[1] ?? '1';
+    if (ref === undefined) {
+      if (FOLLOW[key]) followers.push([clip.name, `${FOLLOW[key]}|${form}`]);
+      continue;
+    }
     // 전투 자세 동작(normal_*, stand_*, kneel_*)은 자세·차림마다 한 값으로 돌린다. 동작마다 따로 돌리면
     // 대기 ↔ 사격처럼 이어지는 동작 사이에 몸이 20°씩 돌아간다(시로코 Normal_Idle만 기준을 넘어 돌던 일)
     const stance = /^(normal|stand|kneel)_/.exec(key)?.[1];
     // 승리 포즈 Start → End도 이어서 트는 짝이라 한 값으로 (따로 돌리면 아리스(배틀)는 End로 넘어갈 때 41° 휙 돌았음)
     const victory = /^victory_(start|end)(_random)?$/.exec(key);
-    const group = stance ? `${stance}|${/[a-z]0(\d)/i.exec(clip.name)?.[1] ?? '1'}`
+    const group = stance ? `${stance}|${form}`
       : victory ? `victory|${victory[2] ?? ''}` : clip.name;
     const d = THREE.MathUtils.degToRad(ref) - Math.atan2(px, pz);
     const g = diffs.get(group) ?? { x: 0, z: 0, names: [] };
     g.x += Math.sin(d); g.z += Math.cos(d); g.names.push(clip.name);
     diffs.set(group, g);
   }
-  for (const { x, z, names } of diffs.values()) {
+  for (const [group, { x, z, names }] of diffs) {
     const turn = Math.atan2(x, z);
-    if (Math.abs(turn) >= MIN_TURN) for (const n of names) turns.set(n, turn);
+    if (Math.abs(turn) < MIN_TURN) continue;
+    for (const n of [...names, ...followers.filter(([, g]) => g === group).map(([n]) => n)]) turns.set(n, turn);
   }
 
   mixer.stopAllAction();

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsRevealingParts } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips } from './clip-facing.js';
 
@@ -135,7 +135,7 @@ let clips = {};
 let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도
 let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
 let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가운데 (모델 기준)
-let gearClips = new Set(); // 평소 대기에서 숨겨진 장비 등을 보이게 하는 동작 (아리스(배틀) 등 뒤 장비). 평소 상태에서는 피한다
+let gearClips = new Set(); // 평소 대기와 장비 모습이 다른 동작 (아리스(배틀) 등 뒤 장비가 생기거나 사라짐). 평소 상태에서는 피한다
 let currentAction = null;
 const weaponMeshes = [];
 
@@ -145,7 +145,7 @@ const ANIM = {
   walk: ['Cafe_Walk', 'Move_Ing'],
   pickup: ['Formation_Pickup', 'Victory_Start', 'Cafe_Reaction'], // 편성 화면에서 학생을 집어 들었을 때 동작
   nap: ['Vital_Death'],
-  wake: ['Cafe_Reaction'],
+  wake: ['Cafe_Reaction', 'Victory_Start'],
   ex: ['Exs'],
 };
 // 클릭 반응: 카페 반응 / 승리 포즈 무작위 (학생마다 승리 포즈에 총을 드는 경우가 있어 그때는 총이 0.25초 만에 생김)
@@ -182,12 +182,64 @@ function toUnlit(mat) {
   });
 }
 
+// 학생별로 같은 뼈대의 다른 파일에서 동작을 가져와 이름을 바꿔 넣는다 (있던 같은 이름 동작은 바꿈)
+// - 아리스(배틀): 카페 동작은 장비를 벗은 모습이라, 장비를 두른 대기·걷기(Carrier 파일의 Idle·Walk)를 평소 대기·걷기로 쓴다
+//   → 평소 대기가 장비 모습이 되어, 장비를 벗는 카페 반응 대신 승리 포즈 등으로 반응한다(gearClips)
+//   아리스(배틀) 파일은 장비 없는 몸(CH0334_Body)과 장비 두른 몸(CH0334_Arms_Body)을 모프 값으로 골라 보이는데(기본은 장비 없는 몸)
+//   Carrier 동작엔 그 값이 없다 → look 동작에서 lookTracks에 맞는 모프 값을 복사해 넣는다.
+//   그 밖에 빠진 모프 값(입 모양 등)은 바꿔치기 전 원래 동작에서 채운다
+const BORROWED_CLIPS = {
+  'Arisu (Battle).glb': {
+    from: 'Arisu (Battle) (Carrier).glb',
+    clips: { Idle: 'Cafe_Idle', Walk: 'Cafe_Walk' },
+    look: 'Formation_Idle',
+    lookTracks: /^CH0334_(Arms_)?Body/,
+  },
+};
+const toArrayBuffer = (data) => (data instanceof ArrayBuffer
+  ? data
+  : data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength));
+
+async function borrowClips(gltf) {
+  const extra = BORROWED_CLIPS[settings.model];
+  if (!extra) return;
+  let source;
+  try {
+    source = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readModelFile(extra.from)), '');
+  } catch (e) {
+    console.warn(`${extra.from}을(를) 읽지 못해 원래 동작을 씁니다`, e);
+    return;
+  }
+  const morphable = new Set();
+  gltf.scene.traverse((o) => { if (o.morphTargetInfluences?.length) morphable.add(THREE.PropertyBinding.sanitizeNodeName(o.name)); });
+  const isMorph = (track) => track.name.endsWith('.morphTargetInfluences');
+  const meshOf = (track) => track.name.slice(0, track.name.lastIndexOf('.'));
+  const look = gltf.animations.find((c) => c.name === extra.look);
+  for (const [from, to] of Object.entries(extra.clips)) {
+    const clip = source.animations.find((c) => c.name === from);
+    if (!clip) continue;
+    const original = gltf.animations.find((c) => c.name === to);
+    // 이 모델에서 모프가 없는 메시의 값은 버린다 (Carrier는 무기를 모프로 숨기지만 Battle 무기엔 모프가 없음)
+    let tracks = clip.tracks.filter((tr) => !isMorph(tr) || morphable.has(meshOf(tr)))
+      .filter((tr) => !(isMorph(tr) && extra.lookTracks.test(tr.name)));
+    const add = (source, test) => {
+      for (const tr of source?.tracks ?? []) {
+        if (!isMorph(tr) || !test(tr) || tracks.some((t) => t.name === tr.name)) continue;
+        // 첫 값을 동작 내내 유지
+        const n = tr.getValueSize();
+        tracks.push(new THREE.NumberKeyframeTrack(tr.name, [0, clip.duration], [...tr.values.slice(0, n), ...tr.values.slice(0, n)]));
+      }
+    };
+    add(look, (tr) => extra.lookTracks.test(tr.name));
+    add(original, () => true);
+    const copy = new THREE.AnimationClip(to, clip.duration, tracks.map((tr) => tr.clone()));
+    gltf.animations = [...gltf.animations.filter((c) => c.name !== to), copy];
+  }
+}
+
 async function loadModel() {
-  const data = await bridge.readModel();
-  const buffer = data instanceof ArrayBuffer
-    ? data
-    : data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
-  const gltf = await new GLTFLoader().parseAsync(buffer, '');
+  const gltf = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readModel()), '');
+  await borrowClips(gltf);
 
   gltf.scene.traverse((obj) => {
     if (!obj.isMesh) return;
@@ -203,7 +255,7 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   indexClips();
-  gearClips = clipsRevealingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
+  gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
@@ -259,7 +311,7 @@ const fitsForm = (name) => currentForm() === 1
   || Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
 const first = (names) => names.find(has) ?? Object.keys(clips)[0];
 const clipName = (name) => (ANIM[name] ? first(ANIM[name]) : name);
-// 평소(맨손) 상태에 틀어도 되는 동작인지: 숨겨 둔 장비를 꺼내 보이는 동작은 무장·전투 때만
+// 평소(맨손) 상태에 틀어도 되는 동작인지: 장비 모습이 평소 대기와 달라지는 동작은 무장·전투 때만
 const calmOk = (name) => !gearClips.has(resolve(name));
 // 평소 상태용: 목록에서 장비가 안 나오는 첫 동작 (전부 나오면 원래대로)
 const calmClip = (key) => ANIM[key].filter(has).find(calmOk) ?? clipName(key);
@@ -455,7 +507,7 @@ function startWalk() {
 
 // 랜덤 행동 = 잠깐 무장 (이미 무장 중이면 총 든 동작 하나)
 const fidget = () => (armed ? armedFidget() : startArmed());
-const wakeUp = () => playSequence(['wake'], { fade: 0.8, onEnd: toIdle });
+const wakeUp = () => playSequence([calmClip('wake')], { fade: 0.8, onEnd: toIdle });
 
 function startNap() {
   if (!has(clipName('nap'))) { fidget(); return; }
@@ -1055,7 +1107,8 @@ function createBrowserStub() {
     : area());
   return {
     readModel: () => fetch(new URL(`../../models/${encodeURIComponent(model)}`, import.meta.url)).then((r) => r.arrayBuffer()),
-    getSettings: async () => ({ walk: sim }),
+    readModelFile: (name) => fetch(new URL(`../../models/${encodeURIComponent(name)}`, import.meta.url)).then((r) => r.arrayBuffer()),
+    getSettings: async () => ({ walk: sim, model }),
     getBounds: async () => ({ win: winRect(), workArea: area() }),
     getWorkArea: async () => area(),
     move(x, y) { if (sim) Object.assign(canvas.style, { left: `${x}px`, top: `${y}px` }); },

@@ -18,6 +18,7 @@
 ```bash
 npm start                      # 또는 start-pet.vbs 더블클릭 (콘솔 없이)
 npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
+npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바로가기 생성). 주의점은 README "배포용 설치 파일"
 ```
 
 - `src/main.js` 투명 창, 트레이/우클릭 메뉴, 설정(`%APPDATA%/bluearchive-desktop-pet/settings.json`), 종료 시 후퇴

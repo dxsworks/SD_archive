@@ -73,9 +73,9 @@ ${bad.length ? `<table><tr><th>넘어가는 곳</th><th class="num">30분에</th
 ${bad.map((r) => `<tr><td><code>${esc(r.key)}</code></td><td class="num">${r.count}번</td><td class="num">${r.spin}°</td></tr>`).join('')}</table>` : '<p class="dim">없음</p>'}
 
 <h2>창 끝</h2>
-<p class="dim">펫 창(보통 862×495)에서 모델이 위·옆 끝까지 남는 여백(px). 경고: 위 35px 미만, 옆 3px 미만</p>
-<table><tr><th>동작</th><th class="num">위</th><th class="num">왼쪽</th><th class="num">오른쪽</th><th>경고</th></tr>
-${edges.slice(0, Math.max(6, edgeWarn.length)).map((b) => `<tr><td><code>${esc(b.clip)}</code></td><td class="num">${b.top}</td><td class="num">${b.left}</td><td class="num">${b.right}</td><td class="bad">${esc(b.warn.join(', '))}</td></tr>`).join('')}</table>
+<p class="dim">펫 창(보통 862×538)에서 모델이 위·옆·아래 끝까지 남는 여백(px). 경고: 위 35px 미만, 옆·아래 3px 미만</p>
+<table><tr><th>동작</th><th class="num">위</th><th class="num">왼쪽</th><th class="num">오른쪽</th><th class="num">아래</th><th>경고</th></tr>
+${edges.slice(0, Math.max(6, edgeWarn.length)).map((b) => `<tr><td><code>${esc(b.clip)}</code></td><td class="num">${b.top}</td><td class="num">${b.left}</td><td class="num">${b.right}</td><td class="num">${b.bottom}</td><td class="bad">${esc(b.warn.join(', '))}</td></tr>`).join('')}</table>
 
 <h2>행동</h2>
 <table><tr><th>시험</th><th></th><th class="num">걸린 시간</th><th>지나간 동작</th></tr>

@@ -11,9 +11,11 @@ import {
 
 // ---- 화면 구성 ----
 // 창 높이에 들어갈 월드 단위 높이. 검사 도구가 예전 창을 흉내 낼 때만 주소의 ?viewHeight=로 바꾼다 (tools/edge-check.js --window)
-const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 2.3;
+const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 2.5;
 const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에서 내려다보는 각도
-const FOOT_MARGIN = 0.03;                        // 발밑 여백 (월드 단위)
+// 발 자리(바닥 원점)가 창 맨 아래에서 이만큼 위 (월드 단위). 카메라가 내려다봐서 앞으로 내디딘 발·그림자는 발 자리보다
+// 25~40px 아래에 그려지므로 0.2단위를 더 둔다(main.js BELOW). ?footMargin=은 검사 도구가 예전 창을 흉내 낼 때
+const FOOT_MARGIN = Number(new URLSearchParams(location.search).get('footMargin')) || 0.23;
 const FACE_FRONT = 0;
 const FACE_BATTLE = THREE.MathUtils.degToRad(60); // 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림
 const FACE_SPREAD = THREE.MathUtils.degToRad(30);   // 평소 동작은 정면에서 이만큼 안쪽 아무 방향
@@ -1115,6 +1117,7 @@ window.__pet = {
   edges: measureEdges,
   usedClips,
   sheet: drawSheet,
+  poseRec: (name, faceDeg = null) => poseRec(name, faceDeg === null ? null : THREE.MathUtils.degToRad(faceDeg)),
   // 행동 테스트 (tools/behavior-check.js): 사람 손 없이 seconds초 돌리며 바뀐 상태·동작 기록 (until 상태가 되면 멈춤)
   //   pokes: 가끔 사람이 하는 것(클릭·더블클릭·집어 들기·메뉴 전투)도 섞음
   run(seconds, { until = null, pokes = false } = {}) { const trace = []; simulate(seconds, { poke: pokes ? [5, 40] : null, trace, until }); return trace; },
@@ -1267,7 +1270,7 @@ function measureTransition(rec, { span = 0.8, alone = false, record = true, onFr
 }
 
 // 창 끝 재기 (tools/edge-check.js): 기록 하나를 넘긴 뒤 뒤 동작이 끝날 때까지 every 프레임마다 그려서
-// 모델(외곽선 포함)이 펫 창 위·왼쪽·오른쪽 끝에서 몇 px 떨어지는지 가장 가까운 값과 그 시각을 돌려준다 (0 = 닿아서 잘림).
+// 모델(외곽선 포함, 그림자 빼고)이 펫 창 위·왼쪽·오른쪽·아래 끝에서 몇 px 떨어지는지 가장 가까운 값과 그 시각을 돌려준다 (0 = 닿아서 잘림).
 // 바닥에서 가장 가까운 자리(화면 아래 가운데, 모델이 가장 큼)에 세워 잰다
 //   every: 몇 프레임마다 그릴지(60fps 기준), 픽셀은 가로세로 2칸마다 본다 (빠르게. 여백이 1~2px 덜 정확함)
 function measureEdges(rec, { every = 3, alone = false } = {}) {
@@ -1278,7 +1281,7 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
   const buf = new Uint8Array(w * h * 4);
   const near = floor.toFloor(workArea.x + workArea.width / 2, workArea.y + workArea.height - 2);
   if (near) pos.copy(near);
-  const m = { top: Infinity, left: Infinity, right: Infinity, topAt: 0, leftAt: 0, rightAt: 0 };
+  const m = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity, topAt: 0, leftAt: 0, rightAt: 0, bottomAt: 0 };
   let n = 0;
   measureTransition(rec, {
     span: clip.duration, record: false, alone,
@@ -1286,9 +1289,11 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
       if (n++ % every) return;
       updateHiddenParts();
       updateOutlines();
+      shadow.visible = false; // 발밑 그림자는 빼고 모델만 (그림자는 늘 창 아래 끝까지 감)
       renderer.render(scene, camera);
+      shadow.visible = true;
       gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
-      let top = h, left = w, right = w;
+      let top = h, left = w, right = w, bottom = h;
       for (let y = 0; y < h; y += 2) {
         const row = y * w * 4;
         for (let x = 0; x < w; x += 2) {
@@ -1296,14 +1301,15 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
           top = Math.min(top, h - 1 - y); // readPixels는 아래 줄부터
           left = Math.min(left, x);
           right = Math.min(right, w - 1 - x);
+          bottom = Math.min(bottom, y);
         }
       }
-      for (const [k, v] of [['top', top], ['left', left], ['right', right]]) {
+      for (const [k, v] of [['top', top], ['left', left], ['right', right], ['bottom', bottom]]) {
         if (v / dpr < m[k]) { m[k] = v / dpr; m[`${k}At`] = +t.toFixed(2); }
       }
     },
   });
-  for (const k of ['top', 'left', 'right']) m[k] = Math.round(m[k]);
+  for (const k of ['top', 'left', 'right', 'bottom']) m[k] = Math.round(m[k]);
   return m;
 }
 
@@ -1321,6 +1327,24 @@ function usedClips() {
   return [...out];
 }
 
+// 동작 하나를 혼자 틀 때 쓸 기록 (measureTransition alone): 그 동작이 나올 만한 방향으로.
+// 평소 동작은 정면 쪽 15°, 총·EX는 45°, 걷기·뛰기는 70°, 낮잠은 펫과 같은 방향·자리(startNap), 집어 들기는 들린 높이
+function poseRec(name, face = null) {
+  const formOf = [...clipIndex.values()].flat().find((c) => c.name === name)?.form ?? 1;
+  face ??= THREE.MathUtils.degToRad(/^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i.test(name) ? 70
+    : /^(Normal|Stand|Kneel|Move_End|Exs)|Public/i.test(name) ? 45 : 15);
+  const rec = { to: name, toLoop: false, faceAfter: face, yawBefore: face, form: formOf, fade: 0,
+    lift: /^Formation_Pickup/i.test(name) ? DRAG_LIFT : 0, pivotPos: [0, 0, 0], pivotTarget: [0, 0, 0] };
+  if (/^Vital_Death/i.test(name)) {
+    rec.faceAfter = rec.yawBefore = FACE_NAP;
+    const end = clipEnds.get(name);
+    const t = NAP_OFFSET.clone().add(NAP_BODY.clone().applyAxisAngle(UP, FACE_NAP));
+    if (end) t.sub(end.clone().applyAxisAngle(UP, FACE_NAP + (clipTurns.get(name) ?? 0)));
+    rec.pivotTarget = rec.pivotPos = t.toArray();
+  }
+  return rec;
+}
+
 // 동작 시트 (tools/check-student.js): 동작마다 한 줄, 고르게 frames장. 그 동작이 나올 만한 방향으로 혼자 틀어 그린다
 // 창에서 가운데 60%·아래 80%만 (위쪽은 날아오르는 EX 말고는 비어 있음)
 function drawSheet(names, { frames = 5, cell = [260, 200], label = 210 } = {}) {
@@ -1334,22 +1358,10 @@ function drawSheet(names, { frames = 5, cell = [260, 200], label = 210 } = {}) {
   const src = renderer.domElement;
   const [sx, sw, sy, sh] = [src.width * 0.2, src.width * 0.6, src.height * 0.2, src.height * 0.8];
   const near = floor.toFloor(workArea.x + workArea.width / 2, workArea.y + workArea.height - 2);
-  const formOf = (name) => [...clipIndex.values()].flat().find((c) => c.name === name)?.form ?? 1;
-  const faceOf = (name) => THREE.MathUtils.degToRad(/^Vital_Death/i.test(name) ? 58
-    : /^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i.test(name) ? 70
-      : /^(Normal|Stand|Kneel|Move_End|Exs)|Public/i.test(name) ? 45 : 15);
   names.forEach((name, i) => {
     const clip = clips[name];
     if (!clip) return;
-    const face = faceOf(name);
-    const rec = { to: name, toLoop: false, faceAfter: face, yawBefore: face, form: formOf(name), fade: 0,
-      lift: /^Formation_Pickup/i.test(name) ? DRAG_LIFT : 0, pivotPos: [0, 0, 0], pivotTarget: [0, 0, 0] };
-    if (/^Vital_Death/i.test(name)) { // 낮잠 자리 (startNap과 같게)
-      const end = clipEnds.get(name);
-      const t = NAP_OFFSET.clone().add(NAP_BODY.clone().applyAxisAngle(UP, FACE_NAP));
-      if (end) t.sub(end.clone().applyAxisAngle(UP, FACE_NAP + (clipTurns.get(name) ?? 0)));
-      rec.pivotTarget = rec.pivotPos = t.toArray();
-    }
+    const rec = poseRec(name);
     g.fillStyle = '#fff';
     g.font = '15px "Malgun Gothic", sans-serif';
     g.fillText(name, 8, i * ch + 24);
@@ -1385,7 +1397,7 @@ function createBrowserStub() {
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   // main.js SIZES.medium과 같게. 검사 도구가 예전 창을 흉내 낼 때만 ?window=560x280
-  const [W, H] = (q.get('window') ?? '862x495').split('x').map(Number);
+  const [W, H] = (q.get('window') ?? '862x538').split('x').map(Number);
   // ?review: 넘어가는 곳 확인 도구. 페이지는 펫 창 크기 그대로, 바닥은 1920×1040 바탕화면인 셈 치고 걷기·뛰기도 한다
   const review = q.has('review');
   const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });

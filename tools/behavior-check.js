@@ -28,7 +28,7 @@ const SIM_SECONDS = 1800;
 app.whenReady().then(async () => {
   const port = await serve();
   const out = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
-  const win = new BrowserWindow({ show: false, width: 862, height: 495, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = new BrowserWindow({ show: false, width: 862, height: 538, webPreferences: { offscreen: true, backgroundThrottling: false } });
   let errors = [];
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) errors.push(m); });
   let failed = 0;

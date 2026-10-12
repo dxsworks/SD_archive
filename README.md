@@ -17,6 +17,18 @@ $s.TargetPath = "$env:WINDIR\System32\wscript.exe"; $s.Arguments = '"C:\bluearch
 $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets\pet.ico,0'; $s.Save()
 ```
 
+## 배포용 설치 파일
+
+```bash
+npm run dist
+```
+
+`dist/bluearchive-desktop-pet Setup 1.0.0.exe`가 만들어집니다. 받는 사람은 이것만 실행하면 되고(Node 불필요), 설치할 때 바탕화면·시작 메뉴에 "블루 아카이브 데스크톱 펫" 바로가기가 생깁니다. `models/`의 `.glb`가 모두 들어가니 빌드 전에 넣을 학생만 남겨 두세요. 서명이 없어서 처음 실행할 때 Windows SmartScreen 경고가 뜹니다("추가 정보 → 실행").
+
+- three.js `examples/jsm`은 electron-builder가 기본으로 빼므로 쓰는 파일(GLTFLoader 등)을 `build.files`에 직접 적어 두었습니다. 새 addon을 import하면 거기에도 추가
+- `models`가 링크(junction)이면 빌드에 안 들어갑니다(워크트리에서 빌드할 때 주의)
+- 빌드 중 `Cannot create symbolic link` 오류가 나면 `%LOCALAPPDATA%\electron-builder\Cache\winCodeSign`의 `.7z`를 `winCodeSign-2.6.0` 폴더에 `darwin` 빼고 직접 풀면 됩니다(Windows 개발자 모드를 켜도 됨)
+
 ## 조작
 
 | 동작 | 결과 |

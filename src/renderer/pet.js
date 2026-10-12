@@ -5,7 +5,7 @@ import { hiddenPartsUpdater, clipsChangingParts } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
-  ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_FIDGET_PAIRS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
+  ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
   DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, clipKey, indexClips, exVariants as exVariantsOf,
 } from './clip-names.js';
 
@@ -539,11 +539,7 @@ function armedIdle() {
   play(ARMED_IDLE);
 }
 
-const fidgetSteps = (name) => ARMED_FIDGET_PAIRS.find(([start]) => start === name) ?? [name];
-const armedFidget = () => {
-  const name = pickRandom(ARMED_FIDGETS.filter((n) => fidgetSteps(n).every(has)));
-  playSequence(fidgetSteps(name).map((n) => (n.endsWith('_Reload') ? reloadClip(n) : n)));
-};
+const armedFidget = () => { const name = pickRandom(ARMED_FIDGETS); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
 
 function chooseArmedBehavior() {
   if (clock() > armed.until) { armed = null; toIdle(); return; }

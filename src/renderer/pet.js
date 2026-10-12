@@ -6,7 +6,7 @@ import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
-  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, OTHER_CLIPS, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
+  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
 } from './clip-names.js';
 
 // ---- 화면 구성 ----
@@ -145,6 +145,7 @@ let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가�
 let clipHips = new Map();  // 동작 이름 → 막 시작했을 때 몸(허벅지 선) 방향 (모델 기준)
 let thighs = [];
 let gearClips = new Set(); // 평소 대기와 장비 모습이 다른 동작 (아리스(배틀) 등 뒤 장비가 생기거나 사라짐). 평소 상태에서는 피한다
+let form2Off = new Set(); // 02 차림 전투 대기(Normal_Idle02)와 모습이 다른 동작. 02 차림으로 끝난 전투의 승리 포즈를 고를 때 씀
 let currentAction = null;
 const weaponMeshes = [];
 
@@ -234,6 +235,8 @@ async function loadModel() {
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   ({ index: clipIndex, forms } = indexClips(Object.keys(clips)));
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
+  const idle2 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name;
+  form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
@@ -259,8 +262,11 @@ const has = (name) => Boolean(resolve(name));
 const clipTurn = () => clipTurns.get(currentAction?.getClip().name) ?? 0;
 // 지금 차림에 맞는 동작인지: 01 차림이면 다 맞고, 02 차림이면 02 번호가 붙은 것만
 // (번호 없는 동작은 01 차림 모습이라 02 차림 중에 틀면 벗은 겉옷이 다시 나타난다. 예: 수영복 호시노 Normal_Callsign)
-const fitsForm = (name) => currentForm() === 1
-  || Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
+const fitsForm = (name) => currentForm() === 1 || ownForm(name);
+// 지금 차림 번호의 것이 있는지 (01 차림에서도 02만 있는 동작은 아님)
+const ownForm = (name) => Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
+// 재장전: 변형(_Random)이 지금 차림에 있으면 원래 것과 반반
+const reloadClip = (name) => (ownForm(RELOAD_VARIANT(name)) && Math.random() < 0.5 ? RELOAD_VARIANT(name) : name);
 const first = (names) => names.find(has) ?? Object.keys(clips)[0];
 const clipName = (name) => (ANIM[name] ? first(ANIM[name]) : name);
 // 평소(맨손) 상태에 틀어도 되는 동작인지: 장비 모습이 평소 대기와 달라지는 동작은 무장·전투 때만
@@ -536,7 +542,7 @@ function armedIdle() {
   play(ARMED_IDLE);
 }
 
-const armedFidget = () => playSequence([pickRandom(ARMED_FIDGETS)]);
+const armedFidget = () => { const name = pickRandom(ARMED_FIDGETS); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
 
 function chooseArmedBehavior() {
   if (clock() > armed.until) { armed = null; toIdle(); return; }
@@ -606,9 +612,13 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   if (!battle) return;
   const rise = leaveSteps(); // 무릎·엄폐 자세면 일어나고 나서 승리 포즈
   battle = null;
+  // 02 차림으로 끝났고 그 모습 그대로인 승리 포즈 짝이 있으면 그것으로 (수영복 호시노: 겉옷 벗은 Victory_*_Random).
+  // 일어나는 동작도 02 것으로 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
+  const pairs = victory ? formVictoryPoses() : [];
+  const steps = pairs.length ? [...rise, ...pickPair(pairs)].map(resolve) : null;
   if (!keepForm) form = 1;
   lastBattleEnd = clock();
-  if (victory) playSequence([...rise, ...victoryPose()], { onEnd: toIdle });
+  if (victory) playSequence(steps ?? [...rise, ...victoryPose()], { onEnd: toIdle });
 }
 
 // 전투 자세 동작은 두 자세(자리)로 나뉜다: Attack_Ing·Attack_Delay는 "나간" 자세, Idle·Reload·Callsign·Move_End·EX는 "원래" 자세.
@@ -668,7 +678,7 @@ function burst() {
 
 function reload() {
   battle.ammo = MAGAZINE;
-  playSequence(fromCover([`${battle.stance}_Reload`]), { face: battleFace() });
+  playSequence(fromCover([reloadClip(`${battle.stance}_Reload`)]), { face: battleFace() });
 }
 
 const callsign = () => (hasCallsign(battle.stance) ? playSequence(fromCover([`${battle.stance}_Callsign`]), { face: battleFace() }) : rest());
@@ -799,9 +809,13 @@ function react() {
 }
 
 // 승리 포즈: 전투가 끝날 때 말고도 평소에 가끔.
-// 이 학생에게 있고 평소 모습과 같은 짝 중에서 고른다 (수영복 호시노 _Random은 겉옷 벗은 02 차림 모습이라 빠짐)
+// 이 학생에게 있고 평소 모습과 같은 짝 중에서 고른다 (수영복 호시노 _Random은 겉옷 벗은 02 차림 모습이라 빠짐 → 02 차림으로 끝난 전투에서만, endBattle)
 const victoryPoses = () => VICTORIES.filter((pair) => pair.every(has) && pair.every(calmOk));
-const victoryPose = () => { const pairs = victoryPoses(); return pairs.length ? pairs[Math.floor(Math.random() * pairs.length)] : VICTORIES[0]; };
+const pickPair = (pairs) => pairs[Math.floor(Math.random() * pairs.length)];
+const victoryPose = () => { const pairs = victoryPoses(); return pairs.length ? pickPair(pairs) : VICTORIES[0]; };
+// 02 차림 중에 틀어도 모습이 그대로인 짝 (01 차림이면 없음)
+const formVictoryPoses = () => (form === 2 && form2Off.size
+  ? VICTORIES.filter((pair) => pair.every(has) && pair.every((n) => !form2Off.has(resolve(n)))) : []);
 const cheer = () => playSequence(victoryPose());
 
 // 대기 시간이 끝나면 다음 행동을 가중치로 고른다
@@ -1092,6 +1106,7 @@ window.__pet = {
   get exVariants() { return exVariants(); },
   get forms() { return [...forms]; },
   get gearClips() { return [...gearClips]; },
+  get form2Off() { return [...form2Off]; },
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
@@ -1316,7 +1331,7 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
 // 이 학생에게 펫이 쓸 수 있는 동작 전부 (차림마다 실제 이름으로). 창 끝 검사에서 흉내 중에 안 나온 동작을 채울 때 씀
 function usedClips() {
   const names = [...Object.values(ANIM).flat(), REACTION, ARMED_IDLE, ...ARMED_FIDGETS, ...ARMED_REACTIONS,
-    ...STANCES.flatMap(stanceAll), ...BATTLE_ENTRY, ...DRAW_WEAPON, RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants()];
+    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...DRAW_WEAPON, RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants()];
   const keep = form;
   const out = new Set();
   for (const f of forms) {

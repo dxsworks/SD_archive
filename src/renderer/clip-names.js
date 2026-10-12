@@ -38,6 +38,10 @@ export const VICTORIES = [['Victory_Start', 'Victory_End'], ['Victory_Start_Rand
 // 위 목록 밖에서 pet.js가 이름을 직접 부르는 동작 (자세별 동작은 stanceAll)
 export const OTHER_CLIPS = ['Move_Ing', 'Move_Jump', 'Vital_Retreat'];
 // 자세 하나에서 쓰는 동작: 대기, 사격 4단계, 재장전, 구호, 뛰어와서 그 자세 잡기
+// 재장전 변형(_Random, 서서 21개·무릎 10개 모델): 있으면 원래 재장전과 무작위로 섞는다 (사용자 결정 2026-10-12).
+// 지금 차림 번호의 것만 쓴다 (수영복 호시노 Normal_Reload02_Random은 겉옷 벗은 02 차림에서만)
+export const RELOAD_VARIANT = (name) => `${name}_Random`;
+export const RELOAD_VARIANTS = STANCES.map((st) => RELOAD_VARIANT(`${st}_Reload`));
 export const stanceAll = (st) => [STANCE_IDLE[st], ...ATTACK_STEPS.map((step) => `${st}_${step}`),
   `${st}_Reload`, `${st}_Callsign`, `Move_End_${st}`];
 

@@ -471,60 +471,6 @@
  ],
  "Hoshino (Swimsuit).glb": [
   {
-   "clip": "Normal_Attack01_End",
-   "top": 258,
-   "left": 184,
-   "right": 314,
-   "bottom": 0,
-   "topAt": 0.02,
-   "topHow": "Normal_Attack01_Delay 다음",
-   "leftAt": 0.22,
-   "leftHow": "Normal_Attack02_Delay 다음",
-   "rightAt": 0.02,
-   "rightHow": "Normal_Attack01_Delay 다음",
-   "bottomAt": 0.07,
-   "bottomHow": "Normal_Attack02_Delay 다음",
-   "warn": [
-    "아래 0px (Normal_Attack02_Delay 다음, 0.07초)"
-   ]
-  },
-  {
-   "clip": "Victory_Start",
-   "top": 250,
-   "left": 258,
-   "right": 228,
-   "bottom": 0,
-   "topAt": 0.47,
-   "topHow": "Cafe_Idle 다음",
-   "leftAt": 0.07,
-   "leftHow": "Exs 다음",
-   "rightAt": 0.17,
-   "rightHow": "Exs 다음",
-   "bottomAt": 0.07,
-   "bottomHow": "Move_End_Normal02 다음",
-   "warn": [
-    "아래 0px (Move_End_Normal02 다음, 0.07초)"
-   ]
-  },
-  {
-   "clip": "Exs",
-   "top": 252,
-   "left": 211,
-   "right": 308,
-   "bottom": 0,
-   "topAt": 2.02,
-   "topHow": "Normal_Idle02 다음",
-   "leftAt": 1.07,
-   "leftHow": "Normal_Idle01 다음",
-   "rightAt": 0.17,
-   "rightHow": "Normal_Idle02 다음",
-   "bottomAt": 0.07,
-   "bottomHow": "Normal_Idle02 다음",
-   "warn": [
-    "아래 0px (Normal_Idle02 다음, 0.07초)"
-   ]
-  },
-  {
    "clip": "Vital_Death02",
    "top": 276,
    "left": 161,
@@ -653,6 +599,22 @@
    "warn": []
   },
   {
+   "clip": "Normal_Attack01_End",
+   "top": 258,
+   "left": 351,
+   "right": 314,
+   "bottom": 37,
+   "topAt": 0.02,
+   "topHow": "Normal_Attack01_Delay 다음",
+   "leftAt": 0.02,
+   "leftHow": "Normal_Attack01_Ing 다음",
+   "rightAt": 0.02,
+   "rightHow": "Normal_Attack01_Delay 다음",
+   "bottomAt": 0.12,
+   "bottomHow": "Normal_Attack02_Delay 다음",
+   "warn": []
+  },
+  {
    "clip": "Cafe_Reaction",
    "top": 252,
    "left": 234,
@@ -701,6 +663,38 @@
    "warn": []
   },
   {
+   "clip": "Victory_Start",
+   "top": 250,
+   "left": 343,
+   "right": 318,
+   "bottom": 38,
+   "topAt": 0.47,
+   "topHow": "Cafe_Idle 다음",
+   "leftAt": 1.37,
+   "leftHow": "Exs 다음",
+   "rightAt": 1.92,
+   "rightHow": "Normal_Attack01_End 다음",
+   "bottomAt": 0.07,
+   "bottomHow": "Normal_Attack01_End 다음",
+   "warn": []
+  },
+  {
+   "clip": "Exs",
+   "top": 252,
+   "left": 211,
+   "right": 332,
+   "bottom": 38,
+   "topAt": 2.02,
+   "topHow": "Normal_Idle02 다음",
+   "leftAt": 1.07,
+   "leftHow": "Normal_Idle01 다음",
+   "rightAt": 0.72,
+   "rightHow": "Cafe_Idle 다음",
+   "bottomAt": 0.07,
+   "bottomHow": "Normal_Idle01 다음",
+   "warn": []
+  },
+  {
    "clip": "Normal_Callsign",
    "top": 257,
    "left": 333,
@@ -735,13 +729,13 @@
   {
    "clip": "Formation_Pickup",
    "top": 253,
-   "left": 323,
+   "left": 333,
    "right": 320,
    "bottom": 39,
    "topAt": 0.02,
    "topHow": "Cafe_Idle 다음",
-   "leftAt": 0.12,
-   "leftHow": "Cafe_Walk 다음",
+   "leftAt": 4.62,
+   "leftHow": "Cafe_Idle 다음",
    "rightAt": 0.02,
    "rightHow": "Normal_Attack01_Ing 다음",
    "bottomAt": 0.02,

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsChangingParts } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
@@ -219,6 +219,7 @@ async function borrowClips(gltf) {
 async function loadModel() {
   const gltf = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readModel()), '');
   await borrowClips(gltf);
+  restUnderHiddenBones(gltf.scene, gltf.animations); // 숨긴 소품 아래 뼈가 섞일 때 늘어나지 않게
 
   gltf.scene.traverse((obj) => {
     if (!obj.isMesh) return;

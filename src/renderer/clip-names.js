@@ -19,7 +19,9 @@ export const REACTION = 'Cafe_Reaction';
 export const ARMED_IDLE = 'Normal_Idle';
 // 승리 포즈는 넣지 않는다(무장은 총을 들고 있어 전투처럼 보여서, 전투 중간에 승리 포즈가 나오는 것처럼 보였음). 승리 포즈는 평소·전투 끝에
 // 구호·재장전은 카페 동작이 있는 모델 265개 중 약 177개, Rearrange_*는 2~3개에만 있음
-export const ARMED_FIDGETS = ['Normal_Callsign', 'Normal_Callsign_Random', 'Normal_Reload', 'Rearrange_Idle'];
+export const ARMED_FIDGETS = ['Normal_Callsign', 'Normal_Callsign_Random', 'Normal_Reload', 'Rearrange_Idle', 'Rearrange_Start'];
+// 그중 이어 트는 짝 (둘 다 있을 때만): 시로코 Rearrange_Start(내려와 앉았다 일어남) → Rearrange_Ing(총 들고 서 있기) (사용자 결정 2026-10-12)
+export const ARMED_FIDGET_PAIRS = [['Rearrange_Start', 'Rearrange_Ing']];
 export const ARMED_REACTIONS = ['Normal_Callsign', 'Normal_Callsign_Random', 'Rearrange_Reaction'];
 // 전투 자세: 서서 쏘기(Normal) / 방패 뒤에 숨어 쏘기(Stand) / 무릎 꿇고 쏘기(Kneel). 학생마다 있는 자세만 쓴다
 // 공격 한 번은 시작 → 사격 → 끝 → 대기 순서로 이어야 자연스럽다

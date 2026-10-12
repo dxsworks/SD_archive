@@ -44,6 +44,9 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
   - `npx electron tools/transition-review.js` 넘어가는 곳 확인 창(보이는 창, 사람이 씀, 정적 서버 불필요): 펫 상태 머신을 가상 시계로 30분 빨리 돌려(`__pet.simulate`) 실제로 이어 트는 곳을 모으고, 하나씩 펫과 똑같이 반복 재생(`__pet.replay`)해 이상함/괜찮음 표시 → `docs/data/transition-marks.json`. 펫 페이지 `?review`는 펫 창 크기에 1920×1040 바닥(걷기·뛰기 켬)
+  - `node tools/check-student.js ["모델.glb" …] [--open]` **학생 검사 한 번에**(정적 서버 불필요, 학생 하나에 약 2분): 아래 이름·각도·창 끝·행동 검사와 동작 시트를 차례로 돌려 `reports/<모델>.html`. 모델을 안 주면 호시노·수영복 호시노·시로코·아리스(배틀)
+  - `npx electron tools/behavior-check.js ["모델.glb" …]` 행동 테스트(가상 시계 `__pet.run`): 명령마다 대기로 돌아오는지 + 30분 동안 멈춤·오류 → `docs/data/behavior-check.json`
+  - `npx electron tools/sheet-check.js "모델.glb" [출력.png]` 펫이 쓰는 동작마다 5장 시트(`__pet.sheet`)
   - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
@@ -92,11 +95,14 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
      - 새 학생 자동 검사: `npx electron tools/transition-check.js "모델.glb"` → "이상" 표시가 남은 곳을 확인 창에서 다시 보기. 남은 것: 걷다 등을 보인 채 총 꺼내기(`Cafe_Idle → Public01`, 이어 받기 최대 120° 넘음, 사용자 "모르겠음"), EX → 구호(드묾)
      - 확인하고 그대로 두기로 한 것(2026-10-12 사용자): 전투가 끝날 때 02 차림 사격 대기 → 01 차림 `Normal_Attack01_End`로 넘어가며 겉옷이 다시 생기는 것(옷 입는 동작이 없으니 끝나면 01로 가는 게 맞음), 수영복 호시노 뛰기 보정(01 42°, 02 44° — 02는 상체가 더 돌아 보여 22°·0°와 비교했지만 지금이 낫다고 함)
    - **완료(2026-10-12): 창 끝** `tools/edge-check.js` (위 테스트 방법). 네 학생 경고 1개: 아리스(배틀) `Public01 → Normal_Callsign_Random`을 총 꺼내기 0.07초 만에 클릭으로 끊으면 섞지 않고 바뀌어(앞 동작이 아직 섞이는 중이면 `play()`가 바로 바꿈) 공중에서 시작하는 구호 동작 첫 프레임으로 순간이동, 창 위에 닿음(30분에 2번). 아직 안 고침. 예전 창(560×280, 1.3단위)으로 돌리면 아리스 EX가 위·오른쪽에 닿는 것을 잡아냄
-   - **진행 중(2026-10-12, 브랜치 `feat/check-edges`, 아직 main에 안 합침): 한 번에 검사** `node tools/check-student.js ["모델.glb" …] [--open]` → 이름·각도·창 끝·행동(`tools/behavior-check.js`)·동작 시트(`tools/sheet-check.js`)를 차례로 돌려 `reports/<모델>.html`(git 제외). 시로코로 111초에 끝까지 돎. 남은 것: 보고서·시트를 눈으로 확인, 네 학생 전체 돌리기, 이 문서(테스트 방법)에 정리, main에 합치기. 아리스 `Normal_Callsign_Random` 창 위 잘림은 그대로 두기로 함(사용자)
-   - 동작 확인: 꼭 필요한 동작(`Cafe_Idle` 등)이 있는지, 처음 보는 이름 규칙(`01_` 접두사, 새 오타)이 있는지, 찾아낸 특징(차림 02, EX 여러 개, 장비 동작 `gearClips`, 짝 파일) 목록
-   - 행동 테스트(반응·무장·EX·낮잠·전투가 대기로 돌아오는지)와 사람이 볼 동작 시트 한 장
-   - 먼저 오늘 겪은 문제를 잡아내는지 확인: 고치기 전 커밋으로 돌려서 경고가 나오는지 (아리스 EX 창 넘침은 `9db836d`에서 고침 → 그 전 `121adcd`, 승리 포즈 End 각도는 `ffae9c4`에서 고침 → 그 전 `ddc78f1`, 수영복 호시노·시로코 낮잠 잘림은 `82298e9`에서 고침 → 그 전 `dc96e98`)
-   - 자동화 흐름(나중): 받기 → 검사 → 경고 없으면 추가, 있으면 표시 + 시트로 사람이 확인. 연출 판단(하늘에서 떨어지는 Victory_Start, 쓰러질 때 날아가는 소품, 다른 파일 동작 빌려오기)은 사람이 정함
+   - **완료(2026-10-12): 행동·시트·한 번에 검사** `node tools/check-student.js ["모델.glb" …] [--open]` (node로 돌림: Electron 안에서 검사 도구를 띄우면 끝난 뒤 페이지를 못 열고 멈췄음) → 이름(`check-model.js`)·각도(`transition-check.js`)·창 끝(`edge-check.js`)·행동(`behavior-check.js`: 클릭 반응·잠깐 무장·더블클릭 EX·낮잠 깨우기·전투·집어 들었다 놓기·걷기가 대기로 돌아오는지, 종료는 사라지는지, 30분 동안 멈춤·페이지 오류)·동작 시트(`sheet-check.js`)를 차례로 돌려 `reports/<모델>.html` + 시트 PNG(git 제외). 학생 하나에 약 2분, 네 학생 행동 실패·멈춤·오류 0. 각 결과 JSON은 `docs/data/`(transition-metrics, edge-check, behavior-check). 공용: `tools/pet-page.js`
+   - 그대로 두기로 한 것(사용자): 아리스 `Normal_Callsign_Random` 창 위 닿음(총 꺼내기 0.07초 만에 클릭으로 끊으면 섞지 않고 공중 첫 프레임으로 감, 30분에 2번)
+   - 창 아래가 잘리던 것 고침(2026-10-12): 위 "지켜야 할 것"의 창 크기 참고. 확인 방법 `edge-check`의 아래 여백
+   - **남은 것 (새 대화에서 이어서)**:
+     1. 수영복 호시노 빨간 끈: 02 차림 동작에서 다른 동작으로 넘어간 직후 0.15초 동안 끈이 창 아래까지 늘어나 번쩍임(`Normal_Idle02 → Exs`, `Move_End_Normal02 → Victory_Start`, `Normal_Attack02_Delay → Normal_Attack01_End`, edge-check 아래 0px). 다른 세션 `feat/reload-random`의 "02 차림으로 끝난 전투는 02 승리 포즈, 일어나는 동작도 02로"가 일부를 없앨 수 있음 → 그 브랜치를 합친 뒤에 다시 잼
+     2. Claude가 학생 추가를 처음부터 끝까지 하게: 검사 결과를 Claude가 읽기 쉬운 요약(`reports/<모델>.json`: 경고 종류·고칠 곳·사람에게 물을 것)으로 + 작업 순서 스킬(받기 허락 → 검사 → 경고 종류별로 고치기 → 다시 검사 → 사람에겐 판단할 것만). 사용자에게 아직 못 들은 것: 경고가 없으면 사람에게 안 보이고 바로 추가해도 되는지, 마지막에 시트 한 장은 볼지
+     3. `feat/check-edges`와 `feat/reload-random` main에 합치기(사용자 허락 후). 겹치는 곳: `pet.js` 첫 import 줄(둘 다 넣기: `OTHER_CLIPS, stanceAll, RELOAD_VARIANT`), `.gitignore`. 합친 뒤 `usedClips()`에 재장전 변형(`RELOAD_VARIANTS`)과 02 승리 포즈도 넣고 `node tools/check-student.js`로 네 학생 다시
+   - 자동화 흐름: 받기 → 검사 → 경고 없으면 추가, 있으면 Claude가 원인 찾아 고치고 다시 검사. 사람은 처음 보는 종류의 "보기에 이상함"(Claude가 비교 그림을 만들어 고르게)과 연출 판단(하늘에서 떨어지는 Victory_Start, 쓰러질 때 날아가는 소품, 다른 파일 동작 빌려오기)만
 1. **EX 쓰면 차림이 바뀌는 학생 (`02` 동작)**
    - 전투 동작 전체가 `02`로 따로 있는 학생(`Shun` 21개, `Shiroko＊Terror` 15, `Otogi` 14, `Kurumi` 12, `Tsurugi`·`Tsurugi (Swimsuit)` 10~11, `Eimi (Battle)` 9, `Subaru` 8): 수영복 호시노처럼 전투 중 EX 뒤 `02` 차림 유지로 하면 됨(사용자 동의). 대표로 `Shun` 받아서 확인 예정
    - 몇 개만 `02`인 학생(`Kayoko (New Year)` 승리 포즈·구호 `02`, `Noa (Pajama)` `Public02`): 차림이 아니라 변형으로 보고 `01`/`02` 중 무작위로. **Start/End는 꼭 같은 번호끼리 붙이고 01/02가 섞이지 않게 주의**(사용자 요청). 대표로 `Kayoko (New Year)` 받아서 확인 예정

@@ -4,17 +4,11 @@
 // 사용: npx electron tools/transition-check.js ["모델.glb" …] [--turn=A]   (모델이 없으면 확인 창의 기본 네 학생)
 //   --turn=A: 총 자세로 넘어갈 때 몸 방향 이어 받기(pet.js carryTurn)를 끄고 예전처럼 잼 → transition-metrics.turn-A.json
 const { app, BrowserWindow } = require('electron');
-const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const { ROOT, wrap, serve, openPet, loadMarks, pairsOf, modelsFromArgs } = require('./pet-page');
 
-app.commandLine.appendSwitch('disable-http-cache');
-const ROOT = path.resolve(__dirname, '..');
-const MARKS = path.join(ROOT, 'docs', 'data', 'transition-marks.json');
 const METRICS = path.join(ROOT, 'docs', 'data', 'transition-metrics.json');
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.glb': 'model/gltf-binary' };
-const DEFAULT_MODELS = ['Hoshino.glb', 'Hoshino (Swimsuit).glb', 'Shiroko.glb', 'Arisu (Battle).glb'];
-const SIM_SECONDS = 1800;
 const PX = 215; // 1 모델 단위 ≈ 215px (펫 창 기본 크기)
 // 판단 (2026-10-12 사용자 표시 19곳에 맞춘 것): 총 든 자세 동작(Normal_/Stand_/Kneel_, 총 꺼내기 Public)으로 넘어가는데
 // 그 동작은 별로 안 도는데 몸 전체가 50° 넘게 더 돌면 이상함. 평소 대기·승리 포즈·집어 들기처럼 정면 쪽 맨손 자세로 도는 것,
@@ -23,20 +17,6 @@ const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
 const MOVING = /^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i;
 const BAD_SPIN = 50;
 const verdict = (to, { spin, own }) => (GUN_POSE.test(to) && !MOVING.test(to) && spin >= BAD_SPIN && own < spin ? 'bad' : 'ok');
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const wrap = (d) => ((((d + 180) % 360) + 360) % 360) - 180;
-
-function serve() {
-  const server = http.createServer((req, res) => {
-    const file = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
-    if (!file.startsWith(ROOT)) { res.writeHead(403).end(); return; }
-    fs.readFile(file, (err, data) => {
-      if (err) { res.writeHead(404).end(); return; }
-      res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] ?? 'application/octet-stream' }).end(data);
-    });
-  });
-  return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(server.address().port)));
-}
 
 // 몸 전체(허벅지 선)가 도는 총량(도)
 const hipTravel = (frames) => frames.slice(1).reduce((s, f, i) => s + Math.abs(wrap(f.hip - frames[i].hip)), 0);
@@ -68,38 +48,15 @@ function score(trans, alone) {
 
 app.whenReady().then(async () => {
   const port = await serve();
-  const models = process.argv.slice(2).filter((a) => a.endsWith('.glb'));
   const turn = process.argv.find((a) => a.startsWith('--turn='))?.slice(7) === 'A' ? 'A' : 'C';
   const metricsFile = turn === 'C' ? METRICS : METRICS.replace(/\.json$/, `.turn-${turn}.json`);
-  const marks = fs.existsSync(MARKS) ? JSON.parse(fs.readFileSync(MARKS, 'utf8')) : {};
+  const marks = loadMarks();
   const out = fs.existsSync(metricsFile) ? JSON.parse(fs.readFileSync(metricsFile, 'utf8')) : {};
-  const win = new BrowserWindow({ show: false, width: 862, height: 495, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = new BrowserWindow({ show: false, width: 862, height: 538, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) console.log('[page]', m); });
-  const js = (code) => win.webContents.executeJavaScript(code);
-  for (const model of models.length ? models : DEFAULT_MODELS) {
-    await win.loadURL(`http://127.0.0.1:${port}/src/renderer/index.html?review&model=${encodeURIComponent(model)}`);
-    for (let i = 0; i < 100 && !(await js('Boolean(window.__pet?.clip)')); i++) await sleep(100);
-    if (!marks[model]?.pairs?.length) {
-      // 확인 창과 같은 방법으로 모은다 (tools/transition-review.html collect)
-      const log = await js(`__pet.simulate(${SIM_SECONDS})`);
-      const groups = new Map();
-      for (const r of log) {
-        const key = `${r.from} → ${r.to}`;
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key).push(r);
-      }
-      const turns = await js('__pet.clipTurns');
-      const swing = (r) => Math.abs(wrap((r.faceAfter * 180) / Math.PI + (turns[r.to] ?? 0) - (r.yawBefore * 180) / Math.PI));
-      marks[model] = {
-        collected: new Date().toISOString().slice(0, 10), simSeconds: SIM_SECONDS,
-        pairs: [...groups].map(([key, recs]) => {
-          recs.sort((a, b) => swing(b) - swing(a));
-          const picks = [...new Set([0, 1, 2, 3].map((i) => Math.round((i * (recs.length - 1)) / 3)))];
-          return { key, from: recs[0].from, to: recs[0].to, count: recs.length, examples: picks.map((i) => recs[i]), mark: null, note: '' };
-        }).sort((a, b) => b.count - a.count),
-      };
-      fs.writeFileSync(MARKS, `${JSON.stringify(marks, null, 1)}\n`);
-    }
+  for (const model of modelsFromArgs()) {
+    const js = await openPet(win, port, model);
+    await pairsOf(js, model, marks);
     await js(`__pet.turnMode = '${turn}'`);
     const rows = [];
     for (const p of marks[model].pairs) {

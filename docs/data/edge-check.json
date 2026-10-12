@@ -473,7 +473,7 @@
   {
    "clip": "Normal_Attack01_End",
    "top": 258,
-   "left": 185,
+   "left": 184,
    "right": 314,
    "bottom": 0,
    "topAt": 0.02,
@@ -957,6 +957,22 @@
    "warn": []
   },
   {
+   "clip": "Normal_Reload02_Random",
+   "top": 253,
+   "left": 332,
+   "right": 324,
+   "bottom": 42,
+   "topAt": 1.17,
+   "topHow": "흉내에 안 나옴, 방향 40°",
+   "leftAt": 0.52,
+   "leftHow": "흉내에 안 나옴, 방향 80°",
+   "rightAt": 0.42,
+   "rightHow": "흉내에 안 나옴, 방향 -40°",
+   "bottomAt": 1.97,
+   "bottomHow": "흉내에 안 나옴, 방향 -80°",
+   "warn": []
+  },
+  {
    "clip": "Cafe_Walk",
    "top": 252,
    "left": 356,
@@ -1137,6 +1153,22 @@
    "warn": []
   },
   {
+   "clip": "Normal_Callsign",
+   "top": 267,
+   "left": 313,
+   "right": 344,
+   "bottom": 33,
+   "topAt": 0.02,
+   "topHow": "Public01 다음",
+   "leftAt": 1.52,
+   "leftHow": "Public01 다음",
+   "rightAt": 0.32,
+   "rightHow": "Normal_Attack_End 다음",
+   "bottomAt": 0.17,
+   "bottomHow": "Rearrange_Start 다음",
+   "warn": []
+  },
+  {
    "clip": "Public01",
    "top": 237,
    "left": 297,
@@ -1172,32 +1204,16 @@
    "clip": "Rearrange_Reaction",
    "top": 287,
    "left": 360,
-   "right": 351,
+   "right": 350,
    "bottom": 33,
    "topAt": 0.17,
    "topHow": "Normal_Idle 다음",
    "leftAt": 1.42,
    "leftHow": "Normal_Idle 다음",
-   "rightAt": 1.22,
-   "rightHow": "Normal_Idle 다음",
+   "rightAt": 1.27,
+   "rightHow": "Rearrange_Ing 다음",
    "bottomAt": 0.12,
    "bottomHow": "Normal_Idle 다음",
-   "warn": []
-  },
-  {
-   "clip": "Normal_Callsign",
-   "top": 267,
-   "left": 313,
-   "right": 344,
-   "bottom": 34,
-   "topAt": 0.02,
-   "topHow": "Public01 다음",
-   "leftAt": 1.52,
-   "leftHow": "Public01 다음",
-   "rightAt": 0.32,
-   "rightHow": "Normal_Attack_End 다음",
-   "bottomAt": 0.17,
-   "bottomHow": "Public01 다음",
    "warn": []
   },
   {
@@ -1278,6 +1294,22 @@
    "rightHow": "Normal_Idle 다음",
    "bottomAt": 0.07,
    "bottomHow": "Kneel_Attack_End 다음",
+   "warn": []
+  },
+  {
+   "clip": "Rearrange_Start",
+   "top": 258,
+   "left": 350,
+   "right": 316,
+   "bottom": 36,
+   "topAt": 0.22,
+   "topHow": "Normal_Idle 다음",
+   "leftAt": 1.42,
+   "leftHow": "Normal_Idle 다음",
+   "rightAt": 0.02,
+   "rightHow": "Normal_Idle 다음",
+   "bottomAt": 0.17,
+   "bottomHow": "Normal_Idle 다음",
    "warn": []
   },
   {
@@ -1550,6 +1582,22 @@
    "rightHow": "Cafe_Idle 다음",
    "bottomAt": 0.02,
    "bottomHow": "Cafe_Idle 다음",
+   "warn": []
+  },
+  {
+   "clip": "Rearrange_Ing",
+   "top": 292,
+   "left": 370,
+   "right": 387,
+   "bottom": 47,
+   "topAt": 0.52,
+   "topHow": "Rearrange_Start 다음",
+   "leftAt": 0.52,
+   "leftHow": "Rearrange_Start 다음",
+   "rightAt": 1.57,
+   "rightHow": "Rearrange_Start 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Rearrange_Start 다음",
    "warn": []
   }
  ],

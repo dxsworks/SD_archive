@@ -57,7 +57,7 @@ function report(model, names, angles, edges, behavior, sheetFile) {
   img { max-width: 100%; border-radius: 6px; }
 </style></head><body>
 <h1>${esc(model)}</h1>
-<div class="dim">학생 검사 ${new Date().toISOString().slice(0, 16).replace('T', ' ')} · ${total ? `확인할 것 ${total}개` : '경고 없음'}</div>
+<div class="dim">학생 검사 ${new Date().toLocaleString('ko-KR', { dateStyle: 'short', timeStyle: 'short' })} · ${total ? `확인할 것 ${total}개` : '경고 없음'}</div>
 <div class="badges">${counts.map(([l, n]) => `<div class="badge ${n ? 'bad' : 'ok'}">${l}<b>${n}</b></div>`).join('')}</div>
 
 <h2>펫이 이 학생에게 하는 것</h2>
@@ -79,7 +79,7 @@ ${edges.slice(0, Math.max(6, edgeWarn.length)).map((b) => `<tr><td><code>${esc(b
 
 <h2>행동</h2>
 <table><tr><th>시험</th><th></th><th class="num">걸린 시간</th><th>지나간 동작</th></tr>
-${behavior.tests.map((t) => `<tr><td>${esc(t.name)}</td><td class="${t.ok ? '' : 'bad'}">${t.ok ? '대기로 돌아옴' : esc(t.why)}</td><td class="num">${t.time}초</td><td><code>${esc(t.clips.join(' → '))}</code></td></tr>`).join('')}</table>
+${behavior.tests.map((t) => `<tr><td>${esc(t.name)}</td><td class="${t.ok ? '' : 'bad'}">${t.ok ? (t.name.startsWith('종료') ? '사라짐' : '대기로 돌아옴') : esc(t.why)}</td><td class="num">${t.time}초</td><td><code>${esc(t.clips.join(' → '))}</code></td></tr>`).join('')}</table>
 <p class="dim">펫 시간 30분(클릭 등 섞음): ${Object.entries(behavior.longest).map(([s, l]) => `${s} 최대 ${l.dur}초`).join(' · ')}</p>
 ${behavior.stuck.length ? list(behavior.stuck.map((s) => `<span class="bad">멈춤: ${esc(s.state)} ${s.dur}초 (${esc(s.clip)})</span>`)) : ''}
 ${behavior.errors.length ? list(behavior.errors.map((e) => `<span class="bad">오류: ${esc(e)}</span>`)) : ''}

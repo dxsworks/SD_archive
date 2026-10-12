@@ -1322,7 +1322,8 @@ function usedClips() {
 }
 
 // 동작 시트 (tools/check-student.js): 동작마다 한 줄, 고르게 frames장. 그 동작이 나올 만한 방향으로 혼자 틀어 그린다
-function drawSheet(names, { frames = 5, cell = [150, 172], label = 210 } = {}) {
+// 창에서 가운데 60%·아래 80%만 (위쪽은 날아오르는 EX 말고는 비어 있음)
+function drawSheet(names, { frames = 5, cell = [260, 200], label = 210 } = {}) {
   const [cw, ch] = cell;
   const sheet = document.createElement('canvas');
   sheet.width = label + cw * frames;
@@ -1331,7 +1332,7 @@ function drawSheet(names, { frames = 5, cell = [150, 172], label = 210 } = {}) {
   g.fillStyle = '#3c465f';
   g.fillRect(0, 0, sheet.width, sheet.height);
   const src = renderer.domElement;
-  const [sx, sw] = [src.width * 0.27, src.width * 0.46];
+  const [sx, sw, sy, sh] = [src.width * 0.2, src.width * 0.6, src.height * 0.2, src.height * 0.8];
   const near = floor.toFloor(workArea.x + workArea.width / 2, workArea.y + workArea.height - 2);
   const formOf = (name) => [...clipIndex.values()].flat().find((c) => c.name === name)?.form ?? 1;
   const faceOf = (name) => THREE.MathUtils.degToRad(/^Vital_Death/i.test(name) ? 58
@@ -1360,7 +1361,7 @@ function drawSheet(names, { frames = 5, cell = [150, 172], label = 210 } = {}) {
       updateHiddenParts();
       updateOutlines();
       renderer.render(scene, camera);
-      g.drawImage(src, sx, 0, sw, src.height, label + k * cw, i * ch, cw, ch);
+      g.drawImage(src, sx, sy, sw, sh, label + k * cw, i * ch, cw, ch);
     }
   });
   return sheet.toDataURL('image/png');

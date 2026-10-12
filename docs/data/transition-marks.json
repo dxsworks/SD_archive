@@ -3022,9 +3022,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -3346,7 +3346,7 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
     "claude": "ok",
     "claudeEx": 0
@@ -17998,9 +17998,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "ok",
+    "claude": "bad",
     "claudeEx": 0
    },
    {
@@ -18106,10 +18106,10 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "ok",
-    "claudeEx": 1
+    "claude": "bad",
+    "claudeEx": 0
    },
    {
     "key": "Kneel_Attack_End → Exs",
@@ -28058,27 +28058,19 @@
  "__ask": [
   {
    "model": "Shiroko.glb",
-   "key": "Normal_Idle → Rearrange_Start"
+   "key": "Normal_Idle → Rearrange_Reaction"
   },
   {
    "model": "Shiroko.glb",
-   "key": "Rearrange_Start → Rearrange_Ing"
+   "key": "Rearrange_Reaction → Normal_Idle"
   },
   {
-   "model": "Shiroko.glb",
-   "key": "Rearrange_Ing → Normal_Idle"
+   "model": "Hoshino.glb",
+   "key": "Normal_Idle → Rearrange_Reaction"
   },
   {
-   "model": "Shiroko.glb",
-   "key": "Rearrange_Ing → Rearrange_Reaction"
-  },
-  {
-   "model": "Shiroko.glb",
-   "key": "Rearrange_Ing → Formation_Pickup"
-  },
-  {
-   "model": "Shiroko.glb",
-   "key": "Rearrange_Start → Normal_Callsign"
+   "model": "Hoshino.glb",
+   "key": "Rearrange_Reaction → Normal_Idle"
   }
  ]
 }

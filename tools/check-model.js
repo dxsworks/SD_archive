@@ -104,10 +104,9 @@ function checkModel(file, names, { companions = [] }, N) {
   // 잠깐 무장
   if (has(N.ARMED_IDLE)) {
     const draw = first(N.DRAW_WEAPON);
-    const steps = (n) => N.ARMED_FIDGET_PAIRS.find(([start]) => start === n) ?? [n];
-    const fidgets = N.ARMED_FIDGETS.filter((n) => steps(n).every(has)).map((n) => steps(n).map((m) => nameOf(m)).join(' → '));
+    const fidgets = N.ARMED_FIDGETS.filter(has);
     does.push(`잠깐 무장: 대기 ${nameOf(N.ARMED_IDLE)} · 총 꺼내기 ${draw ? nameOf(draw) : '없음(총이 바로 생김)'}`
-      + ` · 할 동작 ${fidgets.length ? fidgets.join(', ') : '없음(대기만)'}`);
+      + ` · 할 동작 ${fidgets.length ? fidgets.map((n) => nameOf(n)).join(', ') : '없음(대기만)'}`);
   } else does.push(`잠깐 무장: 안 함 (${N.ARMED_IDLE} 없음)`);
 
   // 전투: 대기 + 사격 4단계가 다 있는 자세만
@@ -178,7 +177,7 @@ function checkModel(file, names, { companions = [] }, N) {
 
   // ---- 펫이 못 알아보는 이름 ----
   const used = new Set([
-    ...Object.values(N.ANIM).flat(), N.REACTION, N.ARMED_IDLE, ...N.ARMED_FIDGETS, ...N.ARMED_FIDGET_PAIRS.flat(), ...N.ARMED_REACTIONS,
+    ...Object.values(N.ANIM).flat(), N.REACTION, N.ARMED_IDLE, ...N.ARMED_FIDGETS, ...N.ARMED_REACTIONS,
     ...N.STANCES.flatMap(N.stanceAll), ...N.RELOAD_VARIANTS, ...N.BATTLE_ENTRY, ...N.DRAW_WEAPON, N.RUN_CALLSIGN, ...N.VICTORIES.flat(), ...N.OTHER_CLIPS,
   ].map((n) => N.clipKey(n)));
   const unknown = [];

@@ -70,7 +70,8 @@
 | 걷기 (바닥 위 아무 방향) | `Cafe_Walk` |
 | 랜덤 행동 | **잠깐 무장** (아래) |
 | 클릭 반응 | `Cafe_Reaction` / 승리 포즈 `Victory_Start → Victory_End` / `Victory_Start_Random → Victory_End_Random` 중 있는 것 무작위 (평소 대기와 장비 모습이 다른 동작은 뺌, 아래). 예전엔 `Victory_Start`만 틀어서 포즈를 잡자마자 끝나 너무 짧았음 |
-| 승리 포즈 (랜덤 행동) | `Victory_Start → Victory_End` 또는 `Victory_Start_Random → Victory_End_Random`(있으면, 약 35개 모델) 무작위 (전투 끝 말고도 평소에 가끔. 평소 대기와 장비 모습이 다른 짝은 뺌 — 수영복 호시노 `_Random`은 02 차림 모습이라 안 씀) |
+| 승리 포즈 (랜덤 행동) | `Victory_Start → Victory_End` 또는 `Victory_Start_Random → Victory_End_Random`(있으면, 약 35개 모델) 무작위 (전투 끝 말고도 평소에 가끔. 평소 대기와 장비 모습이 다른 짝은 뺌 — 수영복 호시노 `_Random`은 겉옷 벗고 고래 튜브에 엎드린 02 차림 모습이라 평소엔 안 씀) |
+| 승리 포즈 (02 차림으로 끝난 전투) | 02 차림 전투 대기(`Normal_Idle02`)와 모습이 같은 짝이 있으면 그것으로(수영복 호시노 `Victory_Start_Random → Victory_End_Random`, 사용자 결정 2026-10-12). 일어나는 동작도 02 것(`Normal_Attack02_End`)으로 하고, 겉옷은 승리 포즈가 끝나고 평소 대기로 돌아갈 때 다시 생김. 그런 짝이 없으면 예전처럼 01 차림으로 돌아가 평소 승리 포즈 |
 | 낮잠 (2분 이상 방치하면 확률↑) | `Vital_Death`로 쓰러져 20~45초 → 클릭하거나 시간이 되면 `Cafe_Reaction`(장비 모습이 바뀌면 승리 포즈 짝)으로 기상 |
 | 집어 들기 (드래그 중 반복) | `Formation_Pickup` (평소 대기와 장비 모습이 다르면 `Victory_Start` → `Cafe_Reaction` 순으로 대신. 무장·전투 중엔 그대로) |
 | 더블클릭 | `Exs` (방패 돌진) |

@@ -22,7 +22,11 @@ const REFERENCE = {
 //   총 꺼내기(Public01, 수영복 호시노 Normal01_Public01)는 서서 쏘기 자세로 끝나고, 구호(Random)는 그 자세 그대로 하는 동작.
 //   빠져 있을 때 수영복 호시노는 이 둘만 38° 더 옆을 봐서 무장 대기와 오갈 때 발이 94° 비틀렸다.
 //   따로 원래 호시노 방향에 맞추면 시로코는 총 꺼내기가 자기 서서 자세에서 멀어져 더 나빠졌음
-const FOLLOW = { public: 'normal', normal_public: 'normal', normal_callsign_random: 'normal' };
+//   재장전 변형(Reload_Random)도 그 자세의 다른 재장전이라 자세 묶음을 따른다
+const FOLLOW = {
+  public: 'normal', normal_public: 'normal', normal_callsign_random: 'normal',
+  normal_reload_random: 'normal', stand_reload_random: 'stand', kneel_reload_random: 'kneel',
+};
 const MIN_TURN = THREE.MathUtils.degToRad(20); // 이보다 작은 차이는 그냥 둔다
 const SAMPLES = 8;
 const HIP_AT = 0.15; // 넘어갈 때 섞는 시간(0.2초 안팎) 동안의 자세

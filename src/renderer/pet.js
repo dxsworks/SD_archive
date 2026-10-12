@@ -6,7 +6,7 @@ import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
-  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, clipKey, indexClips, exVariants as exVariantsOf,
+  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, clipKey, indexClips, exVariants as exVariantsOf,
 } from './clip-names.js';
 
 // ---- 화면 구성 ----
@@ -256,8 +256,11 @@ const has = (name) => Boolean(resolve(name));
 const clipTurn = () => clipTurns.get(currentAction?.getClip().name) ?? 0;
 // 지금 차림에 맞는 동작인지: 01 차림이면 다 맞고, 02 차림이면 02 번호가 붙은 것만
 // (번호 없는 동작은 01 차림 모습이라 02 차림 중에 틀면 벗은 겉옷이 다시 나타난다. 예: 수영복 호시노 Normal_Callsign)
-const fitsForm = (name) => currentForm() === 1
-  || Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
+const fitsForm = (name) => currentForm() === 1 || ownForm(name);
+// 지금 차림 번호의 것이 있는지 (01 차림에서도 02만 있는 동작은 아님)
+const ownForm = (name) => Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
+// 재장전: 변형(_Random)이 지금 차림에 있으면 원래 것과 반반
+const reloadClip = (name) => (ownForm(RELOAD_VARIANT(name)) && Math.random() < 0.5 ? RELOAD_VARIANT(name) : name);
 const first = (names) => names.find(has) ?? Object.keys(clips)[0];
 const clipName = (name) => (ANIM[name] ? first(ANIM[name]) : name);
 // 평소(맨손) 상태에 틀어도 되는 동작인지: 장비 모습이 평소 대기와 달라지는 동작은 무장·전투 때만
@@ -533,7 +536,7 @@ function armedIdle() {
   play(ARMED_IDLE);
 }
 
-const armedFidget = () => playSequence([pickRandom(ARMED_FIDGETS)]);
+const armedFidget = () => { const name = pickRandom(ARMED_FIDGETS); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
 
 function chooseArmedBehavior() {
   if (clock() > armed.until) { armed = null; toIdle(); return; }
@@ -665,7 +668,7 @@ function burst() {
 
 function reload() {
   battle.ammo = MAGAZINE;
-  playSequence(fromCover([`${battle.stance}_Reload`]), { face: battleFace() });
+  playSequence(fromCover([reloadClip(`${battle.stance}_Reload`)]), { face: battleFace() });
 }
 
 const callsign = () => (hasCallsign(battle.stance) ? playSequence(fromCover([`${battle.stance}_Callsign`]), { face: battleFace() }) : rest());

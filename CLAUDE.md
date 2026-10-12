@@ -99,9 +99,9 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
    - 그대로 두기로 한 것(사용자): 아리스 `Normal_Callsign_Random` 창 위 닿음(총 꺼내기 0.07초 만에 클릭으로 끊으면 섞지 않고 공중 첫 프레임으로 감, 30분에 2번)
    - 창 아래가 잘리던 것 고침(2026-10-12): 위 "지켜야 할 것"의 창 크기 참고. 확인 방법 `edge-check`의 아래 여백
    - **남은 것 (새 대화에서 이어서)**:
-     1. 수영복 호시노 빨간 끈: 02 차림 동작에서 다른 동작으로 넘어간 직후 0.15초 동안 끈이 창 아래까지 늘어나 번쩍임(`Normal_Idle02 → Exs`, `Move_End_Normal02 → Victory_Start`, `Normal_Attack02_Delay → Normal_Attack01_End`, edge-check 아래 0px). 다른 세션 `feat/reload-random`의 "02 차림으로 끝난 전투는 02 승리 포즈, 일어나는 동작도 02로"가 일부를 없앨 수 있음 → 그 브랜치를 합친 뒤에 다시 잼
+     1. 수영복 호시노 빨간 끈: 02 차림 동작에서 다른 동작으로 넘어간 직후 0.15초 동안 끈이 창 아래까지 늘어나 번쩍임(`Normal_Idle02 → Exs`, `Move_End_Normal02 → Victory_Start`, `Normal_Attack02_Delay → Normal_Attack01_End`, edge-check 아래 0px). 두 브랜치를 합친 뒤(2026-10-12) 다시 돌려도 같은 3곳이 나옴. 단 창 끝 검사는 `transition-marks.json`에 모아 둔 넘어가는 곳을 다시 쓰므로, 합치기 전에 모은 수영복 호시노 기록에는 "02로 끝난 전투는 `Normal_Attack02_End` → 02 승리 포즈"가 안 들어 있을 수 있음(시로코 기록에도 안 쓰기로 한 `Rearrange_Start/Ing` 시험이 남아 있음) → 먼저 새로 모은 넘어가는 곳으로 다시 잼
      2. Claude가 학생 추가를 처음부터 끝까지 하게: 검사 결과를 Claude가 읽기 쉬운 요약(`reports/<모델>.json`: 경고 종류·고칠 곳·사람에게 물을 것)으로 + 작업 순서 스킬(받기 허락 → 검사 → 경고 종류별로 고치기 → 다시 검사 → 사람에겐 판단할 것만). 사용자에게 아직 못 들은 것: 경고가 없으면 사람에게 안 보이고 바로 추가해도 되는지, 마지막에 시트 한 장은 볼지
-     3. `feat/check-edges`와 `feat/reload-random` main에 합치기(사용자 허락 후). 겹치는 곳: `pet.js` 첫 import 줄(둘 다 넣기: `OTHER_CLIPS, stanceAll, RELOAD_VARIANT`), `.gitignore`. 합친 뒤 `usedClips()`에 재장전 변형(`RELOAD_VARIANTS`)과 02 승리 포즈도 넣고 `node tools/check-student.js`로 네 학생 다시
+   - 완료(2026-10-12): `feat/check-edges`·`feat/reload-random`을 main에 합침, `usedClips()`에 재장전 변형 넣음(02 승리 포즈는 차림마다 `VICTORIES`로 이미 들어 있음). 네 학생 다시 검사: 행동 실패·멈춤·오류 0, 창 끝 경고는 합치기 전과 같음(호시노 EX 끝 방패·집어 들기 총, 시로코 집어 들기 총 = 그대로 두기로 한 것, 수영복 호시노 끈 3곳, 아리스 구호 1곳)
    - 자동화 흐름: 받기 → 검사 → 경고 없으면 추가, 있으면 Claude가 원인 찾아 고치고 다시 검사. 사람은 처음 보는 종류의 "보기에 이상함"(Claude가 비교 그림을 만들어 고르게)과 연출 판단(하늘에서 떨어지는 Victory_Start, 쓰러질 때 날아가는 소품, 다른 파일 동작 빌려오기)만
 1. **EX 쓰면 차림이 바뀌는 학생 (`02` 동작)**
    - 전투 동작 전체가 `02`로 따로 있는 학생(`Shun` 21개, `Shiroko＊Terror` 15, `Otogi` 14, `Kurumi` 12, `Tsurugi`·`Tsurugi (Swimsuit)` 10~11, `Eimi (Battle)` 9, `Subaru` 8): 수영복 호시노처럼 전투 중 EX 뒤 `02` 차림 유지로 하면 됨(사용자 동의). 대표로 `Shun` 받아서 확인 예정

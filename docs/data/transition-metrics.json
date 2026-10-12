@@ -1280,14 +1280,14 @@
    "own": 58,
    "gap": 176,
    "slide": 28,
-   "twist": 125,
+   "twist": 124,
    "examples": [
     {
      "spin": 156,
      "own": 58,
      "gap": 176,
      "slide": 28,
-     "twist": 125
+     "twist": 124
     },
     {
      "spin": 88,
@@ -1834,7 +1834,7 @@
      "own": 97,
      "gap": 94,
      "slide": 57,
-     "twist": 43
+     "twist": 44
     },
     {
      "spin": -56,
@@ -2062,7 +2062,7 @@
    "twist": 41,
    "examples": [
     {
-     "spin": 14,
+     "spin": 13,
      "own": 18,
      "gap": 6,
      "slide": 26,
@@ -2376,7 +2376,7 @@
     {
      "spin": -17,
      "own": 73,
-     "gap": 34,
+     "gap": 33,
      "slide": 39,
      "twist": 11
     },
@@ -2760,14 +2760,14 @@
    "own": 3,
    "gap": 101,
    "slide": 43,
-   "twist": 157,
+   "twist": 156,
    "examples": [
     {
      "spin": 30,
      "own": 3,
      "gap": 101,
      "slide": 43,
-     "twist": 157
+     "twist": 156
     }
    ]
   },
@@ -2960,14 +2960,14 @@
    "own": 4,
    "gap": 27,
    "slide": 16,
-   "twist": 79,
+   "twist": 78,
    "examples": [
     {
      "spin": 24,
      "own": 4,
      "gap": 27,
      "slide": 16,
-     "twist": 79
+     "twist": 78
     }
    ]
   },
@@ -6482,8 +6482,8 @@
      "spin": 31,
      "own": 0,
      "gap": 31,
-     "slide": 52,
-     "twist": 72
+     "slide": 48,
+     "twist": 70
     },
     {
      "spin": 31,
@@ -7535,7 +7535,7 @@
    "own": 51,
    "gap": 89,
    "slide": 72,
-   "twist": 100,
+   "twist": 101,
    "examples": [
     {
      "spin": 18,
@@ -7563,7 +7563,7 @@
      "own": 51,
      "gap": 34,
      "slide": 72,
-     "twist": 100
+     "twist": 101
     }
    ]
   },
@@ -7869,7 +7869,7 @@
      "own": 91,
      "gap": 68,
      "slide": 32,
-     "twist": 62
+     "twist": 63
     },
     {
      "spin": 106,
@@ -8032,14 +8032,14 @@
    "own": 7,
    "gap": 15,
    "slide": 34,
-   "twist": 27,
+   "twist": 26,
    "examples": [
     {
      "spin": 43,
      "own": 7,
      "gap": 3,
      "slide": 34,
-     "twist": 27
+     "twist": 26
     },
     {
      "spin": 48,
@@ -8524,14 +8524,14 @@
    "own": 51,
    "gap": 23,
    "slide": 74,
-   "twist": 105,
+   "twist": 104,
    "examples": [
     {
      "spin": -15,
      "own": 51,
      "gap": 23,
      "slide": 74,
-     "twist": 105
+     "twist": 104
     }
    ]
   },
@@ -8762,14 +8762,14 @@
    "verdict": "ok",
    "spin": 65,
    "own": 16,
-   "gap": 50,
+   "gap": 51,
    "slide": 60,
    "twist": 100,
    "examples": [
     {
      "spin": 65,
      "own": 16,
-     "gap": 50,
+     "gap": 51,
      "slide": 60,
      "twist": 100
     }
@@ -9023,14 +9023,14 @@
    "spin": 44,
    "own": 170,
    "gap": 44,
-   "slide": 42,
+   "slide": 43,
    "twist": 65,
    "examples": [
     {
      "spin": 44,
      "own": 170,
      "gap": 44,
-     "slide": 42,
+     "slide": 43,
      "twist": 65
     }
    ]
@@ -9757,7 +9757,7 @@
      "own": 135,
      "gap": 45,
      "slide": 16,
-     "twist": 35
+     "twist": 34
     },
     {
      "spin": -27,
@@ -10561,7 +10561,7 @@
     {
      "spin": 82,
      "own": 0,
-     "gap": 34,
+     "gap": 35,
      "slide": 7,
      "twist": 40
     },
@@ -11008,14 +11008,14 @@
    "own": 16,
    "gap": 72,
    "slide": 5,
-   "twist": 39,
+   "twist": 40,
    "examples": [
     {
      "spin": 69,
      "own": 16,
      "gap": 72,
      "slide": 5,
-     "twist": 39
+     "twist": 40
     }
    ]
   },

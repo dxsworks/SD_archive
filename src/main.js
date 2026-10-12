@@ -3,14 +3,19 @@ const path = require('path');
 const fs = require('fs');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
-// 창은 월드 단위로 가로 4.0 × 세로 2.3 (pet.js VIEW_HEIGHT). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
+// 창은 월드 단위로 가로 4.0 × 세로 2.5 (pet.js VIEW_HEIGHT). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
+// 그중 아래 0.2단위(BELOW)는 발밑보다 아래: 카메라가 내려다봐서 앞으로 내디딘 발·그림자가 발 자리보다 25~40px 아래에 그려진다
+// (2026-10-12 시로코 웅크린 자세 등에서 잘렸음). 발이 화면에 서는 자리는 그대로이고 창만 아래로 늘어나 작업 표시줄에 조금 걸칠 수 있다
 // 투명한 창이라 넉넉하게: 아리스(배틀) Exs01은 날아올라 뒤로 1.2단위 갔다 오면서 발밑에서 2.1단위 높이·옆으로 1.8단위까지 간다
 // (예전 2.6 × 1.3 창에서는 위·옆이 크게 잘렸음. 호시노 EX 돌진은 옆으로 약 1.3단위)
 const SIZES = {
-  small: { label: '작게', w: 615, h: 354, fx: 0.4 }, // fx: 클릭 효과 크기 배율
-  medium: { label: '보통', w: 862, h: 495, fx: 0.5 },
-  large: { label: '크게', w: 1231, h: 708, fx: 0.65 },
+  small: { label: '작게', w: 615, h: 385, fx: 0.4 }, // fx: 클릭 효과 크기 배율
+  medium: { label: '보통', w: 862, h: 538, fx: 0.5 },
+  large: { label: '크게', w: 1231, h: 770, fx: 0.65 },
 };
+const BELOW = 0.2 / 2.5; // 창 높이 중 발 자리보다 아래인 비율 (pet.js FOOT_MARGIN의 대부분)
+// 발이 작업 영역 맨 아래에 서도록 둘 때 창의 y
+const bottomY = (wa, h) => Math.round(wa.y + wa.height - h + h * BELOW);
 
 const DEFAULT_SETTINGS = { model: 'Hoshino.glb', size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };
 
@@ -54,7 +59,7 @@ function createWindow() {
     width: w,
     height: h,
     x: Math.round(wa.x + wa.width - w - 120),
-    y: Math.round(wa.y + wa.height - h),
+    y: bottomY(wa, h),
     transparent: true,
     backgroundColor: '#00000000',
     frame: false,
@@ -150,7 +155,7 @@ function setSize(key) {
   const { w, h } = SIZES[key];
   // 발밑 중앙을 기준으로 크기 변경
   const x = Math.round(old.x + old.width / 2 - w / 2);
-  const y = Math.round(old.y + old.height - h);
+  const y = Math.round(old.y + old.height * (1 - BELOW) - h * (1 - BELOW));
   win.setBounds({ x, y, width: w, height: h });
   settings.size = key;
   saveSettings();
@@ -163,7 +168,7 @@ function resetPosition() {
   if (!win) return;
   const { w, h } = SIZES[settings.size];
   const wa = screen.getPrimaryDisplay().workArea;
-  win.setBounds({ x: Math.round(wa.x + wa.width - w - 120), y: Math.round(wa.y + wa.height - h), width: w, height: h });
+  win.setBounds({ x: Math.round(wa.x + wa.width - w - 120), y: bottomY(wa, h), width: w, height: h });
   sendToPet('pet:bounds-changed');
 }
 

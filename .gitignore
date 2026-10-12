@@ -1,3 +1,4 @@
 node_modules/
 models/*.glb
+reports/
 dist/

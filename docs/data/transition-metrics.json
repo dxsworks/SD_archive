@@ -1738,7 +1738,7 @@
      "own": 0,
      "gap": 44,
      "slide": 34,
-     "twist": 48
+     "twist": 49
     },
     {
      "spin": 23,
@@ -1834,7 +1834,7 @@
      "own": 97,
      "gap": 94,
      "slide": 57,
-     "twist": 43
+     "twist": 44
     },
     {
      "spin": -56,
@@ -2376,7 +2376,7 @@
     {
      "spin": -17,
      "own": 73,
-     "gap": 34,
+     "gap": 33,
      "slide": 39,
      "twist": 11
     },
@@ -2960,14 +2960,14 @@
    "own": 4,
    "gap": 27,
    "slide": 16,
-   "twist": 79,
+   "twist": 78,
    "examples": [
     {
      "spin": 24,
      "own": 4,
      "gap": 27,
      "slide": 16,
-     "twist": 79
+     "twist": 78
     }
    ]
   },
@@ -5082,7 +5082,7 @@
     {
      "spin": 47,
      "own": 3,
-     "gap": 4,
+     "gap": 5,
      "slide": 39,
      "twist": 199
     },
@@ -5241,14 +5241,14 @@
    "count": 1,
    "mark": null,
    "verdict": "ok",
-   "spin": 12,
+   "spin": 13,
    "own": 61,
    "gap": 4,
    "slide": 39,
    "twist": 69,
    "examples": [
     {
-     "spin": 12,
+     "spin": 13,
      "own": 61,
      "gap": 4,
      "slide": 39,
@@ -6482,8 +6482,8 @@
      "spin": 31,
      "own": 0,
      "gap": 31,
-     "slide": 48,
-     "twist": 70
+     "slide": 52,
+     "twist": 72
     },
     {
      "spin": 31,
@@ -7542,7 +7542,7 @@
      "own": 51,
      "gap": 89,
      "slide": 71,
-     "twist": 94
+     "twist": 95
     },
     {
      "spin": -1,
@@ -10015,7 +10015,7 @@
      "own": 2,
      "gap": 135,
      "slide": 52,
-     "twist": 212
+     "twist": 213
     },
     {
      "spin": 154,
@@ -11191,14 +11191,14 @@
    "own": 16,
    "gap": 72,
    "slide": 5,
-   "twist": 39,
+   "twist": 40,
    "examples": [
     {
      "spin": 69,
      "own": 16,
      "gap": 72,
      "slide": 5,
-     "twist": 39
+     "twist": 40
     }
    ]
   },

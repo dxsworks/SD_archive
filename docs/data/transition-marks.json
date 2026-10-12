@@ -3022,9 +3022,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "bad",
+    "claude": "ok",
     "claudeEx": 0
    },
    {
@@ -3346,7 +3346,7 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
     "claude": "ok",
     "claudeEx": 0
@@ -17998,9 +17998,9 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "ok",
+    "claude": "bad",
     "claudeEx": 0
    },
    {
@@ -18106,10 +18106,10 @@
       ]
      }
     ],
-    "mark": null,
+    "mark": "ok",
     "note": "",
-    "claude": "ok",
-    "claudeEx": 1
+    "claude": "bad",
+    "claudeEx": 0
    },
    {
     "key": "Kneel_Attack_End → Exs",
@@ -22118,6 +22118,426 @@
     "note": "",
     "claude": "ok",
     "claudeEx": 0
+   },
+   {
+    "key": "Normal_Idle → Rearrange_Start",
+    "from": "Normal_Idle",
+    "to": "Rearrange_Start",
+    "count": 12,
+    "examples": [
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.8667,
+      "fromLoop": true,
+      "to": "Rearrange_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 20.7404,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 27865,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 1.3,
+      "fromLoop": true,
+      "to": "Rearrange_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 14.1668,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14040,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.7667,
+      "fromLoop": true,
+      "to": "Rearrange_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 44.4993,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46498,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.8333,
+      "fromLoop": true,
+      "to": "Rearrange_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 68.7888,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 89969,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": "bad",
+    "note": ""
+   },
+   {
+    "key": "Rearrange_Start → Rearrange_Ing",
+    "from": "Rearrange_Start",
+    "to": "Rearrange_Ing",
+    "count": 11,
+    "examples": [
+     {
+      "from": "Rearrange_Start",
+      "fromTime": 3.0333,
+      "fromLoop": false,
+      "to": "Rearrange_Ing",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 12.619,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14131,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Rearrange_Start",
+      "fromTime": 3.0333,
+      "fromLoop": false,
+      "to": "Rearrange_Ing",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 56.6013,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 70798,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Rearrange_Start",
+      "fromTime": 3.0333,
+      "fromLoop": false,
+      "to": "Rearrange_Ing",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 69.1677,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 83621,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Rearrange_Start",
+      "fromTime": 3.0333,
+      "fromLoop": false,
+      "to": "Rearrange_Ing",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 44.035,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46589,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": "ok",
+    "note": ""
+   },
+   {
+    "key": "Rearrange_Ing → Normal_Idle",
+    "from": "Rearrange_Ing",
+    "to": "Normal_Idle",
+    "count": 9,
+    "examples": [
+     {
+      "from": "Rearrange_Ing",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 12.619,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14191,
+      "faceAfter": 0.0527,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Rearrange_Ing",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 19.3003,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29606,
+      "faceAfter": 0.4508,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Rearrange_Ing",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 69.1677,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 83681,
+      "faceAfter": 0.0527,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Rearrange_Ing",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 44.035,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46649,
+      "faceAfter": 0.0527,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": "bad",
+    "note": ""
+   },
+   {
+    "key": "Rearrange_Ing → Rearrange_Reaction",
+    "from": "Rearrange_Ing",
+    "to": "Rearrange_Reaction",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Rearrange_Ing",
+      "fromTime": 0.8,
+      "fromLoop": false,
+      "to": "Rearrange_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 56.6013,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 67047,
+      "faceAfter": 0.5763,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": "ok",
+    "note": ""
+   },
+   {
+    "key": "Rearrange_Ing → Formation_Pickup",
+    "from": "Rearrange_Ing",
+    "to": "Formation_Pickup",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Rearrange_Ing",
+      "fromTime": 1.8,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 56.6013,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 69761,
+      "faceAfter": 0,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": "ok",
+    "note": ""
+   },
+   {
+    "key": "Rearrange_Start → Normal_Callsign",
+    "from": "Rearrange_Start",
+    "to": "Normal_Callsign",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Rearrange_Start",
+      "fromTime": 2.2667,
+      "fromLoop": false,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 69.1677,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 89577,
+      "faceAfter": 0.0527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": "bad",
+    "note": ""
    }
   ]
  },
@@ -27637,32 +28057,20 @@
  },
  "__ask": [
   {
-   "model": "Hoshino.glb",
-   "key": "Public01 → Normal_Idle"
-  },
-  {
-   "model": "Hoshino.glb",
-   "key": "Normal_Attack_Delay → Normal_Attack_End"
-  },
-  {
-   "model": "Hoshino.glb",
-   "key": "Move_End_Normal → Normal_Idle"
-  },
-  {
-   "model": "Hoshino (Swimsuit).glb",
-   "key": "Normal01_Public01 → Normal_Idle01"
+   "model": "Shiroko.glb",
+   "key": "Normal_Idle → Rearrange_Reaction"
   },
   {
    "model": "Shiroko.glb",
-   "key": "Public01 → Normal_Idle"
+   "key": "Rearrange_Reaction → Normal_Idle"
   },
   {
-   "model": "Arisu (Battle).glb",
-   "key": "Normal_Attack_Delay → Normal_Attack_End"
+   "model": "Hoshino.glb",
+   "key": "Normal_Idle → Rearrange_Reaction"
   },
   {
-   "model": "Arisu (Battle).glb",
-   "key": "Normal_Callsign_Random → Normal_Idle"
+   "model": "Hoshino.glb",
+   "key": "Rearrange_Reaction → Normal_Idle"
   }
  ]
 }

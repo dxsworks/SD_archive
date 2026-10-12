@@ -38,7 +38,7 @@ const companionsOf = (file, all) => {
 // 펫은 쓰지 않기로 정했거나 펫과 상관없는 동작 (docs/animations.md 4장 등). 처음 보는 이름 목록에서 뺀다
 const KNOWN_UNUSED = [
   /^exs/, /^stand_idle$/, /^kneel_idle$/, /^vital_panic$/, /^vital_dying_ing$/, /^vital_hit$/,
-  /^tactical_start/, /^formation_idle_random$/, /^formation_formchange/, /^normal_reload_random$/, /^move_end_stand_random$/,
+  /^tactical_start/, /^formation_idle_random$/, /^formation_formchange/, /^move_end_stand_random$/,
   /^nonweapon_/, /^tank_/, /^riding_/, /^sm\d/, /^st_/, /^dicerace_/, /^tss_/,
 ];
 
@@ -126,7 +126,7 @@ function checkModel(file, names, { companions = [] }, N) {
   }
   if (ready.length) {
     const stances = ready.map((st) => {
-      const extra = [has(`${st}_Reload`) ? '재장전' : '재장전 없음', has(`${st}_Callsign`) ? '구호' : '구호 없음',
+      const extra = [has(`${st}_Reload`) ? (has(N.RELOAD_VARIANT(`${st}_Reload`)) ? '재장전 2가지' : '재장전') : '재장전 없음', has(`${st}_Callsign`) ? '구호' : '구호 없음',
         has(`Move_End_${st}`) ? '뛰어와 자세' : '뛰어와 자세 없음'];
       return `${label[st]}(${extra.join('·')})`;
     });
@@ -178,7 +178,7 @@ function checkModel(file, names, { companions = [] }, N) {
   // ---- 펫이 못 알아보는 이름 ----
   const used = new Set([
     ...Object.values(N.ANIM).flat(), N.REACTION, N.ARMED_IDLE, ...N.ARMED_FIDGETS, ...N.ARMED_REACTIONS,
-    ...N.STANCES.flatMap(N.stanceAll), ...N.BATTLE_ENTRY, ...N.DRAW_WEAPON, N.RUN_CALLSIGN, ...N.VICTORIES.flat(), ...N.OTHER_CLIPS,
+    ...N.STANCES.flatMap(N.stanceAll), ...N.RELOAD_VARIANTS, ...N.BATTLE_ENTRY, ...N.DRAW_WEAPON, N.RUN_CALLSIGN, ...N.VICTORIES.flat(), ...N.OTHER_CLIPS,
   ].map((n) => N.clipKey(n)));
   const unknown = [];
   const unused = [];

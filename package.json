@@ -5,13 +5,57 @@
   "main": "src/main.js",
   "private": true,
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
   },
   "dependencies": {
     "ba-click-fx": "1.3.9",
     "three": "^0.169.0"
   },
   "devDependencies": {
-    "electron": "^33.2.1"
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.bluearchive.desktoppet",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "models/*.glb",
+      "package.json",
+      "!node_modules/three/src/**/*",
+      {
+        "from": "node_modules/three/examples/jsm",
+        "to": "node_modules/three/examples/jsm",
+        "filter": [
+          "loaders/GLTFLoader.js",
+          "controls/OrbitControls.js",
+          "utils/BufferGeometryUtils.js"
+        ]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/pet.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "블루 아카이브 데스크톱 펫",
+      "uninstallDisplayName": "블루 아카이브 데스크톱 펫",
+      "installerIcon": "assets/pet.ico",
+      "uninstallerIcon": "assets/pet.ico",
+      "installerLanguages": [
+        "ko_KR"
+      ],
+      "language": "1042",
+      "runAfterFinish": true
+    }
   }
 }

@@ -1738,7 +1738,7 @@
      "own": 0,
      "gap": 44,
      "slide": 34,
-     "twist": 49
+     "twist": 48
     },
     {
      "spin": 23,
@@ -2376,7 +2376,7 @@
     {
      "spin": -17,
      "own": 73,
-     "gap": 33,
+     "gap": 34,
      "slide": 39,
      "twist": 11
     },
@@ -2960,14 +2960,14 @@
    "own": 4,
    "gap": 27,
    "slide": 16,
-   "twist": 78,
+   "twist": 79,
    "examples": [
     {
      "spin": 24,
      "own": 4,
      "gap": 27,
      "slide": 16,
-     "twist": 78
+     "twist": 79
     }
    ]
   },
@@ -6482,8 +6482,8 @@
      "spin": 31,
      "own": 0,
      "gap": 31,
-     "slide": 52,
-     "twist": 72
+     "slide": 48,
+     "twist": 70
     },
     {
      "spin": 31,
@@ -7535,14 +7535,14 @@
    "own": 51,
    "gap": 89,
    "slide": 72,
-   "twist": 100,
+   "twist": 101,
    "examples": [
     {
      "spin": 18,
      "own": 51,
      "gap": 89,
      "slide": 71,
-     "twist": 95
+     "twist": 94
     },
     {
      "spin": -1,
@@ -7563,7 +7563,7 @@
      "own": 51,
      "gap": 34,
      "slide": 72,
-     "twist": 100
+     "twist": 101
     }
    ]
   },
@@ -8032,14 +8032,14 @@
    "own": 7,
    "gap": 15,
    "slide": 34,
-   "twist": 27,
+   "twist": 26,
    "examples": [
     {
      "spin": 43,
      "own": 7,
      "gap": 3,
      "slide": 34,
-     "twist": 27
+     "twist": 26
     },
     {
      "spin": 48,
@@ -8524,14 +8524,14 @@
    "own": 51,
    "gap": 23,
    "slide": 74,
-   "twist": 104,
+   "twist": 105,
    "examples": [
     {
      "spin": -15,
      "own": 51,
      "gap": 23,
      "slide": 74,
-     "twist": 104
+     "twist": 105
     }
    ]
   },
@@ -9940,7 +9940,7 @@
      "own": 135,
      "gap": 45,
      "slide": 16,
-     "twist": 34
+     "twist": 35
     },
     {
      "spin": -27,
@@ -10744,7 +10744,7 @@
     {
      "spin": 82,
      "own": 0,
-     "gap": 34,
+     "gap": 35,
      "slide": 7,
      "twist": 40
     },
@@ -11191,14 +11191,14 @@
    "own": 16,
    "gap": 72,
    "slide": 5,
-   "twist": 40,
+   "twist": 39,
    "examples": [
     {
      "spin": 69,
      "own": 16,
      "gap": 72,
      "slide": 5,
-     "twist": 40
+     "twist": 39
     }
    ]
   },

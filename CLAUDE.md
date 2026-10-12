@@ -44,9 +44,9 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
   - `npx electron tools/transition-review.js` 넘어가는 곳 확인 창(보이는 창, 사람이 씀, 정적 서버 불필요): 펫 상태 머신을 가상 시계로 30분 빨리 돌려(`__pet.simulate`) 실제로 이어 트는 곳을 모으고, 하나씩 펫과 똑같이 반복 재생(`__pet.replay`)해 이상함/괜찮음 표시 → `docs/data/transition-marks.json`. 펫 페이지 `?review`는 펫 창 크기에 1920×1040 바닥(걷기·뛰기 켬)
-  - `node tools/check-student.js ["모델.glb" …] [--open]` **학생 검사 한 번에**(정적 서버 불필요, 학생 하나에 약 2분): 아래 이름·각도·창 끝·행동 검사와 동작 시트를 차례로 돌려 `reports/<모델>.html`. 모델을 안 주면 호시노·수영복 호시노·시로코·아리스(배틀)
+  - `node tools/check-student.js ["모델.glb" …] [--open]` **학생 검사 한 번에**(정적 서버 불필요, 학생 하나에 약 3분): 아래 이름·각도·창 끝·행동 검사와 동작 시트를 차례로 돌려 `reports/<모델>.html`(사람용)·`reports/<모델>.json`(Claude용 요약: `ok` = 경고 없음, `warnings`와 먼저 볼 곳 `fix`, `known` = 사용자가 그대로 두기로 한 종류(`ACCEPTED`), `picks` = 사람이 볼 동작). 모델을 안 주면 호시노·수영복 호시노·시로코·아리스(배틀). **학생을 붙일 때는 스킬 `add-student`(`.claude/skills/add-student/SKILL.md`) 순서대로**
   - `npx electron tools/behavior-check.js ["모델.glb" …]` 행동 테스트(가상 시계 `__pet.run`): 명령마다 대기로 돌아오는지 + 30분 동안 멈춤·오류 → `docs/data/behavior-check.json`
-  - `npx electron tools/sheet-check.js "모델.glb" [출력.png]` 펫이 쓰는 동작마다 5장 시트(`__pet.sheet`)
+  - `npx electron tools/sheet-check.js "모델.glb" [출력.png] [--picks]` 펫이 쓰는 동작마다 5장 시트(`__pet.sheet`). `--picks`는 사람이 볼 동작만 이유와 함께(`__pet.picks`: 몸이 크게 뜸(골반이 서 있을 때의 1.6배 넘게), 낮잠 끝에 몸에서 멀리 떨어진 조각, 빌려온 동작, EX 여러 개, 장비 모습이 다름, 02 차림)
   - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
@@ -101,7 +101,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
    - 창 아래가 잘리던 것 고침(2026-10-12): 위 "지켜야 할 것"의 창 크기 참고. 확인 방법 `edge-check`의 아래 여백
    - **남은 것 (새 대화에서 이어서)**:
      1. ~~수영복 호시노 빨간 끈~~ 고침(2026-10-12): 방수 케이스 끈(`bone_WaterproofCase_String_*`). 02 차림 동작·EX 처음과 끝은 케이스를 크기 0.002로 숨기는데 그 아래 끈 뼈 위치가 9.8(보통 0.2) → 섞는 0.2초 동안 크기는 커지고 위치는 아직 커서 끈이 최대 2단위까지 늘어났음. 숨긴 순간의 아래 뼈 값을 기본 자세로 바꿈(`hidden-parts.js` `restUnderHiddenBones`, 아래 "지켜야 할 것"). 네 학생 다시 검사: 수영복 호시노 창 끝 경고 0, 나머지는 그대로
-     2. Claude가 학생 추가를 처음부터 끝까지 하게: 검사 결과를 Claude가 읽기 쉬운 요약(`reports/<모델>.json`: 경고 종류·고칠 곳·사람에게 물을 것)으로 + 작업 순서 스킬(받기 허락 → 검사 → 경고 종류별로 고치기 → 다시 검사 → 사람에겐 판단할 것만). 사용자 결정(2026-10-12): **경고가 없으면 묻지 않고 바로 추가.** 동작 시트 전체는 동작이 너무 많아서 안 봄 → Claude가 사람이 봐야 할 동작만 골라서 보여 줌
+     2. ~~Claude가 학생 추가를 처음부터 끝까지 하게~~ 완료(2026-10-12): 요약 `reports/<모델>.json`, 볼 동작만 고른 시트 `reports/<모델>.picks.png`, 스킬 `add-student`. 네 학생 모두 `ok`(알고 둔 경고: 호시노 4·시로코 2·아리스 2, 볼 동작: 수영복 호시노 4·아리스 8). 처음 계획: 검사 결과를 Claude가 읽기 쉬운 요약(`reports/<모델>.json`: 경고 종류·고칠 곳·사람에게 물을 것)으로 + 작업 순서 스킬(받기 허락 → 검사 → 경고 종류별로 고치기 → 다시 검사 → 사람에겐 판단할 것만). 사용자 결정(2026-10-12): **경고가 없으면 묻지 않고 바로 추가.** 동작 시트 전체는 동작이 너무 많아서 안 봄 → Claude가 사람이 봐야 할 동작만 골라서 보여 줌
    - 완료(2026-10-12): `feat/check-edges`·`feat/reload-random`을 main에 합침, `usedClips()`에 재장전 변형 넣음(02 승리 포즈는 차림마다 `VICTORIES`로 이미 들어 있음). 네 학생 다시 검사: 행동 실패·멈춤·오류 0, 창 끝 경고는 합치기 전과 같음(호시노 EX 끝 방패·집어 들기 총, 시로코 집어 들기 총 = 그대로 두기로 한 것, 수영복 호시노 끈 3곳, 아리스 구호 1곳)
    - 자동화 흐름: 받기 → 검사 → 경고 없으면 추가, 있으면 Claude가 원인 찾아 고치고 다시 검사. 사람은 처음 보는 종류의 "보기에 이상함"(Claude가 비교 그림을 만들어 고르게)과 연출 판단(하늘에서 떨어지는 Victory_Start, 쓰러질 때 날아가는 소품, 다른 파일 동작 빌려오기)만
 1. **EX 쓰면 차림이 바뀌는 학생 (`02` 동작)**

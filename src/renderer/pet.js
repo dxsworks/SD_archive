@@ -1132,6 +1132,8 @@ window.__pet = {
   measure: measureTransition,
   edges: measureEdges,
   usedClips,
+  picks: pickClips, // 사람이 볼 동작만 [{ clip, why }]
+  clipStats: (name) => clipStats(resolve(name), 1), // 골반 최대 높이(월드/크기), 끝 자세에서 가장 먼 몸 조각
   sheet: drawSheet,
   poseRec: (name, faceDeg = null) => poseRec(name, faceDeg === null ? null : THREE.MathUtils.degToRad(faceDeg)),
   // 행동 테스트 (tools/behavior-check.js): 사람 손 없이 seconds초 돌리며 바뀐 상태·동작 기록 (until 상태가 되면 멈춤)
@@ -1343,6 +1345,86 @@ function usedClips() {
   return [...out];
 }
 
+// ---- 사람이 볼 동작 고르기 (tools/check-student.js) ----
+// 동작 시트 전체는 너무 많아서(사용자 2026-10-12) 사람이 판단해야 할 것만 고른다:
+// 연출 판단(몸이 크게 뜨는 동작, 쓰러질 때 멀리 떨어지는 총·소품, 다른 파일에서 빌려온 동작)과 이 학생만의 특징(02 차림, EX 여러 개, 장비 모습이 다른 동작)
+const PICK_RISE = 1.6;   // 골반 높이가 서 있을 때의 몇 배를 넘으면 "몸이 크게 뜸" (아리스 Victory_Start 하늘에서 착지)
+const PICK_FAR = 1.0;    // 낮잠 끝 자세에서 몸 조각(총·소품) 가운데가 몸 상자에서 골반 높이의 몇 배 넘게 떨어지면 "멀리 떨어짐"
+const PICK_SAMPLES = 24;
+
+// 동작 하나를 혼자 틀어 고르게 샘플: 골반 높이 최대(서 있을 때 대비), 끝 자세에서 가장 멀리 떨어진 몸 조각
+function clipStats(name, standHip) {
+  const hips = ['L', 'R'].map((s) => pivot.getObjectByName(`Bip001_${s}_Thigh`));
+  if (hips.some((b) => !b)) return null;
+  const V = THREE.Vector3;
+  const hipAt = () => hips[0].getWorldPosition(new V()).add(hips[1].getWorldPosition(new V())).multiplyScalar(0.5);
+  const base = () => root.getWorldPosition(new V());
+  const clip = clips[name];
+  mixer.stopAllAction();
+  const action = mixer.clipAction(clip);
+  action.reset().play();
+  let rise = 0, far = 0, farPart = '';
+  for (let k = 0; k <= PICK_SAMPLES; k++) {
+    action.time = (clip.duration * k) / PICK_SAMPLES;
+    mixer.update(0);
+    updateHiddenParts();
+    scene.updateMatrixWorld(true);
+    const unit = root.scale.x;
+    const hip = hipAt();
+    rise = Math.max(rise, (hip.y - base().y) / unit / standHip);
+    if (k < PICK_SAMPLES) continue;
+    // 몸(정점이 가장 많은 메시)의 상자에서 다른 조각 가운데까지. 헤일로는 원래 몸에서 떠 있으니 뺀다
+    const parts = [];
+    root.traverse((o) => {
+      if (!o.isMesh || !o.visible || !o.geometry?.attributes?.position || /outline|halo/i.test(o.name)) return;
+      o.computeBoundingBox?.();
+      const box = (o.boundingBox ?? o.geometry.boundingBox)?.clone();
+      if (box) parts.push({ o, box: box.applyMatrix4(o.matrixWorld) });
+    });
+    const body = parts.reduce((a, b) => (b.o.geometry.attributes.position.count > (a?.o.geometry.attributes.position.count ?? -1) ? b : a), null);
+    for (const p of parts) {
+      if (p === body) continue;
+      const d = body.box.distanceToPoint(p.box.getCenter(new V())) / unit / standHip;
+      if (d > far) { far = d; farPart = p.o.name; }
+    }
+  }
+  action.stop();
+  return { rise: Math.round(rise * 100) / 100, far: Math.round(far * 100) / 100, farPart };
+}
+
+function pickClips() {
+  window.__pet.reset();
+  const used = usedClips();
+  const formOf = new Map([...clipIndex.values()].flat().map((c) => [c.name, c.form]));
+  const out = new Map(); // 동작 → 이유들
+  const add = (clip, why) => { if (clips[clip]) out.set(clip, [...(out.get(clip) ?? []), why]); };
+  // 서 있을 때 골반 높이(월드 단위 / 크기): 펫이 쓰는 동작들의 최대 골반 높이 가운데값 (카페 대기 하나로 재면 아리스처럼 빌려온 대기가 낮은 학생에서 틀림)
+  const raw = used.filter((n) => !/^Vital_Retreat/i.test(n)).map((n) => [n, clipStats(n, 1)]).filter(([, x]) => x);
+  const highs = raw.map(([, x]) => x.rise).sort((a, b) => a - b);
+  const standHip = highs[Math.floor(highs.length / 2)] ?? 1;
+  const r2 = (v) => Math.round(v * 100) / 100;
+  for (const [name, x] of raw) { // 밧줄에 매달려 올라가는 종료(Vital_Retreat)는 원래 뜨므로 뺐음
+    const rise = x.rise / standHip, far = x.far / standHip;
+    if (rise > PICK_RISE) add(name, `몸이 크게 뜸 (골반이 서 있을 때의 ${r2(rise)}배 높이)`);
+    if (/^Vital_Death/i.test(name) && far > PICK_FAR) add(name, `쓰러질 때 ${x.farPart}이(가) 몸에서 멀리 떨어짐 (골반 높이의 ${r2(far)}배)`);
+  }
+  const borrowed = BORROWED_CLIPS[settings.model];
+  for (const to of Object.values(borrowed?.clips ?? {})) add(to, `다른 파일(${borrowed.from})에서 빌려온 동작`);
+  const exs = exVariants();
+  if (exs.length > 1) for (const n of exs) add(n, `EX가 ${exs.length}개 (무작위로 섞음)`);
+  // 02 차림 동작은 겉모습이 다른 게 당연하니 아래 02 항목 하나로 (EX에만 붙은 번호 Exs02_01은 차림이 아님)
+  const form2 = forms.has(2) ? used.filter((n) => formOf.get(n) === 2 && !exs.includes(n)) : [];
+  for (const n of used) if (gearClips.has(n) && !form2.includes(n)) add(n, '평소 대기와 장비 모습이 다름');
+  if (form2.length) {
+    const keep = form; form = 2;
+    const idle2 = resolve(ARMED_IDLE);
+    form = keep;
+    add(formOf.get(idle2) === 2 ? idle2 : form2[0], `02 차림 (전투 중 EX 뒤에 바뀜, 02 동작 ${form2.length}개)`);
+  }
+  window.__pet.reset();
+  return [...out].map(([clip, why]) => ({ clip, why }));
+}
+
 // 동작 하나를 혼자 틀 때 쓸 기록 (measureTransition alone): 그 동작이 나올 만한 방향으로.
 // 평소 동작은 정면 쪽 15°, 총·EX는 45°, 걷기·뛰기는 70°, 낮잠은 펫과 같은 방향·자리(startNap), 집어 들기는 들린 높이
 function poseRec(name, face = null) {
@@ -1363,7 +1445,8 @@ function poseRec(name, face = null) {
 
 // 동작 시트 (tools/check-student.js): 동작마다 한 줄, 고르게 frames장. 그 동작이 나올 만한 방향으로 혼자 틀어 그린다
 // 창에서 가운데 60%·아래 80%만 (위쪽은 날아오르는 EX 말고는 비어 있음)
-function drawSheet(names, { frames = 5, cell = [260, 200], label = 210 } = {}) {
+// notes: { 동작: [이유, …] } 있으면 이름 아래에 적는다 (사람이 볼 동작만 고른 시트)
+function drawSheet(names, { frames = 5, cell = [260, 200], label = 210, notes = {} } = {}) {
   const [cw, ch] = cell;
   const sheet = document.createElement('canvas');
   sheet.width = label + cw * frames;
@@ -1383,6 +1466,17 @@ function drawSheet(names, { frames = 5, cell = [260, 200], label = 210 } = {}) {
     g.fillText(name, 8, i * ch + 24);
     g.fillStyle = '#b8c0d0';
     g.fillText(`${clip.duration.toFixed(2)}초`, 8, i * ch + 46);
+    g.fillStyle = '#ffd479';
+    g.font = '13px "Malgun Gothic", sans-serif';
+    let y = i * ch + 70;
+    for (const note of notes[name] ?? []) { // 칸 너비에 맞춰 글자 단위로 줄바꿈
+      let line = '';
+      for (const c of `· ${note}`) {
+        if (g.measureText(line + c).width > label - 14) { g.fillText(line, 8, y); y += 17; line = '  '; }
+        line += c;
+      }
+      g.fillText(line, 8, y); y += 21;
+    }
     for (let k = 0; k < frames; k++) {
       if (near) pos.copy(near);
       measureTransition(rec, { span: (clip.duration * (k + 0.5)) / frames, alone: true, record: false });

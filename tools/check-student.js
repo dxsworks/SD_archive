@@ -58,7 +58,14 @@ const FIX = {
   error: '펫 페이지 오류: 메시지의 파일·줄',
 };
 
-function summarize(model, names, angles, edges, behavior) {
+// "이어 트는 동작의 차림 번호가 섞임 (차림 02 중)"은 01 동작이 02 차림과 모습이 다를 때만(수영복 호시노 겉옷) 문제다.
+// Shun처럼 02가 총 드는 자세만 다른 학생은 01 뛰기 → 02 뛰기 끝이 자연스럽다 (2026-10-18 그려서 확인) → 모습이 같으면 알고 둔 것으로
+const sameLook = (w, looks) => {
+  const m = /차림 번호가 섞임 \(차림 0\d 중\): (.+)$/.exec(w.what);
+  return m && looks && m[1].split(' → ').every((n) => !looks.form2Off.includes(n));
+};
+
+function summarize(model, names, angles, edges, behavior, looks) {
   const all = [
     ...names.warnings.map((w) => ({ kind: 'names', what: w })),
     ...angles.filter((r) => r.verdict === 'bad').map((r) => ({ kind: 'angle', key: r.key, what: `${r.key}: 총 자세로 ${r.spin}° 휙 돎 (30분에 ${r.count}번)` })),
@@ -69,7 +76,7 @@ function summarize(model, names, angles, edges, behavior) {
   ].map((w) => ({ ...w, fix: FIX[w.kind] }));
   const warnings = [], known = [];
   for (const w of all) {
-    const a = accepted(model, w);
+    const a = accepted(model, w) ?? (w.kind === 'names' && sameLook(w, looks) ? { why: '02 차림과 모습이 같은 동작이라 넘어가도 옷이 안 바뀜' } : null);
     if (a) known.push({ ...w, why: a.why }); else warnings.push(w);
   }
   return { warnings, known };
@@ -156,7 +163,9 @@ async function main() {
     await run('볼 동작 고르기', ELECTRON, [path.join(__dirname, 'sheet-check.js'), model, picksFile, '--picks']);
     const picks = JSON.parse(fs.readFileSync(picksFile.replace(/\.png$/, '.json'), 'utf8'));
     const [angles, edges, behavior] = [readData('transition-metrics.json')[model] ?? [], readData('edge-check.json')[model] ?? [], readData('behavior-check.json')[model]];
-    const summary = summarize(model, names, angles, edges, behavior);
+    const looksFile = path.join(REPORTS, `${model}.looks.json`);
+    const looks = fs.existsSync(looksFile) ? JSON.parse(fs.readFileSync(looksFile, 'utf8')) : null;
+    const summary = summarize(model, names, angles, edges, behavior, looks);
     const file = path.join(REPORTS, `${model}.html`);
     fs.writeFileSync(file, report(model, names, angles, edges, behavior, sheetFile, summary, picks, picksFile));
     const json = path.join(REPORTS, `${model}.json`);

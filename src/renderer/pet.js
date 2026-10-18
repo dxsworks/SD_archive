@@ -1161,12 +1161,19 @@ window.__pet = {
 // ---- 넘어가는 곳 확인 도구용 (tools/transition-review.js) ----
 // 상태 머신을 가상 시계로 seconds초만큼 한 번에 돌려(그리지 않음) 넘어가는 곳 기록을 돌려준다.
 // 가끔 사람이 하는 것(클릭, 더블클릭 EX, 집어 들었다 놓기, 메뉴 전투)을 섞는다
+// click: 사람이 클릭(더블클릭·메뉴 전투 포함)해서 하던 동작을 끊고 넘어간 곳은 기록에 click 표시.
+//   2026-10-18 사용자: 클릭이 다른 동작(뛰기·총 꺼내기·EX 등)을 끊고 휙 도는 건 그대로 둠 → 각도 검사가 알고 둔 것으로 셈
 const POKES = [
-  [() => react(), 50],
-  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) doubleClickEx(); }, 15],
+  [() => clicked(react), 50],
+  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) clicked(doubleClickEx); }, 15],
   [() => { drag = { moved: true, offset: null }; pickUp(); }, 15],
-  [() => COMMANDS.battle(), 20],
+  [() => clicked(COMMANDS.battle), 20],
 ];
+function clicked(fn) {
+  const from = transitionLog?.length ?? 0;
+  fn();
+  for (const rec of transitionLog?.slice(from) ?? []) rec.click = true;
+}
 // bodies: 배열을 주면 0.25초마다 [상태, 지금 동작, 몸 방향(도, 0 = 평소 대기 정면)]을 넣는다 (방향 잇기 방법 비교용)
 // poke: null이면 사람 손 없이. trace: 배열을 주면 상태나 동작이 바뀔 때마다 { t, state, clip }. until: 이 상태가 되면 멈춤
 function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null, trace = null, until = null } = {}) {

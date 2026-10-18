@@ -611,12 +611,15 @@ function beginBattle() {
 // keepForm: 종료(밧줄)처럼 전투 차림 그대로 이어서 할 동작이 있을 때
 function endBattle({ victory = false, keepForm = false } = {}) {
   if (!battle) return;
-  const rise = leaveSteps(); // 무릎·엄폐 자세면 일어나고 나서 승리 포즈
+  // 무릎·엄폐 자세면 일어나고 나서 승리 포즈. 일어나는 동작(Attack_End)은 지금 차림 것으로 이름을 정해 둔다:
+  // 01로 먼저 돌리면 02 사격 대기 → 01 사격 끝으로 섞여 자세가 튐 (Shun 무릎 02 엎드림 → 01 앉음, 발이 창 아래 끝에 닿음).
+  // 2026-10-18 사용자: 사격 끝은 지금 차림 그대로, 01로는 승리 포즈에서 돌아감 (수영복 호시노 겉옷도 승리 포즈에서 다시 생김)
+  const rise = leaveSteps().map(resolve);
   battle = null;
   // 02 차림으로 끝났고 그 모습 그대로인 승리 포즈 짝이 있으면 그것으로 (수영복 호시노: 겉옷 벗은 Victory_*_Random).
-  // 일어나는 동작도 02 것으로 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
+  // 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
   const pairs = victory ? formVictoryPoses() : [];
-  const steps = pairs.length ? [...rise, ...pickPair(pairs)].map(resolve) : null;
+  const steps = pairs.length ? [...rise, ...pickPair(pairs).map(resolve)] : null;
   if (!keepForm) form = 1;
   lastBattleEnd = clock();
   if (victory) playSequence(steps ?? [...rise, ...victoryPose()], { onEnd: toIdle });
@@ -742,9 +745,11 @@ function arriveRun() {
 
 const exVariants = () => exVariantsOf(Object.keys(clips), forms);
 function exSkill() {
+  // 나가 있으면 지금 차림 그대로 돌아온 뒤 EX (02로 먼저 바꾸면 01 사격 대기 → 02 사격 끝으로 섞여 자세가 크게 튐: Shun 무릎 01 → 02 엎드림)
+  const back = fromCover([]).map(resolve);
   if (battle && forms.has(2)) form = 2;
   const variants = exVariants();
-  playSequence(fromCover([variants.length > 1 ? pickRandom(variants) : 'ex']), { face: battleFace(), as: 'ex' });
+  playSequence([...back, variants.length > 1 ? pickRandom(variants) : 'ex'], { face: battleFace(), as: 'ex' });
 }
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,

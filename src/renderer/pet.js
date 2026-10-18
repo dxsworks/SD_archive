@@ -1313,6 +1313,26 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
   const near = floor.toFloor(workArea.x + workArea.width / 2, workArea.y + workArea.height - 2);
   if (near) pos.copy(near);
   const m = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity, topAt: 0, leftAt: 0, rightAt: 0, bottomAt: 0 };
+  // 총·방패를 빼고 잰 여백도 따로: 총이 생기거나 사라지며 섞이는 0.1~0.4초 동안 작은 총이 늘어져 창 끝에 닿는 건 알고 둔 것 (2026-10-18 사용자)
+  const body = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity };
+  const draw = () => {
+    shadow.visible = false; // 발밑 그림자는 빼고 모델만 (그림자는 늘 창 아래 끝까지 감)
+    renderer.render(scene, camera);
+    shadow.visible = true;
+    gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+    let top = h, left = w, right = w, bottom = h;
+    for (let y = 0; y < h; y += 2) {
+      const row = y * w * 4;
+      for (let x = 0; x < w; x += 2) {
+        if (buf[row + x * 4 + 3] <= 16) continue;
+        top = Math.min(top, h - 1 - y); // readPixels는 아래 줄부터
+        left = Math.min(left, x);
+        right = Math.min(right, w - 1 - x);
+        bottom = Math.min(bottom, y);
+      }
+    }
+    return { top: top / dpr, left: left / dpr, right: right / dpr, bottom: bottom / dpr };
+  };
   let n = 0;
   measureTransition(rec, {
     span: clip.duration, record: false, alone,
@@ -1320,27 +1340,24 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
       if (n++ % every) return;
       updateHiddenParts();
       updateOutlines();
-      shadow.visible = false; // 발밑 그림자는 빼고 모델만 (그림자는 늘 창 아래 끝까지 감)
-      renderer.render(scene, camera);
-      shadow.visible = true;
-      gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
-      let top = h, left = w, right = w, bottom = h;
-      for (let y = 0; y < h; y += 2) {
-        const row = y * w * 4;
-        for (let x = 0; x < w; x += 2) {
-          if (buf[row + x * 4 + 3] <= 16) continue;
-          top = Math.min(top, h - 1 - y); // readPixels는 아래 줄부터
-          left = Math.min(left, x);
-          right = Math.min(right, w - 1 - x);
-          bottom = Math.min(bottom, y);
-        }
+      const all = draw();
+      for (const k of ['top', 'left', 'right', 'bottom']) {
+        if (all[k] < m[k]) { m[k] = all[k]; m[`${k}At`] = +t.toFixed(2); }
       }
-      for (const [k, v] of [['top', top], ['left', left], ['right', right], ['bottom', bottom]]) {
-        if (v / dpr < m[k]) { m[k] = v / dpr; m[`${k}At`] = +t.toFixed(2); }
+      const shown = weaponMeshes.filter((o) => o.visible);
+      let only = all;
+      if (shown.length) {
+        for (const o of shown) o.visible = false;
+        updateOutlines();
+        only = draw();
+        for (const o of shown) o.visible = true;
+        updateOutlines();
       }
+      for (const k of ['top', 'left', 'right', 'bottom']) body[k] = Math.min(body[k], only[k]);
     },
   });
-  for (const k of ['top', 'left', 'right', 'bottom']) m[k] = Math.round(m[k]);
+  for (const k of ['top', 'left', 'right', 'bottom']) { m[k] = Math.round(m[k]); body[k] = Math.round(body[k]); }
+  m.body = body;
   return m;
 }
 

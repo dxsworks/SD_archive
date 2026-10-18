@@ -111,6 +111,33 @@ const shadow = (() => {
 })();
 scene.add(shadow);
 
+// 그림자는 몸을 따라간다: 발·골반·머리를 바닥에 내린 가운데로 옮기고, 누운 몸(엎드려 쏘기, 낮잠)은 발 → 머리 방향으로 늘인다.
+// 예전엔 발 자리(원점)에 고정이라 사격 자세에서 엄폐물 밖으로 옆으로 나가거나 엎드리면 그림자가 몸 옆에 남았다
+// (Shun 02 엎드림, 시로코 무릎·엄폐, 2026-10-18 사용자). 서 있으면 발·골반·머리가 거의 한 점이라 지금과 같다
+const SHADOW_SIZE = 0.6; // 그림자 지름 (모델 단위, 위 PlaneGeometry와 같음)
+const SHADOW_PAD = 0.55; // 늘일 때 발 → 머리 길이에 더할 몸 끝 여유
+let bodyBones = [];      // [발 왼쪽, 발 오른쪽, 골반, 머리]
+let shadowBase = 1;      // 바닥 원근에 따른 크기 (placeWindow)
+const shadowAt = { x: 0, z: 0, dx: 0, dz: 1, stretch: 1 };
+function updateShadow(dt, { snap = false } = {}) {
+  let target = { x: 0, z: 0, dx: 0, dz: 1, stretch: 1 };
+  if (bodyBones.length === 4) {
+    scene.updateMatrixWorld();
+    const [l, r, hip, head] = bodyBones.map((b) => b.getWorldPosition(new THREE.Vector3()));
+    const feet = l.add(r).multiplyScalar(0.5);
+    const unit = root.scale.x;
+    const dx = head.x - feet.x, dz = head.z - feet.z, len = Math.hypot(dx, dz) / unit;
+    target = { x: (feet.x + hip.x + head.x) / 3, z: (feet.z + hip.z + head.z) / 3,
+      dx: len > 1e-4 ? dx / (len * unit) : shadowAt.dx, dz: len > 1e-4 ? dz / (len * unit) : shadowAt.dz,
+      stretch: Math.max(1, (len + SHADOW_PAD) / SHADOW_SIZE) };
+  }
+  const k = snap ? 1 : Math.min(1, dt * 10);
+  for (const key of Object.keys(shadowAt)) shadowAt[key] += (target[key] - shadowAt[key]) * k;
+  shadow.position.set(shadowAt.x, 0, shadowAt.z);
+  shadow.rotation.z = Math.atan2(-shadowAt.dz, shadowAt.dx); // 평면의 가로(x)를 발 → 머리 방향으로
+  shadow.scale.set(shadowBase * shadowAt.stretch, shadowBase, 1);
+}
+
 // 종료할 때 매달리는 밧줄 — 손에서 창 위 끝까지, 위로 갈수록 투명해져 하늘에서 내려온 것처럼 보인다
 const ROPE_TOP = (VIEW_HEIGHT - FOOT_MARGIN) / Math.cos(TILT); // 창 위 끝의 높이
 const rope = (() => {
@@ -240,6 +267,7 @@ async function loadModel() {
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
+  bodyBones = ['Bip001_L_Foot', 'Bip001_R_Foot', 'Bip001_Pelvis', 'Bip001_Head'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -438,7 +466,7 @@ function placeWindow() {
   // 끌려 올라갈 때(종료)는 창이 몸을 따라간다. 그 밖에는 창은 바닥에 두고 창 안에서 모델을 올린다
   const anchor = state === 'retreat' || state === 'gone' ? lifted : ground;
   root.position.y = (anchor.y - lifted.y) / floor.pxNear; // 창 안 1단위 = pxNear px
-  shadow.scale.set(s * (state === 'nap' ? 2.2 : 1), s, 1);
+  shadowBase = s; // 늘이기·위치는 updateShadow
   shadow.material.opacity = state === 'retreat' ? 0.3 * Math.max(0, 1 - lift * 3) : 0.3 * Math.max(0.4, 1 - lift * 2);
   winX = ground.x - winW / 2; // 높이 뜬 점은 원근 때문에 옆으로 밀리므로 가로는 바닥 기준 (똑바로 위로)
   winY = anchor.y - winH + footPx();
@@ -1075,6 +1103,7 @@ function frame(now) {
   updateHiddenParts();
   updateOutlines();
   updateRope(); // 손 위치는 이번 프레임 자세로
+  updateShadow(dt);
   renderer.render(scene, camera);
   updateMousePassthrough();
 }
@@ -1154,6 +1183,7 @@ window.__pet = {
     measureTransition(rec, { span: t, alone, record: false });
     updateHiddenParts();
     updateOutlines();
+    updateShadow(0, { snap: true });
     renderer.render(scene, camera);
   },
 };
@@ -1520,6 +1550,7 @@ function drawSheet(names, { frames = 5, cell = [260, 200], label = 210, notes = 
       measureTransition(rec, { span: (clip.duration * (k + 0.5)) / frames, alone: true, record: false });
       updateHiddenParts();
       updateOutlines();
+      updateShadow(0, { snap: true });
       renderer.render(scene, camera);
       g.drawImage(src, sx, sy, sw, sh, label + k * cw, i * ch, cw, ch);
     }

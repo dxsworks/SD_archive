@@ -69,14 +69,17 @@ function summarize(model, names, angles, edges, behavior, looks) {
   const all = [
     ...names.warnings.map((w) => ({ kind: 'names', what: w })),
     ...angles.filter((r) => r.verdict === 'bad').map((r) => ({ kind: 'angle', key: r.key, what: `${r.key}: 총 자세로 ${r.spin}° 휙 돎 (30분에 ${r.count}번)` })),
-    ...edges.flatMap((b) => b.warn.map((w) => ({ kind: 'edge', clip: b.clip, what: w }))),
+    ...edges.flatMap((b) => b.warn.map((w) => ({ kind: 'edge', clip: b.clip, what: w, gunOnly: (b.gunOnly ?? []).some((side) => w.startsWith(side)) }))),
     ...behavior.tests.filter((t) => !t.ok).map((t) => ({ kind: 'behavior', what: `${t.name}: ${t.why}`, clips: t.clips })),
     ...behavior.stuck.map((x) => ({ kind: 'stuck', what: `${x.state} ${x.dur}초 (${x.clip})` })),
     ...behavior.errors.map((e) => ({ kind: 'error', what: e })),
   ].map((w) => ({ ...w, fix: FIX[w.kind] }));
   const warnings = [], known = [];
   for (const w of all) {
-    const a = accepted(model, w) ?? (w.kind === 'names' && sameLook(w, looks) ? { why: '02 차림과 모습이 같은 동작이라 넘어가도 옷이 안 바뀜' } : null);
+    const a = accepted(model, w)
+      ?? (w.kind === 'names' && sameLook(w, looks) ? { why: '02 차림과 모습이 같은 동작이라 넘어가도 옷이 안 바뀜' } : null)
+      // 2026-10-18 사용자: 총이 생기거나 사라지며 섞이는 동안 늘어진 총만 창 끝에 닿는 건 그대로 둠 (몸은 안 닿음)
+      ?? (w.gunOnly ? { why: '총·방패만 닿음 (총이 생기거나 사라지며 섞이는 동안 늘어짐)' } : null);
     if (a) known.push({ ...w, why: a.why }); else warnings.push(w);
   }
   return { warnings, known };

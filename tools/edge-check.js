@@ -68,22 +68,26 @@ app.whenReady().then(async () => {
     // 동작마다 가장 가까운 값만
     const byClip = new Map();
     for (const r of rows) {
-      const b = byClip.get(r.clip) ?? { clip: r.clip, top: Infinity, left: Infinity, right: Infinity, bottom: Infinity };
-      for (const k of ['top', 'left', 'right', 'bottom']) if (r[k] < b[k]) Object.assign(b, { [k]: r[k], [`${k}At`]: r[`${k}At`], [`${k}How`]: r.how });
+      const b = byClip.get(r.clip) ?? { clip: r.clip, top: Infinity, left: Infinity, right: Infinity, bottom: Infinity,
+        body: { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity } };
+      for (const k of ['top', 'left', 'right', 'bottom']) {
+        if (r[k] < b[k]) Object.assign(b, { [k]: r[k], [`${k}At`]: r[`${k}At`], [`${k}How`]: r.how });
+        b.body[k] = Math.min(b.body[k], r.body[k]);
+      }
       byClip.set(r.clip, b);
     }
+    const SIDES = { top: ['위', TOP_MIN], left: ['왼쪽', SIDE_MIN], right: ['오른쪽', SIDE_MIN], bottom: ['아래', SIDE_MIN] };
     const list = [...byClip.values()].map((b) => ({
-      ...b, warn: [b.top < TOP_MIN && `위 ${b.top}px (${b.topHow}, ${b.topAt}초)`,
-        b.left < SIDE_MIN && `왼쪽 ${b.left}px (${b.leftHow}, ${b.leftAt}초)`,
-        b.right < SIDE_MIN && `오른쪽 ${b.right}px (${b.rightHow}, ${b.rightAt}초)`,
-        b.bottom < SIDE_MIN && `아래 ${b.bottom}px (${b.bottomHow}, ${b.bottomAt}초)`].filter(Boolean),
+      ...b, warn: Object.entries(SIDES).filter(([k, [, min]]) => b[k] < min).map(([k, [name]]) => `${name} ${b[k]}px (${b[`${k}How`]}, ${b[`${k}At`]}초)`),
+      // 총·방패를 빼면 괜찮은 쪽 (check-student.js가 알고 둔 것으로 셈)
+      gunOnly: Object.entries(SIDES).filter(([k, [, min]]) => b[k] < min && b.body[k] >= min).map(([, [name]]) => name),
     })).sort((a, b) => Math.min(a.top - TOP_MIN, a.left, a.right, a.bottom) - Math.min(b.top - TOP_MIN, b.left, b.right, b.bottom));
     out[model] = list;
     const warned = list.filter((b) => b.warn.length);
     bad += warned.length;
     console.log(`\n== ${model}: 동작 ${list.length}개 (흉내에서 ${list.length - missing.length}개 + 따로 ${missing.length}개), 경우 ${rows.length}개 — 경고 ${warned.length}개`);
     for (const b of list.slice(0, 8)) {
-      console.log(`${b.warn.length ? '경고' : '    '} ${b.clip.padEnd(24)} 위 ${String(b.top).padStart(4)}  왼 ${String(b.left).padStart(4)}  오 ${String(b.right).padStart(4)}  아래 ${String(b.bottom).padStart(4)}${b.warn.length ? `   ← ${b.warn.join(', ')}` : ''}`);
+      console.log(`${b.warn.length ? '경고' : '    '} ${b.clip.padEnd(24)} 위 ${String(b.top).padStart(4)}  왼 ${String(b.left).padStart(4)}  오 ${String(b.right).padStart(4)}  아래 ${String(b.bottom).padStart(4)}${b.warn.length ? `   ← ${b.warn.join(', ')}` : ''}${b.gunOnly.length ? ` (총만: ${b.gunOnly.join(', ')})` : ''}`);
     }
   }
   if (!size) fs.writeFileSync(OUT, `${JSON.stringify(out, null, 1)}\n`);

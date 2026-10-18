@@ -1219,6 +1219,16 @@ function startReplay(rec) {
   pivot.position.fromArray(rec.pivotPos);
   pivotTarget.fromArray(rec.pivotPos);
 }
+// 다시 틀기·재기에서 기록의 뒤 동작으로 넘긴다. 앞 동작은 이어 받은 방향(carry)을 facing에 녹여 틀고 있으므로,
+// 같은 동작을 다시 틀 때(연달아 사격 Attack_Ing → Attack_Ing)는 play()가 이어 받기를 새로 정하지 않아 carry 0으로 돌아가 버린다.
+// 펫에서는 같은 순서 안이라 방향도 이어 받기도 그대로다 → 넘어가기 전 몸 방향을 그대로 유지한다 (Shun에서 76~103° 휙 도는 것처럼 잘못 잼)
+function switchLikePet(rec) {
+  facing = rec.faceAfter;
+  pivotTarget.fromArray(rec.pivotTarget);
+  play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+  if (rec.to === rec.from) carry = wrapAngle(rec.yawBefore - facing - clipTurn());
+}
+
 // 기록 하나를 펫과 똑같이 넘기며(자체 시계 1/60초, 그리지 않음) 넘어간 순간부터 span초 동안 매 프레임 잰다.
 // alone: 뒤 동작만 넘어간 뒤 방향으로 처음부터 (그 동작이 원래 도는 만큼을 빼려고)
 //   돌려주는 값: [{ t, hip, feet: [{ x, z, h, dir }] }] hip: 두 허벅지 뼈를 잇는 선의 방향(도, 몸 전체가 도는 양을 볼 때),
@@ -1261,9 +1271,7 @@ function measureTransition(rec, { span = 0.8, alone = false, record = true, onFr
   for (let n = 0; n < 600 && t < span; n++) {
     if (!switched && t >= -1e-6) {
       switched = true;
-      facing = rec.faceAfter;
-      pivotTarget.fromArray(rec.pivotTarget);
-      play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+      switchLikePet(rec);
     }
     update(DT);
     mixer.update(DT);
@@ -1494,9 +1502,7 @@ function updateReplay() {
   const { rec, lead, switched } = replaying;
   if (!switched && stateTime >= lead) {
     replaying.switched = true;
-    facing = rec.faceAfter;
-    pivotTarget.fromArray(rec.pivotTarget);
-    play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+    switchLikePet(rec);
   } else if (switched && stateTime >= lead + rec.fade + REPLAY_TAIL) startReplay(rec);
 }
 

@@ -1399,8 +1399,9 @@ function pickClips() {
   const out = new Map(); // 동작 → 이유들
   const add = (clip, why) => { if (clips[clip]) out.set(clip, [...(out.get(clip) ?? []), why]); };
   // 서 있을 때 골반 높이(월드 단위 / 크기): 펫이 쓰는 동작들의 최대 골반 높이 가운데값 (카페 대기 하나로 재면 아리스처럼 빌려온 대기가 낮은 학생에서 틀림)
+  // 무릎 자세 동작은 원래 낮으니 가운데값에서 뺀다 (Shun은 무릎 동작이 많아 가운데값이 앉은 높이가 되어 서 있는 동작이 모두 "2배 뜸"으로 잡혔음)
   const raw = used.filter((n) => !/^Vital_Retreat/i.test(n)).map((n) => [n, clipStats(n, 1)]).filter(([, x]) => x);
-  const highs = raw.map(([, x]) => x.rise).sort((a, b) => a - b);
+  const highs = raw.filter(([n]) => !/Kneel/i.test(n)).map(([, x]) => x.rise).sort((a, b) => a - b);
   const standHip = highs[Math.floor(highs.length / 2)] ?? 1;
   const r2 = (v) => Math.round(v * 100) / 100;
   for (const [name, x] of raw) { // 밧줄에 매달려 올라가는 종료(Vital_Retreat)는 원래 뜨므로 뺐음

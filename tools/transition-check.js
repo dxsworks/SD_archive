@@ -56,10 +56,10 @@ app.whenReady().then(async () => {
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) console.log('[page]', m); });
   for (const model of modelsFromArgs()) {
     const js = await openPet(win, port, model);
-    await pairsOf(js, model, marks);
+    const pairs = await pairsOf(js, model, marks);
     await js(`__pet.turnMode = '${turn}'`);
     const rows = [];
-    for (const p of marks[model].pairs) {
+    for (const p of pairs) {
       const per = [];
       for (const rec of p.examples) {
         const trans = await js(`__pet.measure(${JSON.stringify(rec)})`);

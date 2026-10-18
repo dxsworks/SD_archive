@@ -155,7 +155,8 @@ async function main() {
     fs.unlinkSync(tmp);
     if (!names.usable) { console.log('  펫으로 못 쓰는 모델 (Cafe_Idle 없음) — 건너뜀'); continue; }
     for (const [label, tool] of [['넘어가는 곳 각도', 'transition-check.js'], ['창 끝', 'edge-check.js'], ['행동', 'behavior-check.js']]) {
-      await run(label, ELECTRON, [path.join(__dirname, tool), model]);
+      // 각도 검사가 넘어가는 곳을 지금 코드로 다시 모으고(--fresh, 사용자 표시는 옮겨 옴) 창 끝 검사는 그것을 씀
+      await run(label, ELECTRON, [path.join(__dirname, tool), model, ...(tool === 'transition-check.js' ? ['--fresh'] : [])]);
     }
     const sheetFile = path.join(REPORTS, `${model}.sheet.png`);
     await run('동작 시트', ELECTRON, [path.join(__dirname, 'sheet-check.js'), model, sheetFile]);

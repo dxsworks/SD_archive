@@ -76,6 +76,16 @@ export function indexClips(names) {
   return { index, forms };
 }
 
+// 02가 차림이 아니라 같은 동작의 변형인지: 전투 자세 동작 중 02가 있는 게 절반도 안 되면
+// (Kayoko (New Year) 승리 포즈·구호만, Noa (Pajama) 총 꺼내기만) EX로 바뀌는 차림으로 보지 않고 01/02를 무작위로 섞는다.
+// 이어 트는 짝(Victory_Start → Victory_End)은 같은 번호끼리 (사용자 2026-10-11: 01/02가 섞이지 않게)
+export function formVariants(index, forms) {
+  if (!forms.has(2)) return false;
+  const keys = [...new Set(STANCES.flatMap(stanceAll).map((n) => clipKey(n)))].filter((k) => index.has(k));
+  const inForm2 = keys.filter((k) => index.get(k).some((c) => c.form === 2));
+  return inForm2.length < Math.max(1, keys.length / 2);
+}
+
 // EX를 쓰면 차림이 바뀌는 학생이 있다(수영복 호시노: 겉옷을 벗고 고래 튜브를 듦 = 02 동작들)
 // → 전투 중에 EX를 쓰면 전투가 끝날 때까지 02 차림 동작을 쓴다 (02가 없는 학생은 그대로 01)
 // 차림이 바뀌지 않는데 EX가 여러 개면(아리스(배틀) Exs01 / Exs02_01) 그중 무작위로.

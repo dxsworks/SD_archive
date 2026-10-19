@@ -93,7 +93,9 @@ function checkModel(file, names, { companions = [] }, N) {
   does.push(`낮잠: ${nap ? nameOf(nap) : '없음 (낮잠 안 함)'} · 종료: ${has('Vital_Retreat') ? nameOf('Vital_Retreat') : '밧줄 동작 없음 (집어 들기 자세로 올라감)'}`);
 
   // EX: 차림이 안 바뀌는 학생에게 EX가 여럿이면 무작위, 아니면 Exs
-  const exVariants = N.exVariants(names, forms);
+  // 02가 변형이면(N.formVariants) 차림은 01 하나 → EX가 여럿이면 무작위 (펫과 같게)
+  const variants = N.formVariants(index, forms);
+  const exVariants = N.exVariants(names, variants ? new Set([1]) : forms);
   const ex = exVariants.length > 1 ? exVariants : (has('Exs') ? [nameOf('Exs')] : []);
   does.push(`EX(더블클릭·전투): ${ex.length ? ex.join(' / ') : '없음'}`);
   // 번호만 다른 EX(Noa (Pajama) Exs_01·Exs_02). Exs_Idle·Exs_Spawn 같은 소환물 동작은 EX가 아님
@@ -136,16 +138,19 @@ function checkModel(file, names, { companions = [] }, N) {
   } else does.push('전투: 안 함 (대기 + 사격 4단계가 다 있는 자세가 없음)');
 
   // ---- 차림 번호 ----
-  // 02가 있으면 펫은 "EX를 쓰면 차림이 바뀌는 학생"으로 보고 전투 중 EX 뒤 02 동작을 쓴다
+  // 02가 있으면 펫은 "EX를 쓰면 차림이 바뀌는 학생"으로 보고 전투 중 EX 뒤 02 동작을 쓴다.
+  // 전투 자세 동작 중 02가 몇 개뿐이면 차림이 아니라 변형으로 보고 01/02를 무작위로 섞는다 (N.formVariants)
   const numbered = (f) => names.filter((n) => { let got = 1; const key = N.clipKey(n, (x) => { got = x; }); return got === f && !key.startsWith('exs'); });
+  const outfits = variants ? [1] : [...forms]; // 차림 번호 (변형이면 01 하나)
   for (const f of [...forms].filter((x) => x > 1).sort()) {
     const list = numbered(f);
     const battleClips = ready.flatMap(N.stanceAll).filter(has);
     const battleInForm = battleClips.filter((n) => pick(n, f).form === f);
-    notes.push(`차림 0${f}: 동작 ${list.length}개 (전투 자세 동작 ${battleInForm.length}/${battleClips.length}개) — ${list.join(', ')}`);
-    if (battleInForm.length < Math.max(1, battleClips.length / 2)) {
-      warn(`0${f} 번호가 붙은 동작이 몇 개뿐(${list.length <= 4 ? list.join(', ') : `${list.length}개`})이라 EX로 바뀌는 차림이 아니라 같은 동작의 변형일 수 있음 — 사람이 확인 `
-        + '(지금 펫은 전투 중 EX 뒤 이 번호 동작으로 바꿈)');
+    if (variants) {
+      notes.push(`0${f} 변형: 동작 ${list.length}개 (전투 자세 동작 ${battleInForm.length}/${battleClips.length}개라 차림이 아님) — ${list.join(', ')}`
+        + ' → 01과 무작위로 섞음 (이어 트는 짝은 같은 번호끼리)');
+    } else {
+      notes.push(`차림 0${f}: 동작 ${list.length}개 (전투 자세 동작 ${battleInForm.length}/${battleClips.length}개) — ${list.join(', ')}`);
     }
   }
 
@@ -156,8 +161,8 @@ function checkModel(file, names, { companions = [] }, N) {
   const draw = first(N.DRAW_WEAPON);
   if (draw && has(N.ARMED_IDLE)) chains.push({ names: [draw, N.ARMED_IDLE], forms: [1] });
   for (const st of ready) {
-    chains.push({ names: N.ATTACK_STEPS.map((step) => `${st}_${step}`), forms: [...forms] });
-    if (has('Move_Ing') && has(`Move_End_${st}`)) chains.push({ names: ['Move_Ing', `Move_End_${st}`], forms: [...forms] });
+    chains.push({ names: N.ATTACK_STEPS.map((step) => `${st}_${step}`), forms: outfits });
+    if (has('Move_Ing') && has(`Move_End_${st}`)) chains.push({ names: ['Move_Ing', `Move_End_${st}`], forms: outfits });
   }
   for (const chain of chains) {
     for (const f of chain.forms) {
@@ -168,7 +173,7 @@ function checkModel(file, names, { companions = [] }, N) {
     }
   }
   // 02 차림 중에 01 것을 쓰는 전투 동작 (옷이 잠깐 바뀌어 보임). 구호는 펫이 차림이 안 맞으면 건너뜀
-  for (const f of [...forms].filter((x) => x > 1)) {
+  for (const f of outfits.filter((x) => x > 1)) {
     const fallback = ready.flatMap(N.stanceAll).filter((n) => has(n) && !/_Callsign$/.test(n) && pick(n, f).form !== f);
     if (fallback.length && numbered(f).length >= 5) {
       warn(`차림 0${f} 중에 0${f}가 없어 01 것을 쓰는 전투 동작: ${fallback.map((n) => pick(n, f).name).join(', ')}`);

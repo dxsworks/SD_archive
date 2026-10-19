@@ -7,6 +7,7 @@ import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
   DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
+  formVariants,
 } from './clip-names.js';
 
 // ---- 화면 구성 ----
@@ -262,8 +263,10 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   ({ index: clipIndex, forms } = indexClips(Object.keys(clips)));
+  variantForms = formVariants(clipIndex, forms);
+  if (variantForms) forms.delete(2); // 차림이 아니라 변형: EX 뒤에도 01 차림 그대로, 변형은 playSequence에서 섞음
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
-  const idle2 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name;
+  const idle2 = forms.has(2) ? clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name : undefined;
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
@@ -279,6 +282,7 @@ async function loadModel() {
 
 let clipIndex = new Map(); // 묶은 이름 → [{ name, form }] (clip-names.js indexClips)
 let forms = new Set();     // 이 모델에 있는 차림 번호들
+let variantForms = false;  // 01/02가 차림이 아니라 변형인 학생 (clip-names.js formVariants)
 let form = 1; // 지금 차림 번호. 전투 중 EX를 쓰면 2, 전투가 끝나면 1
 const currentForm = () => form;
 function resolve(name) {
@@ -506,8 +510,21 @@ function toIdle({ fade = 0.25 } = {}) {
 }
 
 // 일회성 동작들을 차례로 재생하고 끝나면 onEnd (기본: 전투 중이면 전투 대기, 아니면 평소 대기)
+// 01/02가 변형인 학생(variantForms): 한 번 이어 트는 동작들은 같은 번호 하나로 골라 실제 이름으로 바꾼다
+// (Victory_Start02 → Victory_End02. 01·02가 섞인 짝은 안 나옴). 평소 대기와 장비 모습이 다른 변형은 원래 것과 같을 때만
+function pickVariants(list) {
+  if (!variantForms) return list;
+  const options = (name) => (clipIndex.get(clipKey(name)) ?? []).filter((c) => gearClips.has(c.name) === gearClips.has(resolve(name)));
+  const multi = list.map(options).filter((o) => new Set(o.map((c) => c.form)).size > 1);
+  if (!multi.length) return list;
+  const common = [...new Set(multi[0].map((c) => c.form))].filter((f) => multi.every((o) => o.some((c) => c.form === f)));
+  if (!common.length) return list;
+  const n = common[Math.floor(Math.random() * common.length)];
+  return list.map((name) => options(name).find((c) => c.form === n)?.name ?? name);
+}
+
 function playSequence(names, { face = calmFace(), fade = 0.25, stepFade = 0.2, as = 'action', onEnd = rest } = {}) {
-  const list = names.map(clipName).filter(has);
+  const list = pickVariants(names.map(clipName).filter(has));
   if (!list.length) { onEnd(); return; }
   setState(as);
   facing = showFace(face, list, HEAD_FIX_MAX);
@@ -1219,6 +1236,11 @@ function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null, trace =
       pickWeighted(POKES)();
       lastInteraction = clock();
       nextPoke = t + rand(...poke);
+      // 사람 손이 들어간 곳 표시 (행동 테스트가 여기서 끊어 잼: 승리 포즈 중 클릭 → 승리 포즈가 이어져도 한 동작에 멈춘 게 아님)
+      if (trace) {
+        last = `${state}|${currentAction?.getClip().name}`;
+        trace.push({ t: +t.toFixed(2), state, clip: currentAction?.getClip().name, poke: true });
+      }
     }
     if (state === 'drag' && stateTime > 1.5) drop();
     update(dt);
@@ -1409,6 +1431,8 @@ function usedClips() {
     for (const n of names) if (has(n)) out.add(resolve(n));
   }
   form = keep;
+  // 01/02 변형도 (playSequence pickVariants가 섞어 씀)
+  if (variantForms) for (const n of [...out]) for (const c of clipIndex.get(clipKey(n)) ?? []) out.add(c.name);
   return [...out];
 }
 
@@ -1489,6 +1513,7 @@ function pickClips() {
     form = keep;
     add(formOf.get(idle2) === 2 ? idle2 : form2[0], `02 차림 (전투 중 EX 뒤에 바뀜, 02 동작 ${form2.length}개)`);
   }
+  if (variantForms) for (const n of used) if (formOf.get(n) === 2) add(n, '02 변형 (01과 무작위로 섞음, 짝은 같은 번호끼리)');
   window.__pet.reset();
   return [...out].map(([clip, why]) => ({ clip, why }));
 }

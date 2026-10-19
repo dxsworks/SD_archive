@@ -15,10 +15,9 @@
     "name": "클릭 반응 (두 번째)",
     "ok": true,
     "why": "",
-    "time": 5.37,
+    "time": 2.7,
     "clips": [
-     "Victory_Start",
-     "Victory_End",
+     "Cafe_Reaction",
      "Cafe_Idle"
     ]
    },
@@ -26,7 +25,7 @@
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 8.3,
+    "time": 8.57,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -37,7 +36,7 @@
     "name": "더블클릭 EX → 전투",
     "ok": true,
     "why": "",
-    "time": 43.57,
+    "time": 44,
     "clips": [
      "Exs",
      "Normal_Idle",
@@ -45,7 +44,14 @@
      "Normal_Attack_Ing",
      "Normal_Attack_Delay",
      "Normal_Attack_End",
-     "Normal_Reload",
+     "Normal_Callsign",
+     "Move_Callsign",
+     "Move_End_Stand",
+     "Stand_Attack_Start",
+     "Stand_Attack_Delay",
+     "Stand_Attack_End",
+     "Stand_Reload",
+     "Stand_Attack_Ing",
      "Victory_Start",
      "Victory_End",
      "Cafe_Idle"
@@ -66,16 +72,17 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 28.77,
+    "time": 25.87,
     "clips": [
      "Public01",
+     "Normal_Idle",
+     "Move_Ing",
+     "Move_Jump",
+     "Move_End_Stand",
      "Stand_Attack_Start",
      "Stand_Attack_Delay",
+     "Stand_Attack_Ing",
      "Stand_Attack_End",
-     "Stand_Reload",
-     "Exs",
-     "Move_Ing",
-     "Move_End_Normal",
      "Victory_Start",
      "Victory_End",
      "Cafe_Idle"
@@ -85,7 +92,7 @@
     "name": "집어 들었다 놓기",
     "ok": true,
     "why": "",
-    "time": 1.23,
+    "time": 1.2,
     "clips": [
      "Formation_Pickup",
      "Cafe_Idle"
@@ -95,7 +102,7 @@
     "name": "걷기",
     "ok": true,
     "why": "",
-    "time": 5.1,
+    "time": 7.47,
     "clips": [
      "Cafe_Walk",
      "Cafe_Idle"
@@ -105,7 +112,7 @@
     "name": "종료 (밧줄)",
     "ok": true,
     "why": "",
-    "time": 2.03,
+    "time": 1.93,
     "clips": [
      "Vital_Retreat"
     ]
@@ -113,53 +120,48 @@
   ],
   "longest": {
    "idle": {
-    "dur": 13.1,
-    "at": 812.77,
+    "dur": 15.3,
+    "at": 374.1,
     "clip": "Cafe_Idle"
    },
    "walk": {
     "dur": 7.5,
-    "at": 4.33,
+    "at": 691.37,
     "clip": "Cafe_Walk"
    },
    "action": {
-    "dur": 10.5,
-    "at": 412.3,
-    "clip": "Stand_Attack_Ing"
-   },
-   "armed": {
-    "dur": 18.4,
-    "at": 857.3,
-    "clip": "Normal_Idle"
+    "dur": 10,
+    "at": 554.67,
+    "clip": "Normal_Attack_Start"
    },
    "battle": {
     "dur": 3.5,
-    "at": 53.33,
+    "at": 49.83,
     "clip": "Stand_Attack_Delay"
-   },
-   "run": {
-    "dur": 2.3,
-    "at": 1683.13,
-    "clip": "Move_Ing"
    },
    "ex": {
     "dur": 8.2,
-    "at": 279.43,
+    "at": 35.77,
     "clip": "Stand_Attack_End"
    },
-   "nap": {
-    "dur": 34.2,
-    "at": 673.47,
-    "clip": "Vital_Death"
+   "run": {
+    "dur": 2.3,
+    "at": 768.93,
+    "clip": "Move_Ing"
+   },
+   "armed": {
+    "dur": 19.5,
+    "at": 577.17,
+    "clip": "Normal_Idle"
    },
    "drag": {
     "dur": 1.5,
-    "at": 494.8,
+    "at": 236.47,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 496.3,
+    "at": 237.97,
     "clip": "Formation_Pickup"
    }
   },
@@ -193,7 +195,7 @@
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 5.7,
+    "time": 6.2,
     "clips": [
      "Normal01_Public01",
      "Normal_Idle01",
@@ -204,18 +206,17 @@
     "name": "더블클릭 EX → 전투",
     "ok": true,
     "why": "",
-    "time": 43.77,
+    "time": 59,
     "clips": [
      "Exs",
      "Normal_Idle02",
-     "Move_Ing02",
-     "Move_End_Normal02",
-     "Normal_Reload02",
      "Normal_Attack02_Start",
      "Normal_Attack02_Ing",
      "Normal_Attack02_Delay",
      "Normal_Attack02_End",
-     "Normal_Reload02_Random",
+     "Normal_Reload02",
+     "Move_Ing02",
+     "Move_End_Normal02",
      "Victory_Start_Random",
      "Victory_End_Random",
      "Cafe_Idle"
@@ -236,11 +237,10 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 26.87,
+    "time": 24.67,
     "clips": [
      "Normal01_Public01",
      "Normal_Idle01",
-     "Normal_Callsign",
      "Normal_Attack01_Start",
      "Normal_Attack01_Ing",
      "Normal_Attack01_Delay",
@@ -265,7 +265,7 @@
     "name": "걷기",
     "ok": true,
     "why": "",
-    "time": 7.5,
+    "time": 4.13,
     "clips": [
      "Cafe_Walk",
      "Cafe_Idle"
@@ -275,7 +275,7 @@
     "name": "종료 (밧줄)",
     "ok": true,
     "why": "",
-    "time": 1.93,
+    "time": 2,
     "clips": [
      "Vital_Retreat01"
     ]
@@ -283,49 +283,54 @@
   ],
   "longest": {
    "idle": {
-    "dur": 14.4,
-    "at": 796.13,
+    "dur": 16.3,
+    "at": 1070.57,
     "clip": "Cafe_Idle"
    },
    "walk": {
     "dur": 7.5,
-    "at": 124.17,
+    "at": 247.67,
     "clip": "Cafe_Walk"
    },
    "action": {
-    "dur": 11.2,
-    "at": 1377.23,
+    "dur": 10.2,
+    "at": 1525.83,
     "clip": "Normal_Attack02_Start"
+   },
+   "armed": {
+    "dur": 16.5,
+    "at": 986.57,
+    "clip": "Normal_Idle01"
+   },
+   "ex": {
+    "dur": 2.7,
+    "at": 118.7,
+    "clip": "Normal_Attack02_End"
    },
    "battle": {
     "dur": 3.5,
-    "at": 193,
-    "clip": "Normal_Idle02"
+    "at": 191.87,
+    "clip": "Normal_Idle01"
    },
    "run": {
-    "dur": 2.2,
-    "at": 184.87,
+    "dur": 2.1,
+    "at": 717.23,
     "clip": "Move_Ing02"
-   },
-   "ex": {
-    "dur": 2.3,
-    "at": 98.17,
-    "clip": "Exs"
-   },
-   "armed": {
-    "dur": 14.2,
-    "at": 641.67,
-    "clip": "Normal_Idle01"
    },
    "drag": {
     "dur": 1.5,
-    "at": 423.73,
+    "at": 198.07,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 425.23,
+    "at": 199.57,
     "clip": "Formation_Pickup"
+   },
+   "nap": {
+    "dur": 14.2,
+    "at": 295.07,
+    "clip": "Vital_Death01"
    }
   },
   "stuck": [],
@@ -358,7 +363,7 @@
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 6.3,
+    "time": 10.27,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -369,7 +374,7 @@
     "name": "더블클릭 EX → 전투",
     "ok": true,
     "why": "",
-    "time": 47.1,
+    "time": 43.1,
     "clips": [
      "Exs",
      "Normal_Idle",
@@ -377,10 +382,12 @@
      "Normal_Attack_Ing",
      "Normal_Attack_Delay",
      "Normal_Attack_End",
-     "Normal_Reload",
-     "Move_Ing",
+     "Move_Callsign",
      "Move_End_Normal",
      "Normal_Callsign",
+     "Move_End_Stand",
+     "Stand_Attack_Start",
+     "Stand_Attack_End",
      "Victory_Start",
      "Victory_End",
      "Cafe_Idle"
@@ -401,18 +408,529 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 26.7,
+    "time": 28.9,
+    "clips": [
+     "Public01",
+     "Kneel_Attack_Start",
+     "Kneel_Attack_Delay",
+     "Kneel_Attack_Ing",
+     "Kneel_Attack_End",
+     "Move_Ing",
+     "Move_End_Normal",
+     "Victory_Start",
+     "Victory_End",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄)",
+    "ok": true,
+    "why": "",
+    "time": 1.93,
+    "clips": [
+     "Vital_Retreat"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 15.6,
+    "at": 450.57,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 75,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 9.5,
+    "at": 647.83,
+    "clip": "Kneel_Attack_Ing"
+   },
+   "armed": {
+    "dur": 14.6,
+    "at": 55.63,
+    "clip": "Normal_Idle"
+   },
+   "nap": {
+    "dur": 30.1,
+    "at": 1088.37,
+    "clip": "Vital_Death"
+   },
+   "ex": {
+    "dur": 4.7,
+    "at": 353.83,
+    "clip": "Normal_Attack_End"
+   },
+   "battle": {
+    "dur": 3.5,
+    "at": 1233.4,
+    "clip": "Normal_Idle"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 129.13,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 130.63,
+    "clip": "Formation_Pickup"
+   },
+   "run": {
+    "dur": 2.2,
+    "at": 780.53,
+    "clip": "Move_Ing"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Arisu (Battle).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 7,
+    "clips": [
+     "Victory_Start_Random",
+     "Victory_End_Random",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 7.03,
+    "clips": [
+     "Victory_Start",
+     "Victory_End",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (5초)",
+    "ok": true,
+    "why": "",
+    "time": 8.5,
     "clips": [
      "Public01",
      "Normal_Idle",
-     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 전투",
+    "ok": true,
+    "why": "",
+    "time": 50.43,
+    "clips": [
+     "Exs01",
+     "Normal_Idle",
      "Normal_Reload",
      "Normal_Attack_Start",
      "Normal_Attack_Ing",
      "Normal_Attack_Delay",
      "Normal_Attack_End",
+     "Normal_Callsign",
      "Victory_Start",
      "Victory_End",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 → 클릭으로 깨우기",
+    "ok": true,
+    "why": "",
+    "time": 10.03,
+    "clips": [
+     "Vital_Death",
+     "Victory_Start_Random",
+     "Victory_End_Random",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (20초)",
+    "ok": true,
+    "why": "",
+    "time": 28.57,
+    "clips": [
+     "Public01",
+     "Normal_Idle",
+     "Normal_Attack_Start",
+     "Normal_Attack_Ing",
+     "Normal_Attack_Delay",
+     "Normal_Attack_End",
+     "Normal_Reload",
+     "Victory_Start",
+     "Victory_End",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄)",
+    "ok": true,
+    "why": "",
+    "time": 1.93,
+    "clips": [
+     "Vital_Retreat"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 14.4,
+    "at": 1196.37,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 406.53,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 14,
+    "at": 227.07,
+    "clip": "Normal_Attack_Start"
+   },
+   "armed": {
+    "dur": 16.8,
+    "at": 1243.7,
+    "clip": "Normal_Idle"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 50.07,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 51.57,
+    "clip": "Formation_Pickup"
+   },
+   "battle": {
+    "dur": 3.5,
+    "at": 349.6,
+    "clip": "Normal_Idle"
+   },
+   "run": {
+    "dur": 2.1,
+    "at": 1224.53,
+    "clip": "Move_Ing"
+   },
+   "ex": {
+    "dur": 7.9,
+    "at": 258.3,
+    "clip": "Exs01"
+   },
+   "nap": {
+    "dur": 10.1,
+    "at": 943.67,
+    "clip": "Vital_Death"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Shun.glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 4.37,
+    "clips": [
+     "Victory_Start",
+     "Victory_End",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 2.4,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (5초)",
+    "ok": true,
+    "why": "",
+    "time": 7.03,
+    "clips": [
+     "Public01",
+     "Normal01_Idle",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 전투",
+    "ok": true,
+    "why": "",
+    "time": 54.93,
+    "clips": [
+     "Exs",
+     "Normal02_Idle",
+     "Move_Ing",
+     "Move_End_Kneel02",
+     "Kneel02_Attack_Start",
+     "Kneel02_Attack_Delay",
+     "Kneel02_Attack_End",
+     "Kneel02_Reload",
+     "Move_End_Normal02",
+     "Normal02_Attack_Start",
+     "Normal02_Attack_Ing",
+     "Normal02_Attack_Delay",
+     "Normal02_Attack_End",
+     "Normal02_Reload",
+     "Victory_Start",
+     "Victory_End",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 → 클릭으로 깨우기",
+    "ok": true,
+    "why": "",
+    "time": 5.4,
+    "clips": [
+     "Vital_Death",
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (20초)",
+    "ok": true,
+    "why": "",
+    "time": 24.8,
+    "clips": [
+     "Public01",
+     "Kneel01_Attack_Start",
+     "Kneel01_Attack_Delay",
+     "Kneel01_Attack_End",
+     "Exs",
+     "Kneel02_Attack_Start",
+     "Kneel02_Attack_Delay",
+     "Kneel02_Attack_End",
+     "Move_Ing",
+     "Move_End_Kneel02",
+     "Kneel02_Attack_Ing",
+     "Victory_Start",
+     "Victory_End",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄)",
+    "ok": true,
+    "why": "",
+    "time": 1.9,
+    "clips": [
+     "Vital_Retreat"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 16.7,
+    "at": 980,
+    "clip": "Cafe_Idle"
+   },
+   "action": {
+    "dur": 10.8,
+    "at": 1542.8,
+    "clip": "Kneel02_Attack_Ing"
+   },
+   "armed": {
+    "dur": 13.8,
+    "at": 411.13,
+    "clip": "Normal01_Idle"
+   },
+   "ex": {
+    "dur": 2.5,
+    "at": 1692.03,
+    "clip": "Kneel01_Attack_End"
+   },
+   "battle": {
+    "dur": 3.5,
+    "at": 1440,
+    "clip": "Kneel01_Attack_Delay"
+   },
+   "run": {
+    "dur": 2.1,
+    "at": 559.57,
+    "clip": "Move_Ing"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 199.87,
+    "clip": "Cafe_Walk"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 80.57,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 82.07,
+    "clip": "Formation_Pickup"
+   },
+   "nap": {
+    "dur": 12.5,
+    "at": 781.93,
+    "clip": "Vital_Death"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Kayoko (New Year).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 7.83,
+    "clips": [
+     "Victory_Start01",
+     "Victory_End01",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 7.1,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (5초)",
+    "ok": true,
+    "why": "",
+    "time": 7.87,
+    "clips": [
+     "Public01",
+     "Normal_Idle",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 전투",
+    "ok": true,
+    "why": "",
+    "time": 56.47,
+    "clips": [
+     "Exs",
+     "Normal_Idle",
+     "Normal_Attack_Start",
+     "Normal_Attack_Ing",
+     "Normal_Attack_Delay",
+     "Normal_Attack_End",
+     "Move_Ing",
+     "Move_End_Normal",
+     "Normal_Reload",
+     "Victory_Start01",
+     "Victory_End01",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 → 클릭으로 깨우기",
+    "ok": true,
+    "why": "",
+    "time": 10.1,
+    "clips": [
+     "Vital_Death",
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (20초)",
+    "ok": true,
+    "why": "",
+    "time": 29.57,
+    "clips": [
+     "Public01",
+     "Kneel_Attack_Start",
+     "Kneel_Attack_Delay",
+     "Kneel_Attack_Ing",
+     "Kneel_Attack_End",
+     "Victory_Start01",
+     "Victory_End01",
      "Cafe_Idle"
     ]
    },
@@ -448,388 +966,49 @@
   ],
   "longest": {
    "idle": {
-    "dur": 14.5,
-    "at": 1648.6,
+    "dur": 10.9,
+    "at": 1221.4,
     "clip": "Cafe_Idle"
    },
-   "nap": {
-    "dur": 38.5,
-    "at": 5.6,
-    "clip": "Vital_Death"
+   "walk": {
+    "dur": 7.5,
+    "at": 57,
+    "clip": "Cafe_Walk"
    },
    "action": {
-    "dur": 9.4,
-    "at": 1789.87,
+    "dur": 13.9,
+    "at": 564.53,
     "clip": "Move_End_Normal"
    },
-   "walk": {
-    "dur": 7.5,
-    "at": 53.47,
-    "clip": "Cafe_Walk"
-   },
-   "armed": {
-    "dur": 15.3,
-    "at": 391.7,
+   "battle": {
+    "dur": 3.5,
+    "at": 136,
     "clip": "Normal_Idle"
    },
-   "drag": {
-    "dur": 1.5,
-    "at": 83.63,
-    "clip": "Formation_Pickup"
-   },
-   "fall": {
-    "dur": 0.2,
-    "at": 85.13,
-    "clip": "Formation_Pickup"
+   "run": {
+    "dur": 2.3,
+    "at": 1612.3,
+    "clip": "Move_Ing"
    },
    "ex": {
-    "dur": 4.7,
-    "at": 133.13,
+    "dur": 4.5,
+    "at": 100.93,
     "clip": "Kneel_Attack_End"
    },
-   "battle": {
-    "dur": 3.5,
-    "at": 968.7,
-    "clip": "Normal_Idle"
-   },
-   "run": {
-    "dur": 2,
-    "at": 128.27,
-    "clip": "Move_Ing"
-   }
-  },
-  "stuck": [],
-  "errors": []
- },
- "Arisu (Battle).glb": {
-  "tests": [
-   {
-    "name": "클릭 반응",
-    "ok": true,
-    "why": "",
-    "time": 7.03,
-    "clips": [
-     "Victory_Start",
-     "Victory_End",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "클릭 반응 (두 번째)",
-    "ok": true,
-    "why": "",
-    "time": 7.03,
-    "clips": [
-     "Victory_Start",
-     "Victory_End",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "잠깐 무장 (5초)",
-    "ok": true,
-    "why": "",
-    "time": 8,
-    "clips": [
-     "Public01",
-     "Normal_Idle",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "더블클릭 EX → 전투",
-    "ok": true,
-    "why": "",
-    "time": 52.07,
-    "clips": [
-     "Exs01",
-     "Normal_Idle",
-     "Normal_Callsign",
-     "Normal_Attack_Start",
-     "Normal_Attack_Ing",
-     "Normal_Attack_Delay",
-     "Normal_Attack_End",
-     "Exs02_01",
-     "Victory_Start",
-     "Victory_End",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "낮잠 → 클릭으로 깨우기",
-    "ok": true,
-    "why": "",
-    "time": 10.03,
-    "clips": [
-     "Vital_Death",
-     "Victory_Start_Random",
-     "Victory_End_Random",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "전투 (20초)",
-    "ok": true,
-    "why": "",
-    "time": 28,
-    "clips": [
-     "Public01",
-     "Normal_Idle",
-     "Normal_Attack_Start",
-     "Normal_Attack_Ing",
-     "Normal_Attack_Delay",
-     "Normal_Attack_End",
-     "Victory_Start",
-     "Victory_End",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "집어 들었다 놓기",
-    "ok": true,
-    "why": "",
-    "time": 1.23,
-    "clips": [
-     "Formation_Pickup",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "걷기",
-    "ok": true,
-    "why": "",
-    "time": 5.97,
-    "clips": [
-     "Cafe_Walk",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "종료 (밧줄)",
-    "ok": true,
-    "why": "",
-    "time": 1.93,
-    "clips": [
-     "Vital_Retreat"
-    ]
-   }
-  ],
-  "longest": {
-   "idle": {
-    "dur": 13,
-    "at": 967.37,
-    "clip": "Cafe_Idle"
-   },
-   "walk": {
-    "dur": 7.5,
-    "at": 333.4,
-    "clip": "Cafe_Walk"
-   },
-   "action": {
-    "dur": 14,
-    "at": 1047.37,
-    "clip": "Normal_Attack_Start"
-   },
    "armed": {
-    "dur": 14.8,
-    "at": 668.13,
+    "dur": 20.7,
+    "at": 1238.33,
     "clip": "Normal_Idle"
-   },
-   "battle": {
-    "dur": 3.5,
-    "at": 71.67,
-    "clip": "Normal_Idle"
-   },
-   "ex": {
-    "dur": 7.9,
-    "at": 78.3,
-    "clip": "Exs01"
-   },
-   "run": {
-    "dur": 1.9,
-    "at": 778.13,
-    "clip": "Move_Ing"
    },
    "drag": {
     "dur": 1.5,
-    "at": 324.87,
+    "at": 166.47,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 326.37,
+    "at": 167.97,
     "clip": "Formation_Pickup"
-   }
-  },
-  "stuck": [],
-  "errors": []
- },
- "Shun.glb": {
-  "tests": [
-   {
-    "name": "클릭 반응",
-    "ok": true,
-    "why": "",
-    "time": 2.4,
-    "clips": [
-     "Cafe_Reaction",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "클릭 반응 (두 번째)",
-    "ok": true,
-    "why": "",
-    "time": 4.37,
-    "clips": [
-     "Victory_Start",
-     "Victory_End",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "잠깐 무장 (5초)",
-    "ok": true,
-    "why": "",
-    "time": 7.23,
-    "clips": [
-     "Public01",
-     "Normal01_Idle",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "더블클릭 EX → 전투",
-    "ok": true,
-    "why": "",
-    "time": 61.07,
-    "clips": [
-     "Exs",
-     "Kneel02_Attack_Start",
-     "Kneel02_Attack_Delay",
-     "Kneel02_Attack_End",
-     "Kneel02_Reload",
-     "Kneel02_Attack_Ing",
-     "Move_Ing",
-     "Move_End_Kneel02",
-     "Move_End_Normal02",
-     "Normal02_Idle",
-     "Normal02_Reload",
-     "Victory_Start",
-     "Victory_End",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "낮잠 → 클릭으로 깨우기",
-    "ok": true,
-    "why": "",
-    "time": 5.4,
-    "clips": [
-     "Vital_Death",
-     "Cafe_Reaction",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "전투 (20초)",
-    "ok": true,
-    "why": "",
-    "time": 28.07,
-    "clips": [
-     "Public01",
-     "Kneel01_Attack_Start",
-     "Kneel01_Attack_Delay",
-     "Kneel01_Attack_Ing",
-     "Kneel01_Attack_End",
-     "Kneel01_Reload",
-     "Move_Ing",
-     "Move_End_Normal01",
-     "Victory_Start",
-     "Victory_End",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "집어 들었다 놓기",
-    "ok": true,
-    "why": "",
-    "time": 1.23,
-    "clips": [
-     "Formation_Pickup",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "걷기",
-    "ok": true,
-    "why": "",
-    "time": 7.5,
-    "clips": [
-     "Cafe_Walk",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "종료 (밧줄)",
-    "ok": true,
-    "why": "",
-    "time": 2,
-    "clips": [
-     "Vital_Retreat"
-    ]
-   }
-  ],
-  "longest": {
-   "idle": {
-    "dur": 11.9,
-    "at": 1312.07,
-    "clip": "Cafe_Idle"
-   },
-   "walk": {
-    "dur": 7.5,
-    "at": 21.6,
-    "clip": "Cafe_Walk"
-   },
-   "ex": {
-    "dur": 2.5,
-    "at": 966.93,
-    "clip": "Kneel01_Attack_End"
-   },
-   "action": {
-    "dur": 11.4,
-    "at": 1088.4,
-    "clip": "Normal02_Attack_Start"
-   },
-   "battle": {
-    "dur": 3.5,
-    "at": 295,
-    "clip": "Normal02_Idle"
-   },
-   "run": {
-    "dur": 2,
-    "at": 271.63,
-    "clip": "Move_Ing"
-   },
-   "nap": {
-    "dur": 2.2,
-    "at": 99.17,
-    "clip": "Vital_Death"
-   },
-   "drag": {
-    "dur": 1.5,
-    "at": 101.37,
-    "clip": "Formation_Pickup"
-   },
-   "fall": {
-    "dur": 0.2,
-    "at": 102.87,
-    "clip": "Formation_Pickup"
-   },
-   "armed": {
-    "dur": 20.3,
-    "at": 621.2,
-    "clip": "Normal01_Idle"
    }
   },
   "stuck": [],

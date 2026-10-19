@@ -68,7 +68,7 @@ app.whenReady().then(async () => {
     let from = 0;
     for (let i = 1; i <= trace.length; i++) {
       const cur = trace[i - 1].state;
-      if (i < trace.length && trace[i].state === cur) continue;
+      if (i < trace.length && trace[i].state === cur && !trace[i].poke) continue; // 사람 손이 들어간 곳(poke)에서는 끊어 잰다
       const end = i < trace.length ? trace[i].t : SIM_SECONDS;
       const dur = +(end - trace[from].t).toFixed(1);
       if (dur > (longest[cur]?.dur ?? -1)) longest[cur] = { dur, at: trace[from].t, clip: trace[from].clip };

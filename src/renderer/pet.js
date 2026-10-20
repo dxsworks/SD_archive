@@ -73,13 +73,26 @@ function layout() {
   const h = canvas.clientHeight;
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(w, h, false);
-  const halfH = VIEW_HEIGHT / 2;
-  const halfW = halfH * (w / h);
-  Object.assign(camera, { left: -halfW, right: halfW, top: halfH, bottom: -halfH });
   // 원점(발밑)이 화면 맨 아래에서 FOOT_MARGIN 위에 오도록 시점 중심을 잡는다
-  const targetY = (halfH - FOOT_MARGIN) / Math.cos(TILT);
+  const targetY = (VIEW_HEIGHT / 2 - FOOT_MARGIN) / Math.cos(TILT);
   camera.position.set(0, targetY + 10 * Math.sin(TILT), 10 * Math.cos(TILT));
   camera.lookAt(0, targetY, 0);
+  setViewShift(viewShift.x, viewShift.y, true);
+}
+
+// 창은 정수 px로만 옮겨져서(setBounds) 걸을 때 한 프레임에 1px, 다음엔 2px처럼 들쭉날쭉 움직였다(2026-10-20 사용자).
+// 반올림하고 남은 만큼(1px 미만) 창 안 그림을 같은 쪽으로 밀어 화면에서는 몸이 고르게 움직이게 한다 (x 오른쪽, y 아래쪽, px)
+const viewShift = { x: 0, y: 0 };
+function setViewShift(x, y, force = false) {
+  if (!force && x === viewShift.x && y === viewShift.y) return;
+  Object.assign(viewShift, { x, y });
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  const halfH = VIEW_HEIGHT / 2;
+  const halfW = halfH * (w / h);
+  const ox = (x / h) * VIEW_HEIGHT; // px → 창 안 단위
+  const oy = (y / h) * VIEW_HEIGHT;
+  Object.assign(camera, { left: -halfW - ox, right: halfW - ox, top: halfH + oy, bottom: -halfH + oy });
   camera.updateProjectionMatrix();
 }
 layout();
@@ -509,6 +522,7 @@ function placeWindow() {
   winY = anchor.y - winH + footPx();
   const x = Math.round(winX);
   const y = Math.round(winY);
+  setViewShift(winX - x, winY - y);
   const key = `${x},${y}`;
   if (key === lastSent) return;
   lastSent = key;
@@ -1162,7 +1176,7 @@ function frame(now) {
   renderer.render(scene, camera);
   const t3 = performance.now();
   updateMousePassthrough();
-  perfLog?.push({ at: now, state, clip: currentAction?.getClip().name, anim: t1 - t0, extra: t2 - t1, render: t3 - t2, hit: performance.now() - t3 });
+  perfLog?.push({ at: now, state, clip: currentAction?.getClip().name, wx: winX, wy: winY, anim: t1 - t0, extra: t2 - t1, render: t3 - t2, hit: performance.now() - t3 });
 }
 let perfLog = null; // 성능 재기 (tools/perf-check.js): __pet.perfStart() → __pet.perfStop()
 

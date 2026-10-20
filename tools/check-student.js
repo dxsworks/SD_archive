@@ -44,6 +44,7 @@ const ACCEPTED = [
   { kind: 'angle', key: /^Cafe_(Idle|Walk)\d* → (Normal\d*_)?Public\d*$/i, why: '걷다 등을 보인 채 총 꺼내기 (사용자 "모르겠음", 그대로 둠)' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },
+  { kind: 'angle', model: 'Shun.glb', key: /^Normal\d*_Idle\d* → Normal\d*_Attack_Start$/i, why: '뛰고 나서 등을 보인 채 사격 시작 (드묾, 2026-10-20 사용자 "괜찮음")' },
 ];
 const accepted = (model, w) => ACCEPTED.find((a) => a.kind === w.kind && (!a.model || a.model === model)
   && (a.clip ? a.clip.test(w.clip) && w.what.startsWith(a.side) : a.key.test(w.key)));
@@ -58,18 +59,30 @@ const FIX = {
   error: '펫 페이지 오류: 메시지의 파일·줄',
 };
 
-function summarize(model, names, angles, edges, behavior) {
+// "이어 트는 동작의 차림 번호가 섞임 (차림 02 중)"은 01 동작이 02 차림과 모습이 다를 때만(수영복 호시노 겉옷) 문제다.
+// Shun처럼 02가 총 드는 자세만 다른 학생은 01 뛰기 → 02 뛰기 끝이 자연스럽다 (2026-10-18 그려서 확인) → 모습이 같으면 알고 둔 것으로
+const sameLook = (w, looks) => {
+  const m = /차림 번호가 섞임 \(차림 0\d 중\): (.+)$/.exec(w.what);
+  return m && looks && m[1].split(' → ').every((n) => !looks.form2Off.includes(n));
+};
+
+function summarize(model, names, angles, edges, behavior, looks) {
   const all = [
     ...names.warnings.map((w) => ({ kind: 'names', what: w })),
-    ...angles.filter((r) => r.verdict === 'bad').map((r) => ({ kind: 'angle', key: r.key, what: `${r.key}: 총 자세로 ${r.spin}° 휙 돎 (30분에 ${r.count}번)` })),
-    ...edges.flatMap((b) => b.warn.map((w) => ({ kind: 'edge', clip: b.clip, what: w }))),
+    ...angles.filter((r) => r.verdict === 'bad').map((r) => ({ kind: 'angle', key: r.key, what: `${r.key}: 총 자세로 ${r.spin}° 휙 돎 (30분에 ${r.count}번)`, clickOnly: Boolean(r.clickOnly) })),
+    ...edges.flatMap((b) => b.warn.map((w) => ({ kind: 'edge', clip: b.clip, what: w, gunOnly: (b.gunOnly ?? []).some((side) => w.startsWith(side)) }))),
     ...behavior.tests.filter((t) => !t.ok).map((t) => ({ kind: 'behavior', what: `${t.name}: ${t.why}`, clips: t.clips })),
     ...behavior.stuck.map((x) => ({ kind: 'stuck', what: `${x.state} ${x.dur}초 (${x.clip})` })),
     ...behavior.errors.map((e) => ({ kind: 'error', what: e })),
   ].map((w) => ({ ...w, fix: FIX[w.kind] }));
   const warnings = [], known = [];
   for (const w of all) {
-    const a = accepted(model, w);
+    const a = accepted(model, w)
+      ?? (w.kind === 'names' && sameLook(w, looks) ? { why: '02 차림과 모습이 같은 동작이라 넘어가도 옷이 안 바뀜' } : null)
+      // 2026-10-18 사용자: 총이 생기거나 사라지며 섞이는 동안 늘어진 총만 창 끝에 닿는 건 그대로 둠 (몸은 안 닿음)
+      ?? (w.gunOnly ? { why: '총·방패만 닿음 (총이 생기거나 사라지며 섞이는 동안 늘어짐)' } : null)
+      // 2026-10-18 사용자: 클릭이 하던 동작을 끊고 휙 도는 건 그대로 둠
+      ?? (w.clickOnly ? { why: '클릭으로 하던 동작을 끊은 곳 (뛰기·총 꺼내기·EX 중 클릭)' } : null);
     if (a) known.push({ ...w, why: a.why }); else warnings.push(w);
   }
   return { warnings, known };
@@ -148,7 +161,8 @@ async function main() {
     fs.unlinkSync(tmp);
     if (!names.usable) { console.log('  펫으로 못 쓰는 모델 (Cafe_Idle 없음) — 건너뜀'); continue; }
     for (const [label, tool] of [['넘어가는 곳 각도', 'transition-check.js'], ['창 끝', 'edge-check.js'], ['행동', 'behavior-check.js']]) {
-      await run(label, ELECTRON, [path.join(__dirname, tool), model]);
+      // 각도 검사가 넘어가는 곳을 지금 코드로 다시 모으고(--fresh, 사용자 표시는 옮겨 옴) 창 끝 검사는 그것을 씀
+      await run(label, ELECTRON, [path.join(__dirname, tool), model, ...(tool === 'transition-check.js' ? ['--fresh'] : [])]);
     }
     const sheetFile = path.join(REPORTS, `${model}.sheet.png`);
     await run('동작 시트', ELECTRON, [path.join(__dirname, 'sheet-check.js'), model, sheetFile]);
@@ -156,7 +170,9 @@ async function main() {
     await run('볼 동작 고르기', ELECTRON, [path.join(__dirname, 'sheet-check.js'), model, picksFile, '--picks']);
     const picks = JSON.parse(fs.readFileSync(picksFile.replace(/\.png$/, '.json'), 'utf8'));
     const [angles, edges, behavior] = [readData('transition-metrics.json')[model] ?? [], readData('edge-check.json')[model] ?? [], readData('behavior-check.json')[model]];
-    const summary = summarize(model, names, angles, edges, behavior);
+    const looksFile = path.join(REPORTS, `${model}.looks.json`);
+    const looks = fs.existsSync(looksFile) ? JSON.parse(fs.readFileSync(looksFile, 'utf8')) : null;
+    const summary = summarize(model, names, angles, edges, behavior, looks);
     const file = path.join(REPORTS, `${model}.html`);
     fs.writeFileSync(file, report(model, names, angles, edges, behavior, sheetFile, summary, picks, picksFile));
     const json = path.join(REPORTS, `${model}.json`);

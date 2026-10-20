@@ -1129,21 +1129,44 @@ function endDrag(e) {
 canvas.addEventListener('pointerup', endDrag);
 canvas.addEventListener('pointercancel', endDrag);
 
+// 커서 밑 픽셀이 투명한지. 예전엔 바로 읽어서(readPixels) GPU가 다 그릴 때까지 프레임마다 4~7ms 기다렸다
+// (Intel 내장 GPU, tools/perf-check.js의 hit). 이제 GPU 버퍼로 읽어 두고 다 그려졌을 때(fence) 꺼내 쓴다 → 1~2프레임 늦게 바뀜
+const hitRead = { buf: null, sync: null };
 function hitTest() {
-  if (!mouse) return false;
   const gl = renderer.getContext();
+  if (!mouse) {
+    if (hitRead.sync) { gl.deleteSync(hitRead.sync); hitRead.sync = null; }
+    return false;
+  }
+  let hit = hovering;
+  if (hitRead.sync) {
+    if (gl.clientWaitSync(hitRead.sync, 0, 0) === gl.TIMEOUT_EXPIRED) return hit; // 아직 그리는 중
+    gl.deleteSync(hitRead.sync);
+    hitRead.sync = null;
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+    gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, pixelBuf);
+    hit = false;
+    for (let i = 3; i < pixelBuf.length; i += 4) {
+      if (pixelBuf[i] > 16) { hit = true; break; }
+    }
+  } else if (!hitRead.buf) {
+    hitRead.buf = gl.createBuffer();
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+    gl.bufferData(gl.PIXEL_PACK_BUFFER, pixelBuf.byteLength, gl.STREAM_READ);
+  }
+  // 다음 읽기: 렌더 직후에 해야 픽셀이 남아 있다
   const dpr = renderer.getPixelRatio();
   const px = Math.floor(mouse.x * dpr) - 2;
   const py = Math.floor((canvas.clientHeight - mouse.y) * dpr) - 2;
-  gl.readPixels(px, py, 5, 5, gl.RGBA, gl.UNSIGNED_BYTE, pixelBuf);
-  for (let i = 3; i < pixelBuf.length; i += 4) {
-    if (pixelBuf[i] > 16) return true;
-  }
-  return false;
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+  gl.readPixels(px, py, 5, 5, gl.RGBA, gl.UNSIGNED_BYTE, 0);
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+  hitRead.sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+  return hit;
 }
 
 function updateMousePassthrough() {
-  hovering = drag ? true : hitTest(); // 렌더 직후에 읽어야 픽셀이 남아 있다
+  hovering = drag ? true : hitTest();
   if (ignoringMouse === hovering) {
     ignoringMouse = !hovering;
     bridge.setIgnoreMouse(ignoringMouse);

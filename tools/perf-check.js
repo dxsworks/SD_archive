@@ -48,6 +48,14 @@ app.whenReady().then(async () => {
     ['walk', '__pet.reset(); __pet.walk()'],
     ['battle', '__pet.reset(); __pet.battleFor(60)'],
   ];
+  // 마우스 통과 판정이 맞는지: 몸 위(창 가운데 아래쪽)면 grab, 빈 구석이면 default
+  const cursorAt = async (x, y) => {
+    await js(`window.dispatchEvent(new MouseEvent('mousemove', { clientX: ${x}, clientY: ${y} }))`);
+    await sleep(300);
+    return js(`document.getElementById('pet').style.cursor`);
+  };
+  await js('__pet.reset()');
+  console.log('커서: 몸 위', await cursorAt(431, 380), '/ 빈 곳', await cursorAt(20, 20));
   const rows = [];
   for (const [name, setup] of scenes) {
     await js(setup);

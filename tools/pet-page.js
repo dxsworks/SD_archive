@@ -40,8 +40,10 @@ const saveMarks = (marks) => fs.writeFileSync(MARKS, `${JSON.stringify(marks, nu
 
 // 넘어가는 곳: transition-marks.json에 모아 둔 것, 없으면 펫을 SIM_SECONDS만큼 빨리 돌려 모아 저장 (확인 창 collect와 같은 방법)
 // 같은 곳(앞 → 뒤 동작)마다 예를 4개까지: 몸이 가장 많이 도는 것부터 고르게
+// --fresh: 모아 둔 것이 있어도 지금 코드로 다시 모은다 (펫 코드를 고치면 넘어가는 곳이 바뀜). 사용자 표시(mark·note)는 같은 곳이면 옮겨 온다
 async function pairsOf(js, model, marks) {
-  if (marks[model]?.pairs?.length) return marks[model].pairs;
+  const old = marks[model]?.pairs ?? [];
+  if (old.length && !process.argv.includes('--fresh')) return old.filter((p) => !p.unseen);
   const log = await js(`__pet.simulate(${SIM_SECONDS})`);
   const turns = await js('__pet.clipTurns');
   const swing = (r) => Math.abs(wrap((r.faceAfter * 180) / Math.PI + (turns[r.to] ?? 0) - (r.yawBefore * 180) / Math.PI));
@@ -56,11 +58,16 @@ async function pairsOf(js, model, marks) {
     pairs: [...groups].map(([key, recs]) => {
       recs.sort((a, b) => swing(b) - swing(a));
       const picks = [...new Set([0, 1, 2, 3].map((i) => Math.round((i * (recs.length - 1)) / 3)))];
-      return { key, from: recs[0].from, to: recs[0].to, count: recs.length, examples: picks.map((i) => recs[i]), mark: null, note: '' };
+      const was = old.find((p) => p.key === key);
+      return { key, from: recs[0].from, to: recs[0].to, count: recs.length, examples: picks.map((i) => recs[i]), mark: was?.mark ?? null, note: was?.note ?? '' };
     }).sort((a, b) => b.count - a.count),
   };
+  // 이번 흉내에서 안 나온 곳도 사용자가 표시한 것은 남긴다 (예전 예와 함께 unseen. 검사 도구는 건너뜀)
+  for (const p of old) {
+    if (p.mark && !groups.has(p.key)) marks[model].pairs.push({ ...p, count: 0, unseen: true });
+  }
   saveMarks(marks);
-  return marks[model].pairs;
+  return marks[model].pairs.filter((p) => !p.unseen);
 }
 
 const modelsFromArgs = () => {

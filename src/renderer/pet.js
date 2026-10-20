@@ -7,6 +7,7 @@ import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
   DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
+  formVariants,
 } from './clip-names.js';
 
 // ---- 화면 구성 ----
@@ -72,13 +73,26 @@ function layout() {
   const h = canvas.clientHeight;
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(w, h, false);
-  const halfH = VIEW_HEIGHT / 2;
-  const halfW = halfH * (w / h);
-  Object.assign(camera, { left: -halfW, right: halfW, top: halfH, bottom: -halfH });
   // 원점(발밑)이 화면 맨 아래에서 FOOT_MARGIN 위에 오도록 시점 중심을 잡는다
-  const targetY = (halfH - FOOT_MARGIN) / Math.cos(TILT);
+  const targetY = (VIEW_HEIGHT / 2 - FOOT_MARGIN) / Math.cos(TILT);
   camera.position.set(0, targetY + 10 * Math.sin(TILT), 10 * Math.cos(TILT));
   camera.lookAt(0, targetY, 0);
+  setViewShift(viewShift.x, viewShift.y, true);
+}
+
+// 창은 정수 px로만 옮겨져서(setBounds) 걸을 때 한 프레임에 1px, 다음엔 2px처럼 들쭉날쭉 움직였다(2026-10-20 사용자).
+// 반올림하고 남은 만큼(1px 미만) 창 안 그림을 같은 쪽으로 밀어 화면에서는 몸이 고르게 움직이게 한다 (x 오른쪽, y 아래쪽, px)
+const viewShift = { x: 0, y: 0 };
+function setViewShift(x, y, force = false) {
+  if (!force && x === viewShift.x && y === viewShift.y) return;
+  Object.assign(viewShift, { x, y });
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  const halfH = VIEW_HEIGHT / 2;
+  const halfW = halfH * (w / h);
+  const ox = (x / h) * VIEW_HEIGHT; // px → 창 안 단위
+  const oy = (y / h) * VIEW_HEIGHT;
+  Object.assign(camera, { left: -halfW - ox, right: halfW - ox, top: halfH + oy, bottom: -halfH + oy });
   camera.updateProjectionMatrix();
 }
 layout();
@@ -110,6 +124,33 @@ const shadow = (() => {
   return mesh;
 })();
 scene.add(shadow);
+
+// 그림자는 몸을 따라간다: 발·골반·머리를 바닥에 내린 가운데로 옮기고, 누운 몸(엎드려 쏘기, 낮잠)은 발 → 머리 방향으로 늘인다.
+// 예전엔 발 자리(원점)에 고정이라 사격 자세에서 엄폐물 밖으로 옆으로 나가거나 엎드리면 그림자가 몸 옆에 남았다
+// (Shun 02 엎드림, 시로코 무릎·엄폐, 2026-10-18 사용자). 서 있으면 발·골반·머리가 거의 한 점이라 지금과 같다
+const SHADOW_SIZE = 0.6; // 그림자 지름 (모델 단위, 위 PlaneGeometry와 같음)
+const SHADOW_PAD = 0.55; // 늘일 때 발 → 머리 길이에 더할 몸 끝 여유
+let bodyBones = [];      // [발 왼쪽, 발 오른쪽, 골반, 머리]
+let shadowBase = 1;      // 바닥 원근에 따른 크기 (placeWindow)
+const shadowAt = { x: 0, z: 0, dx: 0, dz: 1, stretch: 1 };
+function updateShadow(dt, { snap = false } = {}) {
+  let target = { x: 0, z: 0, dx: 0, dz: 1, stretch: 1 };
+  if (bodyBones.length === 4) {
+    scene.updateMatrixWorld();
+    const [l, r, hip, head] = bodyBones.map((b) => b.getWorldPosition(new THREE.Vector3()));
+    const feet = l.add(r).multiplyScalar(0.5);
+    const unit = root.scale.x;
+    const dx = head.x - feet.x, dz = head.z - feet.z, len = Math.hypot(dx, dz) / unit;
+    target = { x: (feet.x + hip.x + head.x) / 3, z: (feet.z + hip.z + head.z) / 3,
+      dx: len > 1e-4 ? dx / (len * unit) : shadowAt.dx, dz: len > 1e-4 ? dz / (len * unit) : shadowAt.dz,
+      stretch: Math.max(1, (len + SHADOW_PAD) / SHADOW_SIZE) };
+  }
+  const k = snap ? 1 : Math.min(1, dt * 10);
+  for (const key of Object.keys(shadowAt)) shadowAt[key] += (target[key] - shadowAt[key]) * k;
+  shadow.position.set(shadowAt.x, 0, shadowAt.z);
+  shadow.rotation.z = Math.atan2(-shadowAt.dz, shadowAt.dx); // 평면의 가로(x)를 발 → 머리 방향으로
+  shadow.scale.set(shadowBase * shadowAt.stretch, shadowBase, 1);
+}
 
 // 종료할 때 매달리는 밧줄 — 손에서 창 위 끝까지, 위로 갈수록 투명해져 하늘에서 내려온 것처럼 보인다
 const ROPE_TOP = (VIEW_HEIGHT - FOOT_MARGIN) / Math.cos(TILT); // 창 위 끝의 높이
@@ -143,6 +184,7 @@ let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방�
 let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
 let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가운데 (모델 기준)
 let clipHips = new Map();  // 동작 이름 → 막 시작했을 때 몸(허벅지 선) 방향 (모델 기준)
+let clipFronts = new Map(); // 동작 이름 → 몸 앞쪽 방향 (모델 기준, 0 = 카메라 쪽, 어깨선·허벅지 선으로 잼)
 let thighs = [];
 let gearClips = new Set(); // 평소 대기와 장비 모습이 다른 동작 (아리스(배틀) 등 뒤 장비가 생기거나 사라짐). 평소 상태에서는 피한다
 let form2Off = new Set(); // 02 차림 전투 대기(Normal_Idle02)와 모습이 다른 동작. 02 차림으로 끝난 전투의 승리 포즈를 고를 때 씀
@@ -235,11 +277,15 @@ async function loadModel() {
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
   ({ index: clipIndex, forms } = indexClips(Object.keys(clips)));
+  variantForms = formVariants(clipIndex, forms);
+  if (variantForms) forms.delete(2); // 차림이 아니라 변형: EX 뒤에도 01 차림 그대로, 변형은 playSequence에서 섞음
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
-  const idle2 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name;
+  const idle2 = forms.has(2) ? clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name : undefined;
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
-  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
+  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
+  measureFrontFaces();
+  bodyBones = ['Bip001_L_Foot', 'Bip001_R_Foot', 'Bip001_Pelvis', 'Bip001_Head'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
@@ -251,6 +297,7 @@ async function loadModel() {
 
 let clipIndex = new Map(); // 묶은 이름 → [{ name, form }] (clip-names.js indexClips)
 let forms = new Set();     // 이 모델에 있는 차림 번호들
+let variantForms = false;  // 01/02가 차림이 아니라 변형인 학생 (clip-names.js formVariants)
 let form = 1; // 지금 차림 번호. 전투 중 EX를 쓰면 2, 전투가 끝나면 1
 const currentForm = () => form;
 function resolve(name) {
@@ -335,6 +382,37 @@ function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
   currentAction = action;
   refreshWeapons();
   if (prev !== action) carryTurn(action.getClip().name);
+  if (frontFaces.has(action.getClip().name)) facing = frontFaces.get(action.getClip().name);
+}
+
+// ---- 집어 들기·승리 포즈는 무조건 정면 (2026-10-19 사용자) ----
+// 펫이 정한 방향(정면 ±30° 무작위)과 학생별 보정(clipTurns, 원래 호시노 방향에 맞춤) 대신, 그 동작의 몸 앞쪽(clipFronts: 어깨선·허벅지 선)이
+// 카메라를 보게 돌린다. 예전엔 Shun 승리 포즈가 61°, 집어 들기가 48° 옆을 봤다 (Cafe_Idle부터 비껴 서 있어 보정이 엇나감).
+// 승리 포즈 Start → End는 짝마다 한 값(둘의 평균)으로: 따로 맞추면 넘어갈 때 몸이 10~20° 돈다
+const FRONT_POSE = /^(victory_(start|end)(_random)?|formation_pickup)$/;
+let frontFaces = new Map(); // 동작 이름 → 이 동작 동안의 facing
+function measureFrontFaces() {
+  const groups = new Map();
+  for (const [key, list] of clipIndex) {
+    const m = FRONT_POSE.exec(key);
+    if (!m) continue;
+    for (const { name, form: f } of list) {
+      if (!clipFronts.has(name)) continue;
+      const group = m[2] ? `victory${m[3] ?? ''}|${f}` : name;
+      if (!groups.has(group)) groups.set(group, []);
+      groups.get(group).push(name);
+    }
+  }
+  frontFaces = new Map();
+  for (const names of groups.values()) {
+    let x = 0, z = 0;
+    for (const n of names) {
+      const a = clipFronts.get(n) + (clipTurns.get(n) ?? 0);
+      x += Math.sin(a); z += Math.cos(a);
+    }
+    const front = Math.atan2(x, z);
+    for (const n of names) frontFaces.set(n, wrapAngle(-front));
+  }
 }
 
 // ---- 총 든 자세로 넘어갈 때 몸 방향 이어 받기 ----
@@ -438,12 +516,13 @@ function placeWindow() {
   // 끌려 올라갈 때(종료)는 창이 몸을 따라간다. 그 밖에는 창은 바닥에 두고 창 안에서 모델을 올린다
   const anchor = state === 'retreat' || state === 'gone' ? lifted : ground;
   root.position.y = (anchor.y - lifted.y) / floor.pxNear; // 창 안 1단위 = pxNear px
-  shadow.scale.set(s * (state === 'nap' ? 2.2 : 1), s, 1);
+  shadowBase = s; // 늘이기·위치는 updateShadow
   shadow.material.opacity = state === 'retreat' ? 0.3 * Math.max(0, 1 - lift * 3) : 0.3 * Math.max(0.4, 1 - lift * 2);
   winX = ground.x - winW / 2; // 높이 뜬 점은 원근 때문에 옆으로 밀리므로 가로는 바닥 기준 (똑바로 위로)
   winY = anchor.y - winH + footPx();
   const x = Math.round(winX);
   const y = Math.round(winY);
+  setViewShift(winX - x, winY - y);
   const key = `${x},${y}`;
   if (key === lastSent) return;
   lastSent = key;
@@ -478,8 +557,21 @@ function toIdle({ fade = 0.25 } = {}) {
 }
 
 // 일회성 동작들을 차례로 재생하고 끝나면 onEnd (기본: 전투 중이면 전투 대기, 아니면 평소 대기)
+// 01/02가 변형인 학생(variantForms): 한 번 이어 트는 동작들은 같은 번호 하나로 골라 실제 이름으로 바꾼다
+// (Victory_Start02 → Victory_End02. 01·02가 섞인 짝은 안 나옴). 평소 대기와 장비 모습이 다른 변형은 원래 것과 같을 때만
+function pickVariants(list) {
+  if (!variantForms) return list;
+  const options = (name) => (clipIndex.get(clipKey(name)) ?? []).filter((c) => gearClips.has(c.name) === gearClips.has(resolve(name)));
+  const multi = list.map(options).filter((o) => new Set(o.map((c) => c.form)).size > 1);
+  if (!multi.length) return list;
+  const common = [...new Set(multi[0].map((c) => c.form))].filter((f) => multi.every((o) => o.some((c) => c.form === f)));
+  if (!common.length) return list;
+  const n = common[Math.floor(Math.random() * common.length)];
+  return list.map((name) => options(name).find((c) => c.form === n)?.name ?? name);
+}
+
 function playSequence(names, { face = calmFace(), fade = 0.25, stepFade = 0.2, as = 'action', onEnd = rest } = {}) {
-  const list = names.map(clipName).filter(has);
+  const list = pickVariants(names.map(clipName).filter(has));
   if (!list.length) { onEnd(); return; }
   setState(as);
   facing = showFace(face, list, HEAD_FIX_MAX);
@@ -611,12 +703,15 @@ function beginBattle() {
 // keepForm: 종료(밧줄)처럼 전투 차림 그대로 이어서 할 동작이 있을 때
 function endBattle({ victory = false, keepForm = false } = {}) {
   if (!battle) return;
-  const rise = leaveSteps(); // 무릎·엄폐 자세면 일어나고 나서 승리 포즈
+  // 무릎·엄폐 자세면 일어나고 나서 승리 포즈. 일어나는 동작(Attack_End)은 지금 차림 것으로 이름을 정해 둔다:
+  // 01로 먼저 돌리면 02 사격 대기 → 01 사격 끝으로 섞여 자세가 튐 (Shun 무릎 02 엎드림 → 01 앉음, 발이 창 아래 끝에 닿음).
+  // 2026-10-18 사용자: 사격 끝은 지금 차림 그대로, 01로는 승리 포즈에서 돌아감 (수영복 호시노 겉옷도 승리 포즈에서 다시 생김)
+  const rise = leaveSteps().map(resolve);
   battle = null;
   // 02 차림으로 끝났고 그 모습 그대로인 승리 포즈 짝이 있으면 그것으로 (수영복 호시노: 겉옷 벗은 Victory_*_Random).
-  // 일어나는 동작도 02 것으로 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
+  // 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
   const pairs = victory ? formVictoryPoses() : [];
-  const steps = pairs.length ? [...rise, ...pickPair(pairs)].map(resolve) : null;
+  const steps = pairs.length ? [...rise, ...pickPair(pairs).map(resolve)] : null;
   if (!keepForm) form = 1;
   lastBattleEnd = clock();
   if (victory) playSequence(steps ?? [...rise, ...victoryPose()], { onEnd: toIdle });
@@ -742,9 +837,11 @@ function arriveRun() {
 
 const exVariants = () => exVariantsOf(Object.keys(clips), forms);
 function exSkill() {
+  // 나가 있으면 지금 차림 그대로 돌아온 뒤 EX (02로 먼저 바꾸면 01 사격 대기 → 02 사격 끝으로 섞여 자세가 크게 튐: Shun 무릎 01 → 02 엎드림)
+  const back = fromCover([]).map(resolve);
   if (battle && forms.has(2)) form = 2;
   const variants = exVariants();
-  playSequence(fromCover([variants.length > 1 ? pickRandom(variants) : 'ex']), { face: battleFace(), as: 'ex' });
+  playSequence([...back, variants.length > 1 ? pickRandom(variants) : 'ex'], { face: battleFace(), as: 'ex' });
 }
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,
@@ -1032,21 +1129,43 @@ function endDrag(e) {
 canvas.addEventListener('pointerup', endDrag);
 canvas.addEventListener('pointercancel', endDrag);
 
+// 커서 밑 픽셀이 투명한지. 예전엔 바로 읽어서(readPixels) GPU가 다 그릴 때까지 프레임마다 4~7ms 기다렸다
+// (Intel 내장 GPU, tools/perf-check.js의 hit). 이제 GPU 버퍼로 읽어 두고 다 그려졌을 때(fence) 꺼내 쓴다 → 1~2프레임 늦게 바뀜
+const hitRead = { buf: null, sync: null };
+// 마우스가 잠깐 창 밖으로 잡혀도(바탕화면에서는 통과 중 mouseleave가 자주 옴) 읽던 것은 버리지 않는다.
+// 버리면 다 읽기 전에 계속 새로 시작해서 한 번도 "몸 위"가 안 나왔음(2026-10-20 클릭·끌기 안 됨)
 function hitTest() {
-  if (!mouse) return false;
   const gl = renderer.getContext();
+  let hit = mouse ? hovering : false;
+  if (hitRead.sync) {
+    if (gl.clientWaitSync(hitRead.sync, 0, 0) === gl.TIMEOUT_EXPIRED) return hit; // 아직 그리는 중
+    gl.deleteSync(hitRead.sync);
+    hitRead.sync = null;
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+    gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, pixelBuf);
+    hit = false;
+    for (let i = 3; mouse && i < pixelBuf.length; i += 4) {
+      if (pixelBuf[i] > 16) { hit = true; break; }
+    }
+  } else if (!hitRead.buf) {
+    hitRead.buf = gl.createBuffer();
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+    gl.bufferData(gl.PIXEL_PACK_BUFFER, pixelBuf.byteLength, gl.STREAM_READ);
+  }
+  // 다음 읽기: 렌더 직후에 해야 픽셀이 남아 있다
+  if (!mouse) return false;
   const dpr = renderer.getPixelRatio();
   const px = Math.floor(mouse.x * dpr) - 2;
   const py = Math.floor((canvas.clientHeight - mouse.y) * dpr) - 2;
-  gl.readPixels(px, py, 5, 5, gl.RGBA, gl.UNSIGNED_BYTE, pixelBuf);
-  for (let i = 3; i < pixelBuf.length; i += 4) {
-    if (pixelBuf[i] > 16) return true;
-  }
-  return false;
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+  gl.readPixels(px, py, 5, 5, gl.RGBA, gl.UNSIGNED_BYTE, 0);
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+  hitRead.sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+  return hit;
 }
 
 function updateMousePassthrough() {
-  hovering = drag ? true : hitTest(); // 렌더 직후에 읽어야 픽셀이 남아 있다
+  hovering = drag ? true : hitTest();
   if (ignoringMouse === hovering) {
     ignoringMouse = !hovering;
     bridge.setIgnoreMouse(ignoringMouse);
@@ -1054,25 +1173,34 @@ function updateMousePassthrough() {
   canvas.style.cursor = drag?.moved ? 'grabbing' : hovering ? 'grab' : 'default';
 }
 
-// ---- 메인 루프 (가만히 있을 땐 30fps, 움직일 땐 60fps) ----
+// ---- 메인 루프 (항상 60fps) ----
+// 예전엔 대기·낮잠을 30fps로 그렸는데 숨쉬기·흔들림이 뚝뚝 끊겨 보였음(2026-10-20 사용자: 렉 걸린 느낌).
+// 한 프레임 CPU가 1~2ms라(tools/perf-check.js) 늘 60fps로 그려도 부담이 적다. 주사율이 더 높은 모니터에서도 60fps까지만
+const TARGET_FPS = 60;
 let lastFrame = performance.now();
 let speed = 1; // 느린 재생 (__pet.timeScale)
 function frame(now) {
   requestAnimationFrame(frame);
-  const targetFps = state === 'idle' || state === 'nap' ? 30 : 60;
-  if (now - lastFrame < 1000 / targetFps - 2) return;
+  if (now - lastFrame < 1000 / TARGET_FPS - 2) return;
   const dt = Math.min((now - lastFrame) / 1000, 0.1) * speed;
   lastFrame = now;
 
   if (renderer.getPixelRatio() !== window.devicePixelRatio) layout(); // 배율이 다른 모니터로 옮겨졌을 때
+  const t0 = performance.now();
   update(dt);
   mixer.update(dt);
+  const t1 = performance.now();
   updateHiddenParts();
   updateOutlines();
   updateRope(); // 손 위치는 이번 프레임 자세로
+  updateShadow(dt);
+  const t2 = performance.now();
   renderer.render(scene, camera);
+  const t3 = performance.now();
   updateMousePassthrough();
+  perfLog?.push({ at: now, state, clip: currentAction?.getClip().name, wx: winX, wy: winY, anim: t1 - t0, extra: t2 - t1, render: t3 - t2, hit: performance.now() - t3 });
 }
+let perfLog = null; // 성능 재기 (tools/perf-check.js): __pet.perfStart() → __pet.perfStop()
 
 async function main() {
   settings = { ...settings, ...(await bridge.getSettings()) };
@@ -1110,7 +1238,11 @@ window.__pet = {
   get form2Off() { return [...form2Off]; },
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipFronts() { return Object.fromEntries([...clipFronts].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
+  perfStart() { perfLog = []; },
+  perfStop() { const log = perfLog; perfLog = null; return log; },
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },
   get armed() { return armed && { left: Math.round((armed.until - clock()) / 1000) }; },
@@ -1149,6 +1281,7 @@ window.__pet = {
     measureTransition(rec, { span: t, alone, record: false });
     updateHiddenParts();
     updateOutlines();
+    updateShadow(0, { snap: true });
     renderer.render(scene, camera);
   },
 };
@@ -1156,12 +1289,19 @@ window.__pet = {
 // ---- 넘어가는 곳 확인 도구용 (tools/transition-review.js) ----
 // 상태 머신을 가상 시계로 seconds초만큼 한 번에 돌려(그리지 않음) 넘어가는 곳 기록을 돌려준다.
 // 가끔 사람이 하는 것(클릭, 더블클릭 EX, 집어 들었다 놓기, 메뉴 전투)을 섞는다
+// click: 사람이 클릭(더블클릭·메뉴 전투 포함)해서 하던 동작을 끊고 넘어간 곳은 기록에 click 표시.
+//   2026-10-18 사용자: 클릭이 다른 동작(뛰기·총 꺼내기·EX 등)을 끊고 휙 도는 건 그대로 둠 → 각도 검사가 알고 둔 것으로 셈
 const POKES = [
-  [() => react(), 50],
-  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) doubleClickEx(); }, 15],
+  [() => clicked(react), 50],
+  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) clicked(doubleClickEx); }, 15],
   [() => { drag = { moved: true, offset: null }; pickUp(); }, 15],
-  [() => COMMANDS.battle(), 20],
+  [() => clicked(COMMANDS.battle), 20],
 ];
+function clicked(fn) {
+  const from = transitionLog?.length ?? 0;
+  fn();
+  for (const rec of transitionLog?.slice(from) ?? []) rec.click = true;
+}
 // bodies: 배열을 주면 0.25초마다 [상태, 지금 동작, 몸 방향(도, 0 = 평소 대기 정면)]을 넣는다 (방향 잇기 방법 비교용)
 // poke: null이면 사람 손 없이. trace: 배열을 주면 상태나 동작이 바뀔 때마다 { t, state, clip }. until: 이 상태가 되면 멈춤
 function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null, trace = null, until = null } = {}) {
@@ -1177,6 +1317,11 @@ function simulate(seconds, { dt = 1 / 30, poke = [5, 40], bodies = null, trace =
       pickWeighted(POKES)();
       lastInteraction = clock();
       nextPoke = t + rand(...poke);
+      // 사람 손이 들어간 곳 표시 (행동 테스트가 여기서 끊어 잼: 승리 포즈 중 클릭 → 승리 포즈가 이어져도 한 동작에 멈춘 게 아님)
+      if (trace) {
+        last = `${state}|${currentAction?.getClip().name}`;
+        trace.push({ t: +t.toFixed(2), state, clip: currentAction?.getClip().name, poke: true });
+      }
     }
     if (state === 'drag' && stateTime > 1.5) drop();
     update(dt);
@@ -1219,6 +1364,16 @@ function startReplay(rec) {
   pivot.position.fromArray(rec.pivotPos);
   pivotTarget.fromArray(rec.pivotPos);
 }
+// 다시 틀기·재기에서 기록의 뒤 동작으로 넘긴다. 앞 동작은 이어 받은 방향(carry)을 facing에 녹여 틀고 있으므로,
+// 같은 동작을 다시 틀 때(연달아 사격 Attack_Ing → Attack_Ing)는 play()가 이어 받기를 새로 정하지 않아 carry 0으로 돌아가 버린다.
+// 펫에서는 같은 순서 안이라 방향도 이어 받기도 그대로다 → 넘어가기 전 몸 방향을 그대로 유지한다 (Shun에서 76~103° 휙 도는 것처럼 잘못 잼)
+function switchLikePet(rec) {
+  facing = rec.faceAfter;
+  pivotTarget.fromArray(rec.pivotTarget);
+  play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+  if (rec.to === rec.from) carry = wrapAngle(rec.yawBefore - facing - clipTurn());
+}
+
 // 기록 하나를 펫과 똑같이 넘기며(자체 시계 1/60초, 그리지 않음) 넘어간 순간부터 span초 동안 매 프레임 잰다.
 // alone: 뒤 동작만 넘어간 뒤 방향으로 처음부터 (그 동작이 원래 도는 만큼을 빼려고)
 //   돌려주는 값: [{ t, hip, feet: [{ x, z, h, dir }] }] hip: 두 허벅지 뼈를 잇는 선의 방향(도, 몸 전체가 도는 양을 볼 때),
@@ -1261,9 +1416,7 @@ function measureTransition(rec, { span = 0.8, alone = false, record = true, onFr
   for (let n = 0; n < 600 && t < span; n++) {
     if (!switched && t >= -1e-6) {
       switched = true;
-      facing = rec.faceAfter;
-      pivotTarget.fromArray(rec.pivotTarget);
-      play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+      switchLikePet(rec);
     }
     update(DT);
     mixer.update(DT);
@@ -1300,6 +1453,26 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
   const near = floor.toFloor(workArea.x + workArea.width / 2, workArea.y + workArea.height - 2);
   if (near) pos.copy(near);
   const m = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity, topAt: 0, leftAt: 0, rightAt: 0, bottomAt: 0 };
+  // 총·방패를 빼고 잰 여백도 따로: 총이 생기거나 사라지며 섞이는 0.1~0.4초 동안 작은 총이 늘어져 창 끝에 닿는 건 알고 둔 것 (2026-10-18 사용자)
+  const body = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity };
+  const draw = () => {
+    shadow.visible = false; // 발밑 그림자는 빼고 모델만 (그림자는 늘 창 아래 끝까지 감)
+    renderer.render(scene, camera);
+    shadow.visible = true;
+    gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+    let top = h, left = w, right = w, bottom = h;
+    for (let y = 0; y < h; y += 2) {
+      const row = y * w * 4;
+      for (let x = 0; x < w; x += 2) {
+        if (buf[row + x * 4 + 3] <= 16) continue;
+        top = Math.min(top, h - 1 - y); // readPixels는 아래 줄부터
+        left = Math.min(left, x);
+        right = Math.min(right, w - 1 - x);
+        bottom = Math.min(bottom, y);
+      }
+    }
+    return { top: top / dpr, left: left / dpr, right: right / dpr, bottom: bottom / dpr };
+  };
   let n = 0;
   measureTransition(rec, {
     span: clip.duration, record: false, alone,
@@ -1307,27 +1480,24 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
       if (n++ % every) return;
       updateHiddenParts();
       updateOutlines();
-      shadow.visible = false; // 발밑 그림자는 빼고 모델만 (그림자는 늘 창 아래 끝까지 감)
-      renderer.render(scene, camera);
-      shadow.visible = true;
-      gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
-      let top = h, left = w, right = w, bottom = h;
-      for (let y = 0; y < h; y += 2) {
-        const row = y * w * 4;
-        for (let x = 0; x < w; x += 2) {
-          if (buf[row + x * 4 + 3] <= 16) continue;
-          top = Math.min(top, h - 1 - y); // readPixels는 아래 줄부터
-          left = Math.min(left, x);
-          right = Math.min(right, w - 1 - x);
-          bottom = Math.min(bottom, y);
-        }
+      const all = draw();
+      for (const k of ['top', 'left', 'right', 'bottom']) {
+        if (all[k] < m[k]) { m[k] = all[k]; m[`${k}At`] = +t.toFixed(2); }
       }
-      for (const [k, v] of [['top', top], ['left', left], ['right', right], ['bottom', bottom]]) {
-        if (v / dpr < m[k]) { m[k] = v / dpr; m[`${k}At`] = +t.toFixed(2); }
+      const shown = weaponMeshes.filter((o) => o.visible);
+      let only = all;
+      if (shown.length) {
+        for (const o of shown) o.visible = false;
+        updateOutlines();
+        only = draw();
+        for (const o of shown) o.visible = true;
+        updateOutlines();
       }
+      for (const k of ['top', 'left', 'right', 'bottom']) body[k] = Math.min(body[k], only[k]);
     },
   });
-  for (const k of ['top', 'left', 'right', 'bottom']) m[k] = Math.round(m[k]);
+  for (const k of ['top', 'left', 'right', 'bottom']) { m[k] = Math.round(m[k]); body[k] = Math.round(body[k]); }
+  m.body = body;
   return m;
 }
 
@@ -1342,6 +1512,8 @@ function usedClips() {
     for (const n of names) if (has(n)) out.add(resolve(n));
   }
   form = keep;
+  // 01/02 변형도 (playSequence pickVariants가 섞어 씀)
+  if (variantForms) for (const n of [...out]) for (const c of clipIndex.get(clipKey(n)) ?? []) out.add(c.name);
   return [...out];
 }
 
@@ -1399,8 +1571,9 @@ function pickClips() {
   const out = new Map(); // 동작 → 이유들
   const add = (clip, why) => { if (clips[clip]) out.set(clip, [...(out.get(clip) ?? []), why]); };
   // 서 있을 때 골반 높이(월드 단위 / 크기): 펫이 쓰는 동작들의 최대 골반 높이 가운데값 (카페 대기 하나로 재면 아리스처럼 빌려온 대기가 낮은 학생에서 틀림)
+  // 무릎 자세 동작은 원래 낮으니 가운데값에서 뺀다 (Shun은 무릎 동작이 많아 가운데값이 앉은 높이가 되어 서 있는 동작이 모두 "2배 뜸"으로 잡혔음)
   const raw = used.filter((n) => !/^Vital_Retreat/i.test(n)).map((n) => [n, clipStats(n, 1)]).filter(([, x]) => x);
-  const highs = raw.map(([, x]) => x.rise).sort((a, b) => a - b);
+  const highs = raw.filter(([n]) => !/Kneel/i.test(n)).map(([, x]) => x.rise).sort((a, b) => a - b);
   const standHip = highs[Math.floor(highs.length / 2)] ?? 1;
   const r2 = (v) => Math.round(v * 100) / 100;
   for (const [name, x] of raw) { // 밧줄에 매달려 올라가는 종료(Vital_Retreat)는 원래 뜨므로 뺐음
@@ -1421,6 +1594,7 @@ function pickClips() {
     form = keep;
     add(formOf.get(idle2) === 2 ? idle2 : form2[0], `02 차림 (전투 중 EX 뒤에 바뀜, 02 동작 ${form2.length}개)`);
   }
+  if (variantForms) for (const n of used) if (formOf.get(n) === 2) add(n, '02 변형 (01과 무작위로 섞음, 짝은 같은 번호끼리)');
   window.__pet.reset();
   return [...out].map(([clip, why]) => ({ clip, why }));
 }
@@ -1482,6 +1656,7 @@ function drawSheet(names, { frames = 5, cell = [260, 200], label = 210, notes = 
       measureTransition(rec, { span: (clip.duration * (k + 0.5)) / frames, alone: true, record: false });
       updateHiddenParts();
       updateOutlines();
+      updateShadow(0, { snap: true });
       renderer.render(scene, camera);
       g.drawImage(src, sx, sy, sw, sh, label + k * cw, i * ch, cw, ch);
     }
@@ -1493,9 +1668,7 @@ function updateReplay() {
   const { rec, lead, switched } = replaying;
   if (!switched && stateTime >= lead) {
     replaying.switched = true;
-    facing = rec.faceAfter;
-    pivotTarget.fromArray(rec.pivotTarget);
-    play(rec.to, { once: !rec.toLoop, fade: rec.fade });
+    switchLikePet(rec);
   } else if (switched && stateTime >= lead + rec.fade + REPLAY_TAIL) startReplay(rec);
 }
 

@@ -134,7 +134,9 @@ async function collect() {
     const picks = [...new Set(Array.from({ length: EXAMPLES }, (_, i) => Math.round((i * (recs.length - 1)) / Math.max(1, EXAMPLES - 1))))];
     const { mark = null, note = '' } = old.get(key) ?? {};
     return { key, from: recs[0].from, to: recs[0].to, count: recs.length, examples: picks.map((i) => recs[i]), mark, note };
-  }).sort((a, b) => b.count - a.count);
+  }).sort((a, b) => b.count - a.count)
+    // 이번에 안 나온 곳도 표시한 것은 예전 예와 함께 남긴다 (tools/pet-page.js pairsOf와 같음)
+    .concat([...old.values()].filter((p) => p.mark && !groups.has(p.key)).map((p) => ({ ...p, count: 0, unseen: true })));
 }
 
 async function open(name, { recollect = false } = {}) {

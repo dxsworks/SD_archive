@@ -56,20 +56,23 @@ app.whenReady().then(async () => {
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) console.log('[page]', m); });
   for (const model of modelsFromArgs()) {
     const js = await openPet(win, port, model);
-    await pairsOf(js, model, marks);
+    const pairs = await pairsOf(js, model, marks);
     await js(`__pet.turnMode = '${turn}'`);
     const rows = [];
-    for (const p of marks[model].pairs) {
+    for (const p of pairs) {
       const per = [];
       for (const rec of p.examples) {
         const trans = await js(`__pet.measure(${JSON.stringify(rec)})`);
         const alone = await js(`__pet.measure(${JSON.stringify(rec)}, { alone: true })`);
-        if (trans?.length && alone?.length) per.push(score(trans, alone));
+        if (trans?.length && alone?.length) per.push({ ...score(trans, alone), ...(rec.click ? { click: true } : {}) });
       }
       if (!per.length) continue;
       const worst = (k) => Math.max(...per.map((s) => s[k]));
       const top = per.reduce((a, s) => (s.spin > a.spin ? s : a));
-      rows.push({ key: p.key, count: p.count, mark: p.mark ?? null, verdict: verdict(p.to, top), spin: worst('spin'), own: per.reduce((a, s) => (s.spin > a.spin ? s : a)).own, gap: worst('gap'), slide: worst('slide'), twist: worst('twist'), examples: per });
+      // 이상한 예가 모두 클릭으로 하던 동작을 끊은 것이면 clickOnly (check-student.js가 알고 둔 것으로 셈, 2026-10-18 사용자)
+      const bad = per.filter((s) => verdict(p.to, s) === 'bad');
+      rows.push({ key: p.key, count: p.count, mark: p.mark ?? null, verdict: verdict(p.to, top), ...(bad.length && bad.every((s) => s.click) ? { clickOnly: true } : {}),
+        spin: worst('spin'), own: top.own, gap: worst('gap'), slide: worst('slide'), twist: worst('twist'), examples: per });
     }
     out[model] = rows;
     console.log(`\n== ${model} (${rows.length}곳)  spin 몸 전체가 더 돈 양° · own 뒤 동작이 원래 도는 양° · gap 넘어갈 때 몸 방향 차이° · slide 발 밀림px · twist 발끝 더 돈°`);

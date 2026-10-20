@@ -44,6 +44,7 @@ const ACCEPTED = [
   { kind: 'angle', key: /^Cafe_(Idle|Walk)\d* → (Normal\d*_)?Public\d*$/i, why: '걷다 등을 보인 채 총 꺼내기 (사용자 "모르겠음", 그대로 둠)' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },
+  { kind: 'angle', model: 'Shun.glb', key: /^Normal\d*_Idle\d* → Normal\d*_Attack_Start$/i, why: '뛰고 나서 등을 보인 채 사격 시작 (드묾, 2026-10-20 사용자 "괜찮음")' },
 ];
 const accepted = (model, w) => ACCEPTED.find((a) => a.kind === w.kind && (!a.model || a.model === model)
   && (a.clip ? a.clip.test(w.clip) && w.what.startsWith(a.side) : a.key.test(w.key)));

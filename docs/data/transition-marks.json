@@ -28120,6 +28120,10 @@
   {
    "model": "Hoshino.glb",
    "key": "Rearrange_Reaction → Normal_Idle"
+  },
+  {
+   "model": "Shun.glb",
+   "key": "Normal02_Idle → Normal02_Attack_Start"
   }
  ],
  "Shun.glb": {
@@ -30247,8 +30251,10 @@
       ]
      }
     ],
-    "mark": null,
-    "note": ""
+    "mark": "ok",
+    "note": "뛰고 나서 등을 보인 채 사격 시작 (드묾, 2026-10-20 사용자: 괜찮음)",
+    "claude": "bad",
+    "claudeEx": 0
    },
    {
     "key": "Normal02_Attack_Start → Normal02_Attack_Ing",

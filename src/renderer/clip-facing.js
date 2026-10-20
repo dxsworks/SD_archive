@@ -37,6 +37,7 @@ export function hipYaw(thighs, space) {
   return Math.atan2(b.x - a.x, b.z - a.z);
 }
 export const thighBones = (root) => ['L', 'R'].map((s) => root.getObjectByName(`Bip001_${s}_Thigh`));
+const armBones = (root) => ['L', 'R'].map((s) => root.getObjectByName(`Bip001_${s}_UpperArm`));
 
 // 동작마다 잰 방향. nameKey: 동작 이름을 REFERENCE 키로 바꾸는 함수
 //   turns: 동작 이름 → 원래 호시노와 같은 방향이 되도록 더 돌릴 각도(라디안)
@@ -44,18 +45,23 @@ export const thighBones = (root) => ['L', 'R'].map((s) => root.getObjectByName(`
 //   hips: 동작 이름 → 막 시작했을 때(HIP_AT초) 두 허벅지 뼈를 잇는 선의 방향(라디안, 모델 기준). 넘어갈 때 몸 방향을 이어 붙이는 데 씀
 //   ends: 동작 이름 → 동작이 끝난 순간 몸(머리·골반·손발 뼈를 감싸는 범위)의 가운데 (모델 기준 좌표, y = 0)
 //         쓰러짐처럼 몸이 멀리 옮겨 가는 동작에서 끝 자세가 창 가운데 오도록 맞출 때 쓴다
+//   fronts: 동작 이름 → 몸 앞쪽 방향(라디안, 모델 기준, 0 = 카메라 쪽). 어깨선·허벅지 선에 수직인 방향을 동작 내내 평균.
+//         다른 값과 달리 Cafe_Idle을 정면으로 두지 않고 뼈 위치로만 잰다 (Shun은 Cafe_Idle부터 다리가 40°쯤 비껴 서 있음)
 export function measureClips(root, animations, nameKey) {
   const turns = new Map();
   const heads = new Map();
   const ends = new Map();
   const hips = new Map();
+  const fronts = new Map();
   const thighs = thighBones(root);
+  const arms = armBones(root);
+  const lines = [thighs, arms].filter((pair) => pair.every(Boolean));
   const bone = (re) => { let b = null; root.traverse((o) => { if (!b && re.test(o.name)) b = o; }); return b; };
   const pelvis = bone(/^bip001[ _]pelvis$/i);
   const head = bone(/^bip001[ _]head$/i);
   const base = animations.find((c) => c.name === 'Cafe_Idle');
   const limbs = [/^bip001[ _]l[ _]hand$/i, /^bip001[ _]r[ _]hand$/i, /^bip001[ _]l[ _]foot$/i, /^bip001[ _]r[ _]foot$/i].map(bone);
-  if (!pelvis || !head || !base) return { turns, heads, ends, hips };
+  if (!pelvis || !head || !base) return { turns, heads, ends, hips, fronts };
   const body = [pelvis, head, ...limbs.filter(Boolean)];
 
   // 재는 동안 움직인 뼈·모프를 원래대로 되돌리려고 저장
@@ -79,13 +85,18 @@ export function measureClips(root, animations, nameKey) {
   const diffs = new Map(); // 묶음 → 각도 차이 합
   const followers = [];    // [동작 이름, 따라 돌 묶음] (FOLLOW)
   for (const clip of animations) {
-    let px = 0, pz = 0, hx = 0, hz = 0;
+    let px = 0, pz = 0, hx = 0, hz = 0, fx = 0, fz = 0;
     for (let k = 0; k < SAMPLES; k++) {
       pose(clip, (clip.duration * (k + 0.5)) / SAMPLES);
       const p = yaw(pelvis, fPelvis), h = yaw(head, fHead);
       px += Math.sin(p); pz += Math.cos(p); hx += Math.sin(h); hz += Math.cos(h);
+      for (const pair of lines) {
+        const f = hipYaw(pair, root) + Math.PI / 2; // 왼쪽 → 오른쪽 선에 수직 = 앞
+        fx += Math.sin(f); fz += Math.cos(f);
+      }
     }
     heads.set(clip.name, Math.atan2(hx, hz));
+    if (lines.length) fronts.set(clip.name, Math.atan2(fx, fz));
     if (thighs.every(Boolean)) {
       pose(clip, Math.min(HIP_AT, clip.duration));
       hips.set(clip.name, hipYaw(thighs, root));
@@ -126,5 +137,5 @@ export function measureClips(root, animations, nameKey) {
     if (m) o.morphTargetInfluences.splice(0, m.length, ...m);
   }
   root.updateMatrixWorld(true);
-  return { turns, heads, ends, hips };
+  return { turns, heads, ends, hips, fronts };
 }

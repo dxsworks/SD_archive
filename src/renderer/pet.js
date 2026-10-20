@@ -1132,13 +1132,11 @@ canvas.addEventListener('pointercancel', endDrag);
 // 커서 밑 픽셀이 투명한지. 예전엔 바로 읽어서(readPixels) GPU가 다 그릴 때까지 프레임마다 4~7ms 기다렸다
 // (Intel 내장 GPU, tools/perf-check.js의 hit). 이제 GPU 버퍼로 읽어 두고 다 그려졌을 때(fence) 꺼내 쓴다 → 1~2프레임 늦게 바뀜
 const hitRead = { buf: null, sync: null };
+// 마우스가 잠깐 창 밖으로 잡혀도(바탕화면에서는 통과 중 mouseleave가 자주 옴) 읽던 것은 버리지 않는다.
+// 버리면 다 읽기 전에 계속 새로 시작해서 한 번도 "몸 위"가 안 나왔음(2026-10-20 클릭·끌기 안 됨)
 function hitTest() {
   const gl = renderer.getContext();
-  if (!mouse) {
-    if (hitRead.sync) { gl.deleteSync(hitRead.sync); hitRead.sync = null; }
-    return false;
-  }
-  let hit = hovering;
+  let hit = mouse ? hovering : false;
   if (hitRead.sync) {
     if (gl.clientWaitSync(hitRead.sync, 0, 0) === gl.TIMEOUT_EXPIRED) return hit; // 아직 그리는 중
     gl.deleteSync(hitRead.sync);
@@ -1146,7 +1144,7 @@ function hitTest() {
     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
     gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, pixelBuf);
     hit = false;
-    for (let i = 3; i < pixelBuf.length; i += 4) {
+    for (let i = 3; mouse && i < pixelBuf.length; i += 4) {
       if (pixelBuf[i] > 16) { hit = true; break; }
     }
   } else if (!hitRead.buf) {
@@ -1155,6 +1153,7 @@ function hitTest() {
     gl.bufferData(gl.PIXEL_PACK_BUFFER, pixelBuf.byteLength, gl.STREAM_READ);
   }
   // 다음 읽기: 렌더 직후에 해야 픽셀이 남아 있다
+  if (!mouse) return false;
   const dpr = renderer.getPixelRatio();
   const px = Math.floor(mouse.x * dpr) - 2;
   const py = Math.floor((canvas.clientHeight - mouse.y) * dpr) - 2;

@@ -73,13 +73,26 @@ function layout() {
   const h = canvas.clientHeight;
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(w, h, false);
-  const halfH = VIEW_HEIGHT / 2;
-  const halfW = halfH * (w / h);
-  Object.assign(camera, { left: -halfW, right: halfW, top: halfH, bottom: -halfH });
   // 원점(발밑)이 화면 맨 아래에서 FOOT_MARGIN 위에 오도록 시점 중심을 잡는다
-  const targetY = (halfH - FOOT_MARGIN) / Math.cos(TILT);
+  const targetY = (VIEW_HEIGHT / 2 - FOOT_MARGIN) / Math.cos(TILT);
   camera.position.set(0, targetY + 10 * Math.sin(TILT), 10 * Math.cos(TILT));
   camera.lookAt(0, targetY, 0);
+  setViewShift(viewShift.x, viewShift.y, true);
+}
+
+// 창은 정수 px로만 옮겨져서(setBounds) 걸을 때 한 프레임에 1px, 다음엔 2px처럼 들쭉날쭉 움직였다(2026-10-20 사용자).
+// 반올림하고 남은 만큼(1px 미만) 창 안 그림을 같은 쪽으로 밀어 화면에서는 몸이 고르게 움직이게 한다 (x 오른쪽, y 아래쪽, px)
+const viewShift = { x: 0, y: 0 };
+function setViewShift(x, y, force = false) {
+  if (!force && x === viewShift.x && y === viewShift.y) return;
+  Object.assign(viewShift, { x, y });
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  const halfH = VIEW_HEIGHT / 2;
+  const halfW = halfH * (w / h);
+  const ox = (x / h) * VIEW_HEIGHT; // px → 창 안 단위
+  const oy = (y / h) * VIEW_HEIGHT;
+  Object.assign(camera, { left: -halfW - ox, right: halfW - ox, top: halfH + oy, bottom: -halfH + oy });
   camera.updateProjectionMatrix();
 }
 layout();
@@ -509,6 +522,7 @@ function placeWindow() {
   winY = anchor.y - winH + footPx();
   const x = Math.round(winX);
   const y = Math.round(winY);
+  setViewShift(winX - x, winY - y);
   const key = `${x},${y}`;
   if (key === lastSent) return;
   lastSent = key;
@@ -1115,21 +1129,44 @@ function endDrag(e) {
 canvas.addEventListener('pointerup', endDrag);
 canvas.addEventListener('pointercancel', endDrag);
 
+// 커서 밑 픽셀이 투명한지. 예전엔 바로 읽어서(readPixels) GPU가 다 그릴 때까지 프레임마다 4~7ms 기다렸다
+// (Intel 내장 GPU, tools/perf-check.js의 hit). 이제 GPU 버퍼로 읽어 두고 다 그려졌을 때(fence) 꺼내 쓴다 → 1~2프레임 늦게 바뀜
+const hitRead = { buf: null, sync: null };
 function hitTest() {
-  if (!mouse) return false;
   const gl = renderer.getContext();
+  if (!mouse) {
+    if (hitRead.sync) { gl.deleteSync(hitRead.sync); hitRead.sync = null; }
+    return false;
+  }
+  let hit = hovering;
+  if (hitRead.sync) {
+    if (gl.clientWaitSync(hitRead.sync, 0, 0) === gl.TIMEOUT_EXPIRED) return hit; // 아직 그리는 중
+    gl.deleteSync(hitRead.sync);
+    hitRead.sync = null;
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+    gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, pixelBuf);
+    hit = false;
+    for (let i = 3; i < pixelBuf.length; i += 4) {
+      if (pixelBuf[i] > 16) { hit = true; break; }
+    }
+  } else if (!hitRead.buf) {
+    hitRead.buf = gl.createBuffer();
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+    gl.bufferData(gl.PIXEL_PACK_BUFFER, pixelBuf.byteLength, gl.STREAM_READ);
+  }
+  // 다음 읽기: 렌더 직후에 해야 픽셀이 남아 있다
   const dpr = renderer.getPixelRatio();
   const px = Math.floor(mouse.x * dpr) - 2;
   const py = Math.floor((canvas.clientHeight - mouse.y) * dpr) - 2;
-  gl.readPixels(px, py, 5, 5, gl.RGBA, gl.UNSIGNED_BYTE, pixelBuf);
-  for (let i = 3; i < pixelBuf.length; i += 4) {
-    if (pixelBuf[i] > 16) return true;
-  }
-  return false;
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
+  gl.readPixels(px, py, 5, 5, gl.RGBA, gl.UNSIGNED_BYTE, 0);
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+  hitRead.sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+  return hit;
 }
 
 function updateMousePassthrough() {
-  hovering = drag ? true : hitTest(); // 렌더 직후에 읽어야 픽셀이 남아 있다
+  hovering = drag ? true : hitTest();
   if (ignoringMouse === hovering) {
     ignoringMouse = !hovering;
     bridge.setIgnoreMouse(ignoringMouse);
@@ -1137,26 +1174,34 @@ function updateMousePassthrough() {
   canvas.style.cursor = drag?.moved ? 'grabbing' : hovering ? 'grab' : 'default';
 }
 
-// ---- 메인 루프 (가만히 있을 땐 30fps, 움직일 땐 60fps) ----
+// ---- 메인 루프 (항상 60fps) ----
+// 예전엔 대기·낮잠을 30fps로 그렸는데 숨쉬기·흔들림이 뚝뚝 끊겨 보였음(2026-10-20 사용자: 렉 걸린 느낌).
+// 한 프레임 CPU가 1~2ms라(tools/perf-check.js) 늘 60fps로 그려도 부담이 적다. 주사율이 더 높은 모니터에서도 60fps까지만
+const TARGET_FPS = 60;
 let lastFrame = performance.now();
 let speed = 1; // 느린 재생 (__pet.timeScale)
 function frame(now) {
   requestAnimationFrame(frame);
-  const targetFps = state === 'idle' || state === 'nap' ? 30 : 60;
-  if (now - lastFrame < 1000 / targetFps - 2) return;
+  if (now - lastFrame < 1000 / TARGET_FPS - 2) return;
   const dt = Math.min((now - lastFrame) / 1000, 0.1) * speed;
   lastFrame = now;
 
   if (renderer.getPixelRatio() !== window.devicePixelRatio) layout(); // 배율이 다른 모니터로 옮겨졌을 때
+  const t0 = performance.now();
   update(dt);
   mixer.update(dt);
+  const t1 = performance.now();
   updateHiddenParts();
   updateOutlines();
   updateRope(); // 손 위치는 이번 프레임 자세로
   updateShadow(dt);
+  const t2 = performance.now();
   renderer.render(scene, camera);
+  const t3 = performance.now();
   updateMousePassthrough();
+  perfLog?.push({ at: now, state, clip: currentAction?.getClip().name, wx: winX, wy: winY, anim: t1 - t0, extra: t2 - t1, render: t3 - t2, hit: performance.now() - t3 });
 }
+let perfLog = null; // 성능 재기 (tools/perf-check.js): __pet.perfStart() → __pet.perfStop()
 
 async function main() {
   settings = { ...settings, ...(await bridge.getSettings()) };
@@ -1197,6 +1242,8 @@ window.__pet = {
   get clipFronts() { return Object.fromEntries([...clipFronts].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
+  perfStart() { perfLog = []; },
+  perfStop() { const log = perfLog; perfLog = null; return log; },
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },
   get armed() { return armed && { left: Math.round((armed.until - clock()) / 1000) }; },

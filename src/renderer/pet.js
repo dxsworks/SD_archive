@@ -1137,26 +1137,34 @@ function updateMousePassthrough() {
   canvas.style.cursor = drag?.moved ? 'grabbing' : hovering ? 'grab' : 'default';
 }
 
-// ---- 메인 루프 (가만히 있을 땐 30fps, 움직일 땐 60fps) ----
+// ---- 메인 루프 (항상 60fps) ----
+// 예전엔 대기·낮잠을 30fps로 그렸는데 숨쉬기·흔들림이 뚝뚝 끊겨 보였음(2026-10-20 사용자: 렉 걸린 느낌).
+// 한 프레임 CPU가 1~2ms라(tools/perf-check.js) 늘 60fps로 그려도 부담이 적다. 주사율이 더 높은 모니터에서도 60fps까지만
+const TARGET_FPS = 60;
 let lastFrame = performance.now();
 let speed = 1; // 느린 재생 (__pet.timeScale)
 function frame(now) {
   requestAnimationFrame(frame);
-  const targetFps = state === 'idle' || state === 'nap' ? 30 : 60;
-  if (now - lastFrame < 1000 / targetFps - 2) return;
+  if (now - lastFrame < 1000 / TARGET_FPS - 2) return;
   const dt = Math.min((now - lastFrame) / 1000, 0.1) * speed;
   lastFrame = now;
 
   if (renderer.getPixelRatio() !== window.devicePixelRatio) layout(); // 배율이 다른 모니터로 옮겨졌을 때
+  const t0 = performance.now();
   update(dt);
   mixer.update(dt);
+  const t1 = performance.now();
   updateHiddenParts();
   updateOutlines();
   updateRope(); // 손 위치는 이번 프레임 자세로
   updateShadow(dt);
+  const t2 = performance.now();
   renderer.render(scene, camera);
+  const t3 = performance.now();
   updateMousePassthrough();
+  perfLog?.push({ at: now, state, clip: currentAction?.getClip().name, anim: t1 - t0, extra: t2 - t1, render: t3 - t2, hit: performance.now() - t3 });
 }
+let perfLog = null; // 성능 재기 (tools/perf-check.js): __pet.perfStart() → __pet.perfStop()
 
 async function main() {
   settings = { ...settings, ...(await bridge.getSettings()) };
@@ -1197,6 +1205,8 @@ window.__pet = {
   get clipFronts() { return Object.fromEntries([...clipFronts].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
+  perfStart() { perfLog = []; },
+  perfStop() { const log = perfLog; perfLog = null; return log; },
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },
   get armed() { return armed && { left: Math.round((armed.until - clock()) / 1000) }; },

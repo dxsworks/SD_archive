@@ -42,6 +42,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   - `npx electron tools/edge-check.js ["모델.glb" …]` 창 끝 검사(정적 서버 불필요, 학생 4명 약 4분): 펫이 실제로 넘어간 곳을 같은 방향으로 넘겨 동작이 끝날 때까지 그려 보고(`__pet.edges`) 모델이 창 위·옆 끝에서 몇 px 떨어지는지. 흉내에 안 나온 동작(`__pet.usedClips`)도 따로. 경고: 위 35px 미만, 옆 3px 미만 → `docs/data/edge-check.json`. `--window=560x280@1.3`으로 다른 창 크기 흉내
   - `tools/pet-page.js`: 검사 도구들이 같이 쓰는 파일 서버·펫 페이지 열기·넘어가는 곳 모으기
   - `npx electron tools/fx-test.js <폴더>` 클릭 효과 창만 띄워 클릭·끌기 재생 스냅샷 (정적 서버 불필요)
+  - `npx electron tools/perf-check.js ["모델.glb"] [--seconds=10]` 성능(정적 서버 불필요): 화면 밖 투명 창에서 대기·마우스 올림·걷기·전투마다 fps, 프레임 간격, 단계별 시간(`__pet.perfStart/perfStop`), 걷기 한 프레임 이동(창/몸). 가끔 화면 밖 창이 1초에 1번으로 느려져 1000ms 간격이 잡힘 → 다시 돌림
   - `npx electron tools/render-sheet.js <파일.png> "filter=^Cafe&cols=1&frames=6&weapons=gun&rot=90"` 동작 미리보기 시트
   - `npx electron tools/transition-review.js` 넘어가는 곳 확인 창(보이는 창, 사람이 씀, 정적 서버 불필요): 펫 상태 머신을 가상 시계로 30분 빨리 돌려(`__pet.simulate`) 실제로 이어 트는 곳을 모으고, 하나씩 펫과 똑같이 반복 재생(`__pet.replay`)해 이상함/괜찮음 표시 → `docs/data/transition-marks.json`. 펫 페이지 `?review`는 펫 창 크기에 1920×1040 바닥(걷기·뛰기 켬)
   - `node tools/check-student.js ["모델.glb" …] [--open]` **학생 검사 한 번에**(정적 서버 불필요, 학생 하나에 약 3분): 아래 이름·각도·창 끝·행동 검사와 동작 시트를 차례로 돌려 `reports/<모델>.html`(사람용)·`reports/<모델>.json`(Claude용 요약: `ok` = 경고 없음, `warnings`와 먼저 볼 곳 `fix`, `known` = 사용자가 그대로 두기로 한 종류(`ACCEPTED`), `picks` = 사람이 볼 동작). 모델을 안 주면 호시노·수영복 호시노·시로코·아리스(배틀). 넘어가는 곳은 검사마다 지금 코드로 다시 모음(`--fresh`, 사용자 표시는 옮기고 이번에 안 나온 표시한 곳은 `unseen`으로 남김). 저절로 알고 둔 것으로 세는 것(2026-10-18 사용자): 창 끝에 총·방패만 닿음(`edge-check` `gunOnly`), 클릭으로 하던 동작을 끊고 휙 돎(흉내 기록 `click`, `clickOnly`), 02 차림과 모습이 같은 01 동작으로 이어짐(`looks.json` `form2Off`). 드문 넘어감(30분에 1~3번)은 검사마다 잡히는 곳이 조금 다름. **학생을 붙일 때는 스킬 `add-student`(`.claude/skills/add-student/SKILL.md`) 순서대로**
@@ -69,6 +70,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 - 소품을 뼈 크기 0으로 숨기는 동작은 그 아래 뼈 값이 엉뚱할 수 있다(수영복 호시노 방수 케이스 끈 위치 9.8). 섞을 때 순간 늘어나 번쩍이므로, 모델을 읽을 때 숨긴 순간의 아래 뼈 값을 기본 자세로 바꿔 둔다(`restUnderHiddenBones`, 원래 보간으로 1/60초마다 다시 뽑음)
 - 그림자는 발 자리에 고정하지 않고 몸을 따라간다(`updateShadow`): 발·골반·머리를 바닥에 내린 가운데, 누운 몸(엎드려 쏘기, 낮잠)은 발 → 머리 방향으로 늘임. 고정이던 때는 사격 자세에서 엄폐물 밖으로 옆으로 나가거나(시로코 무릎·엄폐) 엎드리면(Shun 02) 그림자가 몸 옆에 남았음(2026-10-18 사용자)
 - 일반 브라우저에서 file:// fetch가 안 되므로 모델은 IPC(`readModel`)로 읽는다.
+- 부드러움(2026-10-20 사용자 "렉 걸린 느낌" → 고침): 항상 60fps(예전 대기·낮잠 30fps는 끊겨 보였음). 창은 정수 px로만 옮겨지니 반올림 나머지만큼 카메라를 밀어 몸이 고르게 움직이게 함(`setViewShift`). 마우스 통과 판정은 GPU를 기다리지 않게 버퍼로 읽고 fence 뒤에 꺼냄(바로 `readPixels`는 Intel 내장 GPU에서 프레임당 4~7ms 멈춤)
 
 ## 현재 상태와 다음 할 일
 

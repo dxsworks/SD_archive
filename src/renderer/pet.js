@@ -170,6 +170,7 @@ let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방�
 let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
 let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가운데 (모델 기준)
 let clipHips = new Map();  // 동작 이름 → 막 시작했을 때 몸(허벅지 선) 방향 (모델 기준)
+let clipFronts = new Map(); // 동작 이름 → 몸 앞쪽 방향 (모델 기준, 0 = 카메라 쪽, 어깨선·허벅지 선으로 잼)
 let thighs = [];
 let gearClips = new Set(); // 평소 대기와 장비 모습이 다른 동작 (아리스(배틀) 등 뒤 장비가 생기거나 사라짐). 평소 상태에서는 피한다
 let form2Off = new Set(); // 02 차림 전투 대기(Normal_Idle02)와 모습이 다른 동작. 02 차림으로 끝난 전투의 승리 포즈를 고를 때 씀
@@ -265,8 +266,9 @@ async function loadModel() {
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
   const idle2 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name;
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
-  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
+  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
+  measureFrontFaces();
   bodyBones = ['Bip001_L_Foot', 'Bip001_R_Foot', 'Bip001_Pelvis', 'Bip001_Head'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
   mixer.addEventListener('finished', (e) => {
@@ -363,6 +365,37 @@ function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
   currentAction = action;
   refreshWeapons();
   if (prev !== action) carryTurn(action.getClip().name);
+  if (frontFaces.has(action.getClip().name)) facing = frontFaces.get(action.getClip().name);
+}
+
+// ---- 집어 들기·승리 포즈는 무조건 정면 (2026-10-19 사용자) ----
+// 펫이 정한 방향(정면 ±30° 무작위)과 학생별 보정(clipTurns, 원래 호시노 방향에 맞춤) 대신, 그 동작의 몸 앞쪽(clipFronts: 어깨선·허벅지 선)이
+// 카메라를 보게 돌린다. 예전엔 Shun 승리 포즈가 61°, 집어 들기가 48° 옆을 봤다 (Cafe_Idle부터 비껴 서 있어 보정이 엇나감).
+// 승리 포즈 Start → End는 짝마다 한 값(둘의 평균)으로: 따로 맞추면 넘어갈 때 몸이 10~20° 돈다
+const FRONT_POSE = /^(victory_(start|end)(_random)?|formation_pickup)$/;
+let frontFaces = new Map(); // 동작 이름 → 이 동작 동안의 facing
+function measureFrontFaces() {
+  const groups = new Map();
+  for (const [key, list] of clipIndex) {
+    const m = FRONT_POSE.exec(key);
+    if (!m) continue;
+    for (const { name, form: f } of list) {
+      if (!clipFronts.has(name)) continue;
+      const group = m[2] ? `victory${m[3] ?? ''}|${f}` : name;
+      if (!groups.has(group)) groups.set(group, []);
+      groups.get(group).push(name);
+    }
+  }
+  frontFaces = new Map();
+  for (const names of groups.values()) {
+    let x = 0, z = 0;
+    for (const n of names) {
+      const a = clipFronts.get(n) + (clipTurns.get(n) ?? 0);
+      x += Math.sin(a); z += Math.cos(a);
+    }
+    const front = Math.atan2(x, z);
+    for (const n of names) frontFaces.set(n, wrapAngle(-front));
+  }
 }
 
 // ---- 총 든 자세로 넘어갈 때 몸 방향 이어 받기 ----
@@ -1144,6 +1177,8 @@ window.__pet = {
   get form2Off() { return [...form2Off]; },
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipFronts() { return Object.fromEntries([...clipFronts].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },

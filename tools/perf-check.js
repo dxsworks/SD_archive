@@ -19,7 +19,16 @@ function summarize(name, log) {
   const out = { name, fps: r1((log.length - 1) / span), gapAvg: r1(avg(gaps)), gapP95: r1(pct(gaps, 0.95)), gapMax: r1(Math.max(...gaps)), longGaps: gaps.filter((g) => g > 40).length };
   for (const k of ['anim', 'extra', 'render', 'hit']) out[k] = `${r1(avg(log.map((f) => f[k])))} / p95 ${r1(pct(log.map((f) => f[k]), 0.95))}`;
   out.hitches = log.slice(1).map((f, i) => [f.at - log[i].at, log[i].clip + ' → ' + f.clip]).filter(([g]) => g > 60).map(([g, c]) => `${Math.round(g)}ms ${c}`).join('; ');
-  out.states = [...new Set(log.map((f) => f.state))].join(',');
+  // 걷는 동안 한 프레임에 움직인 거리(px): 창(정수로 반올림) / 몸(창 + 창 안 밀기 = 원래 위치). 들쭉날쭉 = 표준편차가 큼
+  const walking = log.filter((f) => f.state === 'walk' || f.state === 'run');
+  if (walking.length > 10) {
+    const steps = (pick) => walking.slice(1).map((f, i) => Math.hypot(pick(f).x - pick(walking[i]).x, pick(f).y - pick(walking[i]).y));
+    const sd = (a) => { const m = avg(a); return Math.sqrt(avg(a.map((v) => (v - m) ** 2))); };
+    const win = steps((f) => ({ x: Math.round(f.wx), y: Math.round(f.wy) }));
+    const body = steps((f) => ({ x: f.wx, y: f.wy }));
+    out.walkStep = `창 ${r1(avg(win))}±${r1(sd(win))} / 몸 ${r1(avg(body))}±${r1(sd(body))}`;
+  }
+  out.states =[...new Set(log.map((f) => f.state))].join(',');
   return out;
 }
 

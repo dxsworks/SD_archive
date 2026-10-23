@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, hiddenPropsAt, showsProp } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
-  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
+  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
   formVariants,
 } from './clip-names.js';
 
@@ -285,6 +285,8 @@ async function loadModel() {
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
   const idle2 = forms.has(2) ? clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name : undefined;
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
+  markForm2Props(idle2);
+  formEx = findFormEx(idle2);
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
   measureFrontFaces();
@@ -425,12 +427,14 @@ function measureFrontFaces() {
 // 맨손 동작으로 넘어가면 0으로 돌아가 펫이 정한 방향(정면 쪽)을 본다.
 // 2026-10-12 세 방법을 확인 창(tools/transition-review.js)에서 비교해 사용자가 고름: A 그대로 / B 이어 받고 1초 동안 풀기 / C 유지(이것)
 // carry: 펫 방향(facing)에 더 돌리는 각도. ?turn=A 또는 __pet.turnMode = 'A'면 끔 (비교용)
-const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
+// 묶는 이름(clipKey)으로 본다: Shiroko＊Terror Normal01_Victory_Start·Normal01_Move_Ing는 총 자세가 아님
+const GUN_POSE = /^(normal|stand|kneel)_|^(normal_)?public$/;
 const CARRY_MAX = THREE.MathUtils.degToRad(120);
 let turnMode = new URLSearchParams(location.search).get('turn') === 'A' ? 'A' : 'C';
 let carry = 0;
 function carryTurn(name) {
-  if (turnMode === 'A' || !GUN_POSE.test(name) || (drawTurns && DRAW_CLIP.test(name))
+  const key = clipKey(name);
+  if (turnMode === 'A' || !GUN_POSE.test(key) || (drawTurns && DRAW_CLIP.test(key))
     || thighs.length < 2 || !clipHips.has(name)) { carry = 0; return; }
   const body = hipYaw(thighs, root); // 지금 몸 방향 (펫 회전 포함)
   const planned = facing + (clipTurns.get(name) ?? 0) + clipHips.get(name);
@@ -646,7 +650,9 @@ function armedIdle() {
   play(ARMED_IDLE);
 }
 
-const armedFidget = () => { const name = pickRandom(ARMED_FIDGETS); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
+// 장비 모습이 평소와 다른 동작은 뺀다 (Shiroko＊Terror Normal01_Callsign_Random은 드론이 나옴). 다 빠지면 원래대로
+const calmList = (names) => { const ok = names.filter((n) => has(n) && calmOk(n)); return ok.length ? ok : names; };
+const armedFidget = () => { const name = pickRandom(calmList(ARMED_FIDGETS)); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
 
 function chooseArmedBehavior() {
   if (clock() > armed.until) { armed = null; toIdle(); return; }
@@ -721,11 +727,16 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   battle = null;
   // 02 차림으로 끝났고 그 모습 그대로인 승리 포즈 짝이 있으면 그것으로 (수영복 호시노: 겉옷 벗은 Victory_*_Random).
   // 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
-  const pairs = victory ? formVictoryPoses() : [];
+  // 02 차림을 푸는 동작(FormRelease)이 있으면 그것 → 보통 승리 포즈 (Shiroko＊Terror: 상자 드론이 날아감. 없으면 승리 포즈에서 갑자기 사라졌음).
+  // 02 모습 승리 포즈 짝도 있으면 둘 중 반반 (사용자 2026-10-24: Shiroko＊Terror 드론 단 Victory_*_Random / FormRelease → Victory)
+  const canRelease = victory && form === 2 && has(FORM_RELEASE);
+  const formPairs = victory ? formVictoryPoses() : [];
+  const pairs = canRelease && Math.random() < 0.5 ? [] : formPairs;
   const steps = pairs.length ? [...rise, ...pickPair(pairs).map(resolve)] : null;
+  const release = canRelease && !steps ? [resolve(FORM_RELEASE)] : [];
   if (!keepForm) form = 1;
   lastBattleEnd = clock();
-  if (victory) playSequence(steps ?? [...rise, ...victoryPose()], { onEnd: toIdle });
+  if (victory) playSequence(steps ?? [...rise, ...release, ...victoryPose()], { onEnd: toIdle });
 }
 
 // 전투 자세 동작은 두 자세(자리)로 나뉜다: Attack_Ing·Attack_Delay는 "나간" 자세, Idle·Reload·Callsign·Move_End·EX는 "원래" 자세.
@@ -767,7 +778,7 @@ function battleAction() {
     [switchStance, settings.walk && otherStance(battle.stance) ? 12 : 0],
     [startRun, settings.walk ? 15 : 0],
     [callsign, hasCallsign(battle.stance) ? 10 : 0],
-    [exSkill, has(clipName('ex')) ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
+    [exSkill, exReady() ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
   ])();
 }
 
@@ -847,12 +858,43 @@ function arriveRun() {
 }
 
 const exVariants = () => exVariantsOf(Object.keys(clips), forms);
+// 02로 바꾸는 EX: EX가 여럿인 02 차림 학생(Shiroko＊Terror Exs01~04)은 끝 모습(크기 0으로 숨긴 소품)이 02 전투 대기와 같은 것.
+// Exs04는 상자 드론이 날아와 어깨 옆에 붙고, Exs01~03은 드론을 숨긴 채라 끝나고 02로 넘어가면 드론이 갑자기 생겼다 (사용자 2026-10-24)
+let formEx = null;
+function findFormEx(idle2) {
+  const exs = (clipIndex.get(clipKey('Exs')) ?? []).map((c) => clips[c.name]);
+  const idle1 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 1)?.name;
+  if (!idle1 || !idle2 || exs.length < 2) return null;
+  const [h1, h2] = [idle1, idle2].map((n) => hiddenPropsAt(clips[n], 0));
+  const differ = [...new Set([...h1, ...h2])].filter((b) => h1.has(b) !== h2.has(b)); // 01·02 대기에서 보임이 다른 소품
+  if (!differ.length) return null;
+  const like2 = exs.filter((c) => { const h = hiddenPropsAt(c, c.duration); return differ.every((b) => h.has(b) === h2.has(b)); });
+  return like2.length === 1 ? like2[0].name : null;
+}
+// 02 차림에만 보이는 소품(Shiroko＊Terror 상자 드론): 뼈 크기 0으로 숨겨서 모프로 보는 위 판정(clipsChangingParts)에 안 잡힌다.
+// 카페 대기·01 전투 대기에서 숨기고 02 전투 대기에서 보이는 소품만 (수영복 호시노 방수 케이스는 01 전투에서도 보여서 아님).
+// 그 소품이 보이는 동작 = 평소 모습과 다름(gearClips, 01 차림에서 피함: Victory_*_Random·Normal01_Callsign_Random은 드론이 나옴),
+// 안 보이는 동작 = 02 모습과 다름(form2Off: 02로 끝난 전투는 드론 단 승리 포즈 짝을 고를 수 있게)
+function markForm2Props(idle2) {
+  const idle1 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 1)?.name;
+  if (!idle1 || !idle2) return;
+  const hidden2 = hiddenPropsAt(clips[idle2], 0);
+  const cafe = clips[resolve('Cafe_Idle')];
+  const only2 = [...hiddenPropsAt(clips[idle1], 0)].filter((b) => !hidden2.has(b) && (!cafe || hiddenPropsAt(cafe, 0).has(b)));
+  if (!only2.length) return;
+  for (const clip of Object.values(clips)) (only2.some((b) => showsProp(clip, b)) ? gearClips : form2Off).add(clip.name);
+}
+// 02 차림이면 EX를 다시 쓰지 않는다 (사용자 2026-10-24: Shiroko＊Terror는 02에서 쓸 EX가 없음 — Exs04는 드론이 바닥에서 시작,
+// Exs01~03은 드론을 숨김. 모든 02 차림 학생에게). 전투가 끝나 01로 돌아오면 다시 씀
+const exReady = () => has(clipName('ex')) && form !== 2;
 function exSkill() {
   // 나가 있으면 지금 차림 그대로 돌아온 뒤 EX (02로 먼저 바꾸면 01 사격 대기 → 02 사격 끝으로 섞여 자세가 크게 튐: Shun 무릎 01 → 02 엎드림)
   const back = fromCover([]).map(resolve);
-  if (battle && forms.has(2)) form = 2;
+  const toForm2 = battle && forms.has(2);
+  if (toForm2) form = 2;
   const variants = exVariants();
-  playSequence([...back, variants.length > 1 ? pickRandom(variants) : 'ex'], { face: battleFace(), as: 'ex' });
+  const ex = toForm2 && formEx ? formEx : variants.length > 1 ? pickRandom(variants) : 'ex';
+  playSequence([...back, ex], { face: battleFace(), as: 'ex' });
 }
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,
@@ -910,7 +952,7 @@ function react() {
   lastInteraction = clock();
   if (state === 'nap') { wakeUp(); return; }
   if (battle) { battleReply(); return; } // 전투 중에는 구호나 재장전으로 대답하고 계속 싸운다
-  if (armed) { playSequence([pickRandom(ARMED_REACTIONS)]); return; }
+  if (armed) { playSequence([pickRandom(calmList(ARMED_REACTIONS))]); return; }
   const options = [...(has(REACTION) && calmOk(REACTION) ? [[REACTION]] : []), ...victoryPoses()];
   if (!options.length) options.push([REACTION]);
   const first = pickRandom(options.map(([name]) => name)); // 바로 전과 같은 반응은 되도록 피함
@@ -1124,6 +1166,7 @@ function handleClick() {
 
 // 더블클릭: 첫 클릭의 반응을 끊고 EX 스킬. 전투 모드로 이어진다 (구호 없이 바로 EX)
 function doubleClickEx() {
+  if (!exReady()) { react(); return; } // 02 차림이면 EX 대신 보통 클릭처럼 (구호·재장전)
   if (!battle) beginBattle();
   exSkill();
 }
@@ -1244,6 +1287,7 @@ window.__pet = {
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get victoryPoses() { return victoryPoses(); },
   get exVariants() { return exVariants(); },
+  get formEx() { return formEx; },
   get forms() { return [...forms]; },
   get gearClips() { return [...gearClips]; },
   get form2Off() { return [...form2Off]; },
@@ -1306,7 +1350,7 @@ window.__pet = {
 //   2026-10-18 사용자: 클릭이 다른 동작(뛰기·총 꺼내기·EX 등)을 끊고 휙 도는 건 그대로 둠 → 각도 검사가 알고 둔 것으로 셈
 const POKES = [
   [() => clicked(react), 50],
-  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) clicked(doubleClickEx); }, 15],
+  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) clicked(doubleClickEx); }, 15], // 02 차림이면 클릭 대답
   [() => { drag = { moved: true, offset: null }; pickUp(); }, 15],
   [() => clicked(COMMANDS.battle), 20],
 ];
@@ -1525,6 +1569,9 @@ function usedClips() {
     for (const n of names) if (has(n)) out.add(resolve(n));
   }
   form = keep;
+  // 02로 바꾸는 EX가 따로 있으면 02 차림 EX 이름(Shiroko＊Terror Exs02)은 안 씀 (02에서는 EX를 안 씀)
+  if (formEx) for (const c of clipIndex.get(clipKey('Exs')) ?? []) if (c.form !== 1) out.delete(c.name);
+  if (formEx) out.add(formEx);
   // 01/02 변형도 (playSequence pickVariants가 섞어 씀)
   if (variantForms) for (const n of [...out]) for (const c of clipIndex.get(clipKey(n)) ?? []) out.add(c.name);
   return [...out];
@@ -1585,14 +1632,14 @@ function pickClips() {
   const add = (clip, why) => { if (clips[clip]) out.set(clip, [...(out.get(clip) ?? []), why]); };
   // 서 있을 때 골반 높이(월드 단위 / 크기): 펫이 쓰는 동작들의 최대 골반 높이 가운데값 (카페 대기 하나로 재면 아리스처럼 빌려온 대기가 낮은 학생에서 틀림)
   // 무릎 자세 동작은 원래 낮으니 가운데값에서 뺀다 (Shun은 무릎 동작이 많아 가운데값이 앉은 높이가 되어 서 있는 동작이 모두 "2배 뜸"으로 잡혔음)
-  const raw = used.filter((n) => !/^Vital_Retreat/i.test(n)).map((n) => [n, clipStats(n, 1)]).filter(([, x]) => x);
-  const highs = raw.filter(([n]) => !/Kneel/i.test(n)).map(([, x]) => x.rise).sort((a, b) => a - b);
+  const raw = used.filter((n) => !/^vital_retreat/.test(clipKey(n))).map((n) => [n, clipStats(n, 1)]).filter(([, x]) => x);
+  const highs = raw.filter(([n]) => !/kneel/.test(clipKey(n))).map(([, x]) => x.rise).sort((a, b) => a - b);
   const standHip = highs[Math.floor(highs.length / 2)] ?? 1;
   const r2 = (v) => Math.round(v * 100) / 100;
   for (const [name, x] of raw) { // 밧줄에 매달려 올라가는 종료(Vital_Retreat)는 원래 뜨므로 뺐음
     const rise = x.rise / standHip, far = x.far / standHip;
     if (rise > PICK_RISE) add(name, `몸이 크게 뜸 (골반이 서 있을 때의 ${r2(rise)}배 높이)`);
-    if (/^Vital_Death/i.test(name) && far > PICK_FAR) add(name, `쓰러질 때 ${x.farPart}이(가) 몸에서 멀리 떨어짐 (골반 높이의 ${r2(far)}배)`);
+    if (/^vital_death/.test(clipKey(name)) && far > PICK_FAR) add(name, `쓰러질 때 ${x.farPart}이(가) 몸에서 멀리 떨어짐 (골반 높이의 ${r2(far)}배)`);
   }
   const borrowed = BORROWED_CLIPS[settings.model];
   for (const to of Object.values(borrowed?.clips ?? {})) add(to, `다른 파일(${borrowed.from})에서 빌려온 동작`);
@@ -1616,11 +1663,12 @@ function pickClips() {
 // 평소 동작은 정면 쪽 15°, 총·EX는 45°, 걷기·뛰기는 70°, 낮잠은 펫과 같은 방향·자리(startNap), 집어 들기는 들린 높이
 function poseRec(name, face = null) {
   const formOf = [...clipIndex.values()].flat().find((c) => c.name === name)?.form ?? 1;
-  face ??= THREE.MathUtils.degToRad(/^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i.test(name) ? 70
-    : /^(Normal|Stand|Kneel|Move_End|Exs)|Public/i.test(name) ? 45 : 15);
+  const key = clipKey(name);
+  face ??= THREE.MathUtils.degToRad(/^(cafe_walk|move_ing|move_callsign|move_jump)/.test(key) ? 70
+    : /^(normal|stand|kneel|move_end|exs)|public/.test(key) ? 45 : 15);
   const rec = { to: name, toLoop: false, faceAfter: face, yawBefore: face, form: formOf, fade: 0,
-    lift: /^Formation_Pickup/i.test(name) ? DRAG_LIFT : 0, pivotPos: [0, 0, 0], pivotTarget: [0, 0, 0] };
-  if (/^Vital_Death/i.test(name)) {
+    lift: /^formation_pickup/.test(key) ? DRAG_LIFT : 0, pivotPos: [0, 0, 0], pivotTarget: [0, 0, 0] };
+  if (/^vital_death/.test(key)) {
     rec.faceAfter = rec.yawBefore = FACE_NAP;
     const end = clipEnds.get(name);
     const t = NAP_OFFSET.clone().add(NAP_BODY.clone().applyAxisAngle(UP, FACE_NAP));

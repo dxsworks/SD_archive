@@ -19,7 +19,9 @@ const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
 const DRAW = /^(Normal\d*_)?Public\d*$/i;
 const MOVING = /^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i;
 const BAD_SPIN = 50;
-const verdict = (to, { spin, own }) => (GUN_POSE.test(to) && !DRAW.test(to) && !MOVING.test(to) && spin >= BAD_SPIN && own < spin ? 'bad' : 'ok');
+// 이름은 펫이 묶는 이름(clipKey: 차림 번호·앞의 Normal_을 뗌)으로 본다. Shiroko＊Terror Normal01_Victory_Start는 승리 포즈지 총 자세가 아님
+let clipKey = (name) => name;
+const verdict = (to, { spin, own }) => { const key = clipKey(to); return GUN_POSE.test(key) && !DRAW.test(key) && !MOVING.test(key) && spin >= BAD_SPIN && own < spin ? 'bad' : 'ok'; };
 
 // 몸 전체(허벅지 선)가 도는 총량(도)
 const hipTravel = (frames) => frames.slice(1).reduce((s, f, i) => s + Math.abs(wrap(f.hip - frames[i].hip)), 0);
@@ -50,6 +52,7 @@ function score(trans, alone) {
 }
 
 app.whenReady().then(async () => {
+  ({ clipKey } = await import('../src/renderer/clip-names.js'));
   const port = await serve();
   const turn = process.argv.find((a) => a.startsWith('--turn='))?.slice(7) === 'A' ? 'A' : 'C';
   const metricsFile = turn === 'C' ? METRICS : METRICS.replace(/\.json$/, `.turn-${turn}.json`);

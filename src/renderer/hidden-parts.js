@@ -57,6 +57,24 @@ export function restUnderHiddenBones(root, animations) {
   }
 }
 
+// t초에 크기를 0 가까이로 숨긴 소품 뼈 이름들. 몸 뼈(Bip001*)는 뺀다: 주먹 쥘 때 손가락 뼈를 크기 0으로 하는 동작이 있음
+export function hiddenPropsAt(clip, t) {
+  const out = new Set();
+  for (const tr of clip.tracks) {
+    if (!tr.name.endsWith('.scale') || tr.name.startsWith('Bip001')) continue;
+    if ([...tr.createInterpolant().evaluate(t)].every((v) => Math.abs(v) < HIDDEN_SCALE)) out.add(tr.name.slice(0, -'.scale'.length));
+  }
+  return out;
+}
+
+// 이 동작이 그 소품 뼈를 한 번이라도 보이게 하는지 (키 값으로 봄. 그 뼈를 안 움직이는 동작은 false)
+export function showsProp(clip, bone) {
+  const tr = clip.tracks.find((t) => t.name === `${bone}.scale`);
+  if (!tr) return false;
+  for (let i = 0; i < tr.values.length; i += 3) if (Math.abs(tr.values[i]) >= HIDDEN_SCALE) return true;
+  return false;
+}
+
 function isAncestor(a, node) {
   for (let p = node.parent; p; p = p.parent) if (p === a) return true;
   return false;

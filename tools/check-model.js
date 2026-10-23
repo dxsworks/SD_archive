@@ -102,6 +102,12 @@ function checkModel(file, names, { companions = [] }, N) {
   const exLike = names.filter((n) => /^exs(_?\d+)+$/i.test(n));
   if (!ex.length && exLike.length) warn(`EX처럼 보이는 동작(${exLike.join(', ')})이 있는데 펫이 못 찾음`);
   if (exVariants.length > 1) notes.push(`EX가 ${exVariants.length}개: ${exVariants.join(', ')} (무작위로 섞음)`);
+  // 02 차림 학생: 02에서는 EX를 안 씀. EX가 여럿이면 펫이 끝 모습(숨긴 소품)이 02 대기와 같은 것을 고름 (pet.js findFormEx, 이름만으로는 모름)
+  const exAll = index.get(N.clipKey('Exs')) ?? [];
+  if (forms.has(2) && !variants && exAll.length > 1) {
+    notes.push(`EX ${exAll.length}개(${exAll.map((c) => c.name).join(', ')}) + 02 차림: 전투 EX는 펫이 끝 모습이 02 대기와 같은 것을 고름`);
+  }
+  if (forms.has(2) && !variants && has(N.FORM_RELEASE)) does.push(`전투 끝(02 차림): ${nameOf(N.FORM_RELEASE, 2)} → 승리 포즈`);
 
   // 잠깐 무장
   if (has(N.ARMED_IDLE)) {
@@ -194,17 +200,19 @@ function checkModel(file, names, { companions = [] }, N) {
     if (used.has(key) || exVariants.includes(name)) continue;
     // 비슷한 이름: 앞뒤 번호를 떼거나(01_Cafe_Idle, Exs_01) 글자 1~2개만 다르면 펫이 쓰는 이름인데 못 찾는 것으로 본다
     // (EX는 위에서 따로 봄)
-    const stripped = [key.replace(/^\d+_/, ''), key.replace(/_\d+$/, ''), key.replace(/\d+$/, '')]
-      .find((k) => k !== key && k !== 'exs' && used.has(k) && !index.has(k));
+    const lacks = (k) => k !== key && k !== 'exs' && used.has(k) && !index.has(k);
+    const stripped = [key.replace(/^\d+_/, ''), key.replace(/_\d+$/, ''), key.replace(/\d+$/, '')].find(lacks);
     if (stripped) { (key.startsWith(stripped) ? numberedEnd : numberedFront).push(name); continue; }
     if (KNOWN_UNUSED.some((re) => re.test(key))) { unused.push(name); continue; }
+    // 앞에 말이 붙은 이름(Kazusa Normal_Move_Ing, Sumire Original_Public01). 탈것·소환물(Tank_, SM…)은 위에서 뺐음
+    if (lacks(key.replace(/^[a-z]+_/, ''))) { numberedFront.push(name); continue; }
     const typo = key.length >= 6 && [...used].find((u) => !index.has(u) && levenshtein(key, u) <= 2);
     if (typo) warn(`${name} → 펫이 쓰는 ${typo}의 오타로 보임 (펫이 못 찾음, CLIP_TYPOS에 추가 필요)`);
     else unknown.push(name);
   }
   // 앞뒤에 번호가 붙어 펫이 못 찾는 이름: 모델 하나에 수십 개일 수 있어 묶어서 (Hoshino (Battle) 01_Cafe_Idle …)
   const sample = (list) => (list.length > 4 ? `${list.slice(0, 4).join(', ')} 등 ${list.length}개` : list.join(', '));
-  if (numberedFront.length) warn(`앞에 번호가 붙은 이름이라 펫이 못 찾음: ${sample(numberedFront)}`);
+  if (numberedFront.length) warn(`앞에 번호·말이 붙은 이름이라 펫이 못 찾음: ${sample(numberedFront)}`);
   if (numberedEnd.length) warn(`뒤에 번호가 붙은 이름이라 펫이 못 찾음: ${sample(numberedEnd)}`);
 
   if (companions.length) notes.push(`짝 파일: ${companions.join(', ')}`);

@@ -80,11 +80,22 @@ function createWindow() {
   // 캐릭터가 없는 투명 영역은 클릭이 아래 창으로 통과하도록 시작
   win.setIgnoreMouseEvents(true, { forward: true });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
-  win.once('ready-to-show', () => win.showInactive());
+  win.once('ready-to-show', () => { win.showInactive(); restartMouseForwarding(); });
+  // 페이지가 뜰 때마다(다시 불러오기 포함) 마우스 이동 넘겨받기를 다시 건다
+  win.webContents.on('did-finish-load', restartMouseForwarding);
   win.on('closed', () => {
     win = null;
     if (fxWin && !fxWin.isDestroyed()) fxWin.close();
   });
+}
+
+// 클릭 통과 중에도 마우스 이동을 페이지로 넘겨받기(forward). Electron은 이미 켜져 있으면 다시 켜도 아무것도 안 해서,
+// 페이지가 새로 뜨며 마우스를 받는 안쪽 창이 바뀌어도 예전 창에 걸려 있었다 → 이동마다 mouseleave가 같이 와서
+// 펫 위인지 판정을 못 함(켜고 몇 초~1분 넘게 클릭 안 됨, 2026-10-23 사용자). 껐다 켜면 지금 창에 다시 걸린다
+function restartMouseForwarding() {
+  if (!win) return;
+  win.setIgnoreMouseEvents(false);
+  win.setIgnoreMouseEvents(true, { forward: true });
 }
 
 // ---- 클릭 효과 창 ----

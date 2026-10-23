@@ -18,11 +18,14 @@ const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에�
 // 25~40px 아래에 그려지므로 0.2단위를 더 둔다(main.js BELOW). ?footMargin=은 검사 도구가 예전 창을 흉내 낼 때
 const FOOT_MARGIN = Number(new URLSearchParams(location.search).get('footMargin')) || 0.23;
 const FACE_FRONT = 0;
-const FACE_BATTLE = THREE.MathUtils.degToRad(60); // 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림
+// 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림. ?battleFace=(도)는 각도 비교용
+const FACE_BATTLE = THREE.MathUtils.degToRad(Number(new URLSearchParams(location.search).get('battleFace')) || 60);
 const FACE_SPREAD = THREE.MathUtils.degToRad(30);   // 평소 동작은 정면에서 이만큼 안쪽 아무 방향
 const BATTLE_SPREAD = THREE.MathUtils.degToRad(20); // 전투·EX는 FACE_BATTLE에서 이만큼 안쪽 아무 방향
 const RUN_SPREAD = THREE.MathUtils.degToRad(15);    // 전투 중 자리 옮기기: 도착해서 볼 방향에서 이만큼 흔들어 뛴다
-const HEAD_LIMIT = THREE.MathUtils.degToRad(45); // 얼굴이 카메라에서 이보다 돌아가면 그만큼 몸을 돌려 얼굴이 보이게
+// 얼굴이 카메라에서 이보다 돌아가면 그만큼 몸을 돌려 얼굴이 보이게. ?headLimit=(도)는 각도 비교용
+// 45°였을 때 왼쪽을 겨누면 몸이 70~115° 옆을 봐서 35°로 줄임(2026-10-20 사용자, 45/35/25/15 비교 그림에서 고름)
+const HEAD_LIMIT = THREE.MathUtils.degToRad(Number(new URLSearchParams(location.search).get('headLimit')) || 35);
 const HEAD_FIX_MAX = THREE.MathUtils.degToRad(30); // 동작 하나 때문에 더 돌리는 건 이만큼까지 (재장전·구호 때 몸이 휙 돌지 않게)
 const FACE_NAP = THREE.MathUtils.degToRad(58);    // 뒤로 눕는 동작을 옆으로 눕는 것처럼 보이게
 const NAP_OFFSET = new THREE.Vector3(0.33, 0.08, 0.1); // 누운 몸이 창 가운데 바닥에 오도록 (원래 호시노 기준)
@@ -414,11 +417,19 @@ const CARRY_MAX = THREE.MathUtils.degToRad(120);
 let turnMode = new URLSearchParams(location.search).get('turn') === 'A' ? 'A' : 'C';
 let carry = 0;
 function carryTurn(name) {
-  if (turnMode === 'A' || !GUN_POSE.test(name) || thighs.length < 2 || !clipHips.has(name)) { carry = 0; return; }
+  if (turnMode === 'A' || !GUN_POSE.test(name) || (drawTurns && DRAW_CLIP.test(name))
+    || thighs.length < 2 || !clipHips.has(name)) { carry = 0; return; }
   const body = hipYaw(thighs, root); // 지금 몸 방향 (펫 회전 포함)
   const planned = facing + (clipTurns.get(name) ?? 0) + clipHips.get(name);
   carry = THREE.MathUtils.clamp(wrapAngle(body - planned), -CARRY_MAX, CARRY_MAX);
 }
+
+// 총 꺼내기(Public01)는 이어 받지 않고 펫이 정한 방향(정면 쪽)으로 돌며 시작한다 (2026-10-23 사용자).
+// 이어 받으면 화면 안쪽으로 걷다가 총을 꺼낼 때 등을 보인 채 꺼내고 대기로 넘어가며 남은 만큼 휙 돌았다.
+// 비교 창에서 지금 / 꺼내기 시작하며 돌기(이것) / 꺼내는 동안 천천히 돌기 / 먼저 맨손으로 돌아선 뒤 꺼내기를 보고 고름.
+// 꺼내기 → 대기는 그대로 이어 받는다(꺼내기 끝 자세 그대로 대기). ?draw=carry면 예전처럼 이어 받음 (비교용)
+const DRAW_CLIP = /^(Normal\d*_)?Public\d*$/i;
+const drawTurns = new URLSearchParams(location.search).get('draw') !== 'carry';
 
 // ---- 넘어가는 곳 기록 (확인 도구 tools/transition-review.js) ----
 // simulate 동안 동작이 바뀔 때마다 앞 동작과 끊긴 시각, 그 순간 몸 방향을 적는다.
@@ -1210,6 +1221,8 @@ window.__pet = {
     if (stance && stanceReady(stance)) battle.stance = stance;
   },
   run() { if (battle) startRun(); }, // 전투 중 뛰어서 자리 옮기기
+  // 각도 비교용: 그 자세로 side(±1)쪽을 겨눌 때 펫이 정할 방향(도, 무작위 흔들기 없이)
+  battleFaceOf: (side, stance) => Math.round(THREE.MathUtils.radToDeg(showFace(side * FACE_BATTLE, stanceClips(stance)))),
   simulate,
   bodies(seconds) { const out = []; simulate(seconds, { bodies: out }); return out; }, // 몸 방향 기록만
   replay: startReplay,

@@ -14,13 +14,16 @@ const { ROOT, serve, openPet, loadMarks, pairsOf, modelsFromArgs } = require('./
 const OUT = path.join(ROOT, 'docs', 'data', 'edge-check.json');
 const TOP_MIN = 35;
 const SIDE_MIN = 3; // 옆·아래
-const SKIP = /^Vital_Retreat/i;
+// 이름은 펫이 묶는 이름(clipKey: 차림 번호·앞의 Normal_을 뗌)으로 본다 (Shiroko＊Terror Normal01_Vital_Retreat)
+let clipKey = (name) => name;
+const SKIP = { test: (clip) => /^vital_retreat/.test(clipKey(clip)) };
 const deg = (r) => (r * 180) / Math.PI;
 const rad = (d) => (d * Math.PI) / 180;
 
 // 흉내 중에 안 나온 동작을 잴 방향(도)과 높이: 평소 동작은 정면 ±30°, 총·EX 동작은 전투 방향 40~80°(얼굴 보이게 더 돌리는 것 포함),
 // 걷기·뛰기는 아무 방향, 집어 들기는 들린 높이
-function extraCases(clip) {
+function extraCases(name) {
+  const clip = clipKey(name);
   if (/^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i.test(clip)) return [0, 90, -90, 180].map((f) => [f, 0]);
   if (/^Formation_Pickup/i.test(clip)) return [[0, 0.3]];
   if (/^(Normal|Stand|Kneel|Move_End|Exs)/i.test(clip) || /Public/i.test(clip)) return [-80, -40, 40, 80].map((f) => [f, 0]);
@@ -28,6 +31,7 @@ function extraCases(clip) {
 }
 
 app.whenReady().then(async () => {
+  ({ clipKey } = await import('../src/renderer/clip-names.js'));
   const port = await serve();
   const marks = loadMarks();
   const out = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
@@ -51,7 +55,7 @@ app.whenReady().then(async () => {
     const seen = new Set([...cases.values()].map((c) => c.clip));
     const missing = (await js('__pet.usedClips()')).filter((c) => !seen.has(c) && !SKIP.test(c));
     for (const clip of missing) {
-      if (/^Vital_Death/i.test(clip)) { // 낮잠은 방향·자리가 정해져 있음
+      if (/^vital_death/.test(clipKey(clip))) { // 낮잠은 방향·자리가 정해져 있음
         cases.set(clip, { clip, how: '흉내에 안 나옴, 낮잠 자리', rec: await js(`__pet.poseRec('${clip}')`), alone: true });
         continue;
       }

@@ -422,12 +422,13 @@ function measureFrontFaces() {
 // 맨손 동작으로 넘어가면 0으로 돌아가 펫이 정한 방향(정면 쪽)을 본다.
 // 2026-10-12 세 방법을 확인 창(tools/transition-review.js)에서 비교해 사용자가 고름: A 그대로 / B 이어 받고 1초 동안 풀기 / C 유지(이것)
 // carry: 펫 방향(facing)에 더 돌리는 각도. ?turn=A 또는 __pet.turnMode = 'A'면 끔 (비교용)
-const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
+// 묶는 이름(clipKey)으로 본다: Shiroko＊Terror Normal01_Victory_Start·Normal01_Move_Ing는 총 자세가 아님
+const GUN_POSE = /^(normal|stand|kneel)_|^(normal_)?public$/;
 const CARRY_MAX = THREE.MathUtils.degToRad(120);
 let turnMode = new URLSearchParams(location.search).get('turn') === 'A' ? 'A' : 'C';
 let carry = 0;
 function carryTurn(name) {
-  if (turnMode === 'A' || !GUN_POSE.test(name) || thighs.length < 2 || !clipHips.has(name)) { carry = 0; return; }
+  if (turnMode === 'A' || !GUN_POSE.test(clipKey(name)) || thighs.length < 2 || !clipHips.has(name)) { carry = 0; return; }
   const body = hipYaw(thighs, root); // 지금 몸 방향 (펫 회전 포함)
   const planned = facing + (clipTurns.get(name) ?? 0) + clipHips.get(name);
   carry = THREE.MathUtils.clamp(wrapAngle(body - planned), -CARRY_MAX, CARRY_MAX);
@@ -1572,14 +1573,14 @@ function pickClips() {
   const add = (clip, why) => { if (clips[clip]) out.set(clip, [...(out.get(clip) ?? []), why]); };
   // 서 있을 때 골반 높이(월드 단위 / 크기): 펫이 쓰는 동작들의 최대 골반 높이 가운데값 (카페 대기 하나로 재면 아리스처럼 빌려온 대기가 낮은 학생에서 틀림)
   // 무릎 자세 동작은 원래 낮으니 가운데값에서 뺀다 (Shun은 무릎 동작이 많아 가운데값이 앉은 높이가 되어 서 있는 동작이 모두 "2배 뜸"으로 잡혔음)
-  const raw = used.filter((n) => !/^Vital_Retreat/i.test(n)).map((n) => [n, clipStats(n, 1)]).filter(([, x]) => x);
-  const highs = raw.filter(([n]) => !/Kneel/i.test(n)).map(([, x]) => x.rise).sort((a, b) => a - b);
+  const raw = used.filter((n) => !/^vital_retreat/.test(clipKey(n))).map((n) => [n, clipStats(n, 1)]).filter(([, x]) => x);
+  const highs = raw.filter(([n]) => !/kneel/.test(clipKey(n))).map(([, x]) => x.rise).sort((a, b) => a - b);
   const standHip = highs[Math.floor(highs.length / 2)] ?? 1;
   const r2 = (v) => Math.round(v * 100) / 100;
   for (const [name, x] of raw) { // 밧줄에 매달려 올라가는 종료(Vital_Retreat)는 원래 뜨므로 뺐음
     const rise = x.rise / standHip, far = x.far / standHip;
     if (rise > PICK_RISE) add(name, `몸이 크게 뜸 (골반이 서 있을 때의 ${r2(rise)}배 높이)`);
-    if (/^Vital_Death/i.test(name) && far > PICK_FAR) add(name, `쓰러질 때 ${x.farPart}이(가) 몸에서 멀리 떨어짐 (골반 높이의 ${r2(far)}배)`);
+    if (/^vital_death/.test(clipKey(name)) && far > PICK_FAR) add(name, `쓰러질 때 ${x.farPart}이(가) 몸에서 멀리 떨어짐 (골반 높이의 ${r2(far)}배)`);
   }
   const borrowed = BORROWED_CLIPS[settings.model];
   for (const to of Object.values(borrowed?.clips ?? {})) add(to, `다른 파일(${borrowed.from})에서 빌려온 동작`);
@@ -1603,11 +1604,12 @@ function pickClips() {
 // 평소 동작은 정면 쪽 15°, 총·EX는 45°, 걷기·뛰기는 70°, 낮잠은 펫과 같은 방향·자리(startNap), 집어 들기는 들린 높이
 function poseRec(name, face = null) {
   const formOf = [...clipIndex.values()].flat().find((c) => c.name === name)?.form ?? 1;
-  face ??= THREE.MathUtils.degToRad(/^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i.test(name) ? 70
-    : /^(Normal|Stand|Kneel|Move_End|Exs)|Public/i.test(name) ? 45 : 15);
+  const key = clipKey(name);
+  face ??= THREE.MathUtils.degToRad(/^(cafe_walk|move_ing|move_callsign|move_jump)/.test(key) ? 70
+    : /^(normal|stand|kneel|move_end|exs)|public/.test(key) ? 45 : 15);
   const rec = { to: name, toLoop: false, faceAfter: face, yawBefore: face, form: formOf, fade: 0,
-    lift: /^Formation_Pickup/i.test(name) ? DRAG_LIFT : 0, pivotPos: [0, 0, 0], pivotTarget: [0, 0, 0] };
-  if (/^Vital_Death/i.test(name)) {
+    lift: /^formation_pickup/.test(key) ? DRAG_LIFT : 0, pivotPos: [0, 0, 0], pivotTarget: [0, 0, 0] };
+  if (/^vital_death/.test(key)) {
     rec.faceAfter = rec.yawBefore = FACE_NAP;
     const end = clipEnds.get(name);
     const t = NAP_OFFSET.clone().add(NAP_BODY.clone().applyAxisAngle(UP, FACE_NAP));

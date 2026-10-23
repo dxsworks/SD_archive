@@ -57,9 +57,13 @@ export const CLIP_TYPOS = {
   normal_callsign1: 'normal_callsign',   // Koyuki (구호가 1·2 두 개)
   normal_callsign2: 'normal_callsign',
 };
+// 승리 포즈·쓰러짐·퇴장·뛰기 앞에 Normal_이 붙은 학생 (Shiroko＊Terror Normal01_Victory_Start·Normal02_Vital_Death,
+// Kazusa Normal_Move_Ing) → 앞의 Normal_을 뗀다. 조사 295개 중 Normal_이 없는 같은 이름과 같이 있는 모델은 없음
+const NORMAL_PREFIX = /^normal_(?=(victory|vital|move)_)/;
 // 묶는 이름: 차림 번호를 떼고, 소문자로, 띄어쓰기는 _로 (Hanae "Formation Pickup"), 오타는 맞는 이름으로
 export function clipKey(name, onForm) {
-  const key = name.replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; }).toLowerCase().replace(/ /g, '_');
+  const key = name.replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; }).toLowerCase().replace(/ /g, '_')
+    .replace(NORMAL_PREFIX, '');
   return CLIP_TYPOS[key] ?? key;
 }
 // 동작 이름들을 묶는다 → index: 묶은 이름 → [{ name, form }], forms: 이 모델에 있는 차림 번호들

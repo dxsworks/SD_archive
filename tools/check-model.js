@@ -194,17 +194,19 @@ function checkModel(file, names, { companions = [] }, N) {
     if (used.has(key) || exVariants.includes(name)) continue;
     // 비슷한 이름: 앞뒤 번호를 떼거나(01_Cafe_Idle, Exs_01) 글자 1~2개만 다르면 펫이 쓰는 이름인데 못 찾는 것으로 본다
     // (EX는 위에서 따로 봄)
-    const stripped = [key.replace(/^\d+_/, ''), key.replace(/_\d+$/, ''), key.replace(/\d+$/, '')]
-      .find((k) => k !== key && k !== 'exs' && used.has(k) && !index.has(k));
+    const lacks = (k) => k !== key && k !== 'exs' && used.has(k) && !index.has(k);
+    const stripped = [key.replace(/^\d+_/, ''), key.replace(/_\d+$/, ''), key.replace(/\d+$/, '')].find(lacks);
     if (stripped) { (key.startsWith(stripped) ? numberedEnd : numberedFront).push(name); continue; }
     if (KNOWN_UNUSED.some((re) => re.test(key))) { unused.push(name); continue; }
+    // 앞에 말이 붙은 이름(Kazusa Normal_Move_Ing, Sumire Original_Public01). 탈것·소환물(Tank_, SM…)은 위에서 뺐음
+    if (lacks(key.replace(/^[a-z]+_/, ''))) { numberedFront.push(name); continue; }
     const typo = key.length >= 6 && [...used].find((u) => !index.has(u) && levenshtein(key, u) <= 2);
     if (typo) warn(`${name} → 펫이 쓰는 ${typo}의 오타로 보임 (펫이 못 찾음, CLIP_TYPOS에 추가 필요)`);
     else unknown.push(name);
   }
   // 앞뒤에 번호가 붙어 펫이 못 찾는 이름: 모델 하나에 수십 개일 수 있어 묶어서 (Hoshino (Battle) 01_Cafe_Idle …)
   const sample = (list) => (list.length > 4 ? `${list.slice(0, 4).join(', ')} 등 ${list.length}개` : list.join(', '));
-  if (numberedFront.length) warn(`앞에 번호가 붙은 이름이라 펫이 못 찾음: ${sample(numberedFront)}`);
+  if (numberedFront.length) warn(`앞에 번호·말이 붙은 이름이라 펫이 못 찾음: ${sample(numberedFront)}`);
   if (numberedEnd.length) warn(`뒤에 번호가 붙은 이름이라 펫이 못 찾음: ${sample(numberedEnd)}`);
 
   if (companions.length) notes.push(`짝 파일: ${companions.join(', ')}`);

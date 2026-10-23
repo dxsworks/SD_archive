@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, hiddenPropsAt } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, hiddenPropsAt, showsProp } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
@@ -282,6 +282,7 @@ async function loadModel() {
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
   const idle2 = forms.has(2) ? clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name : undefined;
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
+  markForm2Props(idle2);
   formEx = findFormEx(idle2);
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
@@ -637,7 +638,9 @@ function armedIdle() {
   play(ARMED_IDLE);
 }
 
-const armedFidget = () => { const name = pickRandom(ARMED_FIDGETS); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
+// 장비 모습이 평소와 다른 동작은 뺀다 (Shiroko＊Terror Normal01_Callsign_Random은 드론이 나옴). 다 빠지면 원래대로
+const calmList = (names) => { const ok = names.filter((n) => has(n) && calmOk(n)); return ok.length ? ok : names; };
+const armedFidget = () => { const name = pickRandom(calmList(ARMED_FIDGETS)); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
 
 function chooseArmedBehavior() {
   if (clock() > armed.until) { armed = null; toIdle(); return; }
@@ -712,10 +715,13 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   battle = null;
   // 02 차림으로 끝났고 그 모습 그대로인 승리 포즈 짝이 있으면 그것으로 (수영복 호시노: 겉옷 벗은 Victory_*_Random).
   // 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
-  const pairs = victory ? formVictoryPoses() : [];
+  // 02 차림을 푸는 동작(FormRelease)이 있으면 그것 → 보통 승리 포즈 (Shiroko＊Terror: 상자 드론이 날아감. 없으면 승리 포즈에서 갑자기 사라졌음).
+  // 02 모습 승리 포즈 짝도 있으면 둘 중 반반 (사용자 2026-10-24: Shiroko＊Terror 드론 단 Victory_*_Random / FormRelease → Victory)
+  const canRelease = victory && form === 2 && has(FORM_RELEASE);
+  const formPairs = victory ? formVictoryPoses() : [];
+  const pairs = canRelease && Math.random() < 0.5 ? [] : formPairs;
   const steps = pairs.length ? [...rise, ...pickPair(pairs).map(resolve)] : null;
-  // 02 차림을 푸는 동작이 있으면 승리 포즈 앞에 (Shiroko＊Terror: 상자 드론이 날아감. 없으면 승리 포즈에서 갑자기 사라졌음)
-  const release = victory && !steps && form === 2 && has(FORM_RELEASE) ? [resolve(FORM_RELEASE)] : [];
+  const release = canRelease && !steps ? [resolve(FORM_RELEASE)] : [];
   if (!keepForm) form = 1;
   lastBattleEnd = clock();
   if (victory) playSequence(steps ?? [...rise, ...release, ...victoryPose()], { onEnd: toIdle });
@@ -853,6 +859,19 @@ function findFormEx(idle2) {
   const like2 = exs.filter((c) => { const h = hiddenPropsAt(c, c.duration); return differ.every((b) => h.has(b) === h2.has(b)); });
   return like2.length === 1 ? like2[0].name : null;
 }
+// 02 차림에만 보이는 소품(Shiroko＊Terror 상자 드론): 뼈 크기 0으로 숨겨서 모프로 보는 위 판정(clipsChangingParts)에 안 잡힌다.
+// 카페 대기·01 전투 대기에서 숨기고 02 전투 대기에서 보이는 소품만 (수영복 호시노 방수 케이스는 01 전투에서도 보여서 아님).
+// 그 소품이 보이는 동작 = 평소 모습과 다름(gearClips, 01 차림에서 피함: Victory_*_Random·Normal01_Callsign_Random은 드론이 나옴),
+// 안 보이는 동작 = 02 모습과 다름(form2Off: 02로 끝난 전투는 드론 단 승리 포즈 짝을 고를 수 있게)
+function markForm2Props(idle2) {
+  const idle1 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 1)?.name;
+  if (!idle1 || !idle2) return;
+  const hidden2 = hiddenPropsAt(clips[idle2], 0);
+  const cafe = clips[resolve('Cafe_Idle')];
+  const only2 = [...hiddenPropsAt(clips[idle1], 0)].filter((b) => !hidden2.has(b) && (!cafe || hiddenPropsAt(cafe, 0).has(b)));
+  if (!only2.length) return;
+  for (const clip of Object.values(clips)) (only2.some((b) => showsProp(clip, b)) ? gearClips : form2Off).add(clip.name);
+}
 // 02 차림이면 EX를 다시 쓰지 않는다 (사용자 2026-10-24: Shiroko＊Terror는 02에서 쓸 EX가 없음 — Exs04는 드론이 바닥에서 시작,
 // Exs01~03은 드론을 숨김. 모든 02 차림 학생에게). 전투가 끝나 01로 돌아오면 다시 씀
 const exReady = () => has(clipName('ex')) && form !== 2;
@@ -921,7 +940,7 @@ function react() {
   lastInteraction = clock();
   if (state === 'nap') { wakeUp(); return; }
   if (battle) { battleReply(); return; } // 전투 중에는 구호나 재장전으로 대답하고 계속 싸운다
-  if (armed) { playSequence([pickRandom(ARMED_REACTIONS)]); return; }
+  if (armed) { playSequence([pickRandom(calmList(ARMED_REACTIONS))]); return; }
   const options = [...(has(REACTION) && calmOk(REACTION) ? [[REACTION]] : []), ...victoryPoses()];
   if (!options.length) options.push([REACTION]);
   const first = pickRandom(options.map(([name]) => name)); // 바로 전과 같은 반응은 되도록 피함

@@ -67,6 +67,14 @@ export function hiddenPropsAt(clip, t) {
   return out;
 }
 
+// 이 동작이 그 소품 뼈를 한 번이라도 보이게 하는지 (키 값으로 봄. 그 뼈를 안 움직이는 동작은 false)
+export function showsProp(clip, bone) {
+  const tr = clip.tracks.find((t) => t.name === `${bone}.scale`);
+  if (!tr) return false;
+  for (let i = 0; i < tr.values.length; i += 3) if (Math.abs(tr.values[i]) >= HIDDEN_SCALE) return true;
+  return false;
+}
+
 function isAncestor(a, node) {
   for (let p = node.parent; p; p = p.parent) if (p === a) return true;
   return false;

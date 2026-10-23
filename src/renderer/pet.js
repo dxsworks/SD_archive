@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, hiddenPropsAt } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
-  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
+  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
   formVariants,
 } from './clip-names.js';
 
@@ -282,6 +282,7 @@ async function loadModel() {
   gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
   const idle2 = forms.has(2) ? clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name : undefined;
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
+  formEx = findFormEx(idle2);
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
   measureFrontFaces();
@@ -713,9 +714,11 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   // 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
   const pairs = victory ? formVictoryPoses() : [];
   const steps = pairs.length ? [...rise, ...pickPair(pairs).map(resolve)] : null;
+  // 02 차림을 푸는 동작이 있으면 승리 포즈 앞에 (Shiroko＊Terror: 상자 드론이 날아감. 없으면 승리 포즈에서 갑자기 사라졌음)
+  const release = victory && !steps && form === 2 && has(FORM_RELEASE) ? [resolve(FORM_RELEASE)] : [];
   if (!keepForm) form = 1;
   lastBattleEnd = clock();
-  if (victory) playSequence(steps ?? [...rise, ...victoryPose()], { onEnd: toIdle });
+  if (victory) playSequence(steps ?? [...rise, ...release, ...victoryPose()], { onEnd: toIdle });
 }
 
 // 전투 자세 동작은 두 자세(자리)로 나뉜다: Attack_Ing·Attack_Delay는 "나간" 자세, Idle·Reload·Callsign·Move_End·EX는 "원래" 자세.
@@ -757,7 +760,7 @@ function battleAction() {
     [switchStance, settings.walk && otherStance(battle.stance) ? 12 : 0],
     [startRun, settings.walk ? 15 : 0],
     [callsign, hasCallsign(battle.stance) ? 10 : 0],
-    [exSkill, has(clipName('ex')) ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
+    [exSkill, exReady() ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
   ])();
 }
 
@@ -837,12 +840,30 @@ function arriveRun() {
 }
 
 const exVariants = () => exVariantsOf(Object.keys(clips), forms);
+// 02로 바꾸는 EX: EX가 여럿인 02 차림 학생(Shiroko＊Terror Exs01~04)은 끝 모습(크기 0으로 숨긴 소품)이 02 전투 대기와 같은 것.
+// Exs04는 상자 드론이 날아와 어깨 옆에 붙고, Exs01~03은 드론을 숨긴 채라 끝나고 02로 넘어가면 드론이 갑자기 생겼다 (사용자 2026-10-24)
+let formEx = null;
+function findFormEx(idle2) {
+  const exs = (clipIndex.get(clipKey('Exs')) ?? []).map((c) => clips[c.name]);
+  const idle1 = clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 1)?.name;
+  if (!idle1 || !idle2 || exs.length < 2) return null;
+  const [h1, h2] = [idle1, idle2].map((n) => hiddenPropsAt(clips[n], 0));
+  const differ = [...new Set([...h1, ...h2])].filter((b) => h1.has(b) !== h2.has(b)); // 01·02 대기에서 보임이 다른 소품
+  if (!differ.length) return null;
+  const like2 = exs.filter((c) => { const h = hiddenPropsAt(c, c.duration); return differ.every((b) => h.has(b) === h2.has(b)); });
+  return like2.length === 1 ? like2[0].name : null;
+}
+// 02 차림이면 EX를 다시 쓰지 않는다 (사용자 2026-10-24: Shiroko＊Terror는 02에서 쓸 EX가 없음 — Exs04는 드론이 바닥에서 시작,
+// Exs01~03은 드론을 숨김. 모든 02 차림 학생에게). 전투가 끝나 01로 돌아오면 다시 씀
+const exReady = () => has(clipName('ex')) && form !== 2;
 function exSkill() {
   // 나가 있으면 지금 차림 그대로 돌아온 뒤 EX (02로 먼저 바꾸면 01 사격 대기 → 02 사격 끝으로 섞여 자세가 크게 튐: Shun 무릎 01 → 02 엎드림)
   const back = fromCover([]).map(resolve);
-  if (battle && forms.has(2)) form = 2;
+  const toForm2 = battle && forms.has(2);
+  if (toForm2) form = 2;
   const variants = exVariants();
-  playSequence([...back, variants.length > 1 ? pickRandom(variants) : 'ex'], { face: battleFace(), as: 'ex' });
+  const ex = toForm2 && formEx ? formEx : variants.length > 1 ? pickRandom(variants) : 'ex';
+  playSequence([...back, ex], { face: battleFace(), as: 'ex' });
 }
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,
@@ -1114,6 +1135,7 @@ function handleClick() {
 
 // 더블클릭: 첫 클릭의 반응을 끊고 EX 스킬. 전투 모드로 이어진다 (구호 없이 바로 EX)
 function doubleClickEx() {
+  if (!exReady()) { react(); return; } // 02 차림이면 EX 대신 보통 클릭처럼 (구호·재장전)
   if (!battle) beginBattle();
   exSkill();
 }
@@ -1234,6 +1256,7 @@ window.__pet = {
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get victoryPoses() { return victoryPoses(); },
   get exVariants() { return exVariants(); },
+  get formEx() { return formEx; },
   get forms() { return [...forms]; },
   get gearClips() { return [...gearClips]; },
   get form2Off() { return [...form2Off]; },
@@ -1294,7 +1317,7 @@ window.__pet = {
 //   2026-10-18 사용자: 클릭이 다른 동작(뛰기·총 꺼내기·EX 등)을 끊고 휙 도는 건 그대로 둠 → 각도 검사가 알고 둔 것으로 셈
 const POKES = [
   [() => clicked(react), 50],
-  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) clicked(doubleClickEx); }, 15],
+  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) clicked(doubleClickEx); }, 15], // 02 차림이면 클릭 대답
   [() => { drag = { moved: true, offset: null }; pickUp(); }, 15],
   [() => clicked(COMMANDS.battle), 20],
 ];
@@ -1513,6 +1536,9 @@ function usedClips() {
     for (const n of names) if (has(n)) out.add(resolve(n));
   }
   form = keep;
+  // 02로 바꾸는 EX가 따로 있으면 02 차림 EX 이름(Shiroko＊Terror Exs02)은 안 씀 (02에서는 EX를 안 씀)
+  if (formEx) for (const c of clipIndex.get(clipKey('Exs')) ?? []) if (c.form !== 1) out.delete(c.name);
+  if (formEx) out.add(formEx);
   // 01/02 변형도 (playSequence pickVariants가 섞어 씀)
   if (variantForms) for (const n of [...out]) for (const c of clipIndex.get(clipKey(n)) ?? []) out.add(c.name);
   return [...out];

@@ -35,8 +35,11 @@ export const DRAW_WEAPON = ['Public', 'Normal_Public'];
 export const RUN_CALLSIGN = 'Move_Callsign'; // 뛰면서 하는 구호. 제자리에서 틀면 제자리 뛰기가 되므로 실제로 뛸 때만 쓴다
 // 승리 포즈 짝. 두 번째 짝(_Random, 약 35개 모델)이 있으면 무작위로 섞는다 (아리스(배틀): Victory_Start는 하늘에서 떨어져 착지, _Random은 제자리)
 export const VICTORIES = [['Victory_Start', 'Victory_End'], ['Victory_Start_Random', 'Victory_End_Random']];
+// 02 차림을 푸는 동작: 전투가 02 차림으로 끝나면 승리 포즈 앞에 (Shiroko＊Terror Normal02_FormRelease = 상자 드론이 날아감.
+// Kurumi·Otogi·Subaru·Eimi (Battle)·Mika (Swimsuit)·Toki는 번호 없이 FormRelease) (사용자 2026-10-24)
+export const FORM_RELEASE = 'FormRelease';
 // 위 목록 밖에서 pet.js가 이름을 직접 부르는 동작 (자세별 동작은 stanceAll)
-export const OTHER_CLIPS = ['Move_Ing', 'Move_Jump', 'Vital_Retreat'];
+export const OTHER_CLIPS = ['Move_Ing', 'Move_Jump', 'Vital_Retreat', FORM_RELEASE];
 // 자세 하나에서 쓰는 동작: 대기, 사격 4단계, 재장전, 구호, 뛰어와서 그 자세 잡기
 // 재장전 변형(_Random, 서서 21개·무릎 10개 모델): 있으면 원래 재장전과 무작위로 섞는다 (사용자 결정 2026-10-12).
 // 지금 차림 번호의 것만 쓴다 (수영복 호시노 Normal_Reload02_Random은 겉옷 벗은 02 차림에서만)
@@ -57,9 +60,9 @@ export const CLIP_TYPOS = {
   normal_callsign1: 'normal_callsign',   // Koyuki (구호가 1·2 두 개)
   normal_callsign2: 'normal_callsign',
 };
-// 승리 포즈·쓰러짐·퇴장·뛰기 앞에 Normal_이 붙은 학생 (Shiroko＊Terror Normal01_Victory_Start·Normal02_Vital_Death,
-// Kazusa Normal_Move_Ing) → 앞의 Normal_을 뗀다. 조사 295개 중 Normal_이 없는 같은 이름과 같이 있는 모델은 없음
-const NORMAL_PREFIX = /^normal_(?=(victory|vital|move)_)/;
+// 승리 포즈·쓰러짐·퇴장·뛰기·차림 풀기 앞에 Normal_이 붙은 학생 (Shiroko＊Terror Normal01_Victory_Start·Normal02_Vital_Death·
+// Normal02_FormRelease, Kazusa Normal_Move_Ing) → 앞의 Normal_을 뗀다. 조사 295개 중 Normal_이 없는 같은 이름과 같이 있는 모델은 없음
+const NORMAL_PREFIX = /^normal_(?=(victory|vital|move)_|formrelease$)/;
 // 묶는 이름: 차림 번호를 떼고, 소문자로, 띄어쓰기는 _로 (Hanae "Formation Pickup"), 오타는 맞는 이름으로
 export function clipKey(name, onForm) {
   const key = name.replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; }).toLowerCase().replace(/ /g, '_')

@@ -102,6 +102,12 @@ function checkModel(file, names, { companions = [] }, N) {
   const exLike = names.filter((n) => /^exs(_?\d+)+$/i.test(n));
   if (!ex.length && exLike.length) warn(`EX처럼 보이는 동작(${exLike.join(', ')})이 있는데 펫이 못 찾음`);
   if (exVariants.length > 1) notes.push(`EX가 ${exVariants.length}개: ${exVariants.join(', ')} (무작위로 섞음)`);
+  // 02 차림 학생: 02에서는 EX를 안 씀. EX가 여럿이면 펫이 끝 모습(숨긴 소품)이 02 대기와 같은 것을 고름 (pet.js findFormEx, 이름만으로는 모름)
+  const exAll = index.get(N.clipKey('Exs')) ?? [];
+  if (forms.has(2) && !variants && exAll.length > 1) {
+    notes.push(`EX ${exAll.length}개(${exAll.map((c) => c.name).join(', ')}) + 02 차림: 전투 EX는 펫이 끝 모습이 02 대기와 같은 것을 고름`);
+  }
+  if (forms.has(2) && !variants && has(N.FORM_RELEASE)) does.push(`전투 끝(02 차림): ${nameOf(N.FORM_RELEASE, 2)} → 승리 포즈`);
 
   // 잠깐 무장
   if (has(N.ARMED_IDLE)) {

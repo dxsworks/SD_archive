@@ -13,10 +13,13 @@ const PX = 215; // 1 모델 단위 ≈ 215px (펫 창 기본 크기)
 // 판단 (2026-10-12 사용자 표시 19곳에 맞춘 것): 총 든 자세 동작(Normal_/Stand_/Kneel_, 총 꺼내기 Public)으로 넘어가는데
 // 그 동작은 별로 안 도는데 몸 전체가 50° 넘게 더 돌면 이상함. 평소 대기·승리 포즈·집어 들기처럼 정면 쪽 맨손 자세로 도는 것,
 // 걷기·뛰기를 시작하며 가는 쪽으로 도는 것은 괜찮음 (걷다 멈추며 150° 돌아 정면을 봐도 사용자는 괜찮다고 함)
+// 총 꺼내기(Public)로 넘어가며 도는 건 괜찮음: 2026-10-23 사용자가 비교 창에서 "꺼내기 시작하며 정면 쪽으로 돌기"를 고름
+// (예전엔 꺼내기도 몸 방향을 이어 받아 등을 보인 채 꺼냈음, pet.js DRAW_CLIP). 꺼내기 → 대기로 휙 도는 건 여전히 이상함
 const GUN_POSE = /^(Normal|Stand|Kneel)\d*_|^(Normal\d*_)?Public\d*$/i;
+const DRAW = /^(Normal\d*_)?Public\d*$/i;
 const MOVING = /^(Cafe_Walk|Move_Ing|Move_Callsign|Move_Jump)/i;
 const BAD_SPIN = 50;
-const verdict = (to, { spin, own }) => (GUN_POSE.test(to) && !MOVING.test(to) && spin >= BAD_SPIN && own < spin ? 'bad' : 'ok');
+const verdict = (to, { spin, own }) => (GUN_POSE.test(to) && !DRAW.test(to) && !MOVING.test(to) && spin >= BAD_SPIN && own < spin ? 'bad' : 'ok');
 
 // 몸 전체(허벅지 선)가 도는 총량(도)
 const hipTravel = (frames) => frames.slice(1).reduce((s, f, i) => s + Math.abs(wrap(f.hip - frames[i].hip)), 0);

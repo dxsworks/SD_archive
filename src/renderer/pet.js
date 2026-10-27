@@ -192,6 +192,7 @@ let clipFronts = new Map(); // 동작 이름 → 몸 앞쪽 방향 (모델 기�
 let thighs = [];
 let gearClips = new Set(); // 평소 대기와 장비 모습이 다른 동작 (아리스(배틀) 등 뒤 장비가 생기거나 사라짐). 평소 상태에서는 피한다
 let form2Off = new Set(); // 02 차림 전투 대기(Normal_Idle02)와 모습이 다른 동작. 02 차림으로 끝난 전투의 승리 포즈를 고를 때 씀
+let modelRoot = null;
 let currentAction = null;
 const weaponMeshes = [];
 
@@ -277,6 +278,7 @@ async function loadModel() {
   updateOutlines = addOutlines(gltf.scene); // 숨김 판정·무기 목록을 만든 뒤에 (외곽선 메시는 거기 들어가지 않게)
   refreshWeapons(); // 동작을 틀기 전에는 무기를 숨김
   pivot.add(gltf.scene);
+  modelRoot = gltf.scene;
   hands = ['Bip001_L_Hand', 'Bip001_R_Hand'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
 
   clips = Object.fromEntries(gltf.animations.map((c) => [c.name, c]));
@@ -951,6 +953,25 @@ function markForm2Props(idle2) {
   if (!only2.length) return;
   for (const clip of Object.values(clips)) (only2.some((b) => showsProp(clip, b)) ? gearClips : form2Off).add(clip.name);
 }
+// 검사 도구용(sheet-check → check-student "02 차림과 모습이 같은 동작"): 02 차림 모습의 기준 동작과, 그것과 모습(큰 몸 조각·숨긴 소품)이 다른 동작들.
+// 02 전투 대기가 없는 학생(Subaru: 02는 한 손 사격 8개뿐, 대기·재장전은 01)은 02 사격 대기를 기준으로.
+// 소품은 01·02 사격 대기에서 보임이 다른 것만 본다 (재장전 첫 순간 탄창이 숨는 건 01 전투에서도 같음)
+function form2Looks() {
+  const idle2 = formName(ARMED_IDLE, 2);
+  const stance = idle2 ? null : STANCES.find((st) => formName(`${st}_Attack_Delay`, 2) && formName(`${st}_Attack_Delay`, 1));
+  const ref = idle2 ?? (stance && formName(`${stance}_Attack_Delay`, 2));
+  if (!ref) return { ref: null, off: [] };
+  if (ref === idle2) return { ref, off: [...form2Off] };
+  const off = clipsChangingParts(modelRoot, Object.values(clips), ref);
+  const [h1, h2] = [formName(`${stance}_Attack_Delay`, 1), ref].map((n) => hiddenPropsAt(clips[n], 0));
+  const differ = [...new Set([...h1, ...h2])].filter((b) => h1.has(b) !== h2.has(b));
+  for (const clip of Object.values(clips)) {
+    const h = hiddenPropsAt(clip, 0);
+    if (differ.some((b) => h.has(b) !== h2.has(b))) off.add(clip.name);
+  }
+  return { ref, off: [...off] };
+}
+
 // 02 차림이면 EX를 다시 쓰지 않는다 (사용자 2026-10-24: Shiroko＊Terror는 02에서 쓸 EX가 없음 — Exs04는 드론이 바닥에서 시작,
 // Exs01~03은 드론을 숨김. 모든 02 차림 학생에게). 전투가 끝나 01로 돌아오면 다시 씀
 const exReady = () => has(clipName('ex')) && form !== 2;
@@ -1358,6 +1379,7 @@ window.__pet = {
   get forms() { return [...forms]; },
   get gearClips() { return [...gearClips]; },
   get form2Off() { return [...form2Off]; },
+  form2Looks,
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get clipFronts() { return Object.fromEntries([...clipFronts].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },

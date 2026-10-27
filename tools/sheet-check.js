@@ -18,8 +18,9 @@ app.whenReady().then(async () => {
   if (picksOnly) {
     const picks = await js('__pet.picks()');
     fs.writeFileSync(out.replace(/\.png$/, '.json'), `${JSON.stringify(picks, null, 1)}\n`);
-    // 02 차림 전투 대기와 모습이 다른 동작 (check-student.js가 차림 번호가 섞인 이름 경고를 볼 때 씀)
-    fs.writeFileSync(out.replace(/\.picks\.png$|\.png$/, '.looks.json'), `${JSON.stringify({ form2Off: await js('__pet.form2Off') })}\n`);
+    // 02 차림 모습(전투 대기, 없으면 사격 대기)과 모습이 다른 동작 (check-student.js가 차림 번호가 섞인·01을 쓰는 이름 경고를 볼 때 씀)
+    const { ref, off } = await js('__pet.form2Looks()');
+    fs.writeFileSync(out.replace(/\.picks\.png$|\.png$/, '.looks.json'), `${JSON.stringify({ form2Ref: ref, form2Off: off })}\n`);
     clips = picks.map((p) => p.clip);
     opts = { label: 260, notes: Object.fromEntries(picks.map((p) => [p.clip, p.why])) };
   } else {

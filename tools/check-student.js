@@ -62,9 +62,12 @@ const FIX = {
 
 // "이어 트는 동작의 차림 번호가 섞임 (차림 02 중)"은 01 동작이 02 차림과 모습이 다를 때만(수영복 호시노 겉옷) 문제다.
 // Shun처럼 02가 총 드는 자세만 다른 학생은 01 뛰기 → 02 뛰기 끝이 자연스럽다 (2026-10-18 그려서 확인) → 모습이 같으면 알고 둔 것으로
+// "02가 없어 01 것을 쓰는 전투 동작"도 같음: Subaru는 02가 한 손 사격 8개뿐이고 대기·재장전은 01인데 옷·소품이 그대로 (2026-10-27 시트로 확인)
 const sameLook = (w, looks) => {
-  const m = /차림 번호가 섞임 \(차림 0\d 중\): (.+)$/.exec(w.what);
-  return m && looks && m[1].split(' → ').every((n) => !looks.form2Off.includes(n));
+  const mixed = /차림 번호가 섞임 \(차림 0\d 중\): (.+)$/.exec(w.what);
+  const fallback = /0\d가 없어 01 것을 쓰는 전투 동작: (.+)$/.exec(w.what);
+  const names = mixed ? mixed[1].split(' → ') : fallback && looks?.form2Ref ? fallback[1].split(', ') : null;
+  return Boolean(names && looks && names.every((n) => !looks.form2Off.includes(n)));
 };
 
 function summarize(model, names, angles, edges, behavior, looks) {

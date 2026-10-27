@@ -50054,5 +50054,6028 @@
     "note": ""
    }
   ]
+ },
+ "Kurumi.glb": {
+  "collected": "2026-10-27",
+  "simSeconds": 1800,
+  "pairs": [
+   {
+    "key": "Normal_Attack_Start → Normal_Attack_Ing",
+    "from": "Normal_Attack_Start",
+    "to": "Normal_Attack_Ing",
+    "count": 40,
+    "examples": [
+     {
+      "from": "Normal_Attack_Start",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": -1.5531830713511425,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10512,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Start",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": 0.482119460631996,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 49858,
+      "faceAfter": 1.0183784587992033,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Start",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": 0.5101806106725034,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23300,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Start",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": 0.36232848048307575,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 2735,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_Ing → Normal_Attack_Ing",
+    "from": "Normal_Attack_Ing",
+    "to": "Normal_Attack_Ing",
+    "count": 35,
+    "examples": [
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": -1.499633913440953,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10172,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": -0.24534509547924976,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 5770,
+      "faceAfter": 0.3058200856314115,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": -5.801827216270874,
+      "pivotPos": [
+       -3.24278390661045e-31,
+       2.980977953651193e-32,
+       2.3322464632237302e-32
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 35326,
+      "faceAfter": 0.30582008563141183,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.33207173504665,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 2775,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Cafe_Walk",
+    "from": "Cafe_Idle",
+    "to": "Cafe_Walk",
+    "count": 29,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 3.366665712992316,
+      "fromLoop": true,
+      "to": "Cafe_Walk",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -6.078003532171525,
+      "pivotPos": [
+       -1.4096648128328163e-202,
+       1.2958556136060306e-203,
+       1.0138467035556336e-203
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 39072,
+      "faceAfter": -2.9424975468443857,
+      "state": "walk",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 6.5333323796589715,
+      "fromLoop": true,
+      "to": "Cafe_Walk",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.0960678575525452,
+      "pivotPos": [
+       -5.661827808614977e-69,
+       5.2047204997054856e-70,
+       4.072049899811697e-70
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 42524,
+      "faceAfter": 2.2353150832943087,
+      "state": "walk",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 4.399999999999994,
+      "fromLoop": true,
+      "to": "Cafe_Walk",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.24700762163285353,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 16969,
+      "faceAfter": -1.301832163404319,
+      "state": "walk",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 4.733333333333326,
+      "fromLoop": true,
+      "to": "Cafe_Walk",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.20118487817020628,
+      "pivotPos": [
+       -2.6968830372243622e-83,
+       2.479150356319883e-84,
+       1.9396284508729642e-84
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 42837,
+      "faceAfter": 0.027451817659527467,
+      "state": "walk",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Normal01_Reload",
+    "from": "Normal01_Idle",
+    "to": "Normal01_Reload",
+    "count": 25,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.40000000000000263,
+      "fromLoop": true,
+      "to": "Normal01_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -1.3214111349155713,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10329,
+      "faceAfter": 0.6351886922158277,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.466666666666668,
+      "fromLoop": true,
+      "to": "Normal01_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.049057361741645863,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 626,
+      "faceAfter": 0.6351886922158277,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Normal01_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.13020333588421346,
+      "pivotPos": [
+       -5.152748963380373e-145,
+       4.736742102742022e-146,
+       3.705914699165102e-146
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 28123,
+      "faceAfter": 0.635188692215828,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.2333333333333367,
+      "fromLoop": true,
+      "to": "Normal01_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.1450357841009953,
+      "pivotPos": [
+       -7.507577679643484e-133,
+       6.901453872001531e-134,
+       5.399533855781336e-134
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 43920,
+      "faceAfter": 0.18494881841710242,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Idle → Normal_Attack_Start",
+    "from": "Normal02_Idle",
+    "to": "Normal_Attack_Start",
+    "count": 25,
+    "examples": [
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.3000000000000007,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.7823481675142617,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 6427,
+      "faceAfter": 0.3058200856314115,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.1333332538604757,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.6505194411733068,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 12397,
+      "faceAfter": 0.9502931740861018,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.4333333333333345,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.6628659097883179,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23409,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0.1666665871938089,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.30391997298735085,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23834,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Callsign → Normal01_Idle",
+    "from": "Normal_Callsign",
+    "to": "Normal01_Idle",
+    "count": 25,
+    "examples": [
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.9630147168880426,
+      "pivotPos": [
+       -1.4080309636179706e-257,
+       1.2943536731038906e-258,
+       1.0126716209221588e-258
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 40273,
+      "faceAfter": 0.1115899166175287,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.0030129654539529246,
+      "pivotPos": [
+       -2.0266329988059403e-247,
+       1.8630129122286516e-248,
+       1.4575771250382877e-248
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 30360,
+      "faceAfter": 0.4675288768621548,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.25495584805694527,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 7288,
+      "faceAfter": 0.4136646998636202,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.0986107080288425,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 21041,
+      "faceAfter": 0.11158991661752893,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Reload → Normal02_Idle",
+    "from": "Normal02_Reload",
+    "to": "Normal02_Idle",
+    "count": 24,
+    "examples": [
+     {
+      "from": "Normal02_Reload",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.42631384059197963,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 6261,
+      "faceAfter": 0.3058200856314115,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Reload",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.9612337939528596,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 13171,
+      "faceAfter": 0.7475861098749261,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Reload",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.6521776785375013,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 1172,
+      "faceAfter": 0.3058200856314117,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Reload",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.8738912221210519,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 2673,
+      "faceAfter": 0.3058200856314117,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_Ing → Normal02_Attack_Delay",
+    "from": "Normal_Attack_Ing",
+    "to": "Normal02_Attack_Delay",
+    "count": 24,
+    "examples": [
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal02_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": -1.323440368335752,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 6472,
+      "faceAfter": 0.3058200856314115,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal02_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": -0.2354947443173998,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23899,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal02_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": 1.1074877862438088,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 12442,
+      "faceAfter": 0.9502931740861018,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal02_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": -5.801827339866044,
+      "pivotPos": [
+       -3.942468189258355e-32,
+       3.624173270131532e-33,
+       2.8354672267942835e-33
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 35346,
+      "faceAfter": 0.30582008563141183,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Attack_Delay → Normal_Attack_End",
+    "from": "Normal02_Attack_Delay",
+    "to": "Normal_Attack_End",
+    "count": 24,
+    "examples": [
+     {
+      "from": "Normal02_Attack_Delay",
+      "fromTime": 0.03333333507180214,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": -1.0111313788310716,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 6474,
+      "faceAfter": 0.3058200856314115,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Attack_Delay",
+      "fromTime": 0.03333333507180214,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.7922328547407582,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23342,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Attack_Delay",
+      "fromTime": 0.03333333507180214,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.7641715811050807,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 49920,
+      "faceAfter": 1.0183784587992033,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Attack_Delay",
+      "fromTime": 0.03333333507180214,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 1.1203740382556144,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 49709,
+      "faceAfter": 1.0183784587992033,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Normal_Callsign",
+    "from": "Normal01_Idle",
+    "to": "Normal_Callsign",
+    "count": 24,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.2666666666666673,
+      "fromLoop": true,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.6705841002532392,
+      "pivotPos": [
+       -3.0355977618936905e-255,
+       2.790518969183056e-256,
+       2.1832358701158647e-256
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 40223,
+      "faceAfter": 0.46752887686215483,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.3000000000000036,
+      "fromLoop": true,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.1327614591511569,
+      "pivotPos": [
+       -1.413598018083757e-283,
+       1.2994712717805895e-284,
+       1.0166755087735795e-284
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 47214,
+      "faceAfter": 0.46752887686215483,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.0333333333333392,
+      "fromLoop": true,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.5076026243016701,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 53545,
+      "faceAfter": 0.3224138974280925,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.0000000000000027,
+      "fromLoop": true,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.46427007633609113,
+      "pivotPos": [
+       -7.378005698909255e-141,
+       6.782342876911089e-142,
+       5.306344237692923e-142
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 44095,
+      "faceAfter": 0.46752887686215483,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Reload → Normal01_Idle",
+    "from": "Normal01_Reload",
+    "to": "Normal01_Idle",
+    "count": 23,
+    "examples": [
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 2.8000001907348633,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.7372970574056448,
+      "pivotPos": [
+       -1.5599622937622403e-153,
+       1.4340188369483595e-154,
+       1.1219423332442346e-154
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 44371,
+      "faceAfter": -0.4885763877541992,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 2.8000001907348633,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.7997844233703882,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 7473,
+      "faceAfter": 0.14719672443855703,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 2.8000001907348633,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.3906415810600817,
+      "pivotPos": [
+       -6.6474072579790325e-149,
+       6.110729254756016e-150,
+       4.78088966564365e-150
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 28207,
+      "faceAfter": 0.11158991661752915,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 2.8000001907348633,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.5008353200129396,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 12141,
+      "faceAfter": 0.4981714014029278,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Walk → Cafe_Idle",
+    "from": "Cafe_Walk",
+    "to": "Cafe_Idle",
+    "count": 22,
+    "examples": [
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 2.16666650772095,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -2.942497546844385,
+      "pivotPos": [
+       -7.139708539059501e-213,
+       6.5632846231428525e-214,
+       5.134958254457023e-214
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 39297,
+      "faceAfter": 0.09993688484490008,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 2.199999841054283,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 2.330955599037836,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 8148,
+      "faceAfter": -0.10673924201373398,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 2.333333333333335,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -2.31749182949033,
+      "pivotPos": [
+       -6.887397251345646e-284,
+       6.331343671234534e-285,
+       4.953493153682872e-285
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 31158,
+      "faceAfter": -0.4181612757032894,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 0.46666650772094764,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.027451817659543375,
+      "pivotPos": [
+       -2.9448200008320624e-91,
+       2.7070701449012664e-92,
+       2.1179474888137066e-92
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 43011,
+      "faceAfter": 0.027451817659547226,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Idle → Normal02_Reload",
+    "from": "Normal02_Idle",
+    "to": "Normal02_Reload",
+    "count": 22,
+    "examples": [
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.0999999205271422,
+      "fromLoop": true,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.42215212247117195,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 6211,
+      "faceAfter": 0.6643261820732488,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0.9666666666666666,
+      "fromLoop": true,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.6576402837041161,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 1121,
+      "click": true,
+      "faceAfter": 0.6643261820732487,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.1333332538604757,
+      "fromLoop": true,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.0060475454217173,
+      "pivotPos": [
+       -7.116734651995292e-275,
+       6.542165531393189e-276,
+       5.118435177867545e-276
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 40652,
+      "faceAfter": 0.6643261820732488,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.3333332538604763,
+      "fromLoop": true,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.321550587241946,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 12833,
+      "faceAfter": 0.7475861098749261,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Normal02_Idle",
+    "from": "Normal_Attack_End",
+    "to": "Normal02_Idle",
+    "count": 22,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -1.1069601538103624,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 6497,
+      "faceAfter": 0.3058200856314115,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.019012397256547516,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23924,
+      "faceAfter": 0.3058200856314117,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.3239143537485742,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 12467,
+      "faceAfter": 0.9502931740861018,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -5.5851817517799,
+      "pivotPos": [
+       -2.8302899796077138e-33,
+       2.6017866976740277e-34,
+       2.0355762162818138e-34
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 35371,
+      "faceAfter": 0.30582008563141183,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Victory_Start → Victory_End",
+    "from": "Victory_Start",
+    "to": "Victory_End",
+    "count": 21,
+    "examples": [
+     {
+      "from": "Victory_Start",
+      "fromTime": 3.000000238418579,
+      "fromLoop": false,
+      "to": "Victory_End",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -0.7824656760718534,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 16776,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_Start",
+      "fromTime": 3.000000238418579,
+      "fromLoop": false,
+      "to": "Victory_End",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -7.065650983252094,
+      "pivotPos": [
+       -2.6050664440685415e-59,
+       2.3947465699871225e-60,
+       1.8735929299070413e-60
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 35940,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_Start",
+      "fromTime": 3.000000238418579,
+      "fromLoop": false,
+      "to": "Victory_End",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -0.7824656760725394,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 51070,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_Start",
+      "fromTime": 3.000000238418579,
+      "fromLoop": false,
+      "to": "Victory_End",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -0.7824656760728295,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 48140,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Public01",
+    "from": "Cafe_Idle",
+    "to": "Public01",
+    "count": 19,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 4.866666666666659,
+      "fromLoop": true,
+      "to": "Public01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.4338311527735414,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 15565,
+      "faceAfter": -0.04212842999489397,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 1.700000000000002,
+      "fromLoop": true,
+      "to": "Public01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.1022840665468845,
+      "pivotPos": [
+       -6.284762683752348e-84,
+       5.77736276722123e-85,
+       4.520071630891643e-85
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 36478,
+      "click": true,
+      "faceAfter": 0.18090155598375401,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 5.066666666666658,
+      "fromLoop": true,
+      "to": "Public01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.24700762163285353,
+      "pivotPos": [
+       -7.074632064725408e-193,
+       6.503462093835336e-194,
+       5.088154526094121e-194
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29169,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 4.999999999999992,
+      "fromLoop": true,
+      "to": "Public01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.5014738019182736,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 53321,
+      "faceAfter": 0.5014738019182737,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Victory_End → Cafe_Idle",
+    "from": "Victory_End",
+    "to": "Cafe_Idle",
+    "count": 19,
+    "examples": [
+     {
+      "from": "Victory_End",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -0.7824656760731082,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 1840,
+      "faceAfter": 0.24700762163285356,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_End",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -0.7824656760731082,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 16836,
+      "faceAfter": 0.24700762163285356,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_End",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -7.065650983252694,
+      "pivotPos": [
+       -5.373301997570825e-156,
+       4.939488801710239e-157,
+       3.864538908720124e-157
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 38053,
+      "faceAfter": 0.24700762163285356,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_End",
+      "fromTime": 2,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -0.7824656760731082,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 52668,
+      "faceAfter": 0.24700762163285356,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Normal_Attack_Start",
+    "from": "Normal01_Idle",
+    "to": "Normal_Attack_Start",
+    "count": 18,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.43333333333333596,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -1.0507447372115666,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10487,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.30000000000000265,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.6930750230290258,
+      "pivotPos": [
+       -1.1265585092813732e-236,
+       1.0356058795099179e-237,
+       8.102334828818209e-238
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46189,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.4333333333333373,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.1705871723818778,
+      "pivotPos": [
+       -1.3239593368535625e-301,
+       1.217069563792319e-302,
+       9.522063664292518e-303
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 47608,
+      "faceAfter": 0.11158991661752882,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.9666666666666694,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.09300794497420752,
+      "pivotPos": [
+       -2.718330262068947e-221,
+       2.498866040827371e-222,
+       1.955053534915022e-222
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 39481,
+      "faceAfter": 0.1115899166175287,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Public01 → Normal01_Idle",
+    "from": "Public01",
+    "to": "Normal01_Idle",
+    "count": 16,
+    "examples": [
+     {
+      "from": "Public01",
+      "fromTime": 3.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -6.325313737174482,
+      "pivotPos": [
+       -0.000004283318084414475,
+       3.9375046706277095e-7,
+       3.080610284537835e-7
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34777,
+      "faceAfter": 0.1115899166175287,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public01",
+      "fromTime": 3.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -6.102283751195834,
+      "pivotPos": [
+       -3.0932853026327032e-89,
+       2.843549109980528e-90,
+       2.224725394775959e-90
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 36594,
+      "faceAfter": 0.1115899166175287,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public01",
+      "fromTime": 3.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.04212842999489406,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 19162,
+      "faceAfter": -0.04212842999489402,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public01",
+      "fromTime": 3.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.042128429994894086,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 48942,
+      "faceAfter": -0.04212842999489405,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_Ing → Normal01_Attack_Delay",
+    "from": "Normal_Attack_Ing",
+    "to": "Normal01_Attack_Delay",
+    "count": 15,
+    "examples": [
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal01_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": -1.5833787263863726,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10532,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal01_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": -0.801173181733766,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 9788,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal01_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": 0.5902834406183988,
+      "pivotPos": [
+       -8.137755843885217e-217,
+       7.480754642135351e-218,
+       5.852765041417127e-218
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 45754,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.6333333849906921,
+      "fromLoop": false,
+      "to": "Normal01_Attack_Delay",
+      "toLoop": false,
+      "fade": 0.08,
+      "yawBefore": 0.14253188081161072,
+      "pivotPos": [
+       -1.0758689537260025e-239,
+       9.890087420062719e-241,
+       7.737769874534934e-241
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46254,
+      "faceAfter": 0.11158991661752893,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Attack_Delay → Normal_Attack_End",
+    "from": "Normal01_Attack_Delay",
+    "to": "Normal_Attack_End",
+    "count": 15,
+    "examples": [
+     {
+      "from": "Normal01_Attack_Delay",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -1.5833803567286577,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10573,
+      "faceAfter": 0.20831335965965736,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Attack_Delay",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.8011748120760519,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 9829,
+      "faceAfter": 0.20831335965965736,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Attack_Delay",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.578390761359699,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 32825,
+      "faceAfter": 0.20831335965965736,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Attack_Delay",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.14253025046932497,
+      "pivotPos": [
+       -1.4312063758812973e-241,
+       1.3156580199285174e-242,
+       1.0293396366893394e-242
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46295,
+      "faceAfter": 0.20831335965965736,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Normal01_Idle",
+    "from": "Normal_Attack_End",
+    "to": "Normal01_Idle",
+    "count": 15,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -1.398166601150438,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10596,
+      "faceAfter": 0.11158991661752893,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.6159610564978321,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 9852,
+      "faceAfter": 0.11158991661752893,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -6.678839016190689,
+      "pivotPos": [
+       -2.9628799747410286e-133,
+       2.7236720479625225e-134,
+       2.1309364240891016e-134
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 37556,
+      "faceAfter": 0.1115899166175287,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.13713159150899856,
+      "pivotPos": [
+       -1.2343220682721522e-142,
+       1.1346691544027235e-143,
+       8.877382400777299e-144
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 28070,
+      "faceAfter": 0.11158991661752915,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Exs01 → Normal02_Idle",
+    "from": "Exs01",
+    "to": "Normal02_Idle",
+    "count": 12,
+    "examples": [
+     {
+      "from": "Exs01",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.0193258848198137,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 21178,
+      "faceAfter": 0.3058200856314113,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Exs01",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.0193251362612443,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23181,
+      "faceAfter": 0.3058200856314117,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Exs01",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.005565065230958,
+      "pivotPos": [
+       -4.964893996984266e-271,
+       4.5640535951392855e-272,
+       3.57080730576668e-272
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 40567,
+      "faceAfter": 0.3058200856314115,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Exs01",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.7486811088349599,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 49212,
+      "faceAfter": 1.048939247820645,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Callsign_Random → Normal01_Idle",
+    "from": "Normal_Callsign_Random",
+    "to": "Normal01_Idle",
+    "count": 12,
+    "examples": [
+     {
+      "from": "Normal_Callsign_Random",
+      "fromTime": 1.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -7.4859500006026565,
+      "pivotPos": [
+       -2.84e-321,
+       2.57e-322,
+       2e-322
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 31974,
+      "faceAfter": 0.1531509277609316,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Callsign_Random",
+      "fromTime": 1.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.9027844682213292,
+      "pivotPos": [
+       -2.6769325444599912e-222,
+       2.4608105653230856e-223,
+       1.9252798332871922e-223
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29811,
+      "faceAfter": 0.3224138974280925,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Callsign_Random",
+      "fromTime": 1.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -1.1760379053008085,
+      "pivotPos": [
+       -2.0605180290476806e-128,
+       1.8941622367036754e-129,
+       1.4819476178658887e-129
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 43822,
+      "faceAfter": -0.3386499571811964,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Callsign_Random",
+      "fromTime": 1.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.9544011390740473,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14616,
+      "faceAfter": -0.3386499571811964,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Cafe_Idle",
+    "from": "Normal01_Idle",
+    "to": "Cafe_Idle",
+    "count": 12,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.1333333333333364,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.5076026470423597,
+      "pivotPos": [
+       -1.5567470279251206e-160,
+       1.4310631553946056e-161,
+       1.119629878084438e-161
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 44525,
+      "faceAfter": -0.2011848781702063,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.7000000000000088,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.6803404349346446,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 7784,
+      "faceAfter": 0.14719672443855703,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.9000000000000055,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.16150018471591113,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 19681,
+      "faceAfter": 0.4814703456034048,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.9000000000000181,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.3730261970725436,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 22187,
+      "faceAfter": 0.3224138974280925,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Reaction → Cafe_Idle",
+    "from": "Cafe_Reaction",
+    "to": "Cafe_Idle",
+    "count": 12,
+    "examples": [
+     {
+      "from": "Cafe_Reaction",
+      "fromTime": 9.333333969116211,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -0.09606785755254517,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 4904,
+      "faceAfter": -0.09606785755254516,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Reaction",
+      "fromTime": 9.333333969116211,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -0.006762343042545537,
+      "pivotPos": [
+       -1.2072421338225666e-13,
+       1.1097755167428162e-14,
+       8.682620482736352e-15
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 25251,
+      "faceAfter": -0.006762343042545536,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Reaction",
+      "fromTime": 9.333333969116211,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -0.0960678575525452,
+      "pivotPos": [
+       -8.603955623690368e-28,
+       7.909315812296342e-29,
+       6.188061138511259e-29
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 41623,
+      "faceAfter": -0.09606785755254518,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Reaction",
+      "fromTime": 9.333333969116211,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -0.09606785755254528,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 51796,
+      "faceAfter": -0.09606785755254527,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Formation_Pickup → Normal01_Idle",
+    "from": "Formation_Pickup",
+    "to": "Normal01_Idle",
+    "count": 11,
+    "examples": [
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.20118471455706774,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 17691,
+      "faceAfter": -0.2011848781702063,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.20118479247793183,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 21564,
+      "faceAfter": -0.2011848781702063,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.2011848223081284,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14688,
+      "faceAfter": -0.2011848781702063,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -0.2011848634169863,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 23991,
+      "faceAfter": -0.2011848781702063,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Exs01",
+    "from": "Normal01_Idle",
+    "to": "Exs01",
+    "count": 9,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.2333333333333333,
+      "fromLoop": true,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -1.404304663095439,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 10603,
+      "click": true,
+      "faceAfter": 0.31958070048868514,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.3000000000000036,
+      "fromLoop": true,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.400105262092222,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 32948,
+      "faceAfter": 0.31958070048868514,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.8000000000000026,
+      "fromLoop": true,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.07936817358171937,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 23141,
+      "faceAfter": 0.31958070048868514,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.2000000000000033,
+      "fromLoop": true,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.32875144413503826,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 21138,
+      "faceAfter": 0.31958070048868514,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Normal_Callsign_Random",
+    "from": "Normal01_Idle",
+    "to": "Normal_Callsign_Random",
+    "count": 9,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.2333333333333422,
+      "fromLoop": true,
+      "to": "Normal_Callsign_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.4758061682829919,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14562,
+      "faceAfter": -0.3386499571811964,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.8000000000000023,
+      "fromLoop": true,
+      "to": "Normal_Callsign_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.792855821403522,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 7527,
+      "click": true,
+      "faceAfter": 0.14719672443855703,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.7333333333333453,
+      "fromLoop": true,
+      "to": "Normal_Callsign_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.4615407362431917,
+      "pivotPos": [
+       -8.796287357136734e-220,
+       8.086119655445607e-221,
+       6.326388272854574e-221
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29757,
+      "faceAfter": 0.3224138974280925,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.9333333333333332,
+      "fromLoop": true,
+      "to": "Normal_Callsign_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.136962146884121,
+      "pivotPos": [
+       -9.3507e-319,
+       8.5953e-320,
+       6.725e-320
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 31919,
+      "click": true,
+      "faceAfter": 0.1531509277609316,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Cafe_Reaction",
+    "from": "Cafe_Idle",
+    "to": "Cafe_Reaction",
+    "count": 8,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 2.1000000000000023,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.27114701665118285,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 51515,
+      "click": true,
+      "faceAfter": -0.09606785755254527,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 0.8333333333333333,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.23796283915742633,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 11336,
+      "click": true,
+      "faceAfter": 0.2391374188557588,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 0.7333333333333333,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.0960678575525452,
+      "pivotPos": [
+       -6.2023034340917545e-15,
+       5.701560859850308e-16,
+       4.460766016049755e-16
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 41342,
+      "click": true,
+      "faceAfter": -0.09606785755254518,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 6.966666666666652,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.24700762163285353,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 50622,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "FormRelease → Victory_Start",
+    "from": "FormRelease",
+    "to": "Victory_Start",
+    "count": 7,
+    "examples": [
+     {
+      "from": "FormRelease",
+      "fromTime": 1.466666666666668,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.3979824328994187,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 50262,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "FormRelease",
+      "fromTime": 1.8333333730697632,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -5.97736519981752,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 33543,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "FormRelease",
+      "fromTime": 1.8333333730697632,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -5.977365241250347,
+      "pivotPos": [
+       -3.7997099471676015e-55,
+       3.4929406056585616e-56,
+       2.7327939020212425e-56
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 35849,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "FormRelease",
+      "fromTime": 1.8333333730697632,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 0.28661778119245424,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 13259,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Idle → Move02_Ing",
+    "from": "Normal02_Idle",
+    "to": "Move02_Ing",
+    "count": 7,
+    "examples": [
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0.19999992052714222,
+      "fromLoop": true,
+      "to": "Move02_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 1.9324826053913724,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 50159,
+      "faceAfter": 0.2850784005221486,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.533333253860477,
+      "fromLoop": true,
+      "to": "Move02_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.6344266803047324,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 50040,
+      "faceAfter": 0.4126937336755445,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.533333253860477,
+      "fromLoop": true,
+      "to": "Move02_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -5.268384529782119,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 33337,
+      "faceAfter": 0.4902285935814409,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.6333332538604772,
+      "fromLoop": true,
+      "to": "Move02_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 1.290313843415831,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 12567,
+      "faceAfter": 0.846418335621254,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Victory_Start",
+    "from": "Cafe_Idle",
+    "to": "Victory_Start",
+    "count": 7,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 3.7999999999999963,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.32241389742809257,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 22300,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 6.6333333333333195,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.08194494996885221,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 52518,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 4.433333333333327,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.10673924201373397,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 8281,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 6.399999999999987,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.20118487817020628,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 3628,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Move02_Ing → Move02_End_Normal",
+    "from": "Move02_Ing",
+    "to": "Move02_End_Normal",
+    "count": 6,
+    "examples": [
+     {
+      "from": "Move02_Ing",
+      "fromTime": 0.5333333094914753,
+      "fromLoop": true,
+      "to": "Move02_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 0.5339185720023115,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 53932,
+      "faceAfter": 0.39798187065554225,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move02_Ing",
+      "fromTime": 0.13333326180775928,
+      "fromLoop": true,
+      "to": "Move02_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 0.8090245644783949,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 2497,
+      "faceAfter": 0.3979818706555421,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move02_Ing",
+      "fromTime": 0.5333332856496172,
+      "fromLoop": true,
+      "to": "Move02_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 1.3454686703288001,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 49591,
+      "faceAfter": 0.8717361684549794,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move02_Ing",
+      "fromTime": 0.3999999284744259,
+      "fromLoop": true,
+      "to": "Move02_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": -5.319224222577073,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 33403,
+      "faceAfter": 0.4902285935814248,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Move01_Ing",
+    "from": "Normal01_Idle",
+    "to": "Move01_Ing",
+    "count": 6,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.7666666666666688,
+      "fromLoop": true,
+      "to": "Move01_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.7328739974915369,
+      "pivotPos": [
+       -5.290116127074907e-260,
+       4.863018937191035e-261,
+       3.804710700044597e-261
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 40327,
+      "faceAfter": 0.1951160973422606,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.9000000000000026,
+      "fromLoop": true,
+      "to": "Move01_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.10335069395236704,
+      "pivotPos": [
+       -1.0817665048501663e-130,
+       9.944301547146064e-132,
+       7.780185721989245e-132
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 27810,
+      "faceAfter": 0.115941616088097,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.0666666666666695,
+      "fromLoop": true,
+      "to": "Move01_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -6.332242677123415,
+      "pivotPos": [
+       -2.642963681311519e-10,
+       2.429584176185715e-11,
+       1.9008490468952026e-11
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34870,
+      "faceAfter": -0.1679650850768952,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.466666666666668,
+      "fromLoop": true,
+      "to": "Move01_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.3208157579381766,
+      "pivotPos": [
+       -1.2301282571207584e-244,
+       1.1308139303285532e-245,
+       8.847220041807521e-246
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46363,
+      "faceAfter": -0.09053656090463905,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Move01_Ing → Move01_End_Normal",
+    "from": "Move01_Ing",
+    "to": "Move01_End_Normal",
+    "count": 6,
+    "examples": [
+     {
+      "from": "Move01_Ing",
+      "fromTime": 0.46666664282480863,
+      "fromLoop": true,
+      "to": "Move01_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 0.5067672922918409,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 20869,
+      "faceAfter": 0.03310926877430253,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move01_Ing",
+      "fromTime": 0.4999999523162839,
+      "fromLoop": true,
+      "to": "Move01_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 0.668713959830457,
+      "pivotPos": [
+       -2.4537662405606662e-262,
+       2.2556615788101017e-263,
+       1.764776130922385e-263
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 40378,
+      "faceAfter": 0.19511609734225574,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move01_Ing",
+      "fromTime": 0.399999976158142,
+      "fromLoop": true,
+      "to": "Move01_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 0.5894764746810521,
+      "pivotPos": [
+       -4.5857335123930806e-132,
+       4.21550460821546e-133,
+       3.2981108435142324e-133
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 27840,
+      "faceAfter": 0.1159416160880948,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move01_Ing",
+      "fromTime": 0.4999999523162839,
+      "fromLoop": true,
+      "to": "Move01_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": -5.9775523705988185,
+      "pivotPos": [
+       -1.2259116625131722e-12,
+       1.1269377622190876e-13,
+       8.816893821671899e-14
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34921,
+      "faceAfter": -0.07610428946940603,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Move01_End_Normal → Normal01_Idle",
+    "from": "Move01_End_Normal",
+    "to": "Normal01_Idle",
+    "count": 6,
+    "examples": [
+     {
+      "from": "Move01_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.5564362323834697,
+      "pivotPos": [
+       -1.7615538463647047e-263,
+       1.6193349083415992e-264,
+       1.2669292331157931e-264
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 40402,
+      "faceAfter": 0.11158991661752893,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move01_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.39442942962925526,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 20893,
+      "faceAfter": 0.11158991661752893,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move01_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -5.996348652681823,
+      "pivotPos": [
+       -1.7950298590801482e-97,
+       1.6501082372943665e-98,
+       1.291005555962743e-98
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 36774,
+      "faceAfter": 0.1115899166175287,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move01_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal01_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -5.998008876931933,
+      "pivotPos": [
+       -8.800795156061802e-14,
+       8.090263517510421e-15,
+       6.329630332270981e-15
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34945,
+      "faceAfter": 0.11158991661752882,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Idle → Formation_Pickup",
+    "from": "Normal02_Idle",
+    "to": "Formation_Pickup",
+    "count": 5,
+    "examples": [
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 1.4513248254593154,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 17638,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0.23333325386047554,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -1.1405606634375582,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 6554,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0.36666658719380885,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.5149330769687456,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 2881,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0.4666666666666666,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.05217582265316492,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 23938,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Formation_Pickup → Cafe_Idle",
+    "from": "Formation_Pickup",
+    "to": "Cafe_Idle",
+    "count": 5,
+    "examples": [
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.2011846369350687,
+      "pivotPos": [
+       -8.480584216884934e-77,
+       7.79590478819195e-78,
+       6.099331042559323e-78
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 42695,
+      "faceAfter": -0.2011848781702063,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.2011850888035519,
+      "pivotPos": [
+       -3.1382849097563142e-40,
+       2.8849156766780634e-41,
+       2.2570896156377376e-41
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 25833,
+      "faceAfter": -0.2011848781702063,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.20118483379516788,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 48338,
+      "faceAfter": -0.2011848781702063,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Formation_Pickup",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.20118483379516788,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 52835,
+      "faceAfter": -0.2011848781702063,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Move02_End_Normal → Normal02_Idle",
+    "from": "Move02_End_Normal",
+    "to": "Normal02_Idle",
+    "count": 4,
+    "examples": [
+     {
+      "from": "Move02_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.346750014024824,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 49615,
+      "faceAfter": 1.0183784587992033,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move02_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.321432181186488,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 12649,
+      "faceAfter": 0.7475861098749261,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move02_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.8729688174447852,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 2521,
+      "faceAfter": 0.3058200856314117,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move02_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "Normal02_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.8728507756774883,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 53956,
+      "faceAfter": 0.3058200856314115,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Exs01",
+    "from": "Cafe_Idle",
+    "to": "Exs01",
+    "count": 3,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 3.0333333333333323,
+      "fromLoop": true,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.3249266257857571,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 17416,
+      "click": true,
+      "faceAfter": 1.0753489902799558,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 0.9333333333333332,
+      "fromLoop": true,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.09606785755254517,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 4932,
+      "click": true,
+      "faceAfter": 0.31958070048868514,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 6.033333333333322,
+      "fromLoop": true,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.24700762163285353,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 2021,
+      "click": true,
+      "faceAfter": 0.31958070048868514,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Public01 → Formation_Pickup",
+    "from": "Public01",
+    "to": "Formation_Pickup",
+    "count": 3,
+    "examples": [
+     {
+      "from": "Public01",
+      "fromTime": 0.7,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.5014738019182736,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 53341,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public01",
+      "fromTime": 2.4000000000000012,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.24700762163285353,
+      "pivotPos": [
+       -3.590579423605878e-196,
+       3.3006942216481604e-197,
+       2.582384889896005e-197
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29240,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public01",
+      "fromTime": 1.7333333333333354,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -0.0421284687769427,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 15616,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Vital_Death",
+    "from": "Cafe_Idle",
+    "to": "Vital_Death",
+    "count": 3,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 5.899999999999989,
+      "fromLoop": true,
+      "to": "Vital_Death",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": 0.46752887686215483,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 24747,
+      "faceAfter": 1.0122909661567112,
+      "state": "nap",
+      "pivotTarget": [
+       -0.8702604197762909,
+       0.08,
+       0.06259010296583056
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 4.099999999999995,
+      "fromLoop": true,
+      "to": "Vital_Death",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": 0.24700762163285353,
+      "pivotPos": [
+       -2.6222667597497227e-292,
+       2.410558219273075e-293,
+       1.885963589367869e-293
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 41033,
+      "faceAfter": 1.0122909661567112,
+      "state": "nap",
+      "pivotTarget": [
+       -0.8702604197762909,
+       0.08,
+       0.06259010296583056
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 7.699999999999982,
+      "fromLoop": true,
+      "to": "Vital_Death",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": -6.036177685546734,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 33926,
+      "faceAfter": 1.0122909661567112,
+      "state": "nap",
+      "pivotTarget": [
+       -0.8702604197762909,
+       0.08,
+       0.06259010296583056
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_Start → Normal_Attack_End",
+    "from": "Normal_Attack_Start",
+    "to": "Normal_Attack_End",
+    "count": 3,
+    "examples": [
+     {
+      "from": "Normal_Attack_Start",
+      "fromTime": 0.36666666666666664,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.822533136524874,
+      "pivotPos": [
+       -7.814198396738985e-111,
+       7.183319584956111e-112,
+       5.620058905735869e-112
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 37066,
+      "click": true,
+      "faceAfter": 0.6351886922158275,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Start",
+      "fromTime": 0.7333333333333333,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.2556168592866261,
+      "pivotPos": [
+       -3.363756182041393e-111,
+       3.0921835401004054e-112,
+       2.419251077051638e-112
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 27383,
+      "click": true,
+      "faceAfter": 0.3379211182609061,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Start",
+      "fromTime": 0.7333333333333333,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.128600290964952,
+      "pivotPos": [
+       -5.565115706807776e-37,
+       5.115816443301731e-38,
+       4.002493474256789e-38
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 35452,
+      "click": true,
+      "faceAfter": 0.436319770866453,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Victory_Start",
+    "from": "Normal01_Idle",
+    "to": "Victory_Start",
+    "count": 3,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.3,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.29506022772012236,
+      "pivotPos": [
+       -5.970335552520457e-156,
+       5.4883208904803027e-157,
+       4.2939321205585073e-157
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 28362,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.03333333333333333,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.28336200364368846,
+      "pivotPos": [
+       -1.98949783343561e-247,
+       1.8288758520784175e-248,
+       1.4308690986663748e-248
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46424,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 1.0666666666666695,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.277783756497722,
+      "pivotPos": [
+       -7.86e-322,
+       7e-323,
+       5.4e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 48050,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → FormRelease",
+    "from": "Normal_Attack_End",
+    "to": "FormRelease",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "FormRelease",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.665437807280738,
+      "pivotPos": [
+       -1.3872985015474722e-52,
+       1.2752950450432628e-53,
+       9.977606022633897e-54
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 35793,
+      "faceAfter": 0.30582008563141183,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "FormRelease",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -0.02885018106906952,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 1633,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Victory_End → Cafe_Reaction",
+    "from": "Victory_End",
+    "to": "Cafe_Reaction",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Victory_End",
+      "fromTime": 1.7666666666666688,
+      "fromLoop": false,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.7824656760731082,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 3771,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_End",
+      "fromTime": 0.5333333333333333,
+      "fromLoop": false,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.7824656760731042,
+      "pivotPos": [
+       -2.5275047505800686e-252,
+       2.3234468149014833e-253,
+       1.8178096922539492e-253
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 46530,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Walk → Cafe_Reaction",
+    "from": "Cafe_Walk",
+    "to": "Cafe_Reaction",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 2.533333333333334,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -1.301832163281976,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 17044,
+      "click": true,
+      "faceAfter": 0.32492662578575715,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 0.16666666666666666,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.8175468884092072,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 8629,
+      "click": true,
+      "faceAfter": 0.521595023032736,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Idle → FormRelease",
+    "from": "Normal02_Idle",
+    "to": "FormRelease",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 0.7666666666666666,
+      "fromLoop": true,
+      "to": "FormRelease",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -5.2184505422379015,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 33488,
+      "faceAfter": 0.3058200856314117,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal02_Idle",
+      "fromTime": 1.0666666666666667,
+      "fromLoop": true,
+      "to": "FormRelease",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.9617160692116621,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 13204,
+      "faceAfter": 0.2866177618617854,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Walk → Victory_Start",
+    "from": "Cafe_Walk",
+    "to": "Victory_Start",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 2.433333253860475,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.4883882145422969,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 16685,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 1.4333331743876154,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.2155237146885483,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 13719,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Idle → Formation_Pickup",
+    "from": "Normal01_Idle",
+    "to": "Formation_Pickup",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.2333333333333333,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.7311586889010994,
+      "pivotPos": [
+       -7.461251292233687e-154,
+       6.8588676425400575e-155,
+       5.366215399694844e-155
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 44378,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Idle",
+      "fromTime": 0.6333333333333333,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.3630279145079518,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14635,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Reload → Normal_Callsign_Random",
+    "from": "Normal01_Reload",
+    "to": "Normal_Callsign_Random",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 2.666666666666667,
+      "fromLoop": false,
+      "to": "Normal_Callsign_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.26823585728289345,
+      "pivotPos": [
+       -6.770775276192362e-126,
+       6.224137163846044e-127,
+       4.869617324482212e-127
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 43767,
+      "click": true,
+      "faceAfter": -0.3386499571811964,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 2.033333333333336,
+      "fromLoop": false,
+      "to": "Normal_Callsign_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.8088711179237272,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14851,
+      "click": true,
+      "faceAfter": 0.3224138974280925,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Vital_Death → Cafe_Reaction",
+    "from": "Vital_Death",
+    "to": "Cafe_Reaction",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Vital_Death",
+      "fromTime": 1.8666667938232422,
+      "fromLoop": false,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.8,
+      "yawBefore": -1.435157288467211,
+      "pivotPos": [
+       -0.8702604197273162,
+       0.07999999999549792,
+       0.06259010296230826
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 24970,
+      "click": true,
+      "faceAfter": -0.006762343042545536,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Vital_Death",
+      "fromTime": 0.2333333333333333,
+      "fromLoop": false,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": -1.2432998896366256,
+      "pivotPos": [
+       -0.45401755880459227,
+       0.041736248,
+       0.032653450746593
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 41039,
+      "click": true,
+      "faceAfter": -0.09606785755254518,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Walk → Formation_Pickup",
+    "from": "Cafe_Walk",
+    "to": "Formation_Pickup",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 1.299999920527141,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 2.2353150832943234,
+      "pivotPos": [
+       -2.0314927672848207e-74,
+       1.8674803276077095e-75,
+       1.4610723248953698e-75
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 42642,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 2.1666665871938093,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -2.328603559534463,
+      "pivotPos": [
+       -7.517646111167146e-38,
+       6.910709429344964e-39,
+       5.406775184370477e-39
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 25780,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Formation_Pickup",
+    "from": "Cafe_Idle",
+    "to": "Formation_Pickup",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 3.7999999999999963,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.24700762163285309,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 52782,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 2.833333333333333,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.24700762162919562,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 48285,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Reaction → Victory_Start",
+    "from": "Cafe_Reaction",
+    "to": "Victory_Start",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Cafe_Reaction",
+      "fromTime": 6.499999999999987,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.24700762163285353,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 3966,
+      "click": true,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Exs01 → FormRelease",
+    "from": "Exs01",
+    "to": "FormRelease",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Exs01",
+      "fromTime": 1.3333333730697632,
+      "fromLoop": false,
+      "to": "FormRelease",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.0193206828108845,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10644,
+      "faceAfter": 0.31958070048868514,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Reload → Formation_Pickup",
+    "from": "Normal01_Reload",
+    "to": "Formation_Pickup",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 1.7666666666666688,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.6018505193830903,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 18345,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Public01 → Normal01_Reload",
+    "from": "Public01",
+    "to": "Normal01_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Public01",
+      "fromTime": 0.06666666666666667,
+      "fromLoop": false,
+      "to": "Normal01_Reload",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.09541404251732834,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 20647,
+      "click": true,
+      "faceAfter": 1.2081209267003232,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Walk → Public01",
+    "from": "Cafe_Walk",
+    "to": "Public01",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 1.8000000000000023,
+      "fromLoop": true,
+      "to": "Public01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 2.254922491129451,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 22940,
+      "click": true,
+      "faceAfter": 0.08629711353062178,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Normal_Callsign",
+    "from": "Normal_Attack_End",
+    "to": "Normal_Callsign",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -0.07510014492081336,
+      "pivotPos": [
+       -2.9812762891031425e-112,
+       2.74058313705179e-113,
+       2.144167259181133e-113
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 27406,
+      "faceAfter": 0.3379211182609061,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Callsign → Normal_Callsign",
+    "from": "Normal_Callsign",
+    "to": "Normal_Callsign",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 0.49999999999999994,
+      "fromLoop": false,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.08194176269885113,
+      "pivotPos": [
+       -3.322371359142877e-153,
+       3.054139918252914e-154,
+       2.389486649443788e-154
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 28301,
+      "click": true,
+      "faceAfter": 0.46752887686215483,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Move02_End_Normal → Normal02_Reload",
+    "from": "Move02_End_Normal",
+    "to": "Normal02_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Move02_End_Normal",
+      "fromTime": 0.36666666666666664,
+      "fromLoop": false,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -5.3179846015412435,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 33413,
+      "click": true,
+      "faceAfter": 0.6643261820732487,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Vital_Death → Public01",
+    "from": "Vital_Death",
+    "to": "Public01",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Vital_Death",
+      "fromTime": 1.8666667938232422,
+      "fromLoop": false,
+      "to": "Public01",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -7.718342595646797,
+      "pivotPos": [
+       -0.8702604197762904,
+       0.07999999999999993,
+       0.06259010296583051
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34661,
+      "click": true,
+      "faceAfter": -0.042128429994894134,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Normal02_Reload",
+    "from": "Normal_Attack_End",
+    "to": "Normal02_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -5.9480835765991396,
+      "pivotPos": [
+       -4.932327613814351e-38,
+       4.534116456848398e-39,
+       3.5473851986650876e-39
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 35475,
+      "faceAfter": 0.436319770866453,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Normal01_Reload",
+    "from": "Normal_Attack_End",
+    "to": "Normal01_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Normal01_Reload",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -6.858762300330559,
+      "pivotPos": [
+       -6.925675684498538e-112,
+       6.366531697515391e-113,
+       4.9810234310338956e-113
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 37089,
+      "faceAfter": 0.6351886922158275,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Reload → Normal01_Reload",
+    "from": "Normal01_Reload",
+    "to": "Normal01_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 1.400000000000001,
+      "fromLoop": false,
+      "to": "Normal01_Reload",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": -6.080516289199473,
+      "pivotPos": [
+       -3.380718595064132e-145,
+       3.107776493783931e-146,
+       2.431450634259044e-146
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 37817,
+      "click": true,
+      "faceAfter": 0.6351886922158275,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal01_Reload → Victory_Start",
+    "from": "Normal01_Reload",
+    "to": "Victory_Start",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal01_Reload",
+      "fromTime": 2.8000001907348633,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -6.08051567815689,
+      "pivotPos": [
+       -4.361363902205501e-149,
+       4.009249464271043e-150,
+       3.136741709805309e-150
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 37902,
+      "faceAfter": 0.24700762163285356,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Reaction → Formation_Pickup",
+    "from": "Cafe_Reaction",
+    "to": "Formation_Pickup",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Cafe_Reaction",
+      "fromTime": 5.799999999999989,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -6.036177685546734,
+      "pivotPos": [
+       -2.6392242272198224e-168,
+       2.4261466266828472e-169,
+       1.8981595896785185e-169
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 38322,
+      "faceAfter": -0.2011848781702063,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_Ing → Normal_Attack_End",
+    "from": "Normal_Attack_Ing",
+    "to": "Normal_Attack_End",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.26666666666666666,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.006178182351344571,
+      "pivotPos": [
+       -4.2110400937731193e-268,
+       3.871062038975049e-269,
+       3.028627145082049e-269
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 40503,
+      "click": true,
+      "faceAfter": 0.3058200856314115,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Exs01",
+    "from": "Normal_Attack_End",
+    "to": "Exs01",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.7333333492279053,
+      "fromLoop": false,
+      "to": "Exs01",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 0.24678423387094048,
+      "pivotPos": [
+       -3.732218777048683e-269,
+       3.430898330877169e-270,
+       2.6842534974362017e-270
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 40526,
+      "faceAfter": 0.3058200856314115,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Reload → FormRelease",
+    "from": "Normal02_Reload",
+    "to": "FormRelease",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal02_Reload",
+      "fromTime": 1.6666667461395264,
+      "fromLoop": false,
+      "to": "FormRelease",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.0022709056319092,
+      "pivotPos": [
+       -3.301024554587632e-277,
+       3.034516546609059e-278,
+       2.3741337887971984e-278
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 40702,
+      "faceAfter": 0.28661776186178534,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Public01 → Normal_Callsign",
+    "from": "Public01",
+    "to": "Normal_Callsign",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Public01",
+      "fromTime": 2.333333333333335,
+      "fromLoop": false,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.45362051247752067,
+      "pivotPos": [
+       -1.1038357272788446e-203,
+       1.014717619870698e-204,
+       7.938910038618743e-205
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 45467,
+      "click": true,
+      "faceAfter": 0.46752887686215483,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal02_Reload → Normal02_Reload",
+    "from": "Normal02_Reload",
+    "to": "Normal02_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal02_Reload",
+      "fromTime": 1.3666666666666676,
+      "fromLoop": false,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 1.389951698288821,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 49441,
+      "click": true,
+      "faceAfter": 1.048939247820645,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Move02_Ing → Normal02_Reload",
+    "from": "Move02_Ing",
+    "to": "Normal02_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Move02_Ing",
+      "fromTime": 0.39999999999999997,
+      "fromLoop": true,
+      "to": "Normal02_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.8856582119969154,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 2,
+      "at": 50051,
+      "click": true,
+      "faceAfter": 1.0183784587992033,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Move02_End_Normal → FormRelease",
+    "from": "Move02_End_Normal",
+    "to": "FormRelease",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Move02_End_Normal",
+      "fromTime": 0.8000000715255737,
+      "fromLoop": false,
+      "to": "FormRelease",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.8729472838193789,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 50218,
+      "faceAfter": 0.3979818706555423,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Callsign → Normal_Callsign_Random",
+    "from": "Normal_Callsign",
+    "to": "Normal_Callsign_Random",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 1.0666666666666667,
+      "fromLoop": false,
+      "to": "Normal_Callsign_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.23141350482719994,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 53576,
+      "click": true,
+      "faceAfter": 0.3224138974280925,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   }
+  ]
  }
 }

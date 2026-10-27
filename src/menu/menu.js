@@ -100,6 +100,12 @@ bridge.onOpen((data) => {
   seq = data.seq;
   render(data);
 });
+// 메인이 창을 옮기고 크기를 바꾼 뒤: 그 크기로 한 번 그려진 다음에 보이게 (예전 크기의 화면이 잠깐 보이지 않게)
+bridge.onPlaced((placed) => {
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (placed === seq) bridge.painted(seq);
+  }));
+});
 
 window.addEventListener('blur', () => bridge.close());
 window.addEventListener('keydown', (e) => { if (e.key === 'Escape') bridge.close(); });

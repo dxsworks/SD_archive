@@ -1,4 +1,4 @@
-# Blue Archive Desktop Pet
+# 샬레 당번 (Blue Archive Desktop Pet)
 
 블루 아카이브 학생 3D 모델(.glb)을 바탕화면에서 돌아다니게 하는 Electron + three.js 앱. 지금은 호시노(`models/Hoshino.glb`) 한 명을 띄운다.
 

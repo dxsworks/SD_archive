@@ -293,6 +293,7 @@ async function loadModel() {
   ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts, lifts: clipLifts } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
   deployStances = findDeployStances();
+  proneStances = findProneStances();
   measureFrontFaces();
   bodyBones = ['Bip001_L_Foot', 'Bip001_R_Foot', 'Bip001_Pelvis', 'Bip001_Head'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
@@ -728,6 +729,7 @@ function beginBattle() {
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
     engaged: false, // 나간 자세(Attack_Ing·Attack_Delay)인지 (aimsAtRest 설명)
+    down: false,    // 엎드려 쏘기 학생이 엎드려 있는지 (proneStances)
   };
   battle.aim = aimFace(battle.side);
   return true;
@@ -739,16 +741,20 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   // 무릎·엄폐 자세면 일어나고 나서 승리 포즈. 일어나는 동작(Attack_End)은 지금 차림 것으로 이름을 정해 둔다:
   // 01로 먼저 돌리면 02 사격 대기 → 01 사격 끝으로 섞여 자세가 튐 (Shun 무릎 02 엎드림 → 01 앉음, 발이 창 아래 끝에 닿음).
   // 2026-10-18 사용자: 사격 끝은 지금 차림 그대로, 01로는 승리 포즈에서 돌아감 (수영복 호시노 겉옷도 승리 포즈에서 다시 생김)
-  const getUp = victory && deployed() ? standUp() : null; // 거치 중이면 일어나서 (ReadyEnd) 01로 승리 포즈
+  // 거치·엎드림 중이면 일어나서 승리 포즈: 낮은 자세에서 시작하는 FormRelease가 있으면 그것으로 일어나며 02를 풀고, 없으면 ReadyEnd
+  const low = victory && lowered();
+  const releaseUp = low && lowRelease();
+  const getUp = low && !releaseUp ? standUp() : null;
   const rise = getUp ?? leaveSteps().map(resolve);
   battle = null;
   // 02 차림으로 끝났고 그 모습 그대로인 승리 포즈 짝이 있으면 그것으로 (수영복 호시노: 겉옷 벗은 Victory_*_Random).
   // 이름을 정해 두고 차림을 01로 돌린다 → 겉옷은 승리 포즈가 끝나고 대기로 돌아갈 때 다시 생김
   // 02 차림을 푸는 동작(FormRelease)이 있으면 그것 → 보통 승리 포즈 (Shiroko＊Terror: 상자 드론이 날아감. 없으면 승리 포즈에서 갑자기 사라졌음).
   // 02 모습 승리 포즈 짝도 있으면 둘 중 반반 (사용자 2026-10-24: Shiroko＊Terror 드론 단 Victory_*_Random / FormRelease → Victory)
-  const canRelease = victory && form === 2 && !getUp && has(FORM_RELEASE);
-  const formPairs = victory && !getUp ? formVictoryPoses() : [];
-  const pairs = canRelease && Math.random() < 0.5 ? [] : formPairs;
+  // 서 있는데 FormRelease가 낮은 자세에서 시작하면(Eimi: 엎드려 있다 일어남) 틀지 않는다 (틀면 순간 엎드림)
+  const canRelease = victory && form === 2 && !getUp && has(FORM_RELEASE) && (releaseUp || !lowRelease());
+  const formPairs = victory && !getUp && !releaseUp ? formVictoryPoses() : [];
+  const pairs = releaseUp || (canRelease && Math.random() < 0.5) ? [] : formPairs;
   const steps = pairs.length ? [...rise, ...pickPair(pairs).map(resolve)] : null;
   const release = canRelease && !steps ? [resolve(FORM_RELEASE)] : [];
   if (!keepForm) form = 1;
@@ -797,7 +803,7 @@ function battleAction() {
     [callsign, hasCallsign(battle.stance) ? 10 : 0],
     [exSkill, exReady() ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
     [deployGun, form === 1 && deployStances.has(battle.stance) ? 12 : 0],
-    [undeployGun, deployed() ? 10 : 0],
+    [undeployGun, lowered() ? 10 : 0],
   ])();
 }
 
@@ -813,7 +819,10 @@ function burst(fixedShots) {
   battle.ammo = Math.max(0, battle.ammo - 1);
   const shots = fixedShots ?? 1 + Math.floor(Math.random() * 3);
   const [start, ing, , delay] = ATTACK_STEPS.map((step) => `${battle.stance}_${step}`);
-  const lead = battle.engaged ? [] : [start];
+  // 엎드려 쏘기: 서 있으면 먼저 엎드린다 (ReadyStart) → 일어날 때까지 엎드린 채
+  const lieDown = form === 2 && proneStances.has(battle.stance) && !battle.down;
+  if (lieDown) { battle.down = true; battle.engaged = false; }
+  const lead = [...(lieDown ? [`${battle.stance}_ReadyStart`] : []), ...(battle.engaged ? [] : [start])];
   const steps = [...lead, ...Array(shots).fill(ing), delay];
   battle.engaged = true;
   // 시작 → 사격은 이어지도록 만들어진 동작이라 짧게 섞는다
@@ -823,10 +832,10 @@ function burst(fixedShots) {
 
 function reload() {
   battle.ammo = MAGAZINE;
-  playSequence(fromCover([reloadClip(`${battle.stance}_Reload`)]), { face: battleFace() });
+  playSequence([...toStanding(), reloadClip(`${battle.stance}_Reload`)], { face: battleFace() });
 }
 
-const callsign = () => (hasCallsign(battle.stance) ? playSequence(fromCover([`${battle.stance}_Callsign`]), { face: battleFace() }) : rest());
+const callsign = () => (hasCallsign(battle.stance) ? playSequence([...toStanding(), `${battle.stance}_Callsign`], { face: battleFace() }) : rest());
 // 전투 중 클릭 대답: 구호 / 재장전 무작위 (구호가 없는 자세·차림이면 재장전)
 const battleReply = () => pickWeighted([[callsign, hasCallsign(battle.stance) ? 1 : 0], [reload, 1]])();
 
@@ -837,7 +846,7 @@ const switchStance = () => startRun({ switchStance: true });
 // 근처로 뛰어서 자리 옮기기 (가끔 뛰면서 구호, 가끔 중간에 구르기)
 function startRun({ switchStance = false } = {}) {
   if (!has('Move_Ing')) { callsign(); return; }
-  const getUp = deployed() ? standUp() : null; // 거치 중이면 먼저 일어난다 (뛰기·도착 자세는 01)
+  const getUp = lowered() ? standUp() : null; // 거치·엎드림 중이면 먼저 일어난다 (거치 자세 학생의 뛰기·도착 자세는 01)
   // 도착해서 잡을 자세·방향을 먼저 정하고 그 방향으로 뛴다. Move_End는 뛰던 방향 그대로 멈추며 자세를 잡는 동작이라,
   // 아무 방향으로 뛰다가 도착해서 겨누는 방향으로 돌리면 멈추는 순간 몸이 90~150° 휙 돈다
   const stance = (switchStance || Math.random() < 0.4 ? otherStance(battle.stance) : null) ?? battle.stance;
@@ -894,37 +903,53 @@ function arriveRun() {
 // Shun도 Ready 동작이 있지만 02 대기가 있고 EX가 02 자세로 끝나서 해당 없음 (Shun의 ReadyStart는 웅크려 앉는 다른 동작)
 let deployStances = new Set();
 const DEPLOY_NEAR = 0.15; // 골반 높이가 서 있을 때(카페 대기)의 이만큼 안이면 같은 높이로 봄
-function findDeployStances() {
-  const out = new Set();
-  if (!forms.has(2) || variantForms || formName(ARMED_IDLE, 2)) return out;
-  const tol = DEPLOY_NEAR * (clipLifts.get(resolve('Cafe_Idle'))?.[0] ?? 0.35);
-  const lift = (name, end) => clipLifts.get(name)?.[end ? 1 : 0];
-  const near = (a, b) => a !== undefined && b !== undefined && Math.abs(a - b) < tol;
-  for (const st of STANCES) {
-    const [start, end, delay] = [`${st}_ReadyStart`, `${st}_ReadyEnd`, `${st}_Attack_Delay`].map((n) => formName(n, 2));
-    const rest1 = formName(STANCE_IDLE[st], 1);
-    if (!start || !end || !delay || !rest1) continue;
-    if (near(lift(start), lift(rest1)) && near(lift(start, true), lift(delay)) && near(lift(end), lift(delay)) && !near(lift(start), lift(delay))) out.add(st);
-  }
-  return out;
+const liftOf = (name, end) => clipLifts.get(name)?.[end ? 1 : 0];
+const nearLift = (a, b) => a !== undefined && b !== undefined && Math.abs(a - b) < DEPLOY_NEAR * (liftOf(resolve('Cafe_Idle')) ?? 0.35);
+// 그 자세의 02 ReadyStart가 rest(서 있는 대기)에서 02 사격 대기 높이로 낮아지고, ReadyEnd가 그 반대인지
+function lowersTo(st, rest) {
+  const [start, end, delay] = [`${st}_ReadyStart`, `${st}_ReadyEnd`, `${st}_Attack_Delay`].map((n) => formName(n, 2));
+  if (!start || !end || !delay || !rest) return false;
+  return nearLift(liftOf(start), liftOf(rest)) && nearLift(liftOf(start, true), liftOf(delay)) && nearLift(liftOf(end), liftOf(delay))
+    && !nearLift(liftOf(start), liftOf(delay));
 }
-// 거치 중의 대기는 사격 대기 (02 Normal_Idle이 없어 01 서 있는 대기로 가면 벌떡 섬)
-const stanceIdle = (st) => (form === 2 && deployStances.has(st) ? `${st}_Attack_Delay` : STANCE_IDLE[st]);
+function findDeployStances() {
+  if (!forms.has(2) || variantForms || formName(ARMED_IDLE, 2)) return new Set();
+  return new Set(STANCES.filter((st) => lowersTo(st, formName(STANCE_IDLE[st], 1))));
+}
+// 거치 중의 대기는 사격 대기 (02 Normal_Idle이 없어 01 서 있는 대기로 가면 벌떡 섬). 엎드려 쏘기도 엎드려 있는 동안은 같음
+const stanceIdle = (st) => (form === 2 && (deployStances.has(st) || (proneStances.has(st) && battle?.down)) ? `${st}_Attack_Delay` : STANCE_IDLE[st]);
 const deployed = () => Boolean(battle) && form === 2 && deployStances.has(battle.stance);
+const lying = () => Boolean(battle?.down) && form === 2 && proneStances.has(battle.stance);
+const lowered = () => deployed() || lying(); // 서서 하는 동작(뛰기·재장전·승리 포즈) 전에 일어나야 하는 자세
 function deployGun() {
   const back = fromCover([]).map(resolve); // 나가 있으면 01 사격 끝 (이름을 01로 정해 둔다)
   form = 2;
   playSequence([...back, `${battle.stance}_ReadyStart`], { face: battleFace() });
 }
-// 일어나는 동작들: 나가 있으면 02 사격 끝 → ReadyEnd (02 이름). 차림은 다 일어난 뒤에 01로 (stoodUp):
-// 먼저 바꾸면 일어나는 중에 클릭한 재장전이 01(서서)로 골라져 앉은 채 벌떡 섰음
+// 일어나는 동작들: 나가 있으면 02 사격 끝 → ReadyEnd (02 이름). 거치 자세는 다 일어난 뒤에 차림을 01로 (stoodUp):
+// 먼저 바꾸면 일어나는 중에 클릭한 재장전이 01(서서)로 골라져 앉은 채 벌떡 섰음. 엎드려 쏘기는 02 차림 그대로 (02 대기·재장전이 서 있음)
 function standUp() {
   const steps = [...leaveSteps(), `${battle.stance}_ReadyEnd`].map(resolve);
   battle.engaged = false;
+  battle.down = false;
   return steps;
 }
-const stoodUp = (then) => () => { if (battle) form = 1; then(); };
+const stoodUp = (then) => () => { if (battle && deployStances.has(battle.stance)) form = 1; then(); };
 const undeployGun = () => playSequence(standUp(), { face: battleFace(), onEnd: stoodUp(rest) });
+// 서서 하는 동작 앞: 엎드려 있으면 일어나고, 아니면 (나가 있으면) 돌아온다
+const toStanding = () => (lying() ? standUp() : fromCover([]));
+
+// ---- 엎드려 쏘기 (Eimi (Battle)) ----
+// EX로 바뀐 02 차림에 서 있는 02 대기·재장전이 있고, 02 사격만 엎드린 자세(저격총에 받침대)인 학생. 02 사격 시작·끝은 0.1초짜리 엎드린 자세라
+// 예전엔 02 대기(섬) → 0.1초 만에 엎드리고, 사격 끝 → 02 대기로 벌떡 섰다. 엎드림 ReadyStart·일어남 ReadyEnd로 드나든다.
+// 사용자 2026-10-27(B, Otogi와 같은 방법): 한 번 엎드리면 엎드린 채 대기하며 여러 번 쏘고, 재장전·뛰기 전과 가끔 무작위로 일어난다.
+// 전투가 엎드린 채 끝나면 FormRelease(엎드려 있다 일어나며 02를 푸는 동작)로 일어남, 서 있으면 FormRelease 없이 승리 포즈
+let proneStances = new Set();
+function findProneStances() {
+  if (!forms.has(2) || variantForms) return new Set();
+  return new Set(STANCES.filter((st) => STANCE_IDLE[st] !== `${st}_Attack_Delay` && lowersTo(st, formName(STANCE_IDLE[st], 2))));
+}
+const lowRelease = () => has(FORM_RELEASE) && !nearLift(liftOf(resolve(FORM_RELEASE)), liftOf(resolve('Cafe_Idle'))); // 낮은 자세에서 시작
 
 const exVariants = () => exVariantsOf(Object.keys(clips), forms);
 // 02로 바꾸는 EX: EX가 여럿인 02 차림 학생(Shiroko＊Terror Exs01~04)은 끝 모습(크기 0으로 숨긴 소품)이 02 전투 대기와 같은 것.
@@ -1384,6 +1409,7 @@ window.__pet = {
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get clipFronts() { return Object.fromEntries([...clipFronts].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get deployStances() { return [...deployStances]; },
+  get proneStances() { return [...proneStances]; },
   get clipLifts() { return Object.fromEntries([...clipLifts].map(([n, v]) => [n, v.map((y) => +y.toFixed(3))])); },
   get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
@@ -1666,7 +1692,7 @@ function usedClips() {
   // 02로 바꾸는 EX가 따로 있으면 02 차림 EX 이름(Shiroko＊Terror Exs02)은 안 씀 (02에서는 EX를 안 씀)
   if (formEx) for (const c of clipIndex.get(clipKey('Exs')) ?? []) if (c.form !== 1) out.delete(c.name);
   if (formEx) out.add(formEx);
-  for (const st of deployStances) for (const n of [`${st}_ReadyStart`, `${st}_ReadyEnd`, `${st}_Attack_Delay`]) out.add(formName(n, 2));
+  for (const st of [...deployStances, ...proneStances]) for (const n of [`${st}_ReadyStart`, `${st}_ReadyEnd`, `${st}_Attack_Delay`]) out.add(formName(n, 2));
   // 01/02 변형도 (playSequence pickVariants가 섞어 씀)
   if (variantForms) for (const n of [...out]) for (const c of clipIndex.get(clipKey(n)) ?? []) out.add(c.name);
   return [...out];
@@ -1747,7 +1773,7 @@ function pickClips() {
     const keep = form; form = 2;
     const idle2 = resolve(ARMED_IDLE);
     form = keep;
-    add(formOf.get(idle2) === 2 ? idle2 : form2[0], deployStances.size ? `거치 자세 (전투 중 무작위로 앉아서 거치, 02 동작 ${form2.length}개)` : `02 차림 (전투 중 EX 뒤에 바뀜, 02 동작 ${form2.length}개)`);
+    add(formOf.get(idle2) === 2 ? idle2 : form2[0], deployStances.size ? `거치 자세 (전투 중 무작위로 앉아서 거치, 02 동작 ${form2.length}개)` : `02 차림 (전투 중 EX 뒤에 바뀜, 02 동작 ${form2.length}개${proneStances.size ? ', 엎드려 쏘기' : ''})`);
   }
   if (variantForms) for (const n of used) if (formOf.get(n) === 2) add(n, '02 변형 (01과 무작위로 섞음, 짝은 같은 번호끼리)');
   window.__pet.reset();

@@ -26,6 +26,9 @@ let fxWin = null; // 클릭 효과 창 (펫이 있는 모니터 전체를 덮는
 let fxDisplayId = null;
 let settings = { ...DEFAULT_SETTINGS };
 
+// 앱 이름(productName)이 '샬레 당번'으로 바뀌어도 설정·저장소는 예전 폴더 그대로 쓴다
+app.setPath('userData', path.join(app.getPath('appData'), 'bluearchive-desktop-pet'));
+
 function settingsPath() {
   return path.join(app.getPath('userData'), 'settings.json');
 }
@@ -338,7 +341,7 @@ function rebuildMenus() {
 function createTray() {
   const icon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'tray.png'));
   tray = new Tray(icon.isEmpty() ? nativeImage.createEmpty() : icon);
-  tray.setToolTip('Blue Archive Desktop Pet');
+  tray.setToolTip('샬레 당번');
   tray.on('click', () => sendToPet('pet:command', 'react'));
   rebuildMenus();
 }

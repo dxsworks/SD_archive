@@ -1,5 +1,6 @@
 {
   "name": "bluearchive-desktop-pet",
+  "productName": "샬레 당번",
   "version": "1.0.0",
   "description": "블루 아카이브 학생을 바탕화면에서 돌아다니게 하는 데스크톱 펫",
   "main": "src/main.js",
@@ -47,8 +48,8 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": "always",
       "createStartMenuShortcut": true,
-      "shortcutName": "블루 아카이브 데스크톱 펫",
-      "uninstallDisplayName": "블루 아카이브 데스크톱 펫",
+      "shortcutName": "샬레 당번",
+      "uninstallDisplayName": "샬레 당번",
       "installerIcon": "assets/pet.ico",
       "uninstallerIcon": "assets/pet.ico",
       "installerLanguages": [

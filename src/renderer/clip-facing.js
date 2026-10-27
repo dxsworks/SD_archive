@@ -47,12 +47,14 @@ const armBones = (root) => ['L', 'R'].map((s) => root.getObjectByName(`Bip001_${
 //         쓰러짐처럼 몸이 멀리 옮겨 가는 동작에서 끝 자세가 창 가운데 오도록 맞출 때 쓴다
 //   fronts: 동작 이름 → 몸 앞쪽 방향(라디안, 모델 기준, 0 = 카메라 쪽). 어깨선·허벅지 선에 수직인 방향을 동작 내내 평균.
 //         다른 값과 달리 Cafe_Idle을 정면으로 두지 않고 뼈 위치로만 잰다 (Shun은 Cafe_Idle부터 다리가 40°쯤 비껴 서 있음)
+//   lifts: 동작 이름 → [처음, 끝] 골반 높이 (모델 기준). 앉았는지 섰는지 비교할 때 씀 (Otogi 거치 자세)
 export function measureClips(root, animations, nameKey) {
   const turns = new Map();
   const heads = new Map();
   const ends = new Map();
   const hips = new Map();
   const fronts = new Map();
+  const lifts = new Map();
   const thighs = thighBones(root);
   const arms = armBones(root);
   const lines = [thighs, arms].filter((pair) => pair.every(Boolean));
@@ -61,7 +63,7 @@ export function measureClips(root, animations, nameKey) {
   const head = bone(/^bip001[ _]head$/i);
   const base = animations.find((c) => c.name === 'Cafe_Idle');
   const limbs = [/^bip001[ _]l[ _]hand$/i, /^bip001[ _]r[ _]hand$/i, /^bip001[ _]l[ _]foot$/i, /^bip001[ _]r[ _]foot$/i].map(bone);
-  if (!pelvis || !head || !base) return { turns, heads, ends, hips, fronts };
+  if (!pelvis || !head || !base) return { turns, heads, ends, hips, fronts, lifts };
   const body = [pelvis, head, ...limbs.filter(Boolean)];
 
   // 재는 동안 움직인 뼈·모프를 원래대로 되돌리려고 저장
@@ -101,7 +103,11 @@ export function measureClips(root, animations, nameKey) {
       pose(clip, Math.min(HIP_AT, clip.duration));
       hips.set(clip.name, hipYaw(thighs, root));
     }
+    const lift = () => root.worldToLocal(pelvis.getWorldPosition(new THREE.Vector3())).y;
+    pose(clip, 0);
+    const liftStart = lift();
     pose(clip, Math.max(0, clip.duration - 1e-3)); // 끝 프레임 (duration에 딱 맞추면 처음으로 돌아감)
+    lifts.set(clip.name, [liftStart, lift()]);
     const box = new THREE.Box3();
     for (const b of body) box.expandByPoint(root.worldToLocal(b.getWorldPosition(new THREE.Vector3())));
     ends.set(clip.name, box.getCenter(new THREE.Vector3()).setY(0));
@@ -137,5 +143,5 @@ export function measureClips(root, animations, nameKey) {
     if (m) o.morphTargetInfluences.splice(0, m.length, ...m);
   }
   root.updateMatrixWorld(true);
-  return { turns, heads, ends, hips, fronts };
+  return { turns, heads, ends, hips, fronts, lifts };
 }

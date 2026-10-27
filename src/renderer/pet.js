@@ -363,8 +363,17 @@ const doneCallbacks = new Map();
 // 동작 가중치의 합이 1보다 작아지면 모델의 기본(바인드) 자세가 섞여 크게 일그러져 보인다.
 // 그래서 항상 "이전 동작 → 새 동작" 두 개만 합이 1이 되도록 교차 페이드한다.
 // 새 동작을 틀면 이전 동작의 onDone은 버려지므로, 끼어든 동작이 순서를 자연스럽게 취소한다.
-function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
-  const action = mixer.clipAction(clips[resolve(clipName(name))]);
+// again: 같은 동작을 다시 틀 때(연달아 사격 Attack_Ing → Attack_Ing)도 섞는다. 자기 자신과는 섞을 수 없어
+//   예전엔 처음 자세로 바로 돌아가 Kurumi 머리카락이 51° 튀었음 → 같은 데이터의 쌍둥이 동작으로 섞는다
+const twins = new Map();
+const twinOf = (action) => {
+  const clip = action.getClip();
+  if (!twins.has(clip)) twins.set(clip, clip.clone());
+  return mixer.clipAction(twins.get(clip));
+};
+function play(name, { once = false, fade = 0.2, onDone = null, again = false } = {}) {
+  let action = mixer.clipAction(clips[resolve(clipName(name))]);
+  if (again && action === currentAction && once && fade > 0) action = twinOf(action);
   doneCallbacks.clear();
   if (once && onDone) doneCallbacks.set(action, onDone);
   if (action === currentAction && !once) return;
@@ -390,7 +399,7 @@ function play(name, { once = false, fade = 0.2, onDone = null } = {}) {
   }
   currentAction = action;
   refreshWeapons();
-  if (prev !== action) carryTurn(action.getClip().name);
+  if (prev?.getClip().name !== action.getClip().name) carryTurn(action.getClip().name);
   if (frontFaces.has(action.getClip().name)) facing = frontFaces.get(action.getClip().name);
 }
 
@@ -597,7 +606,8 @@ function playSequence(names, { face = calmFace(), fade = 0.25, stepFade = 0.2, a
   let i = 0;
   const next = () => {
     if (i >= list.length) { onEnd(); return; }
-    play(list[i++], { once: true, fade: i === 1 ? fade : stepFade, onDone: next });
+    // stepFade: 숫자 하나 또는 단계마다(두 번째 동작부터)
+    play(list[i++], { once: true, fade: i === 1 ? fade : Array.isArray(stepFade) ? stepFade[i - 2] ?? 0.2 : stepFade, onDone: next, again: i > 1 && !oldShot });
   };
   next();
 }
@@ -789,16 +799,24 @@ function battleAction() {
   ])();
 }
 
+// 사격 뒤(사격 → 사격, 사격 → 조준 대기)는 0.3초 섞는다 (2026-10-27 사용자). 예전 0.08초에는 Kurumi 사격 끝에 옆으로 휘날리던
+// 머리카락·치마가 두 프레임 만에 내려앉고(52°) 바로 멈춘 조준 대기라 끊겨 보였음. 사격 대기 없이 사격 끝(Attack_End)으로 잇는 것과
+// 비교 영상에서 고름. ?shoot=old면 예전처럼 (비교용)
+const SHOT_FADE = 0.3;
+const oldShot = new URLSearchParams(location.search).get('shoot') === 'old';
+
 // 사격: 시작 → 사격 1~3번 → 끝 → 조준 대기
-function burst() {
+function burst(fixedShots) {
   if (!battle) { startBattle({ thenAttack: true }); return; }
   battle.ammo = Math.max(0, battle.ammo - 1);
-  const shots = 1 + Math.floor(Math.random() * 3);
+  const shots = fixedShots ?? 1 + Math.floor(Math.random() * 3);
   const [start, ing, , delay] = ATTACK_STEPS.map((step) => `${battle.stance}_${step}`);
-  const steps = [...(battle.engaged ? [] : [start]), ...Array(shots).fill(ing), delay];
+  const lead = battle.engaged ? [] : [start];
+  const steps = [...lead, ...Array(shots).fill(ing), delay];
   battle.engaged = true;
-  // 이어지도록 만들어진 동작들이라 단계 사이는 짧게 섞는다
-  playSequence(steps, { face: battleFace(), stepFade: 0.08 });
+  // 시작 → 사격은 이어지도록 만들어진 동작이라 짧게 섞는다
+  const stepFade = oldShot ? 0.08 : [...lead.map(() => 0.08), ...Array(shots).fill(SHOT_FADE)];
+  playSequence(steps, { face: battleFace(), stepFade });
 }
 
 function reload() {
@@ -1355,6 +1373,8 @@ window.__pet = {
   armFor(seconds) { endBattle(); startArmed(); if (armed) armed.until = clock() + seconds * 1000; },
   get battle() { return battle && { ...battle, form, left: Math.round((battle.until - clock()) / 1000) }; },
   // stance: 시험용으로 전투 자세 고정 ('Normal' | 'Stand' | 'Kneel', 그 학생에게 있을 때)
+  // 사격 녹화용: 전투 중 사격 shots번. side(±1)를 주면 그쪽을 겨눔 (yaw: 몸을 그 각도(도)로 돌려 두고 시작 → 이어 받기로 유지)
+  fire(shots, side, yaw) { if (!battle) return; if (side) { battle.side = side; battle.aim = aimFace(side); facing = battleFace(); carry = 0; pivot.rotation.y = yaw === undefined ? facing + clipTurn() : THREE.MathUtils.degToRad(yaw); } burst(shots); },
   battleFor(seconds, stance) {
     endBattle(); startBattle();
     if (!battle) return;

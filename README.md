@@ -36,7 +36,7 @@ npm run dist
 | 캐릭터 클릭 | 반응 (`Cafe_Reaction` / 승리 포즈 `Victory_Start → Victory_End` 중 랜덤). 자고 있으면 깨어남. 전투 중이면 구호 / 재장전 |
 | 캐릭터 더블클릭 | EX 스킬 (무기를 꺼내 방패 돌진) 후 전투 모드로 이어짐 |
 | 캐릭터 드래그 | 집어 들기 (`Formation_Pickup`). 바닥 위 아무 곳에 내려놓을 수 있음 |
-| 캐릭터 우클릭 / 트레이 아이콘 우클릭 | 메뉴 (동작, 학생 선택, 돌아다니기, 크기, 항상 위, 위치 초기화, 종료) |
+| 캐릭터 우클릭 / 트레이 아이콘 우클릭 | 메뉴 (동작, 학생 선택, 돌아다니기, 크기, 항상 위, 클릭 효과, 위치 초기화, 종료). 캐릭터 우클릭 메뉴는 블루 아카이브 느낌으로 그린 메뉴, 트레이는 윈도우 기본 메뉴 |
 | 트레이 아이콘 클릭 | 반응 |
 | 메뉴 → 종료 | 위에서 내려온 밧줄을 잡고(`Vital_Retreat`) 화면 위로 끌려 올라가 사라진 뒤 종료 (한 번 더 누르면 바로 종료) |
 | 메뉴 → 애니메이션 보기 | 모델의 모든 동작을 목록에서 골라 재생 (회전·확대, 속도, 무기 표시, 공격 순서 재생) |
@@ -82,6 +82,7 @@ curl -L -o "models/Shiroko.glb" "https://github.com/lihaohong6/BlueArchiveModels
 ## 구조
 
 - `src/main.js` — 투명 창, 트레이 메뉴, 설정 저장 (`%APPDATA%/bluearchive-desktop-pet/settings.json`)
+- `src/menu/` — 캐릭터 우클릭 메뉴 창 (항목은 트레이 메뉴와 같은 `buildMenuTemplate`)
 - `src/preload.js` — 렌더러 ↔ 메인 IPC 브리지 (`window.petBridge`)
 - `src/renderer/pet.js` — three.js 렌더링, 애니메이션, 행동 상태 머신, 드래그, 마우스 통과 판정
 - `src/renderer/floor.js` — 바닥 좌표 ↔ 화면 좌표 변환 (가상 원근 카메라)

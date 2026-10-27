@@ -24,6 +24,7 @@ let tray = null;
 let viewerWin = null;
 let fxWin = null; // 클릭 효과 창 (펫이 있는 모니터 전체를 덮는 투명 창)
 let fxDisplayId = null;
+let menuWin = null; // 우클릭 메뉴 창 (src/menu, 시작할 때 만들어 두고 다시 씀)
 let settings = { ...DEFAULT_SETTINGS };
 
 // 앱 이름(productName)이 '샬레 당번'으로 바뀌어도 설정·저장소는 예전 폴더 그대로 쓴다
@@ -89,6 +90,7 @@ function createWindow() {
   win.on('closed', () => {
     win = null;
     if (fxWin && !fxWin.isDestroyed()) fxWin.close();
+    if (menuWin && !menuWin.isDestroyed()) menuWin.close();
   });
 }
 
@@ -334,6 +336,120 @@ function buildMenuTemplate() {
   ];
 }
 
+// ---- 우클릭 메뉴 창 ----
+// 캐릭터 우클릭 메뉴는 윈도우 기본 메뉴 대신 블루 아카이브 느낌으로 직접 그린다 (트레이 메뉴는 기본 메뉴 그대로).
+// 항목은 buildMenuTemplate을 그대로 쓰고, click 함수는 여기 두고 id만 창으로 보낸다
+// 창은 숨기지(hide) 않는다: 숨겼다 show()하면 윈도우가 한 프레임 진하게 보였다가 0.2초 동안 흐릿 → 진하게 다시 그려
+// 두 번 켜지는 것처럼 보였음(thickFrame: false, DWM 전환 끄기로도 그대로). 닫혀 있을 때는 투명도 0·클릭 통과로 화면 밖에 둔다
+let menuSeq = 0;
+let menuClicks = new Map(); // id → { click, item }
+let menuAt = null; // 연 자리 { seq, p: 커서, wa: 작업 영역 }
+
+function createMenuWindow() {
+  menuWin = new BrowserWindow({
+    width: 360,
+    height: 320,
+    transparent: true,
+    backgroundColor: '#00000000',
+    frame: false,
+    resizable: false,
+    maximizable: false,
+    minimizable: false,
+    fullscreenable: false,
+    hasShadow: false,
+    skipTaskbar: true,
+    show: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'menu', 'preload.js'),
+      backgroundThrottling: false,
+    },
+  });
+  menuWin.setAlwaysOnTop(true, 'pop-up-menu'); // 펫 창보다 위
+  menuWin.loadFile(path.join(__dirname, 'menu', 'index.html'));
+  menuWin.once('ready-to-show', () => {
+    parkMenu();
+    menuWin.showInactive();
+  });
+  menuWin.on('closed', () => { menuWin = null; });
+}
+
+// 닫힌 메뉴: 안 보이고 클릭 통과, 모든 모니터 왼쪽 바깥
+function parkMenu() {
+  menuWin.setOpacity(0);
+  menuWin.setIgnoreMouseEvents(true);
+  const left = Math.min(...screen.getAllDisplays().map((d) => d.bounds.x));
+  menuWin.setPosition(left - 2000, 0);
+}
+
+function hideMenu() {
+  if (!menuAt) return;
+  menuAt = null;
+  if (!menuWin || menuWin.isDestroyed()) return;
+  if (menuWin.isFocused()) menuWin.blur(); // Esc·항목 클릭으로 닫으면 포커스를 돌려줌
+  parkMenu();
+}
+
+// 메뉴 템플릿 → 창으로 보낼 수 있는 항목 (click 함수는 menuClicks에)
+function toMenuItems(template) {
+  return template.map((item) => {
+    const id = menuClicks.size + 1;
+    if (item.click) menuClicks.set(id, { click: item.click, item });
+    return {
+      id,
+      label: item.label,
+      type: item.type ?? 'normal',
+      checked: !!item.checked,
+      enabled: item.enabled !== false,
+      danger: item.click === quitWithRetreat,
+      submenu: item.submenu ? toMenuItems(item.submenu) : undefined,
+    };
+  });
+}
+
+function showPetMenu() {
+  if (!menuWin) createMenuWindow();
+  menuClicks = new Map();
+  const items = toMenuItems(buildMenuTemplate());
+  const p = screen.getCursorScreenPoint();
+  const wa = screen.getDisplayNearestPoint(p).workArea;
+  menuAt = { seq: ++menuSeq, p, wa };
+  const data = { seq: menuSeq, items, title: settings.model.replace(/\.glb$/i, ''), roomRight: wa.x + wa.width - p.x };
+  if (menuWin.webContents.isLoading()) menuWin.webContents.once('did-finish-load', () => menuWin.webContents.send('menu:open', data));
+  else menuWin.webContents.send('menu:open', data);
+}
+
+// 창이 그린 뒤 크기를 알려 오면 (아직 투명한 채로) 커서 옆에 옮기고, 그 크기로 다시 그린 뒤(menu:painted) 보이게 한다.
+// 창 안 판은 10px 안쪽 (그림자 자리)
+ipcMain.on('menu:ready', (_e, seq, w, h, flip) => {
+  if (!menuAt || seq !== menuAt.seq || !menuWin) return;
+  const { p, wa } = menuAt;
+  const pad = 10;
+  let x = flip ? p.x - w + pad - 2 : p.x - pad + 2;
+  let y = p.y - pad + 2;
+  x = Math.max(wa.x, Math.min(x, wa.x + wa.width - w));
+  y = Math.max(wa.y, Math.min(y, wa.y + wa.height - h));
+  menuWin.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: h });
+  menuWin.webContents.send('menu:placed', seq);
+});
+
+ipcMain.on('menu:painted', (_e, seq) => {
+  if (!menuAt || seq !== menuAt.seq || !menuWin) return;
+  menuWin.setIgnoreMouseEvents(false);
+  menuWin.setOpacity(1);
+  menuWin.focus();
+});
+
+ipcMain.on('menu:click', (_e, id) => {
+  const hit = menuClicks.get(id);
+  hideMenu();
+  if (!hit) return;
+  // 기본 메뉴처럼 체크 항목은 바뀐 뒤의 값으로 click을 부른다
+  const { type, checked } = hit.item;
+  hit.click({ checked: type === 'checkbox' ? !checked : type === 'radio' ? true : checked });
+});
+
+ipcMain.on('menu:close', hideMenu);
+
 function rebuildMenus() {
   if (tray) tray.setContextMenu(Menu.buildFromTemplate(buildMenuTemplate()));
 }
@@ -392,8 +508,7 @@ ipcMain.on('pet:fx', (_e, type) => relayFx(type));
 ipcMain.on('pet:quit', () => app.quit());
 
 ipcMain.on('pet:show-menu', () => {
-  if (!win) return;
-  Menu.buildFromTemplate(buildMenuTemplate()).popup({ window: win });
+  if (win) showPetMenu();
 });
 
 // ---- 앱 수명주기 ----
@@ -409,6 +524,7 @@ if (!app.requestSingleInstanceLock()) {
     }
     createWindow();
     createFxWindow();
+    createMenuWindow(); // 처음 우클릭할 때 만들면 창을 띄우고 페이지를 읽느라 늦게 떴음
     createTray();
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

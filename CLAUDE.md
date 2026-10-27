@@ -27,6 +27,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 - `src/renderer/clip-names.js` 동작 이름 규칙(`clipKey`, 차림 번호, `CLIP_TYPOS`)과 펫이 쓰는 동작 목록. 펫과 검사 도구가 같이 씀(Node에서도 읽히게 three.js 없이, 같은 폴더 `package.json`에 `"type": "module"`). 펫이 새 동작 이름을 부르면 여기 목록에도 넣는다
 - `src/renderer/floor.js` 바탕화면 = 바닥: 가상 원근 카메라로 바닥 좌표 ↔ 화면 좌표
 - `src/viewer/` 애니메이션 보기 창
+- `src/menu/` 캐릭터 우클릭 메뉴 창(2026-10-27 사용자: 블루 아카이브 느낌으로, 트레이 메뉴는 윈도우 기본 메뉴 그대로). 테두리 없는 투명 창을 시작할 때 만들어 두고 다시 씀. **숨기지(hide) 않는다**: `show()`하면 윈도우가 한 프레임 진하게 → 0.2초 흐릿 → 진하게 다시 그려 두 번 켜지는 것처럼 보였음(2026-10-27 사용자, `thickFrame: false`·DWM 전환 끄기로도 그대로) → 닫힘은 투명도 0·클릭 통과로 화면 밖(`parkMenu`), 열 때 옮기고 그 크기로 그려진 뒤(`menu:painted`) 투명도 1. 메인이 `buildMenuTemplate()`을 id 붙인 항목으로 보내면(`menu:open`) 그리고 필요한 크기·좌우 뒤집기를 알림(`menu:ready`) → 커서 옆에 띄우고 focus. 다른 곳 클릭(blur)·Esc·바깥 투명 부분 클릭이면 닫힘. 메뉴 템플릿에 항목을 넣으면 두 메뉴에 같이 나옴
 - `src/fx/` 클릭 효과 창: 모니터 전체를 덮는 투명·클릭 통과 창에 [ba-click-fx](https://github.com/CialloKing/ba-click-fx)로 클릭 고리·끌기 트레일. 펫 창이 `petBridge.fx(down|move|up|cancel)` → 메인이 실제 커서 위치로 변환해 전달. 메뉴 "클릭 효과"로 끄기
 - `tools/` 테스트·조사 도구 (아래)
 

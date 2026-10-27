@@ -80,14 +80,14 @@ function render({ items, title, roomRight }) {
     for (const s of item.submenu) subList.append(rowFor(s, true));
     sub.append(subList);
     subcol.append(sub);
-    const top = Math.max(0, row.getBoundingClientRect().top - top0 - 6);
+    const top = Math.max(0, row.getBoundingClientRect().top - top0 - 4);
     sub.style.top = `${top}px`;
     bottom = Math.max(bottom, top + sub.offsetHeight);
     sub.classList.add('hidden');
     row.subEl = sub;
   }
 
-  const pad = 12;
+  const pad = 10;
   const w = Math.ceil(root.scrollWidth);
   const h = Math.ceil(bottom + pad * 2);
   // 커서 오른쪽에 다 안 들어가면 하위 메뉴가 왼쪽으로 펼쳐지게 뒤집고, 메인은 창을 커서 왼쪽에 둔다
@@ -101,12 +101,6 @@ bridge.onOpen((data) => {
   render(data);
 });
 
-// 창이 보이면(메인이 focus) 펼치는 움직임을 처음부터
-window.addEventListener('focus', () => {
-  root.classList.remove('anim');
-  void root.offsetWidth;
-  root.classList.add('anim');
-});
 window.addEventListener('blur', () => bridge.close());
 window.addEventListener('keydown', (e) => { if (e.key === 'Escape') bridge.close(); });
 window.addEventListener('contextmenu', (e) => e.preventDefault());

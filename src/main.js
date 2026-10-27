@@ -24,7 +24,7 @@ let tray = null;
 let viewerWin = null;
 let fxWin = null; // 클릭 효과 창 (펫이 있는 모니터 전체를 덮는 투명 창)
 let fxDisplayId = null;
-let menuWin = null; // 우클릭 메뉴 창 (src/menu, 처음 열 때 만들고 숨겨서 다시 씀)
+let menuWin = null; // 우클릭 메뉴 창 (src/menu, 시작할 때 숨겨서 만들어 두고 다시 씀)
 let settings = { ...DEFAULT_SETTINGS };
 
 // 앱 이름(productName)이 '샬레 당번'으로 바뀌어도 설정·저장소는 예전 폴더 그대로 쓴다
@@ -345,8 +345,8 @@ let menuAt = null; // 연 자리 { seq, p: 커서, wa: 작업 영역 }
 
 function createMenuWindow() {
   menuWin = new BrowserWindow({
-    width: 480,
-    height: 400,
+    width: 360,
+    height: 320,
     transparent: true,
     backgroundColor: '#00000000',
     frame: false,
@@ -401,11 +401,11 @@ function showPetMenu() {
   else menuWin.webContents.send('menu:open', data);
 }
 
-// 창이 그린 뒤 크기를 알려 오면 커서 옆에 띄운다. 창 안 판은 12px 안쪽 (그림자 자리)
+// 창이 그린 뒤 크기를 알려 오면 커서 옆에 띄운다. 창 안 판은 10px 안쪽 (그림자 자리)
 ipcMain.on('menu:ready', (_e, seq, w, h, flip) => {
   if (!menuAt || seq !== menuAt.seq || !menuWin) return;
   const { p, wa } = menuAt;
-  const pad = 12;
+  const pad = 10;
   let x = flip ? p.x - w + pad - 2 : p.x - pad + 2;
   let y = p.y - pad + 2;
   x = Math.max(wa.x, Math.min(x, wa.x + wa.width - w));
@@ -500,6 +500,7 @@ if (!app.requestSingleInstanceLock()) {
     }
     createWindow();
     createFxWindow();
+    createMenuWindow(); // 처음 우클릭할 때 만들면 창을 띄우고 페이지를 읽느라 늦게 떴음
     createTray();
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

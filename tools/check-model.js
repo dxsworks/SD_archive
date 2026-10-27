@@ -107,7 +107,12 @@ function checkModel(file, names, { companions = [] }, N) {
   if (forms.has(2) && !variants && exAll.length > 1) {
     notes.push(`EX ${exAll.length}개(${exAll.map((c) => c.name).join(', ')}) + 02 차림: 전투 EX는 펫이 끝 모습이 02 대기와 같은 것을 고름`);
   }
-  if (forms.has(2) && !variants && has(N.FORM_RELEASE)) does.push(`전투 끝(02 차림): ${nameOf(N.FORM_RELEASE, 2)} → 승리 포즈`);
+  // 거치 자세 학생(Otogi): 02 대기가 없고 02 ReadyStart·ReadyEnd·사격 대기가 있는 자세. 펫은 골반 높이로도 확인함 (pet.js findDeployStances)
+  const own2 = (name) => pick(name, 2)?.form === 2;
+  const deploy = forms.has(2) && !variants && !own2(N.ARMED_IDLE)
+    ? N.STANCES.filter((st) => [`${st}_ReadyStart`, `${st}_ReadyEnd`, `${st}_Attack_Delay`].every(own2)) : [];
+  if (deploy.length) does.push(`거치 자세(02): 전투 중 무작위로 ${deploy.map((st) => `${nameOf(`${st}_ReadyStart`, 2)} → 02 사격 → ${nameOf(`${st}_ReadyEnd`, 2)}`).join(' / ')}. EX는 서서만, 뛰거나 전투가 끝나면 먼저 일어남`);
+  else if (forms.has(2) && !variants && has(N.FORM_RELEASE)) does.push(`전투 끝(02 차림): ${nameOf(N.FORM_RELEASE, 2)} → 승리 포즈`);
 
   // 잠깐 무장
   if (has(N.ARMED_IDLE)) {
@@ -178,9 +183,11 @@ function checkModel(file, names, { companions = [] }, N) {
       }
     }
   }
-  // 02 차림 중에 01 것을 쓰는 전투 동작 (옷이 잠깐 바뀌어 보임). 구호는 펫이 차림이 안 맞으면 건너뜀
+  // 02 차림 중에 01 것을 쓰는 전투 동작 (옷이 잠깐 바뀌어 보임). 구호는 펫이 차림이 안 맞으면 건너뜀.
+  // 거치 자세는 02 대기 대신 사격 대기를 쓰고, 뛰기 전에 일어나므로 뛰어와 자세 잡기(Move_End)는 01
+  const deployOk = (n) => deploy.some((st) => n === N.STANCE_IDLE[st] || n === `Move_End_${st}`);
   for (const f of outfits.filter((x) => x > 1)) {
-    const fallback = ready.flatMap(N.stanceAll).filter((n) => has(n) && !/_Callsign$/.test(n) && pick(n, f).form !== f);
+    const fallback = ready.flatMap(N.stanceAll).filter((n) => has(n) && !/_Callsign$/.test(n) && !deployOk(n) && pick(n, f).form !== f);
     if (fallback.length && numbered(f).length >= 5) {
       warn(`차림 0${f} 중에 0${f}가 없어 01 것을 쓰는 전투 동작: ${fallback.map((n) => pick(n, f).name).join(', ')}`);
     }
@@ -190,6 +197,7 @@ function checkModel(file, names, { companions = [] }, N) {
   const used = new Set([
     ...Object.values(N.ANIM).flat(), N.REACTION, N.ARMED_IDLE, ...N.ARMED_FIDGETS, ...N.ARMED_REACTIONS,
     ...N.STANCES.flatMap(N.stanceAll), ...N.RELOAD_VARIANTS, ...N.BATTLE_ENTRY, ...N.DRAW_WEAPON, N.RUN_CALLSIGN, ...N.VICTORIES.flat(), ...N.OTHER_CLIPS,
+    ...deploy.flatMap((st) => [`${st}_ReadyStart`, `${st}_ReadyEnd`]),
   ].map((n) => N.clipKey(n)));
   const unknown = [];
   const unused = [];

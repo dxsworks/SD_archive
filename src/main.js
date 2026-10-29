@@ -229,6 +229,45 @@ function petUsable(file) {
 }
 const petModels = () => listModels().filter(petUsable);
 
+// 학생 메뉴를 학원별로 나누는 표 (students.json). 파일 이름 "Hoshino (Swimsuit).glb" → 아비도스 / "호시노 (수영복)"
+// 표에 없는 학생은 '기타'에 영어 이름 그대로
+const STUDENTS = require('./students.json');
+const SCHOOL_OF = new Map(STUDENTS.schools.flatMap((s) => Object.entries(s.students).map(([en, ko]) => [en, { school: s.name, ko }])));
+const OTHER_SCHOOL = '기타';
+function studentInfo(file) {
+  const name = file.replace(/\.glb$/i, '');
+  const base = name.replace(/ \(.*$/, '');
+  const hit = SCHOOL_OF.get(base);
+  const outfits = [...name.matchAll(/\(([^)]*)\)/g)].map((m) => STUDENTS.outfits[m[1]] ?? m[1]);
+  return {
+    school: hit?.school ?? OTHER_SCHOOL,
+    label: [hit?.ko ?? base, ...outfits.map((o) => `(${o})`)].join(' '),
+  };
+}
+
+// 학생 메뉴: 학원 → 학생. 모델이 있는 학원만, 표 순서대로 (기타는 맨 끝)
+function studentMenu(models) {
+  if (!models.length) return [{ label: 'models 폴더에 .glb 파일이 없습니다', enabled: false }];
+  const order = [...STUDENTS.schools.map((s) => s.name), OTHER_SCHOOL];
+  const bySchool = new Map();
+  for (const file of models) {
+    const { school, label } = studentInfo(file);
+    if (!bySchool.has(school)) bySchool.set(school, []);
+    bySchool.get(school).push({ file, label });
+  }
+  return order.filter((school) => bySchool.has(school)).map((school) => ({
+    label: school,
+    submenu: bySchool.get(school)
+      .sort((a, b) => a.label.localeCompare(b.label, 'ko'))
+      .map(({ file, label }) => ({
+        label,
+        type: 'radio',
+        checked: settings.model === file,
+        click: () => setModel(file),
+      })),
+  }));
+}
+
 function setModel(file) {
   settings.model = file;
   saveSettings();
@@ -279,14 +318,7 @@ function buildMenuTemplate() {
     { label: '애니메이션 보기', click: openViewer },
     {
       label: '학생',
-      submenu: models.length
-        ? models.map((file) => ({
-            label: file.replace(/\.glb$/i, ''),
-            type: 'radio',
-            checked: settings.model === file,
-            click: () => setModel(file),
-          }))
-        : [{ label: 'models 폴더에 .glb 파일이 없습니다', enabled: false }],
+      submenu: studentMenu(models),
     },
     {
       label: '돌아다니기',
@@ -413,7 +445,7 @@ function showPetMenu() {
   const p = screen.getCursorScreenPoint();
   const wa = screen.getDisplayNearestPoint(p).workArea;
   menuAt = { seq: ++menuSeq, p, wa };
-  const data = { seq: menuSeq, items, title: settings.model.replace(/\.glb$/i, ''), roomRight: wa.x + wa.width - p.x };
+  const data = { seq: menuSeq, items, title: studentInfo(settings.model).label, roomRight: wa.x + wa.width - p.x };
   if (menuWin.webContents.isLoading()) menuWin.webContents.once('did-finish-load', () => menuWin.webContents.send('menu:open', data));
   else menuWin.webContents.send('menu:open', data);
 }

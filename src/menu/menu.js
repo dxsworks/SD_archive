@@ -1,10 +1,13 @@
 // 우클릭 메뉴 창. 메인이 항목(menu:open)을 보내면 그리고, 필요한 창 크기를 알린 뒤(menu:ready) 메인이 커서 옆에 띄운다.
 // 항목 모양: { id, label, type: 'normal'|'checkbox'|'radio'|'separator', checked, enabled, danger, submenu }
+// 하위 메뉴는 여러 단계(학생 → 학원 → 학생): 단계마다 옆 칸(subcol)이 하나씩
 const bridge = window.menuBridge;
 const root = document.getElementById('root');
 
 let seq = 0;
-let openRow = null; // 하위 메뉴가 펼쳐진 줄
+let openRows = []; // 단계마다 하위 메뉴가 펼쳐진 줄
+let cols = []; // 하위 메뉴 칸 (단계 1부터, cols[0]은 1단계)
+let winH = 0;
 
 function el(tag, cls, text) {
   const e = document.createElement(tag);
@@ -13,7 +16,17 @@ function el(tag, cls, text) {
   return e;
 }
 
-function rowFor(item, inSub) {
+// 하위 메뉴 안(더 아래 단계까지)에서 고른 하나
+function pickedIn(submenu) {
+  for (const s of submenu) {
+    if (s.type === 'radio' && s.checked) return s;
+    const deep = s.submenu && pickedIn(s.submenu);
+    if (deep) return deep;
+  }
+  return null;
+}
+
+function rowFor(item, level) {
   if (item.type === 'separator') return el('div', 'sep');
   const row = el('div', 'item');
   if (item.enabled === false) row.classList.add('disabled');
@@ -25,35 +38,87 @@ function rowFor(item, inSub) {
   row.append(el('span', 'label', item.label));
   if (item.type === 'checkbox') row.append(el('span', item.checked ? 'switch on' : 'switch'));
   if (item.submenu) {
-    // 하나만 고르는 하위 메뉴면 지금 고른 것을 옆에 보여 줌 (크기: 보통)
-    const picked = item.submenu.find((s) => s.type === 'radio' && s.checked);
-    if (picked) row.append(el('span', 'hint', picked.label));
+    // 하나만 고르는 하위 메뉴면 지금 고른 것을 옆에 보여 줌 (크기: 보통). 더 아래 단계에 있으면 이 줄을 표시만 (학원)
+    const picked = pickedIn(item.submenu);
+    if (picked && level === 0) row.append(el('span', 'hint', picked.label));
+    else if (picked) row.classList.add('has-pick');
     row.append(el('span', 'arrow', '▶'));
   }
-  if (!inSub) row.addEventListener('mouseenter', () => openSub(item.submenu ? row : null));
+  // 맨 위 단계는 마우스를 올리면 펼침, 하위 메뉴 안에서는 하위 메뉴가 있는 줄에 올릴 때만 (다른 줄로 가도 펼친 칸을 닫지 않음)
+  row.addEventListener('mouseenter', () => {
+    if (level === 0 || item.submenu) openSub(level, item.submenu ? row : null);
+  });
   row.addEventListener('click', () => {
     if (item.enabled === false) return;
-    if (item.submenu) openSub(openRow === row ? null : row);
+    if (item.submenu) openSub(level, openRows[level] === row ? null : row);
     else bridge.click(item.id);
   });
   return row;
 }
 
-function openSub(row) {
-  if (openRow === row) return;
-  if (openRow) {
-    openRow.classList.remove('open');
-    openRow.subEl.classList.add('hidden');
+// 그 단계에서 펼칠 줄을 바꾼다 (더 아래 단계는 닫음)
+function openSub(level, row) {
+  if (openRows[level] === row) return;
+  for (let l = openRows.length - 1; l >= level; l--) {
+    const r = openRows[l];
+    if (!r) continue;
+    r.classList.remove('open');
+    r.subEl.classList.add('hidden');
   }
-  openRow = row;
+  openRows.length = level;
+  openRows[level] = row;
   if (row) {
     row.classList.add('open');
     row.subEl.classList.remove('hidden');
+    placeSub(row);
   }
 }
 
+// 하위 메뉴 판을 그 줄 높이에 맞춤 (윗 판이 스크롤됐을 수 있어 펼칠 때 다시 잼). 창 아래로 넘치면 올림
+function placeSub(row) {
+  const sub = row.subEl;
+  const colTop = sub.parentElement.getBoundingClientRect().top;
+  const top = row.getBoundingClientRect().top - colTop - 4;
+  const maxTop = winH - 10 - colTop - sub.offsetHeight;
+  sub.style.top = `${Math.max(0, Math.min(top, maxTop))}px`;
+}
+
+function colAt(level) {
+  while (cols.length < level) {
+    const col = el('div', 'subcol');
+    root.append(col);
+    cols.push(col);
+  }
+  return cols[level - 1];
+}
+
+// 하위 메뉴 판을 미리 만들어 두고 숨김 (재귀). 줄의 처음 위치로 창 높이를 정함
+function buildSubs(rows, level) {
+  let bottom = 0;
+  for (const [item, row] of rows) {
+    if (!item.submenu) continue;
+    const col = colAt(level + 1);
+    const sub = el('div', 'panel sub');
+    const subList = el('div', 'list');
+    const subRows = item.submenu.map((s) => {
+      const r = rowFor(s, level + 1);
+      subList.append(r);
+      return [s, r];
+    });
+    sub.append(subList);
+    col.append(sub);
+    const top = Math.max(0, row.getBoundingClientRect().top - col.getBoundingClientRect().top - 4);
+    sub.style.top = `${top}px`;
+    bottom = Math.max(bottom, top + sub.offsetHeight, buildSubs(subRows, level + 1));
+    sub.classList.add('hidden');
+    row.subEl = sub;
+  }
+  return bottom;
+}
+
 function render({ items, title, roomRight }) {
-  openRow = null;
+  openRows = [];
+  cols = [];
   root.className = '';
   root.replaceChildren();
 
@@ -62,40 +127,25 @@ function render({ items, title, roomRight }) {
   head.append(el('span', 'bar'), el('span', 'title', title), el('span', 'tag', 'SCHALE'));
   const list = el('div', 'list');
   const rows = items.map((item) => {
-    const row = rowFor(item, false);
+    const row = rowFor(item, 0);
     list.append(row);
     return [item, row];
   });
   main.append(head, list);
-  const subcol = el('div', 'subcol');
-  root.append(main, subcol);
+  root.append(main);
 
-  // 하위 메뉴는 그 줄 높이에 맞춰 옆 칸에 미리 만들어 두고 숨김. 창 높이는 가장 아래로 내려가는 판에 맞춘다
-  const top0 = subcol.getBoundingClientRect().top;
-  let bottom = main.offsetHeight;
-  for (const [item, row] of rows) {
-    if (!item.submenu) continue;
-    const sub = el('div', 'panel sub');
-    const subList = el('div', 'list');
-    for (const s of item.submenu) subList.append(rowFor(s, true));
-    sub.append(subList);
-    subcol.append(sub);
-    const top = Math.max(0, row.getBoundingClientRect().top - top0 - 4);
-    sub.style.top = `${top}px`;
-    bottom = Math.max(bottom, top + sub.offsetHeight);
-    sub.classList.add('hidden');
-    row.subEl = sub;
-  }
+  // 창 높이는 가장 아래로 내려가는 판에 맞춘다
+  const bottom = Math.max(main.offsetHeight, buildSubs(rows, 0));
 
   const pad = 10;
   const w = Math.ceil(root.scrollWidth);
   const h = Math.ceil(bottom + pad * 2);
+  winH = h;
   // 커서 오른쪽에 다 안 들어가면 하위 메뉴가 왼쪽으로 펼쳐지게 뒤집고, 메인은 창을 커서 왼쪽에 둔다
   const flip = w > roomRight;
   if (flip) root.classList.add('flip');
   bridge.ready(seq, w, h, flip);
 }
-
 bridge.onOpen((data) => {
   seq = data.seq;
   render(data);

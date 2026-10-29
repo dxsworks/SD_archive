@@ -236,12 +236,18 @@ function schoolMenus(models) {
       .sort((a, b) => a.label.localeCompare(b.label, 'ko'))
       .map(({ file, label }) => ({
         label,
+        note: CHECKED.has(file) ? undefined : UNCHECKED_NOTE,
         type: 'radio',
         checked: settings.model === file,
         click: () => setModel(file),
       })),
   }));
 }
+
+// 학생 검사를 통과한 학생 (checked-students.json). 나머지는 학생 압축에 같이 들어 있어도 '검사 전' 표시
+// (우클릭 메뉴는 이름 옆에 흐리게, 트레이 메뉴는 이름 뒤에 괄호로)
+const CHECKED = new Set(require('./checked-students.json').files);
+const UNCHECKED_NOTE = '검사 전';
 
 function setModel(file) {
   settings.model = file;
@@ -404,6 +410,7 @@ function toMenuItems(template) {
     return {
       id,
       label: item.label,
+      note: item.note,
       type: item.type ?? 'normal',
       checked: !!item.checked,
       enabled: item.enabled !== false,
@@ -458,7 +465,16 @@ ipcMain.on('menu:click', (_e, id) => {
 ipcMain.on('menu:close', hideMenu);
 
 function rebuildMenus() {
-  if (tray) tray.setContextMenu(Menu.buildFromTemplate(buildMenuTemplate()));
+  if (tray) tray.setContextMenu(Menu.buildFromTemplate(forTray(buildMenuTemplate())));
+}
+
+// 트레이(윈도우 기본 메뉴)에는 note 칸이 없어서 이름 뒤에 괄호로
+function forTray(template) {
+  return template.map(({ note, submenu, ...item }) => ({
+    ...item,
+    ...(note && { label: `${item.label}  (${note})` }),
+    ...(submenu && { submenu: forTray(submenu) }),
+  }));
 }
 
 function createTray() {

@@ -1,5 +1,5 @@
 // 우클릭 메뉴 창. 메인이 항목(menu:open)을 보내면 그리고, 필요한 창 크기를 알린 뒤(menu:ready) 메인이 커서 옆에 띄운다.
-// 항목 모양: { id, label, type: 'normal'|'checkbox'|'radio'|'separator', checked, enabled, danger, submenu }
+// 항목 모양: { id, label, note(이름 옆 흐린 글자), type: 'normal'|'checkbox'|'radio'|'separator', checked, enabled, danger, submenu }
 // 하위 메뉴는 여러 단계(학생 → 학원 → 학생): 단계마다 옆 칸(subcol)이 하나씩
 const bridge = window.menuBridge;
 const root = document.getElementById('root');
@@ -36,6 +36,7 @@ function rowFor(item, level) {
     if (item.checked) row.classList.add('checked');
   }
   row.append(el('span', 'label', item.label));
+  if (item.note) row.append(el('span', 'hint', item.note)); // 학생 '검사 전'
   if (item.type === 'checkbox') row.append(el('span', item.checked ? 'switch on' : 'switch'));
   if (item.submenu) {
     // 하나만 고르는 하위 메뉴면 지금 고른 것을 옆에 보여 줌 (크기: 보통). 더 아래 단계에 있으면 이 줄을 표시만 (학원)

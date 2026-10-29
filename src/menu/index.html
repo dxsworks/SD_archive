@@ -49,7 +49,7 @@
     .head .tag { margin-left: auto; font-size: 9px; letter-spacing: 1.2px; opacity: 0.85; position: relative; z-index: 1; }
 
     .list { padding: 4px; background: var(--paper-2); }
-    .sub .list { max-height: 300px; overflow-y: auto; }
+    .sub .list { max-height: 380px; overflow-y: auto; } /* 학원 14개 + 기타가 스크롤 없이 들어가게 */
     .sub .list::-webkit-scrollbar { width: 6px; }
     .sub .list::-webkit-scrollbar-thumb { background: #b9cde0; border-radius: 3px; }
 
@@ -91,6 +91,9 @@
     .item.checked { color: var(--blue-dark); font-weight: bold; }
     .item.checked:hover .mark { background: var(--yellow); }
     .item.checked:hover { color: #fff; }
+    /* 고른 것이 더 아래 단계에 있는 줄 (학원) */
+    .item.has-pick { color: var(--blue-dark); font-weight: bold; }
+    .item.has-pick:hover, .item.has-pick.open { color: #fff; }
 
     .sep { height: 1px; margin: 3px 5px; background: var(--line); }
 

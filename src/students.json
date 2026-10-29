@@ -1,0 +1,67 @@
+{
+  "_comment": "학생 메뉴를 학원별로 나누는 표. 학원 순서대로, 학생은 모델 파일 이름의 괄호 앞(영어) → 한글 이름. 학원은 bluearchive.wiki Characters 표 기준(2026-10-29). 표에 없는 학생은 '기타'에 영어 이름으로. outfits는 괄호 안 차림 이름 → 한글",
+  "schools": [
+    { "name": "아비도스", "students": {
+      "Hoshino": "호시노", "Shiroko": "시로코", "Shiroko＊Terror": "시로코＊테러", "Nonomi": "노노미", "Serika": "세리카", "Ayane": "아야네"
+    } },
+    { "name": "게헨나", "students": {
+      "Aru": "아루", "Mutsuki": "무츠키", "Kayoko": "카요코", "Haruka": "하루카", "Hina": "히나", "Ako": "아코", "Iori": "이오리",
+      "Chinatsu": "치나츠", "Haruna": "하루나", "Junko": "준코", "Izumi": "이즈미", "Akari": "아카리", "Fuuka": "후우카", "Juri": "주리",
+      "Iroha": "이로하", "Ibuki": "이부키", "Makoto": "마코토", "Satsuki": "사츠키", "Chiaki": "치아키", "Kasumi": "카스미", "Megu": "메구",
+      "Sena": "세나", "Kirara": "키라라", "Erika": "에리카"
+    } },
+    { "name": "밀레니엄", "students": {
+      "Yuuka": "유우카", "Noa": "노아", "Koyuki": "코유키", "Rio": "리오", "Himari": "히마리", "Eimi": "에이미", "Neru": "네루",
+      "Asuna": "아스나", "Akane": "아카네", "Karin": "카린", "Toki": "토키", "Utaha": "우타하", "Hibiki": "히비키", "Kotori": "코토리",
+      "Momoi": "모모이", "Midori": "미도리", "Yuzu": "유즈", "Arisu": "아리스", "Kei": "케이", "Maki": "마키", "Hare": "하레",
+      "Kotama": "코타마", "Chihiro": "치히로", "Sumire": "스미레", "Rei": "레이"
+    } },
+    { "name": "트리니티", "students": {
+      "Hifumi": "히후미", "Azusa": "아즈사", "Hanako": "하나코", "Koharu": "코하루", "Mika": "미카", "Nagisa": "나기사", "Seia": "세이아",
+      "Tsurugi": "츠루기", "Hasumi": "하스미", "Mashiro": "마시로", "Ichika": "이치카", "Serina": "세리나", "Hanae": "하나에",
+      "Airi": "아이리", "Yoshimi": "요시미", "Natsu": "나츠", "Kazusa": "카즈사", "Ui": "우이", "Hinata": "히나타", "Sakurako": "사쿠라코",
+      "Mari": "마리", "Mine": "미네", "Shimiko": "시미코", "Suzumi": "스즈미", "Reisa": "레이사", "Rabu": "라부"
+    } },
+    { "name": "백귀야행", "students": {
+      "Izuna": "이즈나", "Michiru": "미치루", "Tsukuyo": "츠쿠요", "Wakamo": "와카모", "Chise": "치세", "Kaho": "카호", "Niya": "니야",
+      "Kaede": "카에데", "Mimori": "미모리", "Tsubaki": "츠바키", "Pina": "피나", "Shizuko": "시즈코", "Umika": "우미카",
+      "Yukari": "유카리", "Renge": "렌게", "Kikyou": "키쿄우", "Nagusa": "나구사"
+    } },
+    { "name": "산해경", "students": {
+      "Shun": "슌", "Kokona": "코코나", "Saya": "사야", "Kisaki": "키사키", "Mina": "미나", "Rumi": "루미", "Reijo": "레이죠"
+    } },
+    { "name": "붉은겨울", "students": {
+      "Cherino": "체리노", "Nodoka": "노도카", "Tomoe": "토모에", "Marina": "마리나", "Shigure": "시구레", "Momiji": "모미지",
+      "Minori": "미노리", "Meru": "메루", "Takane": "타카네", "Yakumo": "야쿠모", "Rana": "라나", "Anna": "안나", "Erina": "에리나"
+    } },
+    { "name": "발키리", "students": {
+      "Kanna": "칸나", "Kirino": "키리노", "Fubuki": "후부키", "Konoka": "코노카"
+    } },
+    { "name": "아리우스", "students": {
+      "Saori": "사오리", "Atsuko": "아츠코", "Misaki": "미사키", "Hiyori": "히요리", "Subaru": "스바루"
+    } },
+    { "name": "SRT", "students": {
+      "Miyako": "미야코", "Saki": "사키", "Moe": "모에", "Miyu": "미유", "Niko": "니코", "Kurumi": "쿠루미", "Otogi": "오토기"
+    } },
+    { "name": "하이랜더", "students": {
+      "Hikari": "히카리", "Nozomi": "노조미", "Aoba": "아오바"
+    } },
+    { "name": "와일드헌트", "students": {
+      "Rena": "레나", "Ritsu": "리츠", "Fuyu": "후유", "Miyo": "미요", "Eri": "에리", "Kanoe": "카노에", "Tsumugi": "츠무기"
+    } },
+    { "name": "오디세이", "students": {
+      "Kokoro": "코코로", "Kotone": "코토네"
+    } },
+    { "name": "콜라보", "students": {
+      "Hatsune Miku": "하츠네 미쿠", "Misaka Mikoto": "미사카 미코토", "Shokuhou Misaki": "쇼쿠호 미사키", "Saten Ruiko": "사텐 루이코"
+    } }
+  ],
+  "outfits": {
+    "Swimsuit": "수영복", "Battle": "배틀", "New Year": "정월", "Dress": "드레스", "Band": "밴드", "Bunny Girl": "바니걸",
+    "School Uniform": "교복", "Maid": "메이드", "Hot Spring": "온천", "Sportswear": "체육복", "Camping": "캠핑",
+    "Cheerleader": "응원단", "Pajama": "파자마", "Idol": "아이돌", "Christmas": "크리스마스", "Part-Timer": "아르바이트",
+    "Qipao": "치파오", "Guide": "가이드", "Magical": "마법소녀", "Cafe": "카페", "Casual": "사복", "Riding": "라이딩",
+    "Kid": "어린이", "Carrier": "캐리어", "Carrier 2": "캐리어 2", "Scenario": "시나리오", "Scenario 1": "시나리오 1",
+    "Scenario 2": "시나리오 2", "Cut-in": "컷인", "Prototype": "프로토타입", "No Weapon": "무기 없음"
+  }
+}

@@ -32,7 +32,7 @@
     } },
     { "name": "붉은겨울", "students": {
       "Cherino": "체리노", "Nodoka": "노도카", "Tomoe": "토모에", "Marina": "마리나", "Shigure": "시구레", "Momiji": "모미지",
-      "Minori": "미노리", "Meru": "메루", "Takane": "타카네", "Yakumo": "야쿠모"
+      "Minori": "미노리", "Meru": "메루", "Takane": "타카네", "Yakumo": "야쿠모", "Rana": "라나", "Anna": "안나", "Erina": "에리나"
     } },
     { "name": "발키리", "students": {
       "Kanna": "칸나", "Kirino": "키리노", "Fubuki": "후부키", "Konoka": "코노카"
@@ -47,7 +47,10 @@
       "Hikari": "히카리", "Nozomi": "노조미", "Aoba": "아오바"
     } },
     { "name": "와일드헌트", "students": {
-      "Rena": "레나", "Ritsu": "리츠", "Fuyu": "후유", "Miyo": "미요", "Eri": "에리", "Kanoe": "카노에"
+      "Rena": "레나", "Ritsu": "리츠", "Fuyu": "후유", "Miyo": "미요", "Eri": "에리", "Kanoe": "카노에", "Tsumugi": "츠무기"
+    } },
+    { "name": "오디세이", "students": {
+      "Kokoro": "코코로", "Kotone": "코토네"
     } },
     { "name": "콜라보", "students": {
       "Hatsune Miku": "하츠네 미쿠", "Misaka Mikoto": "미사카 미코토", "Shokuhou Misaki": "쇼쿠호 미사키", "Saten Ruiko": "사텐 루이코"

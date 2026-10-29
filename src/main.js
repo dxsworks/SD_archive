@@ -245,19 +245,18 @@ function studentInfo(file) {
   };
 }
 
-// 학생 메뉴: 학원 → 학생. 모델이 있는 학원만, 표 순서대로 (기타는 맨 끝)
+// 학생 메뉴: 학원 → 학생. 표의 학원은 학생이 아직 없어도 모두 순서대로 (나중에 학생을 다 넣을 것, 2026-10-29 사용자). 기타는 있을 때만 맨 끝
 function studentMenu(models) {
   if (!models.length) return [{ label: 'models 폴더에 .glb 파일이 없습니다', enabled: false }];
-  const order = [...STUDENTS.schools.map((s) => s.name), OTHER_SCHOOL];
-  const bySchool = new Map();
+  const bySchool = new Map(STUDENTS.schools.map((s) => [s.name, []]));
   for (const file of models) {
     const { school, label } = studentInfo(file);
     if (!bySchool.has(school)) bySchool.set(school, []);
     bySchool.get(school).push({ file, label });
   }
-  return order.filter((school) => bySchool.has(school)).map((school) => ({
+  return [...bySchool].map(([school, list]) => ({
     label: school,
-    submenu: bySchool.get(school)
+    submenu: !list.length ? [{ label: '아직 학생이 없습니다', enabled: false }] : list
       .sort((a, b) => a.label.localeCompare(b.label, 'ko'))
       .map(({ file, label }) => ({
         label,

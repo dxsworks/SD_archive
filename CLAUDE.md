@@ -53,6 +53,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   - `npx electron tools/behavior-check.js ["모델.glb" …]` 행동 테스트(가상 시계 `__pet.run`): 명령마다 대기로 돌아오는지 + 30분 동안 멈춤·오류 → `docs/data/behavior-check.json`
   - `npx electron tools/sheet-check.js "모델.glb" [출력.png] [--picks]` 펫이 쓰는 동작마다 5장 시트(`__pet.sheet`). `--picks`는 사람이 볼 동작만 이유와 함께(`__pet.picks`: 몸이 크게 뜸(골반이 서 있을 때의 1.6배 넘게), 낮잠 끝에 몸에서 멀리 떨어진 조각, 빌려온 동작, EX 여러 개, 장비 모습이 다름, 02 차림)
   - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
+  - `node tools/make-pack.js [--out=dist/students.zip] [--local-only]` **학생 압축**(배포용, 설치 파일과 따로): 원본 저장소를 한 커밋으로 고정해 `.glb`를 받아(`pack-cache/`, git 해시로 확인, `models/`에 같은 게 있으면 복사) 펫으로 쓸 수 있는 학생과 짝 파일(`<학생> (…)`)만 zip으로. 압축 안에 `students-pack.json`(커밋·파일별 해시·검사한 학생)과 `읽어주세요.txt`. zip은 파이썬 `zipfile`로 씀(Node zlib보다 4% 작음). `--local-only`는 받지 않고 시험
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
 - 브라우저 미리보기 창이 숨겨지면 rAF가 멈춰서 시간 기반 확인이 틀린다 → Electron 테스트 스크립트를 쓴다.

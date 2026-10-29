@@ -654,10 +654,16 @@ function startNap() {
 let armed = null;                  // { until }
 const arm = () => { armed = { until: clock() + rand(...ARMED_TIME) * 1000 }; };
 
+// 총 꺼내기는 서 있는 높이에서 시작하는 것만 쓴다. Eimi (Battle)·Otogi의 Public01은 큰 총을 안고 엎드린 자세(골반이 서 있을 때의 25%)에서
+// 시작해 서 있다가 순간 엎드렸다 → 사용자 2026-10-29: 빼고 바로 무장 대기 (전투도 구호 없이 바로 전투 대기). 다른 학생은 80% 넘음
+const DRAW_LOW = 0.6;
+const drawClip = () => DRAW_WEAPON.filter(has).find((n) => !(liftOf(resolve(n)) < DRAW_LOW * (liftOf(resolve('Cafe_Idle')) ?? 0)));
+const lowDraw = () => DRAW_WEAPON.some(has) && !drawClip();
+
 function startArmed() {
   if (!has(ARMED_IDLE)) { toIdle(); return; }
   arm();
-  playSequence(DRAW_WEAPON.filter(has).slice(0, 1)); // 없으면 바로 무장 대기
+  playSequence([drawClip()].filter(Boolean)); // 없으면 바로 무장 대기
 }
 
 function armedIdle() {
@@ -712,8 +718,9 @@ function startBattle({ thenAttack = false } = {}) {
   const wasArmed = Boolean(armed);
   if (!beginBattle()) { fidget(); return; }
   const onEnd = thenAttack ? burst : rest;
-  const draw = wasArmed ? undefined : DRAW_WEAPON.find(has);
+  const draw = wasArmed ? undefined : drawClip();
   if (draw) playSequence([draw], { onEnd });
+  else if (!wasArmed && lowDraw()) onEnd(); // 낮은 자세에서 시작하는 총 꺼내기를 뺀 학생: 바로 전투 대기
   else playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd });
 }
 
@@ -1681,7 +1688,7 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
 // 이 학생에게 펫이 쓸 수 있는 동작 전부 (차림마다 실제 이름으로). 창 끝 검사에서 흉내 중에 안 나온 동작을 채울 때 씀
 function usedClips() {
   const names = [...Object.values(ANIM).flat(), REACTION, ARMED_IDLE, ...ARMED_FIDGETS, ...ARMED_REACTIONS,
-    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...DRAW_WEAPON, RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants()];
+    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...[drawClip()].filter(Boolean), RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants()];
   const keep = form;
   const out = new Set();
   for (const f of forms) {

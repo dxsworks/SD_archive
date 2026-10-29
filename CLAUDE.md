@@ -131,6 +131,8 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 3. **몸이 여러 벌인 학생**(아리스 장비처럼 모습이 바뀌는 부분: `Fubuki (Swimsuit)` Body01/02, `Kisaki` Body01/02) — 사용자가 무슨 뜻인지 잘 모르겠다고 함 → 받아서 애니메이션 보기 창(`npx electron . --viewer`)에 띄워 비교해 보여 주기. 이름에 Body가 들어가도 외곽선·투명·컷인용이면 해당 없음(`Eimi (Swimsuit)`, `Junko (New Year)`, `Reisa`, `Hanako (Swimsuit)`, `Sena`, `Shigure (Hot Spring)`)
 4. **장면용 짝 파일이 있는 학생** — 사용자가 직접 볼 것 → 문서로 정리해 주기: `Kei` ← (Carrier)·(Carrier 2)·(Prototype)·(Scenario 1)·(Scenario 2), `Eimi (Battle)`·`Rio (Battle)`·`Toki (Battle)` ← (Scenario), `Mika`·`Nagusa`·`Yuzu (Battle)` ← (Cut-in), `Midori`·`Momoi` ← (Battle), `Saori` ← (Dress), `Natsu (Band)` ← (No Weapon)
 
+**학생 배포(2026-10-29 사용자, 브랜치 `feat/student-pack`)**: 앱 안에서 받기 대신 학생 압축을 따로 배포하기로. 받은 학생 폴더 읽기·"학생 폴더 열기"·'검사 전' 표시·`tools/make-pack.js` 완료. 첫 압축(원본 `06bb8e9`): 학생 266 + 짝 파일 20, 원본 1.70GB → `dist/students.zip` 898MB. 카페 대기가 없어 빠진 것: `Nonomi`·`Toki`(전투 동작만 있음, 다른 차림은 들어감)·`Material Development Club Member`. 남은 것: 설치 파일에 넣을 학생 + 삭제할 때 받은 학생 지울지 묻기 → GitHub Releases에 올리기(올리기 전 확인)
+
 2번·4번 문서는 `docs/models.md` 옆에 새 문서로 두거나 거기에 장을 추가(사용자에게 위치 확인). 그 밖에: `Hoshino (Battle)`만 이름 앞에 `01_`/`02_` 접두사가 붙어 아직 지원 안 됨. 클릭 반응 중 원래 짧은 동작(카페 반응 2.3~2.7초, 무장·전투 중 구호·재장전 1.5~2.2초)이 짧게 느껴지면 손볼 수 있다고 말해 둠(사용자 응답 없음).
 
 사용자가 실제 앱에서 확인함(2026-10-10): 마우스로 끌어 옮기기, 트레이 "종료", 다중 모니터 이동, `Move_Jump` 구르기.

@@ -13,7 +13,7 @@ app.whenReady().then(async () => {
   const win = new BrowserWindow({
     show: false,
     width: 862,
-    height: 538,
+    height: 603,
     webPreferences: { offscreen: true, backgroundThrottling: false },
   });
   win.webContents.setFrameRate(60);

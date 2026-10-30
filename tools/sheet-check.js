@@ -11,7 +11,7 @@ const [model = 'Hoshino.glb', out = path.join(ROOT, 'reports', `${model}.${picks
 
 app.whenReady().then(async () => {
   const port = await serve();
-  const win = new BrowserWindow({ show: false, width: 862, height: 538, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = new BrowserWindow({ show: false, width: 862, height: 603, webPreferences: { offscreen: true, backgroundThrottling: false } });
   const js = await openPet(win, port, model);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   let clips, opts = {};

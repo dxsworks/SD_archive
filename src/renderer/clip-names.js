@@ -75,10 +75,16 @@ export const CLIP_TYPOS = {
 // 승리 포즈·쓰러짐·퇴장·뛰기·차림 풀기 앞에 Normal_이 붙은 학생 (Shiroko＊Terror Normal01_Victory_Start·Normal02_Vital_Death·
 // Normal02_FormRelease, Kazusa Normal_Move_Ing) → 앞의 Normal_을 뗀다. 조사 295개 중 Normal_이 없는 같은 이름과 같이 있는 모델은 없음
 const NORMAL_PREFIX = /^normal_(?=(victory|vital|move)_|formrelease$)/;
+// 총 꺼내기 번호 앞에 _가 붙은 학생 (Misaki·Nonomi (Swimsuit) Public_01) → Public01로 읽는다.
+// 이름 끝에서만: Izumi (Swimsuit) Public01_01은 Public01과 같이 있는 다른 동작
+const SPLIT_NUMBER = /^(public)_(?=0\d$)/i;
+// 앞에 Original_이 붙은 이름 (Sumire Original_Public01, Shiroko (Riding) Original_Stand_Idle) → 뗀다.
+// 조사 295개 중 Original_이 없는 같은 이름과 같이 있는 모델은 없음
+const ORIGINAL_PREFIX = /^original_/;
 // 묶는 이름: 차림 번호를 떼고, 소문자로, 띄어쓰기는 _로 (Hanae "Formation Pickup"), 오타는 맞는 이름으로
 export function clipKey(name, onForm) {
-  const key = name.replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; }).toLowerCase().replace(/ /g, '_')
-    .replace(NORMAL_PREFIX, '');
+  const key = name.replace(SPLIT_NUMBER, '$1').replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; })
+    .toLowerCase().replace(/ /g, '_').replace(ORIGINAL_PREFIX, '').replace(NORMAL_PREFIX, '');
   return CLIP_TYPOS[key] ?? key;
 }
 // 동작 이름들을 묶는다 → index: 묶은 이름 → [{ name, form }], forms: 이 모델에 있는 차림 번호들

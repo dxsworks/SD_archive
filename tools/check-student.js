@@ -45,6 +45,8 @@ const ACCEPTED = [
     why: '츠루기 날개 끝이 잠깐 창 아래로 나감 (낮잠 쓰러질 때 0.4초 최대 49px, EX 0.1초 24px, 2026-10-30 사용자 "그대로 둠")' })),
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Normal_Callsign_Random$/i, side: '위', why: '총 꺼내기 0.07초 만에 클릭으로 끊으면 공중 첫 프레임으로 감(30분에 2번)' },
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Victory_Start$/i, side: '위', why: '하늘에서 떨어지며 착지하는 첫 순간 (그대로 두기로 한 연출, 2026-10-23 사용자 "알고 둠")' },
+  { kind: 'edge', model: 'Shiroko＊Terror.glb', clip: /^Normal02_FormRelease$/i, side: '위', why: '전투가 02로 끝나 떼어 보낸 드론이 날아가며 창 위로 나가 잘림, 몸은 그대로 (2026-10-30 사용자 "그대로 둠")' },
+  { kind: 'edge', model: 'Otogi.glb', clip: /^Normal02_Attack_Start$/i, side: '아래', why: '거치 자세로 들어간 직후(ReadyStart → Attack_Start 0.12초) 몸 아래로 가는 선 하나가 잠깐 늘어남 (2026-10-30 사용자 "그대로 둠")' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },

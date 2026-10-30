@@ -16,6 +16,7 @@ const MODELS = path.join(ROOT, 'models');
 const SURVEY = path.join(ROOT, 'docs', 'data', 'model-survey.json');
 
 // .glb 앞부분의 JSON만 읽어서 동작 이름을 본다 (main.js petUsable과 같은 방법)
+// 같은 이름이 두 번 든 파일(Haruka Exs, 데이터도 같음)은 하나로: 펫도 이름으로 찾아서 하나만 씀 (조사 데이터도 이름별)
 function readClipNames(file) {
   const fd = fs.openSync(file, 'r');
   try {
@@ -23,7 +24,7 @@ function readClipNames(file) {
     fs.readSync(fd, head, 0, 20, 0);
     const json = Buffer.alloc(head.readUInt32LE(12));
     fs.readSync(fd, json, 0, json.length, 20);
-    return (JSON.parse(json.toString('utf8')).animations ?? []).map((a) => a.name ?? '');
+    return [...new Set((JSON.parse(json.toString('utf8')).animations ?? []).map((a) => a.name ?? ''))];
   } finally {
     fs.closeSync(fd);
   }

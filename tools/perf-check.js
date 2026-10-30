@@ -35,7 +35,7 @@ function summarize(name, log) {
 app.whenReady().then(async () => {
   const port = await serve();
   const win = new BrowserWindow({
-    x: -6000, y: 100, width: 862, height: 603, useContentSize: true, transparent: true, frame: false, show: false,
+    x: -6000, y: 100, width: 862, height: 732, useContentSize: true, transparent: true, frame: false, show: false,
     backgroundColor: '#00000000', webPreferences: { backgroundThrottling: false },
   });
   win.showInactive();

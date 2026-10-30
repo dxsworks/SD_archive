@@ -54416,5 +54416,11482 @@
     }
    ]
   }
+ ],
+ "Hina (Dress).glb": [
+  {
+   "key": "Normal_Idle → Normal_Attack_Start",
+   "count": 61,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 8,
+   "own": 60,
+   "gap": 135,
+   "slide": 3,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 60,
+     "gap": 135,
+     "slide": 1,
+     "twist": 8
+    },
+    {
+     "spin": 0,
+     "own": 60,
+     "gap": 25,
+     "slide": 2,
+     "twist": -5
+    },
+    {
+     "spin": 1,
+     "own": 60,
+     "gap": 1,
+     "slide": 3,
+     "twist": -7
+    },
+    {
+     "spin": 0,
+     "own": 60,
+     "gap": 13,
+     "slide": 2,
+     "twist": -5
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_Ing",
+   "count": 60,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 159,
+   "gap": 119,
+   "slide": 1,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 159,
+     "gap": 119,
+     "slide": 1,
+     "twist": 4
+    },
+    {
+     "spin": 3,
+     "own": 159,
+     "gap": 47,
+     "slide": 1,
+     "twist": 4
+    },
+    {
+     "spin": 3,
+     "own": 159,
+     "gap": 15,
+     "slide": 1,
+     "twist": 4
+    },
+    {
+     "spin": 3,
+     "own": 159,
+     "gap": 1,
+     "slide": 1,
+     "twist": 4
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Delay",
+   "count": 52,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 114,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 114,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 41,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 15,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Delay → Normal_Attack_End",
+   "count": 52,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 36,
+   "gap": 115,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 36,
+     "gap": 115,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -1,
+     "own": 36,
+     "gap": 44,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -1,
+     "own": 36,
+     "gap": 19,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -1,
+     "own": 36,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Ing",
+   "count": 50,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 159,
+   "gap": 114,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 159,
+     "gap": 114,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 159,
+     "gap": 52,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 159,
+     "gap": 25,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 159,
+     "gap": 1,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Idle",
+   "count": 44,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 118,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 118,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 41,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 15,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 2,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Normal_Idle",
+   "count": 33,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 8,
+   "own": 4,
+   "gap": 126,
+   "slide": 5,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 4,
+     "gap": 126,
+     "slide": 4,
+     "twist": 11
+    },
+    {
+     "spin": 7,
+     "own": 4,
+     "gap": 57,
+     "slide": 5,
+     "twist": 16
+    },
+    {
+     "spin": 7,
+     "own": 4,
+     "gap": 3,
+     "slide": 5,
+     "twist": 16
+    },
+    {
+     "spin": 7,
+     "own": 4,
+     "gap": 19,
+     "slide": 5,
+     "twist": 16
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Callsign",
+   "count": 27,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 9,
+   "own": 12,
+   "gap": 60,
+   "slide": 5,
+   "twist": 19,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 12,
+     "gap": 60,
+     "slide": 5,
+     "twist": 17,
+     "click": true
+    },
+    {
+     "spin": 6,
+     "own": 12,
+     "gap": 22,
+     "slide": 5,
+     "twist": 16,
+     "click": true
+    },
+    {
+     "spin": 6,
+     "own": 12,
+     "gap": 36,
+     "slide": 5,
+     "twist": 16,
+     "click": true
+    },
+    {
+     "spin": 9,
+     "own": 12,
+     "gap": 25,
+     "slide": 5,
+     "twist": 19
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Victory_End_Random",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Idle",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 54,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 54,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 20,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 160,
+   "own": 23,
+   "gap": 161,
+   "slide": 19,
+   "twist": 162,
+   "examples": [
+    {
+     "spin": 160,
+     "own": 23,
+     "gap": 161,
+     "slide": 19,
+     "twist": 162
+    },
+    {
+     "spin": 123,
+     "own": 23,
+     "gap": 124,
+     "slide": 17,
+     "twist": 120
+    },
+    {
+     "spin": 96,
+     "own": 23,
+     "gap": 97,
+     "slide": 16,
+     "twist": 93
+    },
+    {
+     "spin": 18,
+     "own": 23,
+     "gap": 18,
+     "slide": 16,
+     "twist": 26
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Move_Ing",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 78,
+   "own": 60,
+   "gap": 84,
+   "slide": 22,
+   "twist": 123,
+   "examples": [
+    {
+     "spin": 20,
+     "own": 60,
+     "gap": 63,
+     "slide": 22,
+     "twist": 42
+    },
+    {
+     "spin": 78,
+     "own": 60,
+     "gap": 84,
+     "slide": 20,
+     "twist": 123
+    },
+    {
+     "spin": 61,
+     "own": 60,
+     "gap": 64,
+     "slide": 20,
+     "twist": 106
+    },
+    {
+     "spin": 15,
+     "own": 60,
+     "gap": 13,
+     "slide": 19,
+     "twist": 72
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Cafe_Idle",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 32,
+   "own": 4,
+   "gap": 31,
+   "slide": 17,
+   "twist": 47,
+   "examples": [
+    {
+     "spin": 32,
+     "own": 4,
+     "gap": 31,
+     "slide": 17,
+     "twist": 47
+    },
+    {
+     "spin": 24,
+     "own": 4,
+     "gap": 19,
+     "slide": 16,
+     "twist": 35
+    },
+    {
+     "spin": 15,
+     "own": 4,
+     "gap": 2,
+     "slide": 14,
+     "twist": 16
+    },
+    {
+     "spin": 18,
+     "own": 4,
+     "gap": 17,
+     "slide": 13,
+     "twist": 11
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Victory_End",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 2,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Normal",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 45,
+   "own": 60,
+   "gap": 45,
+   "slide": 25,
+   "twist": 150,
+   "examples": [
+    {
+     "spin": 45,
+     "own": 60,
+     "gap": 45,
+     "slide": 25,
+     "twist": 150
+    },
+    {
+     "spin": 20,
+     "own": 60,
+     "gap": 20,
+     "slide": 0,
+     "twist": 9
+    },
+    {
+     "spin": -2,
+     "own": 60,
+     "gap": 15,
+     "slide": 20,
+     "twist": 11
+    },
+    {
+     "spin": -6,
+     "own": 60,
+     "gap": 6,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload_Random → Normal_Idle",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 5,
+   "own": 4,
+   "gap": 126,
+   "slide": 2,
+   "twist": 6,
+   "examples": [
+    {
+     "spin": 5,
+     "own": 4,
+     "gap": 126,
+     "slide": 2,
+     "twist": 6
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 43,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 20,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 5,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Idle",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 80,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 80,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 40,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 14,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 11,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Normal_Idle",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 53,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 53,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 38,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 19,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 3,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Reload_Random",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 74,
+   "gap": 104,
+   "slide": 2,
+   "twist": 7,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 74,
+     "gap": 104,
+     "slide": 2,
+     "twist": 7
+    },
+    {
+     "spin": -2,
+     "own": 74,
+     "gap": 23,
+     "slide": 2,
+     "twist": 4
+    },
+    {
+     "spin": -2,
+     "own": 74,
+     "gap": 7,
+     "slide": 2,
+     "twist": 7
+    },
+    {
+     "spin": -3,
+     "own": 74,
+     "gap": 1,
+     "slide": 1,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Public01",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 49,
+   "own": 9,
+   "gap": 50,
+   "slide": 25,
+   "twist": 72,
+   "examples": [
+    {
+     "spin": 47,
+     "own": 9,
+     "gap": 48,
+     "slide": 25,
+     "twist": 70,
+     "click": true
+    },
+    {
+     "spin": 46,
+     "own": 9,
+     "gap": 47,
+     "slide": 25,
+     "twist": 70
+    },
+    {
+     "spin": 49,
+     "own": 9,
+     "gap": 50,
+     "slide": 25,
+     "twist": 72
+    },
+    {
+     "spin": 41,
+     "own": 9,
+     "gap": 41,
+     "slide": 25,
+     "twist": 66
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 133,
+   "own": 4,
+   "gap": 139,
+   "slide": 48,
+   "twist": 210,
+   "examples": [
+    {
+     "spin": 133,
+     "own": 4,
+     "gap": 139,
+     "slide": 18,
+     "twist": 210
+    },
+    {
+     "spin": 115,
+     "own": 4,
+     "gap": 116,
+     "slide": 48,
+     "twist": 192
+    },
+    {
+     "spin": 96,
+     "own": 4,
+     "gap": 98,
+     "slide": 43,
+     "twist": 160
+    },
+    {
+     "spin": 72,
+     "own": 4,
+     "gap": 76,
+     "slide": 45,
+     "twist": 201
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Reload",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 20,
+   "gap": 59,
+   "slide": 1,
+   "twist": 3,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 20,
+     "gap": 59,
+     "slide": 1,
+     "twist": 3
+    },
+    {
+     "spin": -1,
+     "own": 20,
+     "gap": 33,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -1,
+     "own": 20,
+     "gap": 8,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 1,
+     "own": 20,
+     "gap": 2,
+     "slide": 0,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Cafe_Idle",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 17,
+   "own": 4,
+   "gap": 17,
+   "slide": 7,
+   "twist": 73,
+   "examples": [
+    {
+     "spin": 17,
+     "own": 4,
+     "gap": 17,
+     "slide": 7,
+     "twist": 73
+    },
+    {
+     "spin": 17,
+     "own": 4,
+     "gap": 17,
+     "slide": 7,
+     "twist": 73
+    },
+    {
+     "spin": 17,
+     "own": 4,
+     "gap": 17,
+     "slide": 7,
+     "twist": 73
+    },
+    {
+     "spin": 17,
+     "own": 4,
+     "gap": 17,
+     "slide": 7,
+     "twist": 73
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 22,
+   "own": 4,
+   "gap": 23,
+   "slide": 83,
+   "twist": 105,
+   "examples": [
+    {
+     "spin": 22,
+     "own": 4,
+     "gap": 23,
+     "slide": 83,
+     "twist": 94
+    },
+    {
+     "spin": 16,
+     "own": 4,
+     "gap": 15,
+     "slide": 80,
+     "twist": 95
+    },
+    {
+     "spin": 10,
+     "own": 4,
+     "gap": 3,
+     "slide": 76,
+     "twist": 100
+    },
+    {
+     "spin": 13,
+     "own": 4,
+     "gap": 13,
+     "slide": 72,
+     "twist": 105
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Victory_Start_Random",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 123,
+   "own": 1,
+   "gap": 119,
+   "slide": 51,
+   "twist": 99,
+   "examples": [
+    {
+     "spin": 93,
+     "own": 1,
+     "gap": 79,
+     "slide": 51,
+     "twist": 76
+    },
+    {
+     "spin": 97,
+     "own": 1,
+     "gap": 84,
+     "slide": 51,
+     "twist": 76,
+     "click": true
+    },
+    {
+     "spin": 110,
+     "own": 1,
+     "gap": 101,
+     "slide": 48,
+     "twist": 83
+    },
+    {
+     "spin": 123,
+     "own": 1,
+     "gap": 119,
+     "slide": 46,
+     "twist": 99
+    }
+   ]
+  },
+  {
+   "key": "Exs04 → Exs04_Idle",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs04_Idle → Exs04_FormRelease",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 59,
+   "gap": 3,
+   "slide": 0,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 59,
+     "gap": 3,
+     "slide": 0,
+     "twist": 2
+    },
+    {
+     "spin": 0,
+     "own": 59,
+     "gap": 3,
+     "slide": 0,
+     "twist": 2
+    },
+    {
+     "spin": 0,
+     "own": 59,
+     "gap": 3,
+     "slide": 0,
+     "twist": 2
+    },
+    {
+     "spin": 0,
+     "own": 59,
+     "gap": 3,
+     "slide": 0,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Exs04_FormRelease → Normal_Idle",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 21,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 21,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 15,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 15,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 15,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_End",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 5,
+   "own": 36,
+   "gap": 104,
+   "slide": 3,
+   "twist": 50,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 36,
+     "gap": 104,
+     "slide": 0,
+     "twist": -1,
+     "click": true
+    },
+    {
+     "spin": 5,
+     "own": 36,
+     "gap": 30,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": -3,
+     "own": 36,
+     "gap": 9,
+     "slide": 3,
+     "twist": 50,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 36,
+     "gap": 0,
+     "slide": 0,
+     "twist": -2,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs04",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 37,
+   "own": 73,
+   "gap": 54,
+   "slide": 44,
+   "twist": 60,
+   "examples": [
+    {
+     "spin": 37,
+     "own": 73,
+     "gap": 54,
+     "slide": 42,
+     "twist": 21
+    },
+    {
+     "spin": 11,
+     "own": 73,
+     "gap": 15,
+     "slide": 43,
+     "twist": 57
+    },
+    {
+     "spin": 11,
+     "own": 73,
+     "gap": 14,
+     "slide": 43,
+     "twist": 57
+    },
+    {
+     "spin": 8,
+     "own": 73,
+     "gap": 9,
+     "slide": 44,
+     "twist": 60
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Victory_Start_Random",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 271,
+   "own": 1,
+   "gap": 158,
+   "slide": 98,
+   "twist": 324,
+   "examples": [
+    {
+     "spin": 83,
+     "own": 1,
+     "gap": 28,
+     "slide": 98,
+     "twist": 82
+    },
+    {
+     "spin": 271,
+     "own": 1,
+     "gap": 87,
+     "slide": 77,
+     "twist": 324
+    },
+    {
+     "spin": 214,
+     "own": 1,
+     "gap": 144,
+     "slide": 69,
+     "twist": 267
+    },
+    {
+     "spin": 200,
+     "own": 1,
+     "gap": 158,
+     "slide": 68,
+     "twist": 253
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Exs01_Idle",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 1,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs03 → Exs03_Idle",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 1,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs03_Idle → Exs03_FormRelease",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 21,
+   "gap": 1,
+   "slide": 0,
+   "twist": -3,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 21,
+     "gap": 1,
+     "slide": 0,
+     "twist": -3
+    },
+    {
+     "spin": -1,
+     "own": 21,
+     "gap": 1,
+     "slide": 0,
+     "twist": -3
+    },
+    {
+     "spin": -1,
+     "own": 21,
+     "gap": 1,
+     "slide": 0,
+     "twist": -3
+    },
+    {
+     "spin": -1,
+     "own": 21,
+     "gap": 1,
+     "slide": 0,
+     "twist": -3
+    }
+   ]
+  },
+  {
+   "key": "Exs03_FormRelease → Normal_Idle",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 25,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 25,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 25,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 25,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 25,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 101,
+   "own": 26,
+   "gap": 122,
+   "slide": 108,
+   "twist": 127,
+   "examples": [
+    {
+     "spin": 49,
+     "own": 26,
+     "gap": 11,
+     "slide": 108,
+     "twist": 127
+    },
+    {
+     "spin": 101,
+     "own": 26,
+     "gap": 122,
+     "slide": 94,
+     "twist": 123
+    },
+    {
+     "spin": 70,
+     "own": 26,
+     "gap": 65,
+     "slide": 87,
+     "twist": 110
+    },
+    {
+     "spin": 82,
+     "own": 26,
+     "gap": 92,
+     "slide": 80,
+     "twist": 115
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Victory_Start",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 47,
+   "own": 30,
+   "gap": 50,
+   "slide": 15,
+   "twist": 64,
+   "examples": [
+    {
+     "spin": 47,
+     "own": 30,
+     "gap": 50,
+     "slide": 15,
+     "twist": 51
+    },
+    {
+     "spin": 35,
+     "own": 30,
+     "gap": 38,
+     "slide": 15,
+     "twist": 51,
+     "click": true
+    },
+    {
+     "spin": 38,
+     "own": 30,
+     "gap": 41,
+     "slide": 15,
+     "twist": 52,
+     "click": true
+    },
+    {
+     "spin": 24,
+     "own": 30,
+     "gap": 26,
+     "slide": 13,
+     "twist": 64
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Victory_Start",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 152,
+   "own": 30,
+   "gap": 157,
+   "slide": 48,
+   "twist": 135,
+   "examples": [
+    {
+     "spin": 152,
+     "own": 30,
+     "gap": 157,
+     "slide": 48,
+     "twist": 135
+    },
+    {
+     "spin": 55,
+     "own": 30,
+     "gap": 49,
+     "slide": 19,
+     "twist": 61
+    },
+    {
+     "spin": 103,
+     "own": 30,
+     "gap": 105,
+     "slide": 30,
+     "twist": 83
+    },
+    {
+     "spin": 86,
+     "own": 30,
+     "gap": 87,
+     "slide": 24,
+     "twist": 64
+    }
+   ]
+  },
+  {
+   "key": "Exs01_Idle → Exs01_FormRelease",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 24,
+   "gap": 0,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 24,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 24,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 24,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 24,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Exs01_FormRelease → Normal_Idle",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 21,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 21,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 21,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 9,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 9,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Callsign",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 7,
+   "own": 12,
+   "gap": 25,
+   "slide": 5,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": 7,
+     "own": 12,
+     "gap": 12,
+     "slide": 5,
+     "twist": 16
+    },
+    {
+     "spin": 7,
+     "own": 12,
+     "gap": 12,
+     "slide": 5,
+     "twist": 16
+    },
+    {
+     "spin": 7,
+     "own": 12,
+     "gap": 25,
+     "slide": 5,
+     "twist": 15
+    },
+    {
+     "spin": 7,
+     "own": 12,
+     "gap": 16,
+     "slide": 5,
+     "twist": 16
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Victory_Start_Random",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 241,
+   "own": 1,
+   "gap": 161,
+   "slide": 79,
+   "twist": 292,
+   "examples": [
+    {
+     "spin": 241,
+     "own": 1,
+     "gap": 117,
+     "slide": 79,
+     "twist": 292
+    },
+    {
+     "spin": 206,
+     "own": 1,
+     "gap": 152,
+     "slide": 72,
+     "twist": 257
+    },
+    {
+     "spin": 159,
+     "own": 1,
+     "gap": 161,
+     "slide": 66,
+     "twist": 210
+    },
+    {
+     "spin": 158,
+     "own": 1,
+     "gap": 160,
+     "slide": 65,
+     "twist": 209
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Reload",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 4,
+   "own": 20,
+   "gap": 107,
+   "slide": 3,
+   "twist": 36,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 20,
+     "gap": 107,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 4,
+     "own": 20,
+     "gap": 34,
+     "slide": 3,
+     "twist": 36,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 20,
+     "gap": 15,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Victory_Start",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 44,
+   "own": 30,
+   "gap": 49,
+   "slide": 24,
+   "twist": 42,
+   "examples": [
+    {
+     "spin": 43,
+     "own": 30,
+     "gap": 48,
+     "slide": 24,
+     "twist": 40,
+     "click": true
+    },
+    {
+     "spin": 44,
+     "own": 30,
+     "gap": 49,
+     "slide": 24,
+     "twist": 40,
+     "click": true
+    },
+    {
+     "spin": 41,
+     "own": 30,
+     "gap": 46,
+     "slide": 24,
+     "twist": 42,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 11,
+   "own": 26,
+   "gap": 22,
+   "slide": 72,
+   "twist": 151,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 26,
+     "gap": 13,
+     "slide": 1,
+     "twist": 9
+    },
+    {
+     "spin": 11,
+     "own": 26,
+     "gap": 22,
+     "slide": 69,
+     "twist": 146
+    },
+    {
+     "spin": 11,
+     "own": 26,
+     "gap": 13,
+     "slide": 72,
+     "twist": 151
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign_Random → Normal_Idle",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 22,
+   "own": 4,
+   "gap": 11,
+   "slide": 39,
+   "twist": 62,
+   "examples": [
+    {
+     "spin": 22,
+     "own": 4,
+     "gap": 1,
+     "slide": 39,
+     "twist": 61
+    },
+    {
+     "spin": 22,
+     "own": 4,
+     "gap": 0,
+     "slide": 39,
+     "twist": 61
+    },
+    {
+     "spin": 22,
+     "own": 4,
+     "gap": 11,
+     "slide": 39,
+     "twist": 62
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 18,
+   "own": 45,
+   "gap": 51,
+   "slide": 3,
+   "twist": 25,
+   "examples": [
+    {
+     "spin": 18,
+     "own": 45,
+     "gap": 51,
+     "slide": 3,
+     "twist": 25,
+     "click": true
+    },
+    {
+     "spin": 3,
+     "own": 44,
+     "gap": 28,
+     "slide": 0,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": -4,
+     "own": 44,
+     "gap": 19,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Public01",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 168,
+   "own": 9,
+   "gap": 178,
+   "slide": 46,
+   "twist": 317,
+   "examples": [
+    {
+     "spin": 168,
+     "own": 9,
+     "gap": 178,
+     "slide": 36,
+     "twist": 317,
+     "click": true
+    },
+    {
+     "spin": 38,
+     "own": 9,
+     "gap": 2,
+     "slide": 46,
+     "twist": 190,
+     "click": true
+    },
+    {
+     "spin": 77,
+     "own": 9,
+     "gap": 82,
+     "slide": 37,
+     "twist": 314,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Vital_Death",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -30,
+   "own": 63,
+   "gap": 39,
+   "slide": 39,
+   "twist": 92,
+   "examples": [
+    {
+     "spin": -30,
+     "own": 63,
+     "gap": 27,
+     "slide": 39,
+     "twist": 92
+    },
+    {
+     "spin": -34,
+     "own": 63,
+     "gap": 32,
+     "slide": 38,
+     "twist": 85
+    },
+    {
+     "spin": -38,
+     "own": 63,
+     "gap": 39,
+     "slide": 37,
+     "twist": 76
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs02",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 15,
+   "own": 109,
+   "gap": 18,
+   "slide": 9,
+   "twist": 17,
+   "examples": [
+    {
+     "spin": 15,
+     "own": 109,
+     "gap": 18,
+     "slide": 9,
+     "twist": 17
+    },
+    {
+     "spin": 6,
+     "own": 109,
+     "gap": 5,
+     "slide": 8,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Exs02_Idle",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs02_Idle → Exs02_FormRelease",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 24,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 24,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -1,
+     "own": 24,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs02_FormRelease → Normal_Idle",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 17,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 17,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 17,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Callsign_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 12,
+   "own": 28,
+   "gap": 51,
+   "slide": 10,
+   "twist": 71,
+   "examples": [
+    {
+     "spin": 11,
+     "own": 28,
+     "gap": 50,
+     "slide": 10,
+     "twist": 70
+    },
+    {
+     "spin": 12,
+     "own": 28,
+     "gap": 51,
+     "slide": 10,
+     "twist": 71
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload_Random → Normal_Callsign",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 9,
+   "own": 12,
+   "gap": 9,
+   "slide": 12,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 12,
+     "gap": 3,
+     "slide": 5,
+     "twist": 16,
+     "click": true
+    },
+    {
+     "spin": 9,
+     "own": 12,
+     "gap": 9,
+     "slide": 12,
+     "twist": 3,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 57,
+   "own": 125,
+   "gap": 147,
+   "slide": 45,
+   "twist": 111,
+   "examples": [
+    {
+     "spin": 57,
+     "own": 125,
+     "gap": 147,
+     "slide": 45,
+     "twist": 111
+    },
+    {
+     "spin": -5,
+     "own": 125,
+     "gap": 58,
+     "slide": 8,
+     "twist": 23
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 108,
+   "own": 1,
+   "gap": 94,
+   "slide": 56,
+   "twist": 106,
+   "examples": [
+    {
+     "spin": 108,
+     "own": 1,
+     "gap": 94,
+     "slide": 56,
+     "twist": 106,
+     "click": true
+    },
+    {
+     "spin": 106,
+     "own": 1,
+     "gap": 93,
+     "slide": 56,
+     "twist": 106,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 1,
+   "gap": 1,
+   "slide": 1,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 1,
+     "gap": 1,
+     "slide": 1,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Reload_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 74,
+   "gap": 65,
+   "slide": 2,
+   "twist": 6,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 74,
+     "gap": 65,
+     "slide": 2,
+     "twist": 6
+    },
+    {
+     "spin": -2,
+     "own": 74,
+     "gap": 27,
+     "slide": 2,
+     "twist": 6
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 259,
+   "own": 1,
+   "gap": 139,
+   "slide": 75,
+   "twist": 313,
+   "examples": [
+    {
+     "spin": 259,
+     "own": 1,
+     "gap": 98,
+     "slide": 75,
+     "twist": 313
+    },
+    {
+     "spin": 219,
+     "own": 1,
+     "gap": 139,
+     "slide": 70,
+     "twist": 273
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 282,
+   "own": 1,
+   "gap": 78,
+   "slide": 93,
+   "twist": 286,
+   "examples": [
+    {
+     "spin": 282,
+     "own": 1,
+     "gap": 78,
+     "slide": 93,
+     "twist": 286,
+     "click": true
+    },
+    {
+     "spin": 74,
+     "own": 1,
+     "gap": 25,
+     "slide": 92,
+     "twist": 88,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Vital_Death → Public01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 65,
+   "own": 9,
+   "gap": 46,
+   "slide": 30,
+   "twist": 133,
+   "examples": [
+    {
+     "spin": 63,
+     "own": 9,
+     "gap": 37,
+     "slide": 25,
+     "twist": 62,
+     "click": true
+    },
+    {
+     "spin": 65,
+     "own": 9,
+     "gap": 46,
+     "slide": 30,
+     "twist": 133,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Victory_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 52,
+   "own": 30,
+   "gap": 37,
+   "slide": 19,
+   "twist": 64,
+   "examples": [
+    {
+     "spin": 52,
+     "own": 30,
+     "gap": 37,
+     "slide": 19,
+     "twist": 64
+    },
+    {
+     "spin": 3,
+     "own": 30,
+     "gap": 9,
+     "slide": 2,
+     "twist": 8,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Cafe_Reaction",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 23,
+   "own": 44,
+   "gap": 43,
+   "slide": 15,
+   "twist": 22,
+   "examples": [
+    {
+     "spin": 9,
+     "own": 44,
+     "gap": 22,
+     "slide": 15,
+     "twist": 22,
+     "click": true
+    },
+    {
+     "spin": 23,
+     "own": 44,
+     "gap": 43,
+     "slide": 14,
+     "twist": 10,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Cafe_Idle",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 62,
+   "own": 4,
+   "gap": 57,
+   "slide": 17,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 62,
+     "own": 4,
+     "gap": 57,
+     "slide": 17,
+     "twist": 57
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_End",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -3,
+   "own": 36,
+   "gap": 2,
+   "slide": 1,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 36,
+     "gap": 2,
+     "slide": 1,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs01_Idle → Normal_Reload_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -9,
+   "own": 74,
+   "gap": 45,
+   "slide": 13,
+   "twist": 5,
+   "examples": [
+    {
+     "spin": -9,
+     "own": 74,
+     "gap": 45,
+     "slide": 13,
+     "twist": 5,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs03",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 16,
+   "own": 26,
+   "gap": 25,
+   "slide": 24,
+   "twist": 40,
+   "examples": [
+    {
+     "spin": 16,
+     "own": 26,
+     "gap": 25,
+     "slide": 24,
+     "twist": 40
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Callsign_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 8,
+   "own": 28,
+   "gap": 37,
+   "slide": 20,
+   "twist": 32,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 28,
+     "gap": 37,
+     "slide": 20,
+     "twist": 32,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 85,
+   "own": 26,
+   "gap": 81,
+   "slide": 88,
+   "twist": 34,
+   "examples": [
+    {
+     "spin": 85,
+     "own": 26,
+     "gap": 81,
+     "slide": 88,
+     "twist": 34
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Exs01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -20,
+   "own": 125,
+   "gap": 36,
+   "slide": 4,
+   "twist": 10,
+   "examples": [
+    {
+     "spin": -20,
+     "own": 125,
+     "gap": 36,
+     "slide": 4,
+     "twist": 10,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 6,
+   "own": 44,
+   "gap": 35,
+   "slide": 6,
+   "twist": 58,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 44,
+     "gap": 35,
+     "slide": 6,
+     "twist": 58,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Exs03",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 149,
+   "own": 26,
+   "gap": 160,
+   "slide": 99,
+   "twist": 122,
+   "examples": [
+    {
+     "spin": 149,
+     "own": 26,
+     "gap": 160,
+     "slide": 99,
+     "twist": 122,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Exs03",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 64,
+   "own": 26,
+   "gap": 80,
+   "slide": 37,
+   "twist": 29,
+   "examples": [
+    {
+     "spin": 64,
+     "own": 26,
+     "gap": 80,
+     "slide": 37,
+     "twist": 29,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Normal_Callsign",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 14,
+   "own": 12,
+   "gap": 109,
+   "slide": 40,
+   "twist": 129,
+   "examples": [
+    {
+     "spin": 14,
+     "own": 12,
+     "gap": 109,
+     "slide": 40,
+     "twist": 129,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs03",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 63,
+   "own": 26,
+   "gap": 78,
+   "slide": 57,
+   "twist": 68,
+   "examples": [
+    {
+     "spin": 63,
+     "own": 26,
+     "gap": 78,
+     "slide": 57,
+     "twist": 68,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Vital_Death → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -7,
+   "own": 44,
+   "gap": 35,
+   "slide": 37,
+   "twist": 187,
+   "examples": [
+    {
+     "spin": -7,
+     "own": 44,
+     "gap": 35,
+     "slide": 37,
+     "twist": 187,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 101,
+   "own": 1,
+   "gap": 98,
+   "slide": 59,
+   "twist": 98,
+   "examples": [
+    {
+     "spin": 101,
+     "own": 1,
+     "gap": 98,
+     "slide": 59,
+     "twist": 98,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 20,
+   "gap": 24,
+   "slide": 0,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 20,
+     "gap": 24,
+     "slide": 0,
+     "twist": 2,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Exs01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 7,
+   "own": 125,
+   "gap": 81,
+   "slide": 23,
+   "twist": 97,
+   "examples": [
+    {
+     "spin": 7,
+     "own": 125,
+     "gap": 81,
+     "slide": 23,
+     "twist": 97,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Exs04",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 83,
+   "own": 73,
+   "gap": 101,
+   "slide": 39,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 83,
+     "own": 73,
+     "gap": 101,
+     "slide": 39,
+     "twist": 57,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Public01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 38,
+   "own": 9,
+   "gap": 38,
+   "slide": 17,
+   "twist": 196,
+   "examples": [
+    {
+     "spin": 38,
+     "own": 9,
+     "gap": 38,
+     "slide": 17,
+     "twist": 196,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Exs01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 18,
+   "own": 125,
+   "gap": 86,
+   "slide": 17,
+   "twist": 47,
+   "examples": [
+    {
+     "spin": 18,
+     "own": 125,
+     "gap": 86,
+     "slide": 17,
+     "twist": 47
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Public01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 190,
+   "own": 9,
+   "gap": 169,
+   "slide": 65,
+   "twist": 228,
+   "examples": [
+    {
+     "spin": 190,
+     "own": 9,
+     "gap": 169,
+     "slide": 65,
+     "twist": 228,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Public01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 82,
+   "own": 9,
+   "gap": 82,
+   "slide": 31,
+   "twist": 82,
+   "examples": [
+    {
+     "spin": 82,
+     "own": 9,
+     "gap": 82,
+     "slide": 31,
+     "twist": 82,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 104,
+   "own": 30,
+   "gap": 111,
+   "slide": 24,
+   "twist": 84,
+   "examples": [
+    {
+     "spin": 104,
+     "own": 30,
+     "gap": 111,
+     "slide": 24,
+     "twist": 84,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 34,
+   "own": 30,
+   "gap": 39,
+   "slide": 29,
+   "twist": 36,
+   "examples": [
+    {
+     "spin": 34,
+     "own": 30,
+     "gap": 39,
+     "slide": 29,
+     "twist": 36,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Mika (Swimsuit).glb": [
+  {
+   "key": "Normal_Idle → Normal_Attack_Start",
+   "count": 39,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -8,
+   "own": 36,
+   "gap": 123,
+   "slide": -1,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": -8,
+     "own": 36,
+     "gap": 123,
+     "slide": -1,
+     "twist": 1
+    },
+    {
+     "spin": -8,
+     "own": 36,
+     "gap": 52,
+     "slide": -1,
+     "twist": 0
+    },
+    {
+     "spin": -8,
+     "own": 36,
+     "gap": 36,
+     "slide": -1,
+     "twist": 4
+    },
+    {
+     "spin": -8,
+     "own": 36,
+     "gap": 5,
+     "slide": -1,
+     "twist": -1
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Start → Kneel_Attack_Delay",
+   "count": 38,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 109,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 109,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 40,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 14,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 2,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_Ing",
+   "count": 38,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 2,
+   "own": 84,
+   "gap": 120,
+   "slide": 2,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 84,
+     "gap": 120,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 2,
+     "own": 84,
+     "gap": 59,
+     "slide": 2,
+     "twist": 4
+    },
+    {
+     "spin": 2,
+     "own": 84,
+     "gap": 34,
+     "slide": 1,
+     "twist": 4
+    },
+    {
+     "spin": 2,
+     "own": 84,
+     "gap": 4,
+     "slide": 1,
+     "twist": 4
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Delay → Kneel_Attack_End",
+   "count": 37,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -20,
+   "own": 102,
+   "gap": 155,
+   "slide": 81,
+   "twist": 15,
+   "examples": [
+    {
+     "spin": -20,
+     "own": 102,
+     "gap": 155,
+     "slide": 81,
+     "twist": 15
+    },
+    {
+     "spin": -20,
+     "own": 102,
+     "gap": 47,
+     "slide": 37,
+     "twist": 4
+    },
+    {
+     "spin": -20,
+     "own": 102,
+     "gap": 10,
+     "slide": 37,
+     "twist": 4
+    },
+    {
+     "spin": -20,
+     "own": 102,
+     "gap": 6,
+     "slide": 38,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Delay",
+   "count": 35,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 120,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 120,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 68,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 31,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Delay → Normal_Attack_End",
+   "count": 35,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 4,
+   "gap": 120,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 4,
+     "gap": 120,
+     "slide": -1,
+     "twist": 0
+    },
+    {
+     "spin": -1,
+     "own": 4,
+     "gap": 67,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 4,
+     "gap": 32,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 4,
+     "gap": 1,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Idle",
+   "count": 31,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 3,
+   "gap": 122,
+   "slide": 0,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 3,
+     "gap": 122,
+     "slide": 0,
+     "twist": 2
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 59,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 30,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 3,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Ing",
+   "count": 30,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 84,
+   "gap": 120,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 84,
+     "gap": 120,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 84,
+     "gap": 45,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 84,
+     "gap": 24,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 84,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 144,
+   "own": 23,
+   "gap": 172,
+   "slide": 58,
+   "twist": 184,
+   "examples": [
+    {
+     "spin": 144,
+     "own": 23,
+     "gap": 172,
+     "slide": 58,
+     "twist": 144
+    },
+    {
+     "spin": 66,
+     "own": 23,
+     "gap": 66,
+     "slide": 16,
+     "twist": 184
+    },
+    {
+     "spin": 84,
+     "own": 23,
+     "gap": 105,
+     "slide": 36,
+     "twist": 132
+    },
+    {
+     "spin": 14,
+     "own": 23,
+     "gap": 6,
+     "slide": 18,
+     "twist": 142
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Normal_Idle",
+   "count": 21,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 113,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 113,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 56,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 41,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 17,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Normal_Idle",
+   "count": 19,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 21,
+   "own": 3,
+   "gap": 138,
+   "slide": 10,
+   "twist": 60,
+   "examples": [
+    {
+     "spin": 21,
+     "own": 3,
+     "gap": 138,
+     "slide": 7,
+     "twist": 60
+    },
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 7,
+     "slide": 10,
+     "twist": 47
+    },
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 46,
+     "slide": 10,
+     "twist": 47
+    },
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 26,
+     "slide": 10,
+     "twist": 47
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Victory_End_Random",
+   "count": 19,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 5,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Kneel_Attack_Ing",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 83,
+   "gap": 115,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 83,
+     "gap": 115,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 83,
+     "gap": 38,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 83,
+     "gap": 9,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 83,
+     "gap": 1,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Reload",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 43,
+   "gap": 91,
+   "slide": 1,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 43,
+     "gap": 91,
+     "slide": 1,
+     "twist": 8,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 43,
+     "gap": 54,
+     "slide": 1,
+     "twist": 8
+    },
+    {
+     "spin": -3,
+     "own": 43,
+     "gap": 36,
+     "slide": 1,
+     "twist": 8,
+     "click": true
+    },
+    {
+     "spin": -3,
+     "own": 43,
+     "gap": 5,
+     "slide": 1,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Idle",
+   "count": 17,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 58,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 58,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 36,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 2,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Callsign",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 35,
+   "gap": 116,
+   "slide": 10,
+   "twist": 11,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 35,
+     "gap": 116,
+     "slide": 9,
+     "twist": 10,
+     "click": true
+    },
+    {
+     "spin": -1,
+     "own": 35,
+     "gap": 32,
+     "slide": 9,
+     "twist": 11,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 35,
+     "gap": 11,
+     "slide": 10,
+     "twist": 10,
+     "click": true
+    },
+    {
+     "spin": -1,
+     "own": 35,
+     "gap": 6,
+     "slide": 10,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Delay → Kneel_Attack_Ing",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -6,
+   "own": 83,
+   "gap": 110,
+   "slide": 7,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": -6,
+     "own": 83,
+     "gap": 110,
+     "slide": 7,
+     "twist": 6
+    },
+    {
+     "spin": -6,
+     "own": 83,
+     "gap": 33,
+     "slide": 7,
+     "twist": 6
+    },
+    {
+     "spin": -6,
+     "own": 83,
+     "gap": 7,
+     "slide": 7,
+     "twist": 6
+    },
+    {
+     "spin": -6,
+     "own": 83,
+     "gap": 1,
+     "slide": 6,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Public01",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 41,
+   "own": 23,
+   "gap": 60,
+   "slide": 14,
+   "twist": 62,
+   "examples": [
+    {
+     "spin": 41,
+     "own": 23,
+     "gap": 60,
+     "slide": 14,
+     "twist": 61
+    },
+    {
+     "spin": 40,
+     "own": 23,
+     "gap": 59,
+     "slide": 13,
+     "twist": 61
+    },
+    {
+     "spin": 37,
+     "own": 23,
+     "gap": 57,
+     "slide": 14,
+     "twist": 61
+    },
+    {
+     "spin": 39,
+     "own": 23,
+     "gap": 59,
+     "slide": 13,
+     "twist": 62,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Kneel",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 181,
+   "gap": 29,
+   "slide": 36,
+   "twist": 93,
+   "examples": [
+    {
+     "spin": -17,
+     "own": 181,
+     "gap": 23,
+     "slide": 5,
+     "twist": -2
+    },
+    {
+     "spin": -4,
+     "own": 181,
+     "gap": 29,
+     "slide": 0,
+     "twist": 7
+    },
+    {
+     "spin": 3,
+     "own": 181,
+     "gap": 1,
+     "slide": 36,
+     "twist": 93
+    },
+    {
+     "spin": 1,
+     "own": 181,
+     "gap": 1,
+     "slide": 5,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Cafe_Idle",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 35,
+   "own": 5,
+   "gap": 37,
+   "slide": 7,
+   "twist": 27,
+   "examples": [
+    {
+     "spin": 35,
+     "own": 5,
+     "gap": 37,
+     "slide": 7,
+     "twist": 27
+    },
+    {
+     "spin": 35,
+     "own": 5,
+     "gap": 37,
+     "slide": 7,
+     "twist": 27
+    },
+    {
+     "spin": 35,
+     "own": 5,
+     "gap": 37,
+     "slide": 7,
+     "twist": 27
+    },
+    {
+     "spin": 35,
+     "own": 5,
+     "gap": 37,
+     "slide": 7,
+     "twist": 27
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Kneel_Attack_Delay",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 115,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 115,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 38,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 8,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 2,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 134,
+   "own": 5,
+   "gap": 134,
+   "slide": 43,
+   "twist": 144,
+   "examples": [
+    {
+     "spin": 134,
+     "own": 5,
+     "gap": 134,
+     "slide": 43,
+     "twist": 113
+    },
+    {
+     "spin": 115,
+     "own": 5,
+     "gap": 124,
+     "slide": 28,
+     "twist": 144
+    },
+    {
+     "spin": 45,
+     "own": 5,
+     "gap": 45,
+     "slide": 29,
+     "twist": 60
+    },
+    {
+     "spin": 17,
+     "own": 5,
+     "gap": 18,
+     "slide": 21,
+     "twist": 67
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Kneel_Attack_Start",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -8,
+   "own": 80,
+   "gap": 117,
+   "slide": 55,
+   "twist": 40,
+   "examples": [
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 117,
+     "slide": 55,
+     "twist": 40
+    },
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 39,
+     "slide": 55,
+     "twist": 40
+    },
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 25,
+     "slide": 55,
+     "twist": 40
+    },
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 12,
+     "slide": 55,
+     "twist": 40
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Kneel → Kneel_Attack_Start",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -8,
+   "own": 80,
+   "gap": 111,
+   "slide": 55,
+   "twist": 40,
+   "examples": [
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 111,
+     "slide": 55,
+     "twist": 39
+    },
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 34,
+     "slide": 55,
+     "twist": 40
+    },
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 11,
+     "slide": 55,
+     "twist": 40
+    },
+    {
+     "spin": -8,
+     "own": 80,
+     "gap": 6,
+     "slide": 55,
+     "twist": 39
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 36,
+   "own": 5,
+   "gap": 37,
+   "slide": 15,
+   "twist": 88,
+   "examples": [
+    {
+     "spin": 29,
+     "own": 5,
+     "gap": 17,
+     "slide": 15,
+     "twist": 88
+    },
+    {
+     "spin": 30,
+     "own": 5,
+     "gap": 21,
+     "slide": 14,
+     "twist": 42
+    },
+    {
+     "spin": 34,
+     "own": 5,
+     "gap": 31,
+     "slide": 14,
+     "twist": 88
+    },
+    {
+     "spin": 36,
+     "own": 5,
+     "gap": 37,
+     "slide": 14,
+     "twist": 88
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Kneel_Reload",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 40,
+   "gap": 118,
+   "slide": 1,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 40,
+     "gap": 118,
+     "slide": 1,
+     "twist": 4
+    },
+    {
+     "spin": -1,
+     "own": 40,
+     "gap": 38,
+     "slide": 1,
+     "twist": 4
+    },
+    {
+     "spin": -1,
+     "own": 40,
+     "gap": 18,
+     "slide": 1,
+     "twist": 4
+    },
+    {
+     "spin": -1,
+     "own": 40,
+     "gap": 1,
+     "slide": 1,
+     "twist": 4
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Move_Ing",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 64,
+   "own": 94,
+   "gap": 118,
+   "slide": 18,
+   "twist": 96,
+   "examples": [
+    {
+     "spin": 64,
+     "own": 94,
+     "gap": 118,
+     "slide": 9,
+     "twist": 96
+    },
+    {
+     "spin": 14,
+     "own": 94,
+     "gap": 46,
+     "slide": 18,
+     "twist": 51
+    },
+    {
+     "spin": 39,
+     "own": 94,
+     "gap": 84,
+     "slide": 18,
+     "twist": 70
+    },
+    {
+     "spin": 30,
+     "own": 94,
+     "gap": 72,
+     "slide": 9,
+     "twist": 64
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Move_Ing",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 117,
+   "own": 94,
+   "gap": 164,
+   "slide": 38,
+   "twist": 131,
+   "examples": [
+    {
+     "spin": 28,
+     "own": 94,
+     "gap": 5,
+     "slide": 30,
+     "twist": 112
+    },
+    {
+     "spin": 57,
+     "own": 94,
+     "gap": 66,
+     "slide": 29,
+     "twist": 113
+    },
+    {
+     "spin": 62,
+     "own": 94,
+     "gap": 76,
+     "slide": 29,
+     "twist": 113
+    },
+    {
+     "spin": 117,
+     "own": 94,
+     "gap": 164,
+     "slide": 38,
+     "twist": 131
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Victory_End",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 2,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Victory_Start_Random",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 25,
+   "own": 14,
+   "gap": 32,
+   "slide": 24,
+   "twist": 36,
+   "examples": [
+    {
+     "spin": 7,
+     "own": 14,
+     "gap": 11,
+     "slide": 24,
+     "twist": 36
+    },
+    {
+     "spin": 25,
+     "own": 14,
+     "gap": 32,
+     "slide": 21,
+     "twist": 6,
+     "click": true
+    },
+    {
+     "spin": 6,
+     "own": 14,
+     "gap": 5,
+     "slide": 22,
+     "twist": 24,
+     "click": true
+    },
+    {
+     "spin": 13,
+     "own": 14,
+     "gap": 16,
+     "slide": 21,
+     "twist": 13,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Normal",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 14,
+   "own": 91,
+   "gap": 30,
+   "slide": 23,
+   "twist": 35,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 91,
+     "gap": 30,
+     "slide": 19,
+     "twist": 29
+    },
+    {
+     "spin": 9,
+     "own": 91,
+     "gap": 23,
+     "slide": 23,
+     "twist": 35
+    },
+    {
+     "spin": -1,
+     "own": 91,
+     "gap": 1,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 14,
+     "own": 91,
+     "gap": 18,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 5,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Victory_Start",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 6,
+   "own": 24,
+   "gap": 7,
+   "slide": 183,
+   "twist": 150,
+   "examples": [
+    {
+     "spin": 2,
+     "own": 24,
+     "gap": 7,
+     "slide": 183,
+     "twist": 140
+    },
+    {
+     "spin": 3,
+     "own": 24,
+     "gap": 3,
+     "slide": 182,
+     "twist": 148
+    },
+    {
+     "spin": 5,
+     "own": 24,
+     "gap": 5,
+     "slide": 182,
+     "twist": 150,
+     "click": true
+    },
+    {
+     "spin": 6,
+     "own": 24,
+     "gap": 6,
+     "slide": 182,
+     "twist": 150,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Cafe_Idle",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 38,
+   "own": 5,
+   "gap": 44,
+   "slide": 22,
+   "twist": 62,
+   "examples": [
+    {
+     "spin": 38,
+     "own": 5,
+     "gap": 44,
+     "slide": 22,
+     "twist": 62
+    },
+    {
+     "spin": 10,
+     "own": 5,
+     "gap": 4,
+     "slide": 21,
+     "twist": 20
+    },
+    {
+     "spin": 9,
+     "own": 5,
+     "gap": 1,
+     "slide": 20,
+     "twist": 21
+    },
+    {
+     "spin": 8,
+     "own": 5,
+     "gap": 7,
+     "slide": 19,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Idle",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 2,
+   "own": 3,
+   "gap": 123,
+   "slide": 1,
+   "twist": 3,
+   "examples": [
+    {
+     "spin": 2,
+     "own": 3,
+     "gap": 123,
+     "slide": 1,
+     "twist": 3
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 53,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 7,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 3,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Kneel_Attack_Start",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -29,
+   "own": 80,
+   "gap": 66,
+   "slide": 57,
+   "twist": 148,
+   "examples": [
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 13,
+     "slide": 57,
+     "twist": 147
+    },
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 46,
+     "slide": 57,
+     "twist": 148
+    },
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 58,
+     "slide": 57,
+     "twist": 147
+    },
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 66,
+     "slide": 57,
+     "twist": 148
+    }
+   ]
+  },
+  {
+   "key": "Exs03 → FormRelease",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 16,
+   "own": 30,
+   "gap": 16,
+   "slide": 1,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": 16,
+     "own": 30,
+     "gap": 16,
+     "slide": 1,
+     "twist": 8
+    },
+    {
+     "spin": 9,
+     "own": 30,
+     "gap": 9,
+     "slide": 0,
+     "twist": 3
+    },
+    {
+     "spin": 6,
+     "own": 30,
+     "gap": 6,
+     "slide": 0,
+     "twist": 2
+    },
+    {
+     "spin": -6,
+     "own": 30,
+     "gap": 6,
+     "slide": 0,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Callsign_Random",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 10,
+   "own": 10,
+   "gap": 46,
+   "slide": 21,
+   "twist": 23,
+   "examples": [
+    {
+     "spin": 10,
+     "own": 10,
+     "gap": 46,
+     "slide": 21,
+     "twist": 23
+    },
+    {
+     "spin": 9,
+     "own": 10,
+     "gap": 5,
+     "slide": 21,
+     "twist": 20,
+     "click": true
+    },
+    {
+     "spin": 9,
+     "own": 10,
+     "gap": 22,
+     "slide": 21,
+     "twist": 20,
+     "click": true
+    },
+    {
+     "spin": 9,
+     "own": 10,
+     "gap": 24,
+     "slide": 21,
+     "twist": 22
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Public01",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 50,
+   "own": 23,
+   "gap": 69,
+   "slide": 33,
+   "twist": 176,
+   "examples": [
+    {
+     "spin": 47,
+     "own": 23,
+     "gap": 25,
+     "slide": 30,
+     "twist": 60,
+     "click": true
+    },
+    {
+     "spin": 44,
+     "own": 23,
+     "gap": 25,
+     "slide": 28,
+     "twist": 50,
+     "click": true
+    },
+    {
+     "spin": 43,
+     "own": 23,
+     "gap": 5,
+     "slide": 28,
+     "twist": 59,
+     "click": true
+    },
+    {
+     "spin": 50,
+     "own": 23,
+     "gap": 69,
+     "slide": 33,
+     "twist": 176,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Exs01",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 67,
+   "own": 65,
+   "gap": 67,
+   "slide": 37,
+   "twist": 136,
+   "examples": [
+    {
+     "spin": 67,
+     "own": 65,
+     "gap": 67,
+     "slide": 21,
+     "twist": 67,
+     "click": true
+    },
+    {
+     "spin": 10,
+     "own": 65,
+     "gap": 38,
+     "slide": 37,
+     "twist": 136
+    },
+    {
+     "spin": 11,
+     "own": 65,
+     "gap": 39,
+     "slide": 37,
+     "twist": 136
+    },
+    {
+     "spin": 15,
+     "own": 65,
+     "gap": 46,
+     "slide": 37,
+     "twist": 131
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 23,
+   "own": 31,
+   "gap": 33,
+   "slide": 13,
+   "twist": 168,
+   "examples": [
+    {
+     "spin": 5,
+     "own": 31,
+     "gap": 13,
+     "slide": 10,
+     "twist": 158
+    },
+    {
+     "spin": 8,
+     "own": 31,
+     "gap": 16,
+     "slide": 13,
+     "twist": 156
+    },
+    {
+     "spin": 18,
+     "own": 31,
+     "gap": 27,
+     "slide": 13,
+     "twist": 165
+    },
+    {
+     "spin": 23,
+     "own": 31,
+     "gap": 33,
+     "slide": 13,
+     "twist": 168
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 8,
+   "own": 16,
+   "gap": 37,
+   "slide": 0,
+   "twist": 20,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 16,
+     "gap": 37,
+     "slide": 0,
+     "twist": 20,
+     "click": true
+    },
+    {
+     "spin": -3,
+     "own": 16,
+     "gap": 25,
+     "slide": 0,
+     "twist": 12,
+     "click": true
+    },
+    {
+     "spin": 3,
+     "own": 16,
+     "gap": 32,
+     "slide": 0,
+     "twist": 15,
+     "click": true
+    },
+    {
+     "spin": 4,
+     "own": 16,
+     "gap": 33,
+     "slide": 0,
+     "twist": 15,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign_Random → Normal_Idle",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 3,
+   "gap": 28,
+   "slide": 19,
+   "twist": 24,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 3,
+     "gap": 28,
+     "slide": 18,
+     "twist": 24
+    },
+    {
+     "spin": 3,
+     "own": 3,
+     "gap": 26,
+     "slide": 19,
+     "twist": 24
+    },
+    {
+     "spin": 3,
+     "own": 3,
+     "gap": 9,
+     "slide": 18,
+     "twist": 24
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Exs03",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 43,
+   "own": 10,
+   "gap": 47,
+   "slide": 37,
+   "twist": 184,
+   "examples": [
+    {
+     "spin": 38,
+     "own": 10,
+     "gap": 15,
+     "slide": 37,
+     "twist": 184
+    },
+    {
+     "spin": 35,
+     "own": 10,
+     "gap": 33,
+     "slide": 33,
+     "twist": 151
+    },
+    {
+     "spin": 43,
+     "own": 10,
+     "gap": 47,
+     "slide": 33,
+     "twist": 144
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_End",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 12,
+   "own": 4,
+   "gap": 55,
+   "slide": 1,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 5,
+     "own": 4,
+     "gap": 55,
+     "slide": 1,
+     "twist": 3,
+     "click": true
+    },
+    {
+     "spin": 12,
+     "own": 4,
+     "gap": 41,
+     "slide": 0,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": 5,
+     "own": 4,
+     "gap": 41,
+     "slide": 1,
+     "twist": 4,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Callsign",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 35,
+   "gap": 50,
+   "slide": 10,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 35,
+     "gap": 50,
+     "slide": 10,
+     "twist": 8
+    },
+    {
+     "spin": -2,
+     "own": 35,
+     "gap": 41,
+     "slide": 10,
+     "twist": 8
+    },
+    {
+     "spin": -2,
+     "own": 35,
+     "gap": 44,
+     "slide": 10,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Cafe_Idle",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 37,
+   "own": 5,
+   "gap": 35,
+   "slide": 14,
+   "twist": 31,
+   "examples": [
+    {
+     "spin": 25,
+     "own": 5,
+     "gap": 15,
+     "slide": 13,
+     "twist": 29
+    },
+    {
+     "spin": 30,
+     "own": 5,
+     "gap": 27,
+     "slide": 14,
+     "twist": 31
+    },
+    {
+     "spin": 37,
+     "own": 5,
+     "gap": 35,
+     "slide": 14,
+     "twist": 31
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 31,
+   "gap": 28,
+   "slide": 13,
+   "twist": 30,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 31,
+     "gap": 28,
+     "slide": 13,
+     "twist": 30
+    },
+    {
+     "spin": -4,
+     "own": 31,
+     "gap": 14,
+     "slide": 12,
+     "twist": 29
+    },
+    {
+     "spin": -3,
+     "own": 31,
+     "gap": 15,
+     "slide": 12,
+     "twist": 30
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Kneel_Attack_Start",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -29,
+   "own": 80,
+   "gap": 122,
+   "slide": 57,
+   "twist": 147,
+   "examples": [
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 122,
+     "slide": 57,
+     "twist": 147
+    },
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 117,
+     "slide": 57,
+     "twist": 147
+    },
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 101,
+     "slide": 57,
+     "twist": 147
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs01",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 29,
+   "own": 65,
+   "gap": 82,
+   "slide": 19,
+   "twist": 53,
+   "examples": [
+    {
+     "spin": 9,
+     "own": 65,
+     "gap": 82,
+     "slide": 19,
+     "twist": 22
+    },
+    {
+     "spin": 29,
+     "own": 65,
+     "gap": 29,
+     "slide": 4,
+     "twist": 53
+    },
+    {
+     "spin": -12,
+     "own": 65,
+     "gap": 16,
+     "slide": 5,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 63,
+   "own": 14,
+   "gap": 79,
+   "slide": 30,
+   "twist": 66,
+   "examples": [
+    {
+     "spin": 63,
+     "own": 14,
+     "gap": 79,
+     "slide": 30,
+     "twist": 66
+    },
+    {
+     "spin": 11,
+     "own": 14,
+     "gap": 13,
+     "slide": 29,
+     "twist": 33
+    }
+   ]
+  },
+  {
+   "key": "FormRelease → Kneel_Attack_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -29,
+   "own": 80,
+   "gap": 87,
+   "slide": 57,
+   "twist": 147,
+   "examples": [
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 87,
+     "slide": 57,
+     "twist": 147
+    },
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 87,
+     "slide": 57,
+     "twist": 147
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 226,
+   "own": 14,
+   "gap": 129,
+   "slide": 142,
+   "twist": 283,
+   "examples": [
+    {
+     "spin": 49,
+     "own": 14,
+     "gap": 7,
+     "slide": 59,
+     "twist": 214
+    },
+    {
+     "spin": 226,
+     "own": 14,
+     "gap": 129,
+     "slide": 142,
+     "twist": 283
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Reload",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -4,
+   "own": 43,
+   "gap": 112,
+   "slide": 1,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": -4,
+     "own": 43,
+     "gap": 112,
+     "slide": 1,
+     "twist": 7
+    },
+    {
+     "spin": -4,
+     "own": 43,
+     "gap": 88,
+     "slide": 1,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Exs02",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 26,
+   "own": 9,
+   "gap": 26,
+   "slide": 25,
+   "twist": 177,
+   "examples": [
+    {
+     "spin": 25,
+     "own": 9,
+     "gap": 9,
+     "slide": 25,
+     "twist": 177
+    },
+    {
+     "spin": 26,
+     "own": 9,
+     "gap": 26,
+     "slide": 6,
+     "twist": 26,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Kneel_Attack_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -29,
+   "own": 80,
+   "gap": 88,
+   "slide": 57,
+   "twist": 141,
+   "examples": [
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 88,
+     "slide": 57,
+     "twist": 141
+    },
+    {
+     "spin": -29,
+     "own": 80,
+     "gap": 73,
+     "slide": 57,
+     "twist": 141
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Victory_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 66,
+   "own": 24,
+   "gap": 49,
+   "slide": 232,
+   "twist": 84,
+   "examples": [
+    {
+     "spin": 62,
+     "own": 24,
+     "gap": 44,
+     "slide": 232,
+     "twist": 81
+    },
+    {
+     "spin": 66,
+     "own": 24,
+     "gap": 49,
+     "slide": 224,
+     "twist": 84
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 2,
+   "own": 31,
+   "gap": 16,
+   "slide": 10,
+   "twist": 143,
+   "examples": [
+    {
+     "spin": 2,
+     "own": 31,
+     "gap": 16,
+     "slide": 10,
+     "twist": 138
+    },
+    {
+     "spin": 1,
+     "own": 31,
+     "gap": 15,
+     "slide": 10,
+     "twist": 143
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 36,
+   "own": 14,
+   "gap": 41,
+   "slide": 36,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 23,
+     "own": 14,
+     "gap": 24,
+     "slide": 24,
+     "twist": 33
+    },
+    {
+     "spin": 36,
+     "own": 14,
+     "gap": 41,
+     "slide": 36,
+     "twist": 57
+    }
+   ]
+  },
+  {
+   "key": "FormRelease → Normal_Idle",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 23,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 23,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 23,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Normal_Idle",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 45,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 45,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 45,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Public01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 57,
+   "own": 23,
+   "gap": 79,
+   "slide": 15,
+   "twist": 82,
+   "examples": [
+    {
+     "spin": 52,
+     "own": 23,
+     "gap": 72,
+     "slide": 15,
+     "twist": 76,
+     "click": true
+    },
+    {
+     "spin": 57,
+     "own": 23,
+     "gap": 79,
+     "slide": 14,
+     "twist": 82,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Kneel_Reload",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 40,
+   "gap": 29,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 40,
+     "gap": 29,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 40,
+     "gap": 18,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Cafe_Reaction",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 2,
+   "own": 16,
+   "gap": 32,
+   "slide": 64,
+   "twist": 97,
+   "examples": [
+    {
+     "spin": 2,
+     "own": 16,
+     "gap": 32,
+     "slide": 18,
+     "twist": 18,
+     "click": true
+    },
+    {
+     "spin": -5,
+     "own": 16,
+     "gap": 13,
+     "slide": 64,
+     "twist": 97,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 31,
+   "gap": 2,
+   "slide": 56,
+   "twist": 67,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 31,
+     "gap": 2,
+     "slide": 56,
+     "twist": 67
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 18,
+   "own": 31,
+   "gap": 32,
+   "slide": 14,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 18,
+     "own": 31,
+     "gap": 32,
+     "slide": 14,
+     "twist": 57
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -6,
+   "own": 43,
+   "gap": 48,
+   "slide": 3,
+   "twist": 34,
+   "examples": [
+    {
+     "spin": -6,
+     "own": 43,
+     "gap": 48,
+     "slide": 3,
+     "twist": 34,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 61,
+   "own": 9,
+   "gap": 39,
+   "slide": 33,
+   "twist": 115,
+   "examples": [
+    {
+     "spin": 61,
+     "own": 9,
+     "gap": 39,
+     "slide": 33,
+     "twist": 115,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Normal_Idle",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 20,
+   "slide": 1,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 20,
+     "slide": 1,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_End",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 4,
+   "gap": 89,
+   "slide": 1,
+   "twist": 9,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 4,
+     "gap": 89,
+     "slide": 1,
+     "twist": 9,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 31,
+   "own": 24,
+   "gap": 28,
+   "slide": 235,
+   "twist": 123,
+   "examples": [
+    {
+     "spin": 31,
+     "own": 24,
+     "gap": 28,
+     "slide": 235,
+     "twist": 123
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Kneel → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 50,
+   "own": 14,
+   "gap": 39,
+   "slide": 63,
+   "twist": 194,
+   "examples": [
+    {
+     "spin": 50,
+     "own": 14,
+     "gap": 39,
+     "slide": 63,
+     "twist": 194
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 16,
+   "gap": 29,
+   "slide": 20,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 16,
+     "gap": 29,
+     "slide": 20,
+     "twist": 4,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Kneel → Kneel_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 12,
+   "own": 40,
+   "gap": 4,
+   "slide": 29,
+   "twist": 213,
+   "examples": [
+    {
+     "spin": 12,
+     "own": 40,
+     "gap": 4,
+     "slide": 29,
+     "twist": 213,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Public01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 76,
+   "own": 23,
+   "gap": 96,
+   "slide": 19,
+   "twist": 75,
+   "examples": [
+    {
+     "spin": 76,
+     "own": 23,
+     "gap": 96,
+     "slide": 19,
+     "twist": 75,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_Jump",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -6,
+   "own": 62,
+   "gap": 9,
+   "slide": 0,
+   "twist": 37,
+   "examples": [
+    {
+     "spin": -6,
+     "own": 62,
+     "gap": 9,
+     "slide": 0,
+     "twist": 37
+    }
+   ]
+  },
+  {
+   "key": "Move_Jump → Move_Ing",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -3,
+   "own": 94,
+   "gap": 9,
+   "slide": 12,
+   "twist": 62,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 94,
+     "gap": 9,
+     "slide": 12,
+     "twist": 62
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Callsign",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 35,
+   "gap": 51,
+   "slide": 19,
+   "twist": 81,
+   "examples": [
+    {
+     "spin": 13,
+     "own": 35,
+     "gap": 51,
+     "slide": 19,
+     "twist": 81,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Kneel_Attack_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -31,
+   "own": 80,
+   "gap": 36,
+   "slide": 58,
+   "twist": 61,
+   "examples": [
+    {
+     "spin": -31,
+     "own": 80,
+     "gap": 36,
+     "slide": 58,
+     "twist": 61
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Exs03",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 49,
+   "own": 10,
+   "gap": 40,
+   "slide": 20,
+   "twist": 55,
+   "examples": [
+    {
+     "spin": 49,
+     "own": 10,
+     "gap": 40,
+     "slide": 20,
+     "twist": 55,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Start → Kneel_Attack_End",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -20,
+   "own": 102,
+   "gap": 58,
+   "slide": 38,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": -20,
+     "own": 102,
+     "gap": 58,
+     "slide": 38,
+     "twist": 4,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "FormRelease → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 14,
+   "gap": 1,
+   "slide": 26,
+   "twist": 31,
+   "examples": [
+    {
+     "spin": 13,
+     "own": 14,
+     "gap": 1,
+     "slide": 26,
+     "twist": 31
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Normal_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -7,
+   "own": 43,
+   "gap": 42,
+   "slide": 16,
+   "twist": 29,
+   "examples": [
+    {
+     "spin": -7,
+     "own": 43,
+     "gap": 42,
+     "slide": 16,
+     "twist": 29,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 59,
+   "own": 24,
+   "gap": 74,
+   "slide": 278,
+   "twist": 106,
+   "examples": [
+    {
+     "spin": 59,
+     "own": 24,
+     "gap": 74,
+     "slide": 278,
+     "twist": 106
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 108,
+   "own": 14,
+   "gap": 113,
+   "slide": 61,
+   "twist": 119,
+   "examples": [
+    {
+     "spin": 108,
+     "own": 14,
+     "gap": 113,
+     "slide": 61,
+     "twist": 119,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 36,
+   "own": 24,
+   "gap": 38,
+   "slide": 242,
+   "twist": 119,
+   "examples": [
+    {
+     "spin": 36,
+     "own": 24,
+     "gap": 38,
+     "slide": 242,
+     "twist": 119
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Public01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 82,
+   "own": 23,
+   "gap": 106,
+   "slide": 145,
+   "twist": 99,
+   "examples": [
+    {
+     "spin": 82,
+     "own": 23,
+     "gap": 106,
+     "slide": 145,
+     "twist": 99,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 39,
+   "own": 24,
+   "gap": 40,
+   "slide": 201,
+   "twist": 173,
+   "examples": [
+    {
+     "spin": 39,
+     "own": 24,
+     "gap": 40,
+     "slide": 201,
+     "twist": 173
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 92,
+   "own": 16,
+   "gap": 121,
+   "slide": 32,
+   "twist": 49,
+   "examples": [
+    {
+     "spin": 92,
+     "own": 16,
+     "gap": 121,
+     "slide": 32,
+     "twist": 49,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign_Random → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 19,
+   "own": 31,
+   "gap": 26,
+   "slide": 8,
+   "twist": 76,
+   "examples": [
+    {
+     "spin": 19,
+     "own": 31,
+     "gap": 26,
+     "slide": 8,
+     "twist": 76
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 22,
+   "own": 31,
+   "gap": 37,
+   "slide": 14,
+   "twist": 58,
+   "examples": [
+    {
+     "spin": 22,
+     "own": 31,
+     "gap": 37,
+     "slide": 14,
+     "twist": 58
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Normal_Callsign",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 35,
+   "gap": 32,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 35,
+     "gap": 32,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs03",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 24,
+   "own": 10,
+   "gap": 24,
+   "slide": 12,
+   "twist": 52,
+   "examples": [
+    {
+     "spin": 24,
+     "own": 10,
+     "gap": 24,
+     "slide": 12,
+     "twist": 52
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 4,
+   "own": 16,
+   "gap": 4,
+   "slide": 3,
+   "twist": 3,
+   "examples": [
+    {
+     "spin": 4,
+     "own": 16,
+     "gap": 4,
+     "slide": 3,
+     "twist": 3,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 29,
+   "own": 14,
+   "gap": 32,
+   "slide": 24,
+   "twist": 38,
+   "examples": [
+    {
+     "spin": 29,
+     "own": 14,
+     "gap": 32,
+     "slide": 24,
+     "twist": 38
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Normal_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 43,
+   "gap": 41,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 43,
+     "gap": 41,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 39,
+   "own": 24,
+   "gap": 39,
+   "slide": 141,
+   "twist": 38,
+   "examples": [
+    {
+     "spin": 39,
+     "own": 24,
+     "gap": 39,
+     "slide": 141,
+     "twist": 38,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Neru (School Uniform).glb": [
+  {
+   "key": "Kneel_Attack_Start → Kneel_Attack_Delay",
+   "count": 45,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 0,
+   "gap": 123,
+   "slide": 4,
+   "twist": 3,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 0,
+     "gap": 123,
+     "slide": 4,
+     "twist": 3
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 60,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 37,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 4,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Delay → Kneel_Attack_End",
+   "count": 40,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 66,
+   "gap": 135,
+   "slide": 18,
+   "twist": 13,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 66,
+     "gap": 135,
+     "slide": 18,
+     "twist": 13
+    },
+    {
+     "spin": -9,
+     "own": 66,
+     "gap": 69,
+     "slide": 3,
+     "twist": 2
+    },
+    {
+     "spin": -9,
+     "own": 66,
+     "gap": 44,
+     "slide": 3,
+     "twist": 2
+    },
+    {
+     "spin": -9,
+     "own": 66,
+     "gap": 5,
+     "slide": 3,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 31,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 111,
+   "own": 30,
+   "gap": 149,
+   "slide": 52,
+   "twist": 220,
+   "examples": [
+    {
+     "spin": 111,
+     "own": 30,
+     "gap": 149,
+     "slide": 52,
+     "twist": 178
+    },
+    {
+     "spin": 96,
+     "own": 30,
+     "gap": 98,
+     "slide": 9,
+     "twist": 220
+    },
+    {
+     "spin": 32,
+     "own": 30,
+     "gap": 70,
+     "slide": 34,
+     "twist": 160
+    },
+    {
+     "spin": 0,
+     "own": 30,
+     "gap": 6,
+     "slide": 20,
+     "twist": 155
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Callsign",
+   "count": 25,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 5,
+   "own": 89,
+   "gap": 70,
+   "slide": 23,
+   "twist": 43,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 89,
+     "gap": 70,
+     "slide": 23,
+     "twist": 41
+    },
+    {
+     "spin": 5,
+     "own": 89,
+     "gap": 63,
+     "slide": 22,
+     "twist": 43
+    },
+    {
+     "spin": 2,
+     "own": 89,
+     "gap": 40,
+     "slide": 21,
+     "twist": 40
+    },
+    {
+     "spin": 3,
+     "own": 89,
+     "gap": 30,
+     "slide": 23,
+     "twist": 42
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Normal_Idle",
+   "count": 25,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 14,
+   "own": 3,
+   "gap": 73,
+   "slide": 16,
+   "twist": 26,
+   "examples": [
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 73,
+     "slide": 16,
+     "twist": 26
+    },
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 48,
+     "slide": 16,
+     "twist": 26
+    },
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 15,
+     "slide": 16,
+     "twist": 26
+    },
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 28,
+     "slide": 16,
+     "twist": 26
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Delay → Kneel_Attack_Ing",
+   "count": 25,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 63,
+   "gap": 106,
+   "slide": 1,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 63,
+     "gap": 106,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": -2,
+     "own": 63,
+     "gap": 63,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": -2,
+     "own": 63,
+     "gap": 26,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": -2,
+     "own": 63,
+     "gap": 3,
+     "slide": 1,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Public01",
+   "count": 21,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 53,
+   "own": 43,
+   "gap": 97,
+   "slide": 37,
+   "twist": 68,
+   "examples": [
+    {
+     "spin": 52,
+     "own": 43,
+     "gap": 95,
+     "slide": 36,
+     "twist": 67
+    },
+    {
+     "spin": 52,
+     "own": 43,
+     "gap": 95,
+     "slide": 36,
+     "twist": 67
+    },
+    {
+     "spin": 52,
+     "own": 43,
+     "gap": 95,
+     "slide": 36,
+     "twist": 67
+    },
+    {
+     "spin": 53,
+     "own": 43,
+     "gap": 97,
+     "slide": 37,
+     "twist": 68,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Kneel_Attack_Delay",
+   "count": 20,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 105,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 105,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 63,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 24,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 2,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Kneel_Reload",
+   "count": 20,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -5,
+   "own": 31,
+   "gap": 97,
+   "slide": 5,
+   "twist": 10,
+   "examples": [
+    {
+     "spin": -5,
+     "own": 31,
+     "gap": 97,
+     "slide": 5,
+     "twist": 10
+    },
+    {
+     "spin": -5,
+     "own": 31,
+     "gap": 51,
+     "slide": 5,
+     "twist": 10
+    },
+    {
+     "spin": -5,
+     "own": 31,
+     "gap": 27,
+     "slide": 5,
+     "twist": 10
+    },
+    {
+     "spin": -5,
+     "own": 31,
+     "gap": 30,
+     "slide": 5,
+     "twist": 10
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Kneel_Attack_Start",
+   "count": 20,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 39,
+   "gap": 102,
+   "slide": 9,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 102,
+     "slide": 8,
+     "twist": 8
+    },
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 59,
+     "slide": 9,
+     "twist": 8
+    },
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 39,
+     "slide": 9,
+     "twist": 8
+    },
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 22,
+     "slide": 9,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 156,
+   "own": 0,
+   "gap": 156,
+   "slide": 87,
+   "twist": 165,
+   "examples": [
+    {
+     "spin": 156,
+     "own": 0,
+     "gap": 156,
+     "slide": 87,
+     "twist": 165
+    },
+    {
+     "spin": 100,
+     "own": 0,
+     "gap": 100,
+     "slide": 39,
+     "twist": 110
+    },
+    {
+     "spin": 57,
+     "own": 0,
+     "gap": 57,
+     "slide": 34,
+     "twist": 67
+    },
+    {
+     "spin": 7,
+     "own": 0,
+     "gap": 7,
+     "slide": 27,
+     "twist": 12
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Idle",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 78,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 78,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 41,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 18,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Move_Ing",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 76,
+   "own": 52,
+   "gap": 76,
+   "slide": 27,
+   "twist": 82,
+   "examples": [
+    {
+     "spin": 42,
+     "own": 52,
+     "gap": 65,
+     "slide": 27,
+     "twist": 82
+    },
+    {
+     "spin": 30,
+     "own": 52,
+     "gap": 4,
+     "slide": 15,
+     "twist": 58
+    },
+    {
+     "spin": 48,
+     "own": 52,
+     "gap": 38,
+     "slide": 12,
+     "twist": 61
+    },
+    {
+     "spin": 76,
+     "own": 52,
+     "gap": 76,
+     "slide": 20,
+     "twist": 78
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Ing",
+   "count": 17,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 65,
+   "gap": 52,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 65,
+     "gap": 52,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 65,
+     "gap": 44,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 65,
+     "gap": 29,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 65,
+     "gap": 15,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Attack_Start",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -13,
+   "own": 54,
+   "gap": 57,
+   "slide": 1,
+   "twist": -8,
+   "examples": [
+    {
+     "spin": -14,
+     "own": 54,
+     "gap": 57,
+     "slide": 0,
+     "twist": -8
+    },
+    {
+     "spin": -13,
+     "own": 54,
+     "gap": 43,
+     "slide": 1,
+     "twist": -9
+    },
+    {
+     "spin": -14,
+     "own": 54,
+     "gap": 23,
+     "slide": 1,
+     "twist": -8
+    },
+    {
+     "spin": -14,
+     "own": 54,
+     "gap": 10,
+     "slide": 0,
+     "twist": -8
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_Ing",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -3,
+   "own": 65,
+   "gap": 56,
+   "slide": 3,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 65,
+     "gap": 56,
+     "slide": 3,
+     "twist": 4
+    },
+    {
+     "spin": -3,
+     "own": 65,
+     "gap": 42,
+     "slide": 3,
+     "twist": 4
+    },
+    {
+     "spin": -3,
+     "own": 65,
+     "gap": 21,
+     "slide": 3,
+     "twist": 4
+    },
+    {
+     "spin": -3,
+     "own": 65,
+     "gap": 9,
+     "slide": 3,
+     "twist": 4
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Normal_Idle",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 63,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 63,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 49,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 31,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 12,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Kneel",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 44,
+   "own": 155,
+   "gap": 53,
+   "slide": 21,
+   "twist": 90,
+   "examples": [
+    {
+     "spin": 44,
+     "own": 155,
+     "gap": 53,
+     "slide": 15,
+     "twist": 42
+    },
+    {
+     "spin": 17,
+     "own": 155,
+     "gap": 22,
+     "slide": 21,
+     "twist": 27
+    },
+    {
+     "spin": -7,
+     "own": 155,
+     "gap": 6,
+     "slide": 5,
+     "twist": 90
+    },
+    {
+     "spin": 9,
+     "own": 155,
+     "gap": 9,
+     "slide": 0,
+     "twist": 12
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Delay",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 5,
+   "gap": 52,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 52,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 38,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 27,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 6,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Delay → Normal_Attack_End",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -3,
+   "own": 26,
+   "gap": 98,
+   "slide": 1,
+   "twist": -1,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 26,
+     "gap": 98,
+     "slide": 1,
+     "twist": -1
+    },
+    {
+     "spin": -3,
+     "own": 26,
+     "gap": 37,
+     "slide": 1,
+     "twist": -1
+    },
+    {
+     "spin": -3,
+     "own": 26,
+     "gap": 28,
+     "slide": 1,
+     "twist": -1
+    },
+    {
+     "spin": -3,
+     "own": 26,
+     "gap": 5,
+     "slide": 1,
+     "twist": -1
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Kneel → Kneel_Attack_Start",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 39,
+   "gap": 130,
+   "slide": 11,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 130,
+     "slide": 11,
+     "twist": 8
+    },
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 54,
+     "slide": 11,
+     "twist": 8
+    },
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 17,
+     "slide": 11,
+     "twist": 8
+    },
+    {
+     "spin": 1,
+     "own": 39,
+     "gap": 4,
+     "slide": 11,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 0,
+   "gap": 12,
+   "slide": 9,
+   "twist": 11,
+   "examples": [
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 12,
+     "slide": 9,
+     "twist": 11
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 12,
+     "slide": 9,
+     "twist": 11
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 12,
+     "slide": 9,
+     "twist": 11
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 12,
+     "slide": 9,
+     "twist": 11
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Reload",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -13,
+   "own": 43,
+   "gap": 47,
+   "slide": 1,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": -14,
+     "own": 43,
+     "gap": 47,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -14,
+     "own": 43,
+     "gap": 18,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -13,
+     "own": 43,
+     "gap": 13,
+     "slide": 1,
+     "twist": 2
+    },
+    {
+     "spin": -14,
+     "own": 43,
+     "gap": 28,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Move_Ing",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 135,
+   "own": 52,
+   "gap": 146,
+   "slide": 9,
+   "twist": 127,
+   "examples": [
+    {
+     "spin": 135,
+     "own": 52,
+     "gap": 146,
+     "slide": 4,
+     "twist": 127
+    },
+    {
+     "spin": 16,
+     "own": 52,
+     "gap": 39,
+     "slide": 9,
+     "twist": 36
+    },
+    {
+     "spin": 83,
+     "own": 52,
+     "gap": 89,
+     "slide": 0,
+     "twist": 74
+    },
+    {
+     "spin": 43,
+     "own": 52,
+     "gap": 44,
+     "slide": 0,
+     "twist": 37
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Kneel_Attack_Ing",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 63,
+   "gap": 107,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 63,
+     "gap": 107,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 63,
+     "gap": 104,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 63,
+     "gap": 41,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 63,
+     "gap": 23,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Victory_End",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Idle",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 56,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 56,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 33,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 26,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 7,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Normal",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 15,
+   "own": 134,
+   "gap": 38,
+   "slide": 32,
+   "twist": 128,
+   "examples": [
+    {
+     "spin": -27,
+     "own": 134,
+     "gap": 38,
+     "slide": 32,
+     "twist": -7
+    },
+    {
+     "spin": -22,
+     "own": 134,
+     "gap": 25,
+     "slide": 29,
+     "twist": 38
+    },
+    {
+     "spin": 15,
+     "own": 134,
+     "gap": 14,
+     "slide": 27,
+     "twist": 21
+    },
+    {
+     "spin": -1,
+     "own": 134,
+     "gap": 2,
+     "slide": 26,
+     "twist": 128
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Idle",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 70,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 70,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 55,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 41,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 21,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Cafe_Idle",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 23,
+   "own": 0,
+   "gap": 23,
+   "slide": 12,
+   "twist": 39,
+   "examples": [
+    {
+     "spin": 23,
+     "own": 0,
+     "gap": 23,
+     "slide": 12,
+     "twist": 39
+    },
+    {
+     "spin": 23,
+     "own": 0,
+     "gap": 23,
+     "slide": 12,
+     "twist": 39
+    },
+    {
+     "spin": 23,
+     "own": 0,
+     "gap": 23,
+     "slide": 12,
+     "twist": 39
+    },
+    {
+     "spin": 23,
+     "own": 0,
+     "gap": 23,
+     "slide": 12,
+     "twist": 39
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Victory_End_Random",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Cafe_Idle",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 25,
+   "own": 0,
+   "gap": 25,
+   "slide": 11,
+   "twist": 17,
+   "examples": [
+    {
+     "spin": 25,
+     "own": 0,
+     "gap": 25,
+     "slide": 11,
+     "twist": 17
+    },
+    {
+     "spin": 25,
+     "own": 0,
+     "gap": 25,
+     "slide": 11,
+     "twist": 17
+    },
+    {
+     "spin": 25,
+     "own": 0,
+     "gap": 25,
+     "slide": 11,
+     "twist": 17
+    },
+    {
+     "spin": 25,
+     "own": 0,
+     "gap": 25,
+     "slide": 11,
+     "twist": 17
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Cafe_Idle",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 43,
+   "own": 0,
+   "gap": 42,
+   "slide": 32,
+   "twist": 67,
+   "examples": [
+    {
+     "spin": 29,
+     "own": 0,
+     "gap": 3,
+     "slide": 21,
+     "twist": 39
+    },
+    {
+     "spin": 28,
+     "own": 0,
+     "gap": 6,
+     "slide": 21,
+     "twist": 40
+    },
+    {
+     "spin": 28,
+     "own": 0,
+     "gap": 7,
+     "slide": 22,
+     "twist": 40
+    },
+    {
+     "spin": 43,
+     "own": 0,
+     "gap": 42,
+     "slide": 32,
+     "twist": 67
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 67,
+   "own": 70,
+   "gap": 143,
+   "slide": 51,
+   "twist": 145,
+   "examples": [
+    {
+     "spin": 58,
+     "own": 70,
+     "gap": 143,
+     "slide": 47,
+     "twist": 145,
+     "click": true
+    },
+    {
+     "spin": 29,
+     "own": 70,
+     "gap": 113,
+     "slide": 51,
+     "twist": 111,
+     "click": true
+    },
+    {
+     "spin": 67,
+     "own": 70,
+     "gap": 105,
+     "slide": 26,
+     "twist": 120,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 70,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Normal_Idle",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 46,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 46,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 46,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 46,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 37,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs01",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 48,
+   "own": 30,
+   "gap": 70,
+   "slide": 19,
+   "twist": 46,
+   "examples": [
+    {
+     "spin": 15,
+     "own": 30,
+     "gap": 19,
+     "slide": 19,
+     "twist": 37,
+     "click": true
+    },
+    {
+     "spin": 20,
+     "own": 30,
+     "gap": 31,
+     "slide": 14,
+     "twist": 25,
+     "click": true
+    },
+    {
+     "spin": 20,
+     "own": 30,
+     "gap": 31,
+     "slide": 13,
+     "twist": 22
+    },
+    {
+     "spin": 48,
+     "own": 30,
+     "gap": 70,
+     "slide": 14,
+     "twist": 46
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Victory_Start",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 34,
+   "own": 44,
+   "gap": 41,
+   "slide": 14,
+   "twist": 43,
+   "examples": [
+    {
+     "spin": 16,
+     "own": 44,
+     "gap": 20,
+     "slide": 10,
+     "twist": 26,
+     "click": true
+    },
+    {
+     "spin": 19,
+     "own": 44,
+     "gap": 24,
+     "slide": 11,
+     "twist": 29,
+     "click": true
+    },
+    {
+     "spin": 22,
+     "own": 44,
+     "gap": 27,
+     "slide": 11,
+     "twist": 31,
+     "click": true
+    },
+    {
+     "spin": 34,
+     "own": 44,
+     "gap": 41,
+     "slide": 14,
+     "twist": 43
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Kneel_Attack_Start",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -17,
+   "own": 39,
+   "gap": 74,
+   "slide": 34,
+   "twist": 186,
+   "examples": [
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 74,
+     "slide": 34,
+     "twist": 186
+    },
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 74,
+     "slide": 34,
+     "twist": 185
+    },
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 72,
+     "slide": 34,
+     "twist": 186
+    },
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 68,
+     "slide": 34,
+     "twist": 185
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Victory_Start_Random",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 16,
+   "gap": 11,
+   "slide": 40,
+   "twist": 165,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 16,
+     "gap": 11,
+     "slide": 37,
+     "twist": 162
+    },
+    {
+     "spin": -3,
+     "own": 16,
+     "gap": 9,
+     "slide": 38,
+     "twist": 163,
+     "click": true
+    },
+    {
+     "spin": -3,
+     "own": 16,
+     "gap": 5,
+     "slide": 38,
+     "twist": 163,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 16,
+     "gap": 0,
+     "slide": 40,
+     "twist": 165,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 31,
+   "own": 4,
+   "gap": 20,
+   "slide": 14,
+   "twist": 7,
+   "examples": [
+    {
+     "spin": 24,
+     "own": 4,
+     "gap": 10,
+     "slide": 6,
+     "twist": 7
+    },
+    {
+     "spin": 22,
+     "own": 4,
+     "gap": 8,
+     "slide": 6,
+     "twist": 7
+    },
+    {
+     "spin": 31,
+     "own": 4,
+     "gap": 20,
+     "slide": 14,
+     "twist": 7
+    },
+    {
+     "spin": 29,
+     "own": 4,
+     "gap": 17,
+     "slide": 7,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs02",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -4,
+   "own": 125,
+   "gap": 51,
+   "slide": 20,
+   "twist": 27,
+   "examples": [
+    {
+     "spin": -25,
+     "own": 125,
+     "gap": 51,
+     "slide": 20,
+     "twist": 25
+    },
+    {
+     "spin": -26,
+     "own": 125,
+     "gap": 39,
+     "slide": 14,
+     "twist": 16,
+     "click": true
+    },
+    {
+     "spin": -4,
+     "own": 125,
+     "gap": 2,
+     "slide": 13,
+     "twist": 27
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Normal_Idle",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 24,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 24,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 11,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 10,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Kneel_Attack_Start",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -17,
+   "own": 39,
+   "gap": 118,
+   "slide": 34,
+   "twist": 185,
+   "examples": [
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 118,
+     "slide": 34,
+     "twist": 185
+    },
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 90,
+     "slide": 34,
+     "twist": 185
+    },
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 50,
+     "slide": 34,
+     "twist": 185
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Kneel_Reload",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 31,
+   "gap": 100,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 31,
+     "gap": 100,
+     "slide": 0,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 31,
+     "gap": 61,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 31,
+     "gap": 59,
+     "slide": 0,
+     "twist": 1,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_Jump",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -11,
+   "own": 173,
+   "gap": 15,
+   "slide": 6,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": -11,
+     "own": 173,
+     "gap": 7,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -11,
+     "own": 173,
+     "gap": 10,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -12,
+     "own": 173,
+     "gap": 15,
+     "slide": 6,
+     "twist": 16
+    }
+   ]
+  },
+  {
+   "key": "Move_Jump → Move_Ing",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 52,
+   "gap": 3,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": -2,
+     "own": 52,
+     "gap": 3,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -2,
+     "own": 52,
+     "gap": 3,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -2,
+     "own": 52,
+     "gap": 3,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Formation_Pickup",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 49,
+   "own": 4,
+   "gap": 37,
+   "slide": 39,
+   "twist": 21,
+   "examples": [
+    {
+     "spin": 49,
+     "own": 4,
+     "gap": 37,
+     "slide": 39,
+     "twist": 21
+    },
+    {
+     "spin": 45,
+     "own": 4,
+     "gap": 25,
+     "slide": 30,
+     "twist": 7
+    },
+    {
+     "spin": 28,
+     "own": 4,
+     "gap": 35,
+     "slide": 9,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 21,
+   "own": 4,
+   "gap": 28,
+   "slide": 7,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": 21,
+     "own": 4,
+     "gap": 28,
+     "slide": 7,
+     "twist": 8
+    },
+    {
+     "spin": 17,
+     "own": 4,
+     "gap": 23,
+     "slide": 7,
+     "twist": 7
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Public01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 184,
+   "own": 43,
+   "gap": 101,
+   "slide": 37,
+   "twist": 215,
+   "examples": [
+    {
+     "spin": 184,
+     "own": 43,
+     "gap": 101,
+     "slide": 35,
+     "twist": 215,
+     "click": true
+    },
+    {
+     "spin": 25,
+     "own": 43,
+     "gap": 46,
+     "slide": 37,
+     "twist": 50,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Victory_Start_Random",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 35,
+   "own": 16,
+   "gap": 40,
+   "slide": 55,
+   "twist": 197,
+   "examples": [
+    {
+     "spin": 35,
+     "own": 16,
+     "gap": 40,
+     "slide": 37,
+     "twist": 167
+    },
+    {
+     "spin": 25,
+     "own": 16,
+     "gap": 26,
+     "slide": 55,
+     "twist": 197
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Victory_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 48,
+   "own": 44,
+   "gap": 59,
+   "slide": 22,
+   "twist": 50,
+   "examples": [
+    {
+     "spin": 48,
+     "own": 44,
+     "gap": 59,
+     "slide": 22,
+     "twist": 50
+    },
+    {
+     "spin": 9,
+     "own": 44,
+     "gap": 18,
+     "slide": 21,
+     "twist": 13
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Public01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 30,
+   "own": 43,
+   "gap": 73,
+   "slide": 29,
+   "twist": 48,
+   "examples": [
+    {
+     "spin": 30,
+     "own": 43,
+     "gap": 73,
+     "slide": 29,
+     "twist": 48,
+     "click": true
+    },
+    {
+     "spin": 30,
+     "own": 43,
+     "gap": 73,
+     "slide": 29,
+     "twist": 48,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 48,
+   "own": 30,
+   "gap": 20,
+   "slide": 50,
+   "twist": 151,
+   "examples": [
+    {
+     "spin": 48,
+     "own": 30,
+     "gap": 12,
+     "slide": 50,
+     "twist": 52,
+     "click": true
+    },
+    {
+     "spin": 38,
+     "own": 30,
+     "gap": 20,
+     "slide": 50,
+     "twist": 151,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Kneel_Attack_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 5,
+   "own": 39,
+   "gap": 158,
+   "slide": 41,
+   "twist": 160,
+   "examples": [
+    {
+     "spin": 5,
+     "own": 39,
+     "gap": 158,
+     "slide": 41,
+     "twist": 160
+    },
+    {
+     "spin": -5,
+     "own": 39,
+     "gap": 57,
+     "slide": 33,
+     "twist": 160
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Victory_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 59,
+   "own": 44,
+   "gap": 78,
+   "slide": 49,
+   "twist": 93,
+   "examples": [
+    {
+     "spin": 59,
+     "own": 44,
+     "gap": 78,
+     "slide": 49,
+     "twist": 93
+    },
+    {
+     "spin": 30,
+     "own": 44,
+     "gap": 46,
+     "slide": 38,
+     "twist": 62
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Kneel_Attack_End",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -2,
+   "own": 66,
+   "gap": 72,
+   "slide": 6,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": -8,
+     "own": 66,
+     "gap": 72,
+     "slide": 6,
+     "twist": 4,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 66,
+     "gap": 60,
+     "slide": 2,
+     "twist": 3,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Victory_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 120,
+   "own": 44,
+   "gap": 132,
+   "slide": 78,
+   "twist": 164,
+   "examples": [
+    {
+     "spin": 43,
+     "own": 44,
+     "gap": 51,
+     "slide": 36,
+     "twist": 125,
+     "click": true
+    },
+    {
+     "spin": 120,
+     "own": 44,
+     "gap": 132,
+     "slide": 78,
+     "twist": 164,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Exs02",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 18,
+   "own": 125,
+   "gap": 166,
+   "slide": 68,
+   "twist": 284,
+   "examples": [
+    {
+     "spin": 18,
+     "own": 125,
+     "gap": 166,
+     "slide": 68,
+     "twist": 284
+    },
+    {
+     "spin": -12,
+     "own": 125,
+     "gap": 117,
+     "slide": 47,
+     "twist": 235
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Callsign",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 89,
+   "gap": 37,
+   "slide": 20,
+   "twist": 39,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 89,
+     "gap": 12,
+     "slide": 20,
+     "twist": 39,
+     "click": true
+    },
+    {
+     "spin": -31,
+     "own": 89,
+     "gap": 37,
+     "slide": 18,
+     "twist": 29,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Victory_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 21,
+   "own": 44,
+   "gap": 30,
+   "slide": 28,
+   "twist": 32,
+   "examples": [
+    {
+     "spin": 21,
+     "own": 44,
+     "gap": 30,
+     "slide": 20,
+     "twist": 24
+    },
+    {
+     "spin": 3,
+     "own": 44,
+     "gap": 15,
+     "slide": 28,
+     "twist": 32
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -12,
+   "own": 70,
+   "gap": 5,
+   "slide": 2,
+   "twist": 5,
+   "examples": [
+    {
+     "spin": -12,
+     "own": 70,
+     "gap": 5,
+     "slide": 2,
+     "twist": 5,
+     "click": true
+    },
+    {
+     "spin": -12,
+     "own": 70,
+     "gap": 5,
+     "slide": 2,
+     "twist": 5,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 59,
+   "own": 4,
+   "gap": 67,
+   "slide": 12,
+   "twist": 22,
+   "examples": [
+    {
+     "spin": 59,
+     "own": 4,
+     "gap": 67,
+     "slide": 12,
+     "twist": 22
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Normal_Callsign",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 89,
+   "gap": 57,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 89,
+     "gap": 57,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 26,
+   "own": 4,
+   "gap": 4,
+   "slide": 13,
+   "twist": 12,
+   "examples": [
+    {
+     "spin": 26,
+     "own": 4,
+     "gap": 4,
+     "slide": 13,
+     "twist": 12
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 16,
+   "own": 125,
+   "gap": 17,
+   "slide": 31,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 16,
+     "own": 125,
+     "gap": 17,
+     "slide": 31,
+     "twist": 57,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start_Random → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 17,
+   "own": 44,
+   "gap": 33,
+   "slide": 10,
+   "twist": 31,
+   "examples": [
+    {
+     "spin": 17,
+     "own": 44,
+     "gap": 33,
+     "slide": 10,
+     "twist": 31,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 98,
+   "own": 4,
+   "gap": 98,
+   "slide": 10,
+   "twist": 6,
+   "examples": [
+    {
+     "spin": 98,
+     "own": 4,
+     "gap": 98,
+     "slide": 10,
+     "twist": 6
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -19,
+   "own": 43,
+   "gap": 76,
+   "slide": 1,
+   "twist": 3,
+   "examples": [
+    {
+     "spin": -19,
+     "own": 43,
+     "gap": 76,
+     "slide": 1,
+     "twist": 3,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 28,
+   "own": 4,
+   "gap": 13,
+   "slide": 14,
+   "twist": 9,
+   "examples": [
+    {
+     "spin": 28,
+     "own": 4,
+     "gap": 13,
+     "slide": 14,
+     "twist": 9
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 6,
+   "own": 4,
+   "gap": 6,
+   "slide": 8,
+   "twist": 5,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 4,
+     "gap": 6,
+     "slide": 8,
+     "twist": 5
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -9,
+   "own": 43,
+   "gap": 17,
+   "slide": 40,
+   "twist": 56,
+   "examples": [
+    {
+     "spin": -9,
+     "own": 43,
+     "gap": 17,
+     "slide": 40,
+     "twist": 56,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -5,
+   "own": 70,
+   "gap": 9,
+   "slide": 1,
+   "twist": 6,
+   "examples": [
+    {
+     "spin": -5,
+     "own": 70,
+     "gap": 9,
+     "slide": 1,
+     "twist": 6,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Kneel → Kneel_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -3,
+   "own": 31,
+   "gap": 62,
+   "slide": 7,
+   "twist": 11,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 31,
+     "gap": 62,
+     "slide": 7,
+     "twist": 11,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 39,
+   "own": 16,
+   "gap": 51,
+   "slide": 46,
+   "twist": 184,
+   "examples": [
+    {
+     "spin": 39,
+     "own": 16,
+     "gap": 51,
+     "slide": 46,
+     "twist": 184
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 74,
+   "own": 16,
+   "gap": 80,
+   "slide": 19,
+   "twist": 44,
+   "examples": [
+    {
+     "spin": 74,
+     "own": 16,
+     "gap": 80,
+     "slide": 19,
+     "twist": 44,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 25,
+   "own": 44,
+   "gap": 30,
+   "slide": 29,
+   "twist": 195,
+   "examples": [
+    {
+     "spin": 25,
+     "own": 44,
+     "gap": 30,
+     "slide": 29,
+     "twist": 195
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -27,
+   "own": 70,
+   "gap": 18,
+   "slide": 4,
+   "twist": 24,
+   "examples": [
+    {
+     "spin": -27,
+     "own": 70,
+     "gap": 18,
+     "slide": 4,
+     "twist": 24,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 2,
+   "own": 125,
+   "gap": 8,
+   "slide": 26,
+   "twist": 43,
+   "examples": [
+    {
+     "spin": 2,
+     "own": 125,
+     "gap": 8,
+     "slide": 26,
+     "twist": 43,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End_Random → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 10,
+   "own": 125,
+   "gap": 19,
+   "slide": 25,
+   "twist": 55,
+   "examples": [
+    {
+     "spin": 10,
+     "own": 125,
+     "gap": 19,
+     "slide": 25,
+     "twist": 55,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Kneel_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 31,
+   "gap": 42,
+   "slide": 31,
+   "twist": 180,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 31,
+     "gap": 42,
+     "slide": 31,
+     "twist": 180,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Normal_Callsign",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 31,
+   "own": 89,
+   "gap": 37,
+   "slide": 43,
+   "twist": 47,
+   "examples": [
+    {
+     "spin": 31,
+     "own": 89,
+     "gap": 37,
+     "slide": 43,
+     "twist": 47,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 44,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 44,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Kneel_Attack_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -17,
+   "own": 39,
+   "gap": 94,
+   "slide": 34,
+   "twist": 186,
+   "examples": [
+    {
+     "spin": -17,
+     "own": 39,
+     "gap": 94,
+     "slide": 34,
+     "twist": 186
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 45,
+   "own": 16,
+   "gap": 18,
+   "slide": 72,
+   "twist": 200,
+   "examples": [
+    {
+     "spin": 45,
+     "own": 16,
+     "gap": 18,
+     "slide": 72,
+     "twist": 200
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 12,
+   "own": 125,
+   "gap": 42,
+   "slide": 44,
+   "twist": 41,
+   "examples": [
+    {
+     "spin": 12,
+     "own": 125,
+     "gap": 42,
+     "slide": 44,
+     "twist": 41,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 5,
+   "own": 125,
+   "gap": 159,
+   "slide": 35,
+   "twist": 67,
+   "examples": [
+    {
+     "spin": 5,
+     "own": 125,
+     "gap": 159,
+     "slide": 35,
+     "twist": 67,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Victory_Start_Random",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 86,
+   "own": 16,
+   "gap": 89,
+   "slide": 79,
+   "twist": 239,
+   "examples": [
+    {
+     "spin": 86,
+     "own": 16,
+     "gap": 89,
+     "slide": 79,
+     "twist": 239
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_End",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 26,
+   "gap": 1,
+   "slide": 2,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 26,
+     "gap": 1,
+     "slide": 2,
+     "twist": 1,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -12,
+   "own": 43,
+   "gap": 12,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": -12,
+     "own": 43,
+     "gap": 12,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 109,
+   "own": 44,
+   "gap": 129,
+   "slide": 89,
+   "twist": 178,
+   "examples": [
+    {
+     "spin": 109,
+     "own": 44,
+     "gap": 129,
+     "slide": 89,
+     "twist": 178
+    }
+   ]
+  }
+ ],
+ "Kisaki (Swimsuit).glb": [
+  {
+   "key": "Kneel_Attack_Start → Kneel_Attack_Delay",
+   "count": 38,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 5,
+   "gap": 121,
+   "slide": 1,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 5,
+     "gap": 121,
+     "slide": 1,
+     "twist": 2
+    },
+    {
+     "spin": -1,
+     "own": 5,
+     "gap": 92,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 5,
+     "gap": 25,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 5,
+     "gap": 1,
+     "slide": 1,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Delay → Kneel_Attack_End",
+   "count": 38,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -6,
+   "own": 149,
+   "gap": 126,
+   "slide": 6,
+   "twist": -1,
+   "examples": [
+    {
+     "spin": -6,
+     "own": 149,
+     "gap": 126,
+     "slide": 6,
+     "twist": -1
+    },
+    {
+     "spin": -6,
+     "own": 149,
+     "gap": 87,
+     "slide": 6,
+     "twist": -1,
+     "click": true
+    },
+    {
+     "spin": -6,
+     "own": 149,
+     "gap": 31,
+     "slide": 4,
+     "twist": -2
+    },
+    {
+     "spin": -6,
+     "own": 149,
+     "gap": 5,
+     "slide": 6,
+     "twist": -1,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 30,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 121,
+   "own": 29,
+   "gap": 142,
+   "slide": 40,
+   "twist": 208,
+   "examples": [
+    {
+     "spin": 121,
+     "own": 29,
+     "gap": 122,
+     "slide": 16,
+     "twist": 208
+    },
+    {
+     "spin": 100,
+     "own": 29,
+     "gap": 142,
+     "slide": 40,
+     "twist": 116
+    },
+    {
+     "spin": 71,
+     "own": 29,
+     "gap": 110,
+     "slide": 35,
+     "twist": 111
+    },
+    {
+     "spin": 12,
+     "own": 29,
+     "gap": 29,
+     "slide": 20,
+     "twist": 119
+    }
+   ]
+  },
+  {
+   "key": "Victory_Start → Victory_End",
+   "count": 26,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 7,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Ing",
+   "count": 25,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 134,
+   "gap": 110,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 110,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 42,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 26,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 4,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Normal_Idle",
+   "count": 24,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 6,
+   "gap": 67,
+   "slide": 32,
+   "twist": 28,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 6,
+     "gap": 67,
+     "slide": 32,
+     "twist": 28
+    },
+    {
+     "spin": 3,
+     "own": 6,
+     "gap": 18,
+     "slide": 32,
+     "twist": 28
+    },
+    {
+     "spin": 3,
+     "own": 6,
+     "gap": 5,
+     "slide": 32,
+     "twist": 28
+    },
+    {
+     "spin": 3,
+     "own": 6,
+     "gap": 10,
+     "slide": 32,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Attack_Start",
+   "count": 23,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 42,
+   "gap": 109,
+   "slide": 8,
+   "twist": 25,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 42,
+     "gap": 109,
+     "slide": 7,
+     "twist": 23
+    },
+    {
+     "spin": 0,
+     "own": 42,
+     "gap": 62,
+     "slide": 8,
+     "twist": 24
+    },
+    {
+     "spin": 0,
+     "own": 42,
+     "gap": 15,
+     "slide": 7,
+     "twist": 23
+    },
+    {
+     "spin": 0,
+     "own": 42,
+     "gap": 32,
+     "slide": 8,
+     "twist": 25
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Cafe_Idle",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 20,
+   "own": 7,
+   "gap": 14,
+   "slide": 21,
+   "twist": 28,
+   "examples": [
+    {
+     "spin": 20,
+     "own": 7,
+     "gap": 14,
+     "slide": 21,
+     "twist": 28
+    },
+    {
+     "spin": 20,
+     "own": 7,
+     "gap": 14,
+     "slide": 21,
+     "twist": 28
+    },
+    {
+     "spin": 20,
+     "own": 7,
+     "gap": 14,
+     "slide": 21,
+     "twist": 28
+    },
+    {
+     "spin": 20,
+     "own": 7,
+     "gap": 14,
+     "slide": 21,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Delay → Kneel_Attack_Ing",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -9,
+   "own": 133,
+   "gap": 116,
+   "slide": 4,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": -9,
+     "own": 133,
+     "gap": 116,
+     "slide": 4,
+     "twist": 3
+    },
+    {
+     "spin": -9,
+     "own": 133,
+     "gap": 86,
+     "slide": 3,
+     "twist": 2
+    },
+    {
+     "spin": -9,
+     "own": 133,
+     "gap": 17,
+     "slide": 4,
+     "twist": 4
+    },
+    {
+     "spin": -9,
+     "own": 133,
+     "gap": 1,
+     "slide": 3,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Kneel_Attack_Delay",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 5,
+   "gap": 115,
+   "slide": 1,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 115,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 87,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 13,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 2,
+     "slide": 1,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_Ing",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 134,
+   "gap": 108,
+   "slide": 1,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 108,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 40,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 24,
+     "slide": 1,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 134,
+     "gap": 3,
+     "slide": 1,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Ing → Normal_Attack_Delay",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 5,
+   "gap": 110,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 110,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 42,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 26,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 0,
+     "own": 5,
+     "gap": 4,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Delay → Normal_Attack_End",
+   "count": 22,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 31,
+   "gap": 106,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 31,
+     "gap": 106,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 31,
+     "gap": 41,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 31,
+     "gap": 23,
+     "slide": 0,
+     "twist": -1
+    },
+    {
+     "spin": 0,
+     "own": 31,
+     "gap": 1,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Reload",
+   "count": 21,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -20,
+   "own": 109,
+   "gap": 99,
+   "slide": 4,
+   "twist": -4,
+   "examples": [
+    {
+     "spin": -22,
+     "own": 109,
+     "gap": 99,
+     "slide": 4,
+     "twist": -4
+    },
+    {
+     "spin": -22,
+     "own": 109,
+     "gap": 58,
+     "slide": 3,
+     "twist": -6
+    },
+    {
+     "spin": -20,
+     "own": 109,
+     "gap": 9,
+     "slide": 3,
+     "twist": -5
+    },
+    {
+     "spin": -21,
+     "own": 109,
+     "gap": 24,
+     "slide": 3,
+     "twist": -5
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 20,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 171,
+   "own": 7,
+   "gap": 172,
+   "slide": 86,
+   "twist": 198,
+   "examples": [
+    {
+     "spin": 171,
+     "own": 7,
+     "gap": 172,
+     "slide": 86,
+     "twist": 167
+    },
+    {
+     "spin": 71,
+     "own": 7,
+     "gap": 81,
+     "slide": 43,
+     "twist": 111
+    },
+    {
+     "spin": 46,
+     "own": 7,
+     "gap": 54,
+     "slide": 15,
+     "twist": 198
+    },
+    {
+     "spin": 4,
+     "own": 7,
+     "gap": 2,
+     "slide": 40,
+     "twist": 126
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Kneel_Reload",
+   "count": 19,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 15,
+   "gap": 122,
+   "slide": 3,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 15,
+     "gap": 122,
+     "slide": 1,
+     "twist": 0
+    },
+    {
+     "spin": -2,
+     "own": 15,
+     "gap": 71,
+     "slide": 3,
+     "twist": 4
+    },
+    {
+     "spin": -2,
+     "own": 15,
+     "gap": 11,
+     "slide": 3,
+     "twist": 4
+    },
+    {
+     "spin": -2,
+     "own": 15,
+     "gap": 2,
+     "slide": 3,
+     "twist": 4
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Public01",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 58,
+   "own": 58,
+   "gap": 75,
+   "slide": 28,
+   "twist": 58,
+   "examples": [
+    {
+     "spin": 57,
+     "own": 58,
+     "gap": 74,
+     "slide": 27,
+     "twist": 58
+    },
+    {
+     "spin": 58,
+     "own": 58,
+     "gap": 75,
+     "slide": 28,
+     "twist": 58
+    },
+    {
+     "spin": 57,
+     "own": 58,
+     "gap": 74,
+     "slide": 27,
+     "twist": 58
+    },
+    {
+     "spin": 57,
+     "own": 58,
+     "gap": 74,
+     "slide": 27,
+     "twist": 58,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Kneel_Attack_Start",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 70,
+   "gap": 141,
+   "slide": 20,
+   "twist": 59,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 70,
+     "gap": 141,
+     "slide": 20,
+     "twist": 56
+    },
+    {
+     "spin": -1,
+     "own": 70,
+     "gap": 103,
+     "slide": 16,
+     "twist": 58
+    },
+    {
+     "spin": -1,
+     "own": 70,
+     "gap": 20,
+     "slide": 16,
+     "twist": 58
+    },
+    {
+     "spin": -1,
+     "own": 70,
+     "gap": 1,
+     "slide": 16,
+     "twist": 59
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Idle",
+   "count": 17,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 6,
+   "gap": 105,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 105,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 40,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 21,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 3,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 36,
+   "own": 7,
+   "gap": 27,
+   "slide": 40,
+   "twist": 54,
+   "examples": [
+    {
+     "spin": 29,
+     "own": 7,
+     "gap": 17,
+     "slide": 40,
+     "twist": 54
+    },
+    {
+     "spin": 26,
+     "own": 7,
+     "gap": 3,
+     "slide": 39,
+     "twist": 52
+    },
+    {
+     "spin": 28,
+     "own": 7,
+     "gap": 2,
+     "slide": 39,
+     "twist": 51
+    },
+    {
+     "spin": 36,
+     "own": 7,
+     "gap": 27,
+     "slide": 37,
+     "twist": 48
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Normal_Callsign",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 9,
+   "own": 2,
+   "gap": 63,
+   "slide": 35,
+   "twist": 23,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 2,
+     "gap": 40,
+     "slide": 34,
+     "twist": 20
+    },
+    {
+     "spin": 9,
+     "own": 2,
+     "gap": 63,
+     "slide": 35,
+     "twist": 23
+    },
+    {
+     "spin": 7,
+     "own": 2,
+     "gap": 21,
+     "slide": 34,
+     "twist": 22
+    },
+    {
+     "spin": 8,
+     "own": 2,
+     "gap": 17,
+     "slide": 34,
+     "twist": 19,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Ing → Kneel_Attack_Ing",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 133,
+   "gap": 115,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 133,
+     "gap": 115,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 133,
+     "gap": 100,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 133,
+     "gap": 19,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 133,
+     "gap": 2,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Normal_Idle",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 6,
+   "gap": 66,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 66,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 31,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 20,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 2,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Idle",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 6,
+   "gap": 56,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 56,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 33,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Move_Ing",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 105,
+   "own": 112,
+   "gap": 143,
+   "slide": 80,
+   "twist": 112,
+   "examples": [
+    {
+     "spin": 46,
+     "own": 112,
+     "gap": 75,
+     "slide": 28,
+     "twist": 112
+    },
+    {
+     "spin": 105,
+     "own": 112,
+     "gap": 143,
+     "slide": 80,
+     "twist": 94
+    },
+    {
+     "spin": 51,
+     "own": 112,
+     "gap": 36,
+     "slide": 53,
+     "twist": 74
+    },
+    {
+     "spin": 57,
+     "own": 112,
+     "gap": 55,
+     "slide": 57,
+     "twist": 68
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Normal",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 43,
+   "own": 137,
+   "gap": 61,
+   "slide": 33,
+   "twist": 154,
+   "examples": [
+    {
+     "spin": 25,
+     "own": 137,
+     "gap": 46,
+     "slide": 6,
+     "twist": -6
+    },
+    {
+     "spin": 43,
+     "own": 137,
+     "gap": 61,
+     "slide": 33,
+     "twist": 54
+    },
+    {
+     "spin": 15,
+     "own": 137,
+     "gap": 25,
+     "slide": 19,
+     "twist": 126
+    },
+    {
+     "spin": 11,
+     "own": 137,
+     "gap": 1,
+     "slide": 33,
+     "twist": 154
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Idle",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 6,
+   "gap": 49,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 49,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 22,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 2,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 2,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Move_Ing",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 234,
+   "own": 112,
+   "gap": 173,
+   "slide": 118,
+   "twist": 419,
+   "examples": [
+    {
+     "spin": 234,
+     "own": 112,
+     "gap": 61,
+     "slide": 118,
+     "twist": 419
+    },
+    {
+     "spin": 87,
+     "own": 112,
+     "gap": 31,
+     "slide": 64,
+     "twist": 225
+    },
+    {
+     "spin": 105,
+     "own": 112,
+     "gap": 72,
+     "slide": 71,
+     "twist": 245
+    },
+    {
+     "spin": 150,
+     "own": 112,
+     "gap": 173,
+     "slide": 91,
+     "twist": 309
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Kneel",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 21,
+   "own": 171,
+   "gap": 27,
+   "slide": 57,
+   "twist": 204,
+   "examples": [
+    {
+     "spin": 21,
+     "own": 171,
+     "gap": 27,
+     "slide": 53,
+     "twist": 163
+    },
+    {
+     "spin": -2,
+     "own": 171,
+     "gap": 5,
+     "slide": 24,
+     "twist": 24
+    },
+    {
+     "spin": -3,
+     "own": 171,
+     "gap": 9,
+     "slide": 11,
+     "twist": 1
+    },
+    {
+     "spin": 12,
+     "own": 171,
+     "gap": 7,
+     "slide": 57,
+     "twist": 204
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Kneel → Kneel_Attack_Start",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 70,
+   "gap": 69,
+   "slide": 16,
+   "twist": 58,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 70,
+     "gap": 69,
+     "slide": 16,
+     "twist": 58
+    },
+    {
+     "spin": -1,
+     "own": 70,
+     "gap": 18,
+     "slide": 16,
+     "twist": 58
+    },
+    {
+     "spin": -1,
+     "own": 70,
+     "gap": 12,
+     "slide": 16,
+     "twist": 58
+    },
+    {
+     "spin": -1,
+     "own": 70,
+     "gap": 2,
+     "slide": 16,
+     "twist": 58
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Victory_Start",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 63,
+   "own": 68,
+   "gap": 85,
+   "slide": 25,
+   "twist": 73,
+   "examples": [
+    {
+     "spin": 63,
+     "own": 68,
+     "gap": 85,
+     "slide": 25,
+     "twist": 73
+    },
+    {
+     "spin": 48,
+     "own": 68,
+     "gap": 66,
+     "slide": 22,
+     "twist": 56,
+     "click": true
+    },
+    {
+     "spin": 48,
+     "own": 68,
+     "gap": 66,
+     "slide": 22,
+     "twist": 56,
+     "click": true
+    },
+    {
+     "spin": 41,
+     "own": 68,
+     "gap": 57,
+     "slide": 21,
+     "twist": 50
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Victory_Start",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 237,
+   "own": 68,
+   "gap": 170,
+   "slide": 84,
+   "twist": 184,
+   "examples": [
+    {
+     "spin": 237,
+     "own": 68,
+     "gap": 123,
+     "slide": 84,
+     "twist": 184
+    },
+    {
+     "spin": 221,
+     "own": 68,
+     "gap": 139,
+     "slide": 80,
+     "twist": 176
+    },
+    {
+     "spin": 217,
+     "own": 68,
+     "gap": 143,
+     "slide": 78,
+     "twist": 174
+    },
+    {
+     "spin": 170,
+     "own": 68,
+     "gap": 170,
+     "slide": 65,
+     "twist": 150
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Normal_Callsign",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 36,
+   "own": 2,
+   "gap": 55,
+   "slide": 39,
+   "twist": 54,
+   "examples": [
+    {
+     "spin": 10,
+     "own": 2,
+     "gap": 55,
+     "slide": 5,
+     "twist": 10,
+     "click": true
+    },
+    {
+     "spin": 33,
+     "own": 2,
+     "gap": 27,
+     "slide": 16,
+     "twist": 33,
+     "click": true
+    },
+    {
+     "spin": 36,
+     "own": 2,
+     "gap": 31,
+     "slide": 29,
+     "twist": 54,
+     "click": true
+    },
+    {
+     "spin": 18,
+     "own": 2,
+     "gap": 36,
+     "slide": 39,
+     "twist": 51,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Kneel_Attack_Start",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -16,
+   "own": 70,
+   "gap": 124,
+   "slide": 44,
+   "twist": 28,
+   "examples": [
+    {
+     "spin": -16,
+     "own": 70,
+     "gap": 124,
+     "slide": 44,
+     "twist": 28
+    },
+    {
+     "spin": -16,
+     "own": 70,
+     "gap": 47,
+     "slide": 44,
+     "twist": 28
+    },
+    {
+     "spin": -16,
+     "own": 70,
+     "gap": 103,
+     "slide": 44,
+     "twist": 28
+    },
+    {
+     "spin": -16,
+     "own": 70,
+     "gap": 103,
+     "slide": 44,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 101,
+   "own": 8,
+   "gap": 73,
+   "slide": 29,
+   "twist": 41,
+   "examples": [
+    {
+     "spin": 79,
+     "own": 8,
+     "gap": 12,
+     "slide": 27,
+     "twist": 20
+    },
+    {
+     "spin": 96,
+     "own": 8,
+     "gap": 50,
+     "slide": 28,
+     "twist": 29
+    },
+    {
+     "spin": 93,
+     "own": 8,
+     "gap": 46,
+     "slide": 28,
+     "twist": 30
+    },
+    {
+     "spin": 101,
+     "own": 8,
+     "gap": 73,
+     "slide": 29,
+     "twist": 41
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 7,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 7,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Normal_Callsign",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 8,
+   "own": 2,
+   "gap": 42,
+   "slide": 34,
+   "twist": 21,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 2,
+     "gap": 42,
+     "slide": 34,
+     "twist": 21
+    },
+    {
+     "spin": 8,
+     "own": 2,
+     "gap": 23,
+     "slide": 34,
+     "twist": 21
+    },
+    {
+     "spin": 8,
+     "own": 2,
+     "gap": 17,
+     "slide": 34,
+     "twist": 21
+    },
+    {
+     "spin": 8,
+     "own": 2,
+     "gap": 6,
+     "slide": 34,
+     "twist": 21
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 22,
+   "own": 8,
+   "gap": 17,
+   "slide": 25,
+   "twist": 19,
+   "examples": [
+    {
+     "spin": 20,
+     "own": 8,
+     "gap": 11,
+     "slide": 25,
+     "twist": 16
+    },
+    {
+     "spin": 22,
+     "own": 8,
+     "gap": 16,
+     "slide": 25,
+     "twist": 18
+    },
+    {
+     "spin": 21,
+     "own": 8,
+     "gap": 17,
+     "slide": 25,
+     "twist": 19
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Reload → Victory_Start",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 293,
+   "own": 68,
+   "gap": 161,
+   "slide": 113,
+   "twist": 236,
+   "examples": [
+    {
+     "spin": 293,
+     "own": 68,
+     "gap": 67,
+     "slide": 113,
+     "twist": 236
+    },
+    {
+     "spin": 161,
+     "own": 68,
+     "gap": 161,
+     "slide": 66,
+     "twist": 145
+    },
+    {
+     "spin": 144,
+     "own": 68,
+     "gap": 144,
+     "slide": 61,
+     "twist": 135
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Normal_Idle",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 6,
+   "gap": 35,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 35,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 35,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 13,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Kneel_Attack_Start",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -15,
+   "own": 70,
+   "gap": 145,
+   "slide": 28,
+   "twist": 22,
+   "examples": [
+    {
+     "spin": -17,
+     "own": 70,
+     "gap": 145,
+     "slide": 26,
+     "twist": 21
+    },
+    {
+     "spin": -17,
+     "own": 70,
+     "gap": 139,
+     "slide": 27,
+     "twist": 21
+    },
+    {
+     "spin": -15,
+     "own": 70,
+     "gap": 25,
+     "slide": 28,
+     "twist": 22
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Victory_Start",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 201,
+   "own": 68,
+   "gap": 179,
+   "slide": 64,
+   "twist": 214,
+   "examples": [
+    {
+     "spin": 201,
+     "own": 68,
+     "gap": 127,
+     "slide": 64,
+     "twist": 214
+    },
+    {
+     "spin": 158,
+     "own": 68,
+     "gap": 179,
+     "slide": 51,
+     "twist": 161
+    },
+    {
+     "spin": 109,
+     "own": 68,
+     "gap": 114,
+     "slide": 36,
+     "twist": 97
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Victory_Start",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 159,
+   "own": 68,
+   "gap": 163,
+   "slide": 76,
+   "twist": 138,
+   "examples": [
+    {
+     "spin": 159,
+     "own": 68,
+     "gap": 163,
+     "slide": 76,
+     "twist": 138,
+     "click": true
+    },
+    {
+     "spin": 87,
+     "own": 68,
+     "gap": 87,
+     "slide": 52,
+     "twist": 111,
+     "click": true
+    },
+    {
+     "spin": 30,
+     "own": 68,
+     "gap": 11,
+     "slide": 31,
+     "twist": 69,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Cafe_Idle",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 101,
+   "own": 7,
+   "gap": 102,
+   "slide": 33,
+   "twist": 93,
+   "examples": [
+    {
+     "spin": 44,
+     "own": 7,
+     "gap": 17,
+     "slide": 19,
+     "twist": 46
+    },
+    {
+     "spin": 53,
+     "own": 7,
+     "gap": 48,
+     "slide": 22,
+     "twist": 52
+    },
+    {
+     "spin": 101,
+     "own": 7,
+     "gap": 102,
+     "slide": 33,
+     "twist": 93
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs02",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 205,
+   "own": 13,
+   "gap": 146,
+   "slide": 129,
+   "twist": 194,
+   "examples": [
+    {
+     "spin": 205,
+     "own": 13,
+     "gap": 146,
+     "slide": 129,
+     "twist": 194,
+     "click": true
+    },
+    {
+     "spin": 88,
+     "own": 13,
+     "gap": 73,
+     "slide": 82,
+     "twist": 80,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Kneel_Attack_Start",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -16,
+   "own": 70,
+   "gap": 139,
+   "slide": 44,
+   "twist": 27,
+   "examples": [
+    {
+     "spin": -17,
+     "own": 70,
+     "gap": 139,
+     "slide": 44,
+     "twist": 26
+    },
+    {
+     "spin": -16,
+     "own": 70,
+     "gap": 137,
+     "slide": 44,
+     "twist": 27
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Public01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 32,
+   "own": 58,
+   "gap": 57,
+   "slide": 26,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 27,
+     "own": 58,
+     "gap": 52,
+     "slide": 25,
+     "twist": 56,
+     "click": true
+    },
+    {
+     "spin": 32,
+     "own": 58,
+     "gap": 57,
+     "slide": 26,
+     "twist": 57,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 32,
+   "own": 58,
+   "gap": 76,
+   "slide": 31,
+   "twist": 13,
+   "examples": [
+    {
+     "spin": 29,
+     "own": 58,
+     "gap": 73,
+     "slide": 31,
+     "twist": 13,
+     "click": true
+    },
+    {
+     "spin": 32,
+     "own": 58,
+     "gap": 76,
+     "slide": 31,
+     "twist": 13,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 192,
+   "own": 8,
+   "gap": 165,
+   "slide": 42,
+   "twist": 95,
+   "examples": [
+    {
+     "spin": 192,
+     "own": 8,
+     "gap": 165,
+     "slide": 29,
+     "twist": 95
+    },
+    {
+     "spin": 99,
+     "own": 8,
+     "gap": 101,
+     "slide": 42,
+     "twist": 33
+    }
+   ]
+  },
+  {
+   "key": "Public01 → Normal_Callsign",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 21,
+   "own": 2,
+   "gap": 21,
+   "slide": 34,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": 5,
+     "own": 2,
+     "gap": 10,
+     "slide": 25,
+     "twist": 12,
+     "click": true
+    },
+    {
+     "spin": 21,
+     "own": 2,
+     "gap": 21,
+     "slide": 34,
+     "twist": 16,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Vital_Death",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -37,
+   "own": 219,
+   "gap": 139,
+   "slide": 32,
+   "twist": 95,
+   "examples": [
+    {
+     "spin": -37,
+     "own": 219,
+     "gap": 139,
+     "slide": 32,
+     "twist": 95
+    },
+    {
+     "spin": -38,
+     "own": 219,
+     "gap": 130,
+     "slide": 31,
+     "twist": 95
+    }
+   ]
+  },
+  {
+   "key": "Vital_Death → Cafe_Reaction",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 52,
+   "own": 58,
+   "gap": 7,
+   "slide": 44,
+   "twist": 43,
+   "examples": [
+    {
+     "spin": 52,
+     "own": 58,
+     "gap": 7,
+     "slide": 44,
+     "twist": 43,
+     "click": true
+    },
+    {
+     "spin": 48,
+     "own": 58,
+     "gap": 3,
+     "slide": 44,
+     "twist": 42
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Normal_Reload",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 109,
+   "gap": 52,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 109,
+     "gap": 52,
+     "slide": 0,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 109,
+     "gap": 23,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Idle → Exs01",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 7,
+   "own": 5,
+   "gap": 12,
+   "slide": 10,
+   "twist": 32,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 5,
+     "gap": 2,
+     "slide": 10,
+     "twist": 32
+    },
+    {
+     "spin": 7,
+     "own": 5,
+     "gap": 12,
+     "slide": 9,
+     "twist": 17
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 59,
+   "own": 8,
+   "gap": 25,
+   "slide": 25,
+   "twist": 22,
+   "examples": [
+    {
+     "spin": 59,
+     "own": 8,
+     "gap": 25,
+     "slide": 25,
+     "twist": 22
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 53,
+   "own": 5,
+   "gap": 51,
+   "slide": 37,
+   "twist": 67,
+   "examples": [
+    {
+     "spin": 53,
+     "own": 5,
+     "gap": 51,
+     "slide": 37,
+     "twist": 67,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 43,
+   "own": 8,
+   "gap": 56,
+   "slide": 44,
+   "twist": 127,
+   "examples": [
+    {
+     "spin": 43,
+     "own": 8,
+     "gap": 56,
+     "slide": 44,
+     "twist": 127
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 213,
+   "own": 8,
+   "gap": 133,
+   "slide": 39,
+   "twist": 95,
+   "examples": [
+    {
+     "spin": 213,
+     "own": 8,
+     "gap": 133,
+     "slide": 39,
+     "twist": 95
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 36,
+   "own": 13,
+   "gap": 47,
+   "slide": 54,
+   "twist": 228,
+   "examples": [
+    {
+     "spin": 36,
+     "own": 13,
+     "gap": 47,
+     "slide": 54,
+     "twist": 228
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 301,
+   "own": 8,
+   "gap": 57,
+   "slide": 24,
+   "twist": 150,
+   "examples": [
+    {
+     "spin": 301,
+     "own": 8,
+     "gap": 57,
+     "slide": 24,
+     "twist": 150
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs02",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 81,
+   "own": 13,
+   "gap": 62,
+   "slide": 45,
+   "twist": 73,
+   "examples": [
+    {
+     "spin": 81,
+     "own": 13,
+     "gap": 62,
+     "slide": 45,
+     "twist": 73,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Kneel_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "bad",
+   "clickOnly": true,
+   "spin": 138,
+   "own": 15,
+   "gap": 174,
+   "slide": 90,
+   "twist": 147,
+   "examples": [
+    {
+     "spin": 138,
+     "own": 15,
+     "gap": 174,
+     "slide": 90,
+     "twist": 147,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Kneel → Kneel_Reload",
+   "count": 1,
+   "mark": null,
+   "verdict": "bad",
+   "clickOnly": true,
+   "spin": 130,
+   "own": 15,
+   "gap": 49,
+   "slide": 85,
+   "twist": 139,
+   "examples": [
+    {
+     "spin": 130,
+     "own": 15,
+     "gap": 49,
+     "slide": 85,
+     "twist": 139,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Victory_End → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 74,
+   "own": 68,
+   "gap": 83,
+   "slide": 19,
+   "twist": 89,
+   "examples": [
+    {
+     "spin": 74,
+     "own": 68,
+     "gap": 83,
+     "slide": 19,
+     "twist": 89,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Public01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 42,
+   "own": 58,
+   "gap": 73,
+   "slide": 36,
+   "twist": 68,
+   "examples": [
+    {
+     "spin": 42,
+     "own": 58,
+     "gap": 73,
+     "slide": 36,
+     "twist": 68,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 138,
+   "own": 68,
+   "gap": 154,
+   "slide": 45,
+   "twist": 137,
+   "examples": [
+    {
+     "spin": 138,
+     "own": 68,
+     "gap": 154,
+     "slide": 45,
+     "twist": 137
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 38,
+   "own": 5,
+   "gap": 10,
+   "slide": 13,
+   "twist": 51,
+   "examples": [
+    {
+     "spin": 38,
+     "own": 5,
+     "gap": 10,
+     "slide": 13,
+     "twist": 51,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Callsign → Victory_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 151,
+   "own": 68,
+   "gap": 166,
+   "slide": 39,
+   "twist": 120,
+   "examples": [
+    {
+     "spin": 151,
+     "own": 68,
+     "gap": 166,
+     "slide": 39,
+     "twist": 120
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 55,
+   "own": 8,
+   "gap": 48,
+   "slide": 22,
+   "twist": 28,
+   "examples": [
+    {
+     "spin": 55,
+     "own": 8,
+     "gap": 48,
+     "slide": 22,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 92,
+   "own": 8,
+   "gap": 47,
+   "slide": 25,
+   "twist": 36,
+   "examples": [
+    {
+     "spin": 92,
+     "own": 8,
+     "gap": 47,
+     "slide": 25,
+     "twist": 36
+    }
+   ]
+  },
+  {
+   "key": "Exs02 → Normal_Idle",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -1,
+   "own": 6,
+   "gap": 44,
+   "slide": 0,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -1,
+     "own": 6,
+     "gap": 44,
+     "slide": 0,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_End → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 99,
+   "own": 8,
+   "gap": 68,
+   "slide": 27,
+   "twist": 51,
+   "examples": [
+    {
+     "spin": 99,
+     "own": 8,
+     "gap": 68,
+     "slide": 27,
+     "twist": 51
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 136,
+   "own": 58,
+   "gap": 150,
+   "slide": 39,
+   "twist": 203,
+   "examples": [
+    {
+     "spin": 136,
+     "own": 58,
+     "gap": 150,
+     "slide": 39,
+     "twist": 203,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Normal_Callsign",
+   "count": 1,
+   "mark": null,
+   "verdict": "bad",
+   "clickOnly": true,
+   "spin": 50,
+   "own": 2,
+   "gap": 24,
+   "slide": 41,
+   "twist": 151,
+   "examples": [
+    {
+     "spin": 50,
+     "own": 2,
+     "gap": 24,
+     "slide": 41,
+     "twist": 151,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_Start → Kneel_Attack_End",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 149,
+   "gap": 8,
+   "slide": 2,
+   "twist": -1,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 149,
+     "gap": 8,
+     "slide": 2,
+     "twist": -1,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Kneel_Attack_End → Exs01",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 96,
+   "own": 5,
+   "gap": 106,
+   "slide": 62,
+   "twist": 227,
+   "examples": [
+    {
+     "spin": 96,
+     "own": 5,
+     "gap": 106,
+     "slide": 62,
+     "twist": 227
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Kneel_Attack_Start",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -16,
+   "own": 70,
+   "gap": 108,
+   "slide": 44,
+   "twist": 28,
+   "examples": [
+    {
+     "spin": -16,
+     "own": 70,
+     "gap": 108,
+     "slide": 44,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_End",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 31,
+   "gap": 60,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 31,
+     "gap": 60,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  }
  ]
 }

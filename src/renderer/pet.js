@@ -389,6 +389,7 @@ async function loadModel() {
   thighs = thighBones(gltf.scene).filter(Boolean);
   deployStances = findDeployStances();
   proneStances = findProneStances();
+  exAfters = findExAfters();
   measureFrontFaces();
   bodyBones = ['Bip001_L_Foot', 'Bip001_R_Foot', 'Bip001_Pelvis', 'Bip001_Head'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
@@ -1112,7 +1113,39 @@ function exSkill() {
   if (toForm2) form = 2;
   const variants = exVariants();
   const ex = toForm2 && formEx ? formEx : variants.length ? pickRandom(variants) : 'ex';
-  playSequence([...back, ex], { face: battleFace(), as: 'ex' });
+  playSequence([...back, ex, ...(exAfters.get(ex) ?? [])], { face: battleFace(), as: 'ex' });
+}
+
+// EX가 바꾼 자세를 푸는 동작 (02 차림이 없는 학생): 히나(드레스)는 EX마다 Exs0N_Idle(그 자세로 대기)·Exs0N_FormRelease(풀기),
+// 수영복 미카는 Exs03(0.17초, 후광을 키우고 날개를 편 자세) → 번호 없는 FormRelease. EX가 웅크리거나 날개를 편 채 끝나서
+// 바로 전투 대기로 가면 0.2초 만에 자세가 확 바뀌었음 → EX 끝 자세에서 이어지는 대기·풀기를 EX 뒤에 붙인다 (2026-10-30)
+// 이어지는지는 이름이 아니라 자세로 본다(수영복 미카 FormRelease는 Exs01·Exs02 끝과 뼈 회전 평균 21~24° 차이, Exs03 끝과 0.1°)
+let exAfters = new Map(); // EX 이름 → 뒤에 이어 트는 동작들
+const POSE_JOIN = THREE.MathUtils.degToRad(3);
+function posesJoin(a, b) { // a 끝 자세와 b 첫 자세의 뼈 회전 차이 평균이 POSE_JOIN 안
+  const ends = new Map(clips[a].tracks.filter((t) => t.name.endsWith('.quaternion')).map((t) => [t.name, t]));
+  const [qa, qb] = [new THREE.Quaternion(), new THREE.Quaternion()];
+  let sum = 0, n = 0;
+  for (const t of clips[b].tracks) {
+    const u = ends.get(t.name);
+    if (!u) continue;
+    sum += qa.fromArray(u.createInterpolant().evaluate(clips[a].duration)).angleTo(qb.fromArray(t.createInterpolant().evaluate(0)));
+    n++;
+  }
+  return n > 0 && sum / n < POSE_JOIN;
+}
+function findExAfters() {
+  const out = new Map();
+  if (forms.has(2)) return out;
+  for (const ex of exVariants()) {
+    const idle = clips[`${ex}_Idle`] && posesJoin(ex, `${ex}_Idle`) ? [`${ex}_Idle`] : [];
+    const release = [`${ex}_FormRelease`, resolve(FORM_RELEASE)].find((n) => clips[n] && posesJoin(idle[0] ?? ex, n));
+    if (!release) continue;
+    out.set(ex, [...idle, release]);
+    // 짝처럼 EX와 같은 방향 보정 (따로면 넘어갈 때 몸이 돎. 대기·풀기는 원래 호시노에 없어 보정이 없음)
+    for (const n of [...idle, release]) if (clipTurns.has(ex)) clipTurns.set(n, clipTurns.get(ex)); else clipTurns.delete(n);
+  }
+  return out;
 }
 
 // 종료: 밧줄 잡는 자세(Vital_Retreat = 밧줄에 매달린 동작)로 손을 들면 위에서 밧줄이 손으로 내려오고,
@@ -1510,6 +1543,7 @@ window.__pet = {
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get victoryPoses() { return victoryPoses(); },
   get exVariants() { return exVariants(); },
+  get exAfters() { return Object.fromEntries(exAfters); },
   get formEx() { return formEx; },
   get forms() { return [...forms]; },
   get gearClips() { return [...gearClips]; },
@@ -1791,7 +1825,7 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
 // 이 학생에게 펫이 쓸 수 있는 동작 전부 (차림마다 실제 이름으로). 창 끝 검사에서 흉내 중에 안 나온 동작을 채울 때 씀
 function usedClips() {
   const names = [...Object.values(ANIM).flat(), REACTION, ARMED_IDLE, ...ARMED_FIDGETS, ...ARMED_REACTIONS,
-    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...[drawClip()].filter(Boolean), RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants()];
+    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...[drawClip()].filter(Boolean), RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants(), ...[...exAfters.values()].flat()];
   const keep = form;
   const out = new Set();
   for (const f of forms) {

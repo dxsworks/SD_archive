@@ -380,7 +380,7 @@ async function loadModel() {
   ({ index: clipIndex, forms } = indexClips(Object.keys(clips)));
   variantForms = formVariants(clipIndex, forms);
   if (variantForms) forms.delete(2); // 차림이 아니라 변형: EX 뒤에도 01 차림 그대로, 변형은 playSequence에서 섞음
-  gearClips = clipsChangingParts(gltf.scene, gltf.animations, 'Cafe_Idle');
+  gearClips = clipsChangingParts(gltf.scene, gltf.animations, resolve('Cafe_Idle'));
   const idle2 = forms.has(2) ? clipIndex.get(clipKey(ARMED_IDLE))?.find((c) => c.form === 2)?.name : undefined;
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
   markForm2Props(idle2);
@@ -390,6 +390,7 @@ async function loadModel() {
   deployStances = findDeployStances();
   proneStances = findProneStances();
   exAfters = findExAfters();
+  formChanges = findFormChanges();
   measureFrontFaces();
   bodyBones = ['Bip001_L_Foot', 'Bip001_R_Foot', 'Bip001_Pelvis', 'Bip001_Head'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
@@ -419,6 +420,10 @@ const clipTurn = () => clipTurns.get(currentAction?.getClip().name) ?? 0;
 const fitsForm = (name) => currentForm() === 1 || ownForm(name);
 // 지금 차림 번호의 것이 있는지 (01 차림에서도 02만 있는 동작은 아님)
 const ownForm = (name) => Boolean(clipIndex.get(clipKey(name))?.some((c) => c.form === currentForm()));
+// 지금 틀 수 있는지: 01 차림에서는 02에만 있는 동작을 쓰지 않는다 (Hoshino (Battle) 재장전은 02(방패 뒤)에만 있어 01에서 틀면 방패가 나왔음).
+// 02 차림에서 01 것을 빌려 쓰는 건 그대로 (Subaru 02 재장전은 01)
+const canPlay = (name) => has(name) && (currentForm() !== 1 || ownForm(name));
+const canReload = (st) => canPlay(`${st}_Reload`);
 // 재장전: 변형(_Random)이 지금 차림에 있으면 원래 것과 반반
 const reloadClip = (name) => (ownForm(RELOAD_VARIANT(name)) && Math.random() < 0.5 ? RELOAD_VARIANT(name) : name);
 // 그 차림 번호의 실제 이름 (없으면 undefined)
@@ -771,7 +776,7 @@ function armedIdle() {
 }
 
 // 장비 모습이 평소와 다른 동작은 뺀다 (Shiroko＊Terror Normal01_Callsign_Random은 드론이 나옴). 다 빠지면 원래대로
-const calmList = (names) => { const ok = names.filter((n) => has(n) && calmOk(n)); return ok.length ? ok : names; };
+const calmList = (names) => { const ok = names.filter((n) => canPlay(n) && calmOk(n)); return ok.length ? ok : names; };
 const armedFidget = () => { const name = pickRandom(calmList(ARMED_FIDGETS)); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
 
 function chooseArmedBehavior() {
@@ -860,7 +865,8 @@ function endBattle({ victory = false, keepForm = false } = {}) {
   const formPairs = victory && !getUp && !releaseUp ? formVictoryPoses() : [];
   const pairs = releaseUp || (canRelease && Math.random() < 0.5) ? [] : formPairs;
   const steps = pairs.length ? [...rise, ...pickPair(pairs).map(resolve)] : null;
-  const release = canRelease && !steps ? [resolve(FORM_RELEASE)] : [];
+  const release = canRelease && !steps ? [resolve(FORM_RELEASE)]
+    : victory && form === 2 && formChanges.has(2) ? [formChanges.get(2)] : []; // 방패를 넣고 (Hoshino (Battle))
   if (!keepForm) form = 1;
   lastBattleEnd = clock();
   if (victory) playSequence(steps ?? [...rise, ...release, ...victoryPose()], { onEnd: toIdle });
@@ -898,16 +904,18 @@ function battleIdle() {
 
 // 다음 총 동작을 무작위로 고른다 (탄약이 떨어졌으면 재장전할 확률이 크게 오름)
 function battleAction() {
-  const empty = battle.ammo <= 0;
+  const reloads = canReload(battle.stance); // 재장전이 없는 차림(Hoshino (Battle) 01)은 탄약을 세지 않음
+  const empty = reloads && battle.ammo <= 0;
   pickWeighted([
     [burst, empty ? 5 : 40],
-    [reload, empty ? 60 : battle.ammo < MAGAZINE ? 25 : 8],
+    [reload, !reloads ? 0 : empty ? 60 : battle.ammo < MAGAZINE ? 25 : 8],
     [switchStance, settings.walk && otherStance(battle.stance) ? 12 : 0],
     [startRun, settings.walk ? 15 : 0],
     [callsign, hasCallsign(battle.stance) ? 10 : 0],
     [exSkill, exReady() ? 6 : 0], // 가끔 EX 스킬 (끝나면 전투 대기로)
     [deployGun, form === 1 && deployStances.has(battle.stance) ? 12 : 0],
     [undeployGun, lowered() ? 10 : 0],
+    [changeForm, formChanges.has(form) && battle.until - clock() > CHANGE_LEFT * 1000 ? 10 : 0],
   ])();
 }
 
@@ -940,8 +948,9 @@ function reload() {
 }
 
 const callsign = () => (hasCallsign(battle.stance) ? playSequence([...toStanding(), `${battle.stance}_Callsign`], { face: battleFace() }) : rest());
-// 전투 중 클릭 대답: 구호 / 재장전 무작위 (구호가 없는 자세·차림이면 재장전)
-const battleReply = () => pickWeighted([[callsign, hasCallsign(battle.stance) ? 1 : 0], [reload, 1]])();
+// 전투 중 클릭 대답: 구호 / 재장전 무작위 (구호가 없는 자세·차림이면 재장전, 재장전이 없으면 구호)
+const battleReply = () => (canReload(battle.stance)
+  ? pickWeighted([[callsign, hasCallsign(battle.stance) ? 1 : 0], [reload, 1]]) : callsign)();
 
 // 자세 바꾸기: 근처로 뛰어가 도착하며 다른 자세를 잡는다.
 // Move_End_*는 뛰다가 멈추는 동작이라 제자리에서 틀면 제자리에서 몇 걸음 뛰는 것처럼 보인다.
@@ -1105,15 +1114,38 @@ function form2Looks() {
 
 // 02 차림이면 EX를 다시 쓰지 않는다 (사용자 2026-10-24: Shiroko＊Terror는 02에서 쓸 EX가 없음 — Exs04는 드론이 바닥에서 시작,
 // Exs01~03은 드론을 숨김. 모든 02 차림 학생에게). 전투가 끝나 01로 돌아오면 다시 씀
-const exReady = () => hasEx() && form !== 2;
+// 차림을 FormChange 동작으로 바꾸는 학생(Hoshino (Battle))은 02에도 02 EX가 있어 그대로 씀
+const exReady = () => hasEx() && (form !== 2 || formChanges.size > 0);
 function exSkill() {
   // 나가 있으면 지금 차림 그대로 돌아온 뒤 EX (02로 먼저 바꾸면 01 사격 대기 → 02 사격 끝으로 섞여 자세가 크게 튐: Shun 무릎 01 → 02 엎드림)
   const back = fromCover([]).map(resolve);
-  const toForm2 = battle && forms.has(2) && !deployStances.size; // 거치 자세 학생은 EX가 서서 끝나 01 그대로
+  // 거치 자세 학생은 EX가 서서 끝나 01 그대로, 차림을 FormChange로 바꾸는 학생은 EX가 차림을 안 바꿈
+  const toForm2 = battle && forms.has(2) && !deployStances.size && !formChanges.size;
   if (toForm2) form = 2;
   const variants = exVariants();
   const ex = toForm2 && formEx ? formEx : variants.length ? pickRandom(variants) : 'ex';
   playSequence([...back, ex, ...(exAfters.get(ex) ?? [])], { face: battleFace(), as: 'ex' });
+}
+
+// ---- 차림 바꾸기 (Hoshino (Battle)) ----
+// 01(공격형, 총만)과 02(탱커형, 방패 뒤)를 편성 화면 동작 Formation_FormChange_*로 오가는 학생: 01_Formation_FormChange_Attacker는
+// 총을 든 채 방패를 꺼내 02 모습으로, 02_Formation_FormChange_Tanker는 방패를 넣고 01 모습으로 끝난다.
+// → 그 차림에 있는 FormChange 동작이 다른 차림으로 바꾼다. 전투 중 무작위로 바꾸고, EX는 지금 차림의 것.
+// 02로 끝난 전투는 FormChange로 방패를 넣은 뒤 승리 포즈 (조사 295개 중 이 학생뿐).
+// 사용자 2026-10-30: 비교 영상(A 01만 / B EX 뒤 02 / C 이것 / D 더블클릭 EX를 쓰면 반대 차림으로)에서 C.
+// B는 방패가 EX 시작에 갑자기 나오고 승리 포즈에서 갑자기 사라졌음
+const FORM_CHANGE = /^formation_formchange_/;
+const CHANGE_LEFT = 8; // 전투가 이만큼(초) 넘게 남았을 때만 바꾼다 (방패를 꺼내자마자 전투가 끝나 바로 다시 넣었음)
+let formChanges = new Map(); // 차림 번호 → 그 차림에서 다른 차림으로 바꾸는 동작
+function findFormChanges() {
+  const out = new Map();
+  if (!forms.has(2) || variantForms) return out;
+  for (const [key, list] of clipIndex) if (FORM_CHANGE.test(key)) for (const c of list) out.set(c.form, c.name);
+  return out.has(1) && out.has(2) ? out : new Map();
+}
+function changeForm() {
+  const to = form === 1 ? 2 : 1;
+  playSequence([...fromCover([]).map(resolve), formChanges.get(form)], { face: battleFace(), onEnd: () => { form = to; rest(); } });
 }
 
 // EX가 바꾼 자세를 푸는 동작 (02 차림이 없는 학생): 히나(드레스)는 EX마다 Exs0N_Idle(그 자세로 대기)·Exs0N_FormRelease(풀기),
@@ -1575,6 +1607,20 @@ window.__pet = {
   },
   run() { if (battle) startRun(); }, // 전투 중 뛰어서 자리 옮기기
   deploy() { if (battle && form === 1 && deployStances.has(battle.stance)) deployGun(); }, // 거치 자세 학생: 바로 거치
+  changeForm() { if (battle && formChanges.has(form)) changeForm(); }, // FormChange 학생: 바로 차림 바꾸기
+  get formChanges() { return Object.fromEntries(formChanges); },
+  win() { if (battle) battle.until = 0; }, // 전투 대기로 돌아오면 바로 승리 포즈로 끝냄
+  // 영상 녹화용: 상태 머신과 시계를 dt초 진행하고 바로 그린다 (화면 밖 창은 rAF가 멈춰 있을 수 있음. timeScale = 0과 같이)
+  step(dt) {
+    clockAhead += dt * 1000;
+    update(dt);
+    mixer.update(dt);
+    updateHiddenParts();
+    updateOutlines();
+    updateRope();
+    updateShadow(dt);
+    renderer.render(scene, camera);
+  },
   // 각도 비교용: 그 자세로 side(±1)쪽을 겨눌 때 펫이 정할 방향(도, 무작위 흔들기 없이)
   battleFaceOf: (side, stance) => Math.round(THREE.MathUtils.radToDeg(showFace(side * FACE_BATTLE, stanceClips(stance)))),
   simulate,
@@ -1830,13 +1876,14 @@ function usedClips() {
   const out = new Set();
   for (const f of forms) {
     form = f;
-    for (const n of names) if (has(n)) out.add(resolve(n));
+    for (const n of names) if (canPlay(n)) out.add(resolve(n));
   }
   form = keep;
   // 02로 바꾸는 EX가 따로 있으면 02 차림 EX 이름(Shiroko＊Terror Exs02)은 안 씀 (02에서는 EX를 안 씀)
   if (formEx) for (const c of clipIndex.get(clipKey('Exs')) ?? []) if (c.form !== 1) out.delete(c.name);
   if (formEx) out.add(formEx);
   for (const st of [...deployStances, ...proneStances]) for (const n of [`${st}_ReadyStart`, `${st}_ReadyEnd`, `${st}_Attack_Delay`]) out.add(formName(n, 2));
+  for (const n of formChanges.values()) out.add(n);
   // 01/02 변형도 (playSequence pickVariants가 섞어 씀)
   if (variantForms) for (const n of [...out]) for (const c of clipIndex.get(clipKey(n)) ?? []) out.add(c.name);
   return [...out];
@@ -1917,7 +1964,8 @@ function pickClips() {
     const keep = form; form = 2;
     const idle2 = resolve(ARMED_IDLE);
     form = keep;
-    add(formOf.get(idle2) === 2 ? idle2 : form2[0], deployStances.size ? `거치 자세 (전투 중 무작위로 앉아서 거치, 02 동작 ${form2.length}개)` : `02 차림 (전투 중 EX 뒤에 바뀜, 02 동작 ${form2.length}개${proneStances.size ? ', 엎드려 쏘기' : ''})`);
+    add(formOf.get(idle2) === 2 ? idle2 : form2[0], deployStances.size ? `거치 자세 (전투 중 무작위로 앉아서 거치, 02 동작 ${form2.length}개)`
+      : `02 차림 (전투 중 ${formChanges.size ? 'FormChange로 무작위로' : 'EX 뒤에'} 바뀜, 02 동작 ${form2.length}개${proneStances.size ? ', 엎드려 쏘기' : ''})`);
   }
   if (variantForms) for (const n of used) if (formOf.get(n) === 2) add(n, '02 변형 (01과 무작위로 섞음, 짝은 같은 번호끼리)');
   window.__pet.reset();

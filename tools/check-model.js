@@ -61,6 +61,7 @@ function checkModel(file, names, { companions = [] }, N) {
     return list && (list.find((c) => c.form === form) ?? list.find((c) => c.form === 1) ?? list[0]);
   };
   const has = (name) => Boolean(pick(name));
+  const own1 = (name) => pick(name)?.form === 1; // 01 차림에 있음 (02에만 있는 Hoshino (Battle) 재장전은 아님)
   const first = (list) => list.find(has);
   const nameOf = (name, form) => pick(name, form)?.name;
   const warnings = [];
@@ -105,9 +106,17 @@ function checkModel(file, names, { companions = [] }, N) {
   // EX 끝 자세를 푸는 동작(02 차림이 없는 학생): 펫이 EX 끝 자세에서 이어지는 것만 EX 뒤에 붙임 (pet.js findExAfters, 이름만으로는 모름)
   const exRelease = names.filter((n) => (!forms.has(2) || variants) && /^(exs\w*_)?formrelease$/i.test(n));
   if (exVariants.length && exRelease.length) notes.push(`EX 끝 자세를 푸는 동작 ${exRelease.join(', ')}: 펫이 끝 자세에서 이어지는 EX 뒤에 붙임(그 EX의 _Idle이 있으면 먼저)`);
+  // 차림을 FormChange 동작으로 오가는 학생(Hoshino (Battle)): 01·02 둘 다에 Formation_FormChange_*가 있음 (pet.js findFormChanges)
+  const changes = new Map(forms.has(2) && !variants
+    ? [...index].filter(([k]) => /^formation_formchange_/.test(k)).flatMap(([, list]) => list).map((c) => [c.form, c.name]) : []);
+  const formChange = changes.has(1) && changes.has(2) ? changes : null;
+  if (formChange) {
+    does.push(`차림 바꾸기: 전투 중 무작위로 ${formChange.get(1)}(01 → 02) / ${formChange.get(2)}(02 → 01). EX는 지금 차림의 것, 02로 끝나면 ${formChange.get(2)} → 승리 포즈`);
+  }
   // 02 차림 학생: 02에서는 EX를 안 씀. EX가 여럿이면 펫이 끝 모습(숨긴 소품)이 02 대기와 같은 것을 고름 (pet.js findFormEx, 이름만으로는 모름)
   const exAll = index.get(N.clipKey('Exs')) ?? [];
-  if (forms.has(2) && !variants && exAll.length > 1) {
+  if (formChange) notes.push(`EX가 차림마다 하나(${exAll.map((c) => c.name).join(' / ')}): 지금 차림의 것을 씀 (02에서도 씀)`);
+  else if (forms.has(2) && !variants && exAll.length > 1) {
     notes.push(`EX ${exAll.length}개(${exAll.map((c) => c.name).join(', ')}) + 02 차림: 전투 EX는 펫이 끝 모습이 02 대기와 같은 것을 고름`);
   }
   // 거치 자세 학생(Otogi): 02 대기가 없고 02 ReadyStart·ReadyEnd·사격 대기가 있는 자세. 펫은 골반 높이로도 확인함 (pet.js findDeployStances)
@@ -125,7 +134,7 @@ function checkModel(file, names, { companions = [] }, N) {
   // 잠깐 무장
   if (has(N.ARMED_IDLE)) {
     const draw = first(N.DRAW_WEAPON);
-    const fidgets = N.ARMED_FIDGETS.filter(has);
+    const fidgets = N.ARMED_FIDGETS.filter(own1); // 펫은 01 차림에서 02에만 있는 동작을 안 씀 (pet.js canPlay)
     does.push(`잠깐 무장: 대기 ${nameOf(N.ARMED_IDLE)} · 총 꺼내기 ${draw ? nameOf(draw) : '없음(총이 바로 생김)'}`
       + ` · 할 동작 ${fidgets.length ? fidgets.map((n) => nameOf(n)).join(', ') : '없음(대기만)'}`);
   } else does.push(`잠깐 무장: 안 함 (${N.ARMED_IDLE} 없음)`);
@@ -147,7 +156,8 @@ function checkModel(file, names, { companions = [] }, N) {
   }
   if (ready.length) {
     const stances = ready.map((st) => {
-      const extra = [has(`${st}_Reload`) ? (has(N.RELOAD_VARIANT(`${st}_Reload`)) ? '재장전 2가지' : '재장전') : '재장전 없음', has(`${st}_Callsign`) ? '구호' : '구호 없음',
+      const reload = has(`${st}_Reload`) ? (has(N.RELOAD_VARIANT(`${st}_Reload`)) ? '재장전 2가지' : '재장전') : '재장전 없음';
+      const extra = [reload + (has(`${st}_Reload`) && !own1(`${st}_Reload`) ? '(02 차림만)' : ''), has(`${st}_Callsign`) ? '구호' : '구호 없음',
         has(`Move_End_${st}`) ? '뛰어와 자세' : '뛰어와 자세 없음'];
       return `${label[st]}(${extra.join('·')})`;
     });
@@ -205,7 +215,7 @@ function checkModel(file, names, { companions = [] }, N) {
   const used = new Set([
     ...Object.values(N.ANIM).flat(), N.REACTION, N.ARMED_IDLE, ...N.ARMED_FIDGETS, ...N.ARMED_REACTIONS,
     ...N.STANCES.flatMap(N.stanceAll), ...N.RELOAD_VARIANTS, ...N.BATTLE_ENTRY, ...N.DRAW_WEAPON, N.RUN_CALLSIGN, ...N.VICTORIES.flat(), ...N.OTHER_CLIPS,
-    ...[...deploy, ...prone].flatMap((st) => [`${st}_ReadyStart`, `${st}_ReadyEnd`]),
+    ...[...deploy, ...prone].flatMap((st) => [`${st}_ReadyStart`, `${st}_ReadyEnd`]), ...(formChange?.values() ?? []),
   ].map((n) => N.clipKey(n)));
   const unknown = [];
   const unused = [];

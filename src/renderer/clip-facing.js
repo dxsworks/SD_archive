@@ -61,7 +61,8 @@ export function measureClips(root, animations, nameKey) {
   const bone = (re) => { let b = null; root.traverse((o) => { if (!b && re.test(o.name)) b = o; }); return b; };
   const pelvis = bone(/^bip001[ _]pelvis$/i);
   const head = bone(/^bip001[ _]head$/i);
-  const base = animations.find((c) => c.name === 'Cafe_Idle');
+  // 차림 번호가 앞에 붙은 이름(Hoshino (Battle) 01_Cafe_Idle)도 묶는 이름으로 찾는다
+  const base = animations.find((c) => c.name === 'Cafe_Idle') ?? animations.find((c) => nameKey(c.name) === 'cafe_idle');
   const limbs = [/^bip001[ _]l[ _]hand$/i, /^bip001[ _]r[ _]hand$/i, /^bip001[ _]l[ _]foot$/i, /^bip001[ _]r[ _]foot$/i].map(bone);
   if (!pelvis || !head || !base) return { turns, heads, ends, hips, fronts, lifts };
   const body = [pelvis, head, ...limbs.filter(Boolean)];

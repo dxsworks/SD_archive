@@ -60,7 +60,7 @@ export const stanceAll = (st) => [STANCE_IDLE[st], ...ATTACK_STEPS.map((step) =>
   `${st}_Reload`, `${st}_Callsign`, `Move_End_${st}`];
 
 // 학생마다 동작 이름이 조금씩 다르다: 대소문자(Vital_Dying_ing), 차림 번호(수영복 호시노 Normal_Idle01/02, Normal_Attack01_Start,
-// 다른 학생 Normal01_Attack_End, Move01_Ing, Exs01 …). 글자 바로 뒤에 붙은 01·02를 차림 번호로 보고 떼어 낸 소문자 이름으로 묶어 두고,
+// 다른 학생 Normal01_Attack_End, Move01_Ing, Exs01, 호시노(배틀) 01_Cafe_Idle …). 글자 바로 뒤나 이름 맨 앞(0N_)에 붙은 01·02를 차림 번호로 보고 떼어 낸 소문자 이름으로 묶어 두고,
 // 코드에서는 번호 없는 이름(Normal_Idle)으로 부르면 지금 차림의 것을 고른다 (없으면 01, 그것도 없으면 아무거나)
 const FORM_NUMBER = /([a-z])0(\d)/gi;
 // 글자가 틀린 이름 → 맞는 이름 (모델 295개 조사에서 맞는 이름이 없이 이것만 있는 것들. 괄호는 그 모델)
@@ -81,9 +81,13 @@ const SPLIT_NUMBER = /^(public)_(?=0\d$)/i;
 // 앞에 Original_이 붙은 이름 (Sumire Original_Public01, Shiroko (Riding) Original_Stand_Idle) → 뗀다.
 // 조사 295개 중 Original_이 없는 같은 이름과 같이 있는 모델은 없음
 const ORIGINAL_PREFIX = /^original_/;
+// 차림 번호가 이름 맨 앞에 붙은 학생 (Hoshino (Battle) 01_Cafe_Idle, 02_Normal_Idle: 동작 57개 모두) → 떼고 차림 번호로 읽는다.
+// 조사 295개 중 숫자로 시작하는 이름은 이 학생뿐
+const FRONT_FORM = /^0(\d)_/;
 // 묶는 이름: 차림 번호를 떼고, 소문자로, 띄어쓰기는 _로 (Hanae "Formation Pickup"), 오타는 맞는 이름으로
 export function clipKey(name, onForm) {
-  const key = name.replace(SPLIT_NUMBER, '$1').replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; })
+  const key = name.replace(FRONT_FORM, (_, n) => { onForm?.(Number(n)); return ''; })
+    .replace(SPLIT_NUMBER, '$1').replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; })
     .toLowerCase().replace(/ /g, '_').replace(ORIGINAL_PREFIX, '').replace(NORMAL_PREFIX, '');
   return CLIP_TYPOS[key] ?? key;
 }

@@ -96,7 +96,7 @@ function checkModel(file, names, { companions = [] }, N) {
   // 02가 변형이면(N.formVariants) 차림은 01 하나 → EX가 여럿이면 무작위 (펫과 같게)
   const variants = N.formVariants(index, forms);
   const exVariants = N.exVariants(names, variants ? new Set([1]) : forms);
-  const ex = exVariants.length > 1 ? exVariants : (has('Exs') ? [nameOf('Exs')] : []);
+  const ex = exVariants.length ? exVariants : (has('Exs') ? [nameOf('Exs')] : []);
   does.push(`EX(더블클릭·전투): ${ex.length ? ex.join(' / ') : '없음'}`);
   // 번호만 다른 EX(Noa (Pajama) Exs_01·Exs_02). Exs_Idle·Exs_Spawn 같은 소환물 동작은 EX가 아님
   const exLike = names.filter((n) => /^exs(_?\d+)+$/i.test(n));

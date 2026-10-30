@@ -107,6 +107,7 @@ export function formVariants(index, forms) {
 // EX를 쓰면 차림이 바뀌는 학생이 있다(수영복 호시노: 겉옷을 벗고 고래 튜브를 듦 = 02 동작들)
 // → 전투 중에 EX를 쓰면 전투가 끝날 때까지 02 차림 동작을 쓴다 (02가 없는 학생은 그대로 01)
 // 차림이 바뀌지 않는데 EX가 여러 개면(아리스(배틀) Exs01 / Exs02_01) 그중 무작위로.
-// Exs02_02는 Exs02_01과 같은 데이터라 이름이 _01로 끝나거나 번호가 없는 것만 고른다 (Exs_Cutin·Exs_Root 등은 제외)
-const EX_VARIANT = /^exs(0\d)?(_0?1)?$/i;
+// Exs02_02는 Exs02_01과 같은 데이터라 EX 번호 뒤에는 _01만 고른다 (Exs_Cutin·Exs_Root·Exs_01_Root 등은 제외)
+// Exs 바로 뒤 _01·_02는 EX 종류 번호 (노아(잠옷) Exs_01 / Exs_02 = 같은 베개 던지기에 베개만 다름, 카호는 Exs_01 하나)
+const EX_VARIANT = /^exs(0\d(_0?1)?|_0\d)?$/i;
 export const exVariants = (names, forms) => (forms.has(2) ? [] : names.filter((n) => EX_VARIANT.test(n)));

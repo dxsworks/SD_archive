@@ -1054,6 +1054,8 @@ function findProneStances() {
 const lowRelease = () => has(FORM_RELEASE) && !nearLift(liftOf(resolve(FORM_RELEASE)), liftOf(resolve('Cafe_Idle'))); // 낮은 자세에서 시작
 
 const exVariants = () => exVariantsOf(Object.keys(clips), forms);
+// EX가 있는지 (clipName('ex')는 없으면 아무 동작이나 돌려줘서 has()로 못 봄)
+const hasEx = () => exVariants().length > 0 || has('Exs');
 // 02로 바꾸는 EX: EX가 여럿인 02 차림 학생(Shiroko＊Terror Exs01~04)은 끝 모습(크기 0으로 숨긴 소품)이 02 전투 대기와 같은 것.
 // Exs04는 상자 드론이 날아와 어깨 옆에 붙고, Exs01~03은 드론을 숨긴 채라 끝나고 02로 넘어가면 드론이 갑자기 생겼다 (사용자 2026-10-24)
 let formEx = null;
@@ -1101,14 +1103,14 @@ function form2Looks() {
 
 // 02 차림이면 EX를 다시 쓰지 않는다 (사용자 2026-10-24: Shiroko＊Terror는 02에서 쓸 EX가 없음 — Exs04는 드론이 바닥에서 시작,
 // Exs01~03은 드론을 숨김. 모든 02 차림 학생에게). 전투가 끝나 01로 돌아오면 다시 씀
-const exReady = () => has(clipName('ex')) && form !== 2;
+const exReady = () => hasEx() && form !== 2;
 function exSkill() {
   // 나가 있으면 지금 차림 그대로 돌아온 뒤 EX (02로 먼저 바꾸면 01 사격 대기 → 02 사격 끝으로 섞여 자세가 크게 튐: Shun 무릎 01 → 02 엎드림)
   const back = fromCover([]).map(resolve);
   const toForm2 = battle && forms.has(2) && !deployStances.size; // 거치 자세 학생은 EX가 서서 끝나 01 그대로
   if (toForm2) form = 2;
   const variants = exVariants();
-  const ex = toForm2 && formEx ? formEx : variants.length > 1 ? pickRandom(variants) : 'ex';
+  const ex = toForm2 && formEx ? formEx : variants.length ? pickRandom(variants) : 'ex';
   playSequence([...back, ex], { face: battleFace(), as: 'ex' });
 }
 
@@ -1373,7 +1375,7 @@ function handleClick() {
   const isDouble = now - lastClickAt < 350;
   lastClickAt = isDouble ? 0 : now;
   if (state === 'ex') return; // EX 스킬은 끝까지 보여준다
-  if (isDouble && state !== 'nap' && has(clipName('ex'))) {
+  if (isDouble && state !== 'nap' && hasEx()) {
     lastInteraction = now;
     doubleClickEx();
   } else {
@@ -1575,7 +1577,7 @@ window.__pet = {
 //   2026-10-18 사용자: 클릭이 다른 동작(뛰기·총 꺼내기·EX 등)을 끊고 휙 도는 건 그대로 둠 → 각도 검사가 알고 둔 것으로 셈
 const POKES = [
   [() => clicked(react), 50],
-  [() => { if (state !== 'ex' && state !== 'nap' && has(clipName('ex'))) clicked(doubleClickEx); }, 15], // 02 차림이면 클릭 대답
+  [() => { if (state !== 'ex' && state !== 'nap' && hasEx()) clicked(doubleClickEx); }, 15], // 02 차림이면 클릭 대답
   [() => { drag = { moved: true, offset: null }; pickUp(); }, 15],
   [() => clicked(COMMANDS.battle), 20],
 ];

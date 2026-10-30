@@ -68,9 +68,9 @@ function checkModel(file, names, { companions = [] }, N) {
   const does = [];
   const warn = (text) => warnings.push(text);
 
-  // 펫으로 쓸 수 있는지: 학생 메뉴는 이름에 cafe_idle이 들어간 동작이 있는 모델만 보여 준다 (main.js petUsable)
-  // 못 쓰는 모델(아리스(배틀) (Carrier)처럼 동작 몇 개뿐인 장면용)은 더 보지 않는다
-  const usable = names.some((n) => /cafe_idle/i.test(n));
+  // 펫으로 쓸 수 있는지: 학생 메뉴는 이름에 cafe_idle이 들어간 동작이 있는 모델만 보여 준다 (src/model-files.js usable)
+  // 못 쓰는 모델(아리스(배틀) (Carrier)처럼 동작 몇 개뿐인 장면용)은 더 보지 않는다. 카페 차림 파일의 동작은 petNames에서 합쳐 옴
+  const usable = N.hasCafeIdle(names);
   if (!usable) {
     return { file, clips: names.length, usable, does: ['학생 메뉴에 안 나옴 (Cafe_Idle이 없는 장면용 모델)'], notes: [],
       warnings: [], unused: [], unknown: names };
@@ -281,7 +281,15 @@ async function main() {
   }
 
   const brief = flags.has('--brief');
-  const results = models.map((m) => checkModel(m.file, m.names, { companions: companionsOf(m.file, all) }, N));
+  // 펫이 보는 동작 이름: 카페 동작이 없으면 "<학생> (Cafe).glb"의 것을 합치고, 학생별로 안 쓰기로 한 동작은 뺌 (pet.js loadModel과 같게)
+  const namesOf = (file) => models.find((m) => m.file === file)?.names
+    ?? (fs.existsSync(path.join(MODELS, file)) && !flags.has('--survey') ? readClipNames(path.join(MODELS, file)) : null);
+  const petNames = (m) => {
+    if (m.file.endsWith(' (Cafe).glb') && all.includes(m.file.replace(/ \(Cafe\)\.glb$/, '.glb'))) return []; // 그 학생에 합쳐진 카페 차림 파일
+    const cafe = N.hasCafeIdle(m.names) ? null : namesOf(N.cafeOutfitFile(m.file));
+    return [...m.names, ...(cafe ?? [])].filter((n) => !N.skipClip(m.file, n));
+  };
+  const results = models.map((m) => checkModel(m.file, petNames(m), { companions: companionsOf(m.file, all) }, N));
   for (const r of results) printReport(r, brief);
   const bad = results.filter((r) => r.warnings.length);
   console.log(`\n모델 ${results.length}개 중 경고 있는 것 ${bad.length}개 (펫으로 못 쓰는 것 ${results.filter((r) => !r.usable).length}개)`);

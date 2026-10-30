@@ -80,6 +80,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 - 일반 브라우저에서 file:// fetch가 안 되므로 모델은 IPC(`readModel`)로 읽는다.
 - 부드러움(2026-10-20 사용자 "렉 걸린 느낌" → 고침): 항상 60fps(예전 대기·낮잠 30fps는 끊겨 보였음). 창은 정수 px로만 옮겨지니 반올림 나머지만큼 카메라를 밀어 몸이 고르게 움직이게 함(`setViewShift`). 마우스 통과 판정은 GPU를 기다리지 않게 버퍼로 읽고 fence 뒤에 꺼냄(바로 `readPixels`는 Intel 내장 GPU에서 프레임당 4~7ms 멈춤). 바탕화면에서는 통과 중 `mouseleave`가 자주 오니 읽던 것은 버리지 않는다(버렸더니 클릭·끌기가 안 됐음)
 - 마우스 이동 넘겨받기(`setIgnoreMouseEvents(true, { forward: true })`)는 페이지가 뜰 때마다 껐다 켠다(`main.js` `restartMouseForwarding`): 이미 켜져 있으면 다시 켜도 아무것도 안 해서 예전 안쪽 창에 걸린 채 이동마다 `mouseleave`가 같이 와 켜고 몇 초~1분 넘게 클릭이 안 됐음(2026-10-23). 실행 중인 앱은 `--remote-debugging-port=9333`으로 켜면 CDP로 읽기만 하며 볼 수 있음
+- 카페 차림(2026-10-29 사용자): 원본에 카페 동작이 없고 "<학생> (Cafe).glb"(다른 옷 + 카페 동작 3개)가 따로 있는 학생(`Toki`, `Saori (Dress)`)은 카페 파일의 몸을 같은 뼈대에 붙이고 카페 동작을 가져와(`pet.js` `borrowCafeOutfit`, 카페 옷에만 있는 뼈는 부모 아래 복사, 이름이 겹치는 입 메시는 `Cafe__` 붙임) 평소엔 카페 옷, 총·EX 동작을 틀면 전투 옷, 카페·집어 들기·낮잠 동작에서 다시 카페 옷(`outfitFor`, 승리 포즈·퇴장은 앞 옷 그대로). 순간 바뀜. 학생 메뉴·압축은 이 학생을 쓸 수 있는 것으로 세고 (Cafe) 파일은 따로 안 냄(`model-files.js`). 학생별로 안 쓰는 동작은 `clip-names.js` `SKIP_CLIPS`(토키 로봇 탄 모습: 02 전부·EX 둘·FormRelease·`Victory_*_Random`, 사용자 2026-10-29) → 토키는 EX 없음
 
 ## 현재 상태와 다음 할 일
 

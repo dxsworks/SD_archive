@@ -40,6 +40,17 @@ export const VICTORIES = [['Victory_Start', 'Victory_End'], ['Victory_Start_Rand
 export const FORM_RELEASE = 'FormRelease';
 // 위 목록 밖에서 pet.js가 이름을 직접 부르는 동작 (자세별 동작은 stanceAll)
 export const OTHER_CLIPS = ['Move_Ing', 'Move_Jump', 'Vital_Retreat', FORM_RELEASE];
+// 학생별로 안 쓰는 동작 (사용자 결정). 펫은 모델을 읽을 때 지우고 검사 도구도 없는 것으로 본다
+// 2026-10-29 Toki: 로봇(기계 장갑 CH0187_Machine)을 탄 모습은 안 씀 → 02 차림 전부, EX 둘(Exs01은 로봇을 부르고 Exs02는 탄 채),
+//   로봇에서 내리는 FormRelease, 로봇에 탄 승리 포즈(Victory_*_Random). EX가 없으니 더블클릭은 EX 없는 학생처럼
+export const SKIP_CLIPS = {
+  'Toki.glb': [/02(_|$)/i, /machine/i, /^exs/i, /^formrelease/i, /^victory_(start|end)_random$/i],
+};
+export const skipClip = (model, name) => (SKIP_CLIPS[model] ?? []).some((r) => r.test(name));
+// 카페 동작이 없는 학생은 "<학생> (Cafe).glb"의 카페 차림을 붙여 쓴다 (pet.js borrowCafeOutfit, src/model-files.js)
+export const cafeOutfitFile = (model) => model.replace(/\.glb$/i, ' (Cafe).glb');
+export const hasCafeIdle = (names) => names.some((n) => /cafe_idle/i.test(n));
+
 // 자세 하나에서 쓰는 동작: 대기, 사격 4단계, 재장전, 구호, 뛰어와서 그 자세 잡기
 // 재장전 변형(_Random, 서서 21개·무릎 10개 모델): 있으면 원래 재장전과 무작위로 섞는다 (사용자 결정 2026-10-12).
 // 지금 차림 번호의 것만 쓴다 (수영복 호시노 Normal_Reload02_Random은 겉옷 벗은 02 차림에서만)

@@ -6,7 +6,7 @@ import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
-  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf,
+  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf, skipClip, cafeOutfitFile, hasCafeIdle,
   formVariants,
 } from './clip-names.js';
 
@@ -263,9 +263,92 @@ async function borrowClips(gltf) {
   }
 }
 
+// ---- 카페 차림 (2026-10-29 사용자: 토키는 카페 차림과 기본 차림을 오가게) ----
+// 원본에 카페 동작이 없는 학생 중 "<학생> (Cafe).glb"(카페 동작 3개뿐인 다른 옷)가 따로 있는 학생: Toki, Saori (Dress).
+// 같은 뼈대라 카페 파일의 몸(무기·헤일로 말고 전부)을 이 모델 뼈에 다시 붙이고 카페 동작을 가져온다.
+// 평소에는 카페 몸, 총·EX 동작을 틀면 원래(전투) 몸으로 갈아입고 카페·집어 들기·낮잠 동작을 틀 때 돌아온다 (outfitFor). 갈아입는 동작은 없어서 순간 바뀜
+// 입 모양 메시는 두 파일에 같은 이름이 있어(Saori Mouth_401) 가져온 것은 이름 앞에 CAFE_PREFIX를 붙이고 카페 동작의 모프 값도 그 이름으로 바꾼다
+const CAFE_PREFIX = 'Cafe__';
+const SHARED_MESH = /weapon|shield|halo/i; // 두 차림이 같이 쓰는 것 (원래 모델 것을 그대로)
+let cafeOutfit = null; // { cafe: [가져온 몸 메시], battle: [원래 몸 메시] }
+let wearCafe = true;
+
+async function borrowCafeOutfit(gltf) {
+  if (hasCafeIdle(gltf.animations.map((c) => c.name))) return null;
+  const from = cafeOutfitFile(settings.model);
+  let source;
+  try {
+    source = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readModelFile(from)), '');
+  } catch {
+    return null; // 카페 파일이 없는 학생 (Nonomi 등): 원래대로
+  }
+  const nodes = new Map();
+  gltf.scene.traverse((o) => nodes.set(o.name, o));
+  // 카페 옷에만 있는 뼈(Saori (Dress) 카페 드레스의 리본·귀걸이 63개)는 같은 이름의 부모 뼈 아래에 복사해 붙인다.
+  // 카페 동작에선 움직이고, 원래 모델 동작에선 안 움직여 부모를 따라 기본 자세 그대로
+  source.scene.traverse((o) => {
+    const parent = nodes.get(o.parent?.name);
+    if (!o.isBone || nodes.has(o.name) || !parent) return;
+    const bone = new THREE.Bone();
+    bone.name = o.name;
+    bone.position.copy(o.position);
+    bone.quaternion.copy(o.quaternion);
+    bone.scale.copy(o.scale);
+    parent.add(bone);
+    nodes.set(o.name, bone);
+  });
+  const cafe = [];
+  const renamed = new Map(); // 카페 파일 메시 이름 → 가져온 이름
+  source.scene.traverse((m) => {
+    if (!m.isSkinnedMesh || SHARED_MESH.test(m.name)) return;
+    const bones = m.skeleton.bones.map((b) => nodes.get(b.name));
+    if (bones.some((b) => !b)) { console.warn(`${from} ${m.name}: 이 모델에 없는 뼈가 있어 안 씀`); return; }
+    const mesh = new THREE.SkinnedMesh(m.geometry, m.material);
+    mesh.name = CAFE_PREFIX + m.name;
+    mesh.bind(new THREE.Skeleton(bones, m.skeleton.boneInverses.map((x) => x.clone())), m.bindMatrix.clone());
+    gltf.scene.add(mesh);
+    cafe.push(mesh);
+    renamed.set(m.name, mesh.name);
+  });
+  if (!cafe.length) return null;
+  const nodeOf = (tr) => tr.name.slice(0, tr.name.lastIndexOf('.'));
+  for (const clip of source.animations) {
+    const tracks = clip.tracks.flatMap((tr) => {
+      const node = nodeOf(tr);
+      if (renamed.has(node)) { const t = tr.clone(); t.name = renamed.get(node) + tr.name.slice(node.length); return [t]; }
+      return nodes.has(node) && !tr.name.endsWith('.morphTargetInfluences') ? [tr] : [];
+    });
+    gltf.animations = [...gltf.animations.filter((c) => c.name !== clip.name), new THREE.AnimationClip(clip.name, clip.duration, tracks)];
+  }
+  // 카페 동작이 아닐 때(집어 들기·낮잠 등 원래 모델 동작) 가져온 입 모양은 카페 대기 첫 순간 값으로 (기본값이면 입이 여러 개 겹쳐 보임)
+  const idle = gltf.animations.find((c) => /^cafe_idle/i.test(c.name));
+  for (const tr of idle?.tracks ?? []) {
+    const mesh = cafe.find((m) => tr.name === `${m.name}.morphTargetInfluences`);
+    if (mesh) mesh.morphTargetInfluences.splice(0, tr.getValueSize(), ...tr.values.slice(0, tr.getValueSize()));
+  }
+  const battle = [];
+  gltf.scene.traverse((o) => { if (o.isMesh && !cafe.includes(o) && !SHARED_MESH.test(o.name)) battle.push(o); });
+  return { cafe, battle };
+}
+
+// 이 동작을 틀면 입을 옷: true 카페 / false 전투 / undefined 지금 옷 그대로 (승리 포즈·퇴장·구르기는 앞 동작에 따름)
+function outfitFor(key) {
+  if (/^(cafe_|formation_|vital_death)/.test(key)) return true;
+  if (GUN_POSE.test(key) || /^(exs|formrelease|move_(ing|end|callsign))/.test(key)) return false;
+  return undefined;
+}
+
+// updateHiddenParts 뒤에: 입지 않은 옷의 메시를 숨긴다
+function applyOutfit() {
+  if (!cafeOutfit) return;
+  for (const m of wearCafe ? cafeOutfit.battle : cafeOutfit.cafe) m.visible = false;
+}
+
 async function loadModel() {
   const gltf = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readModel()), '');
   await borrowClips(gltf);
+  cafeOutfit = await borrowCafeOutfit(gltf);
+  gltf.animations = gltf.animations.filter((c) => !skipClip(settings.model, c.name)); // 학생별로 안 쓰기로 한 동작 (clip-names.js SKIP_CLIPS)
   restUnderHiddenBones(gltf.scene, gltf.animations); // 숨긴 소품 아래 뼈가 섞일 때 늘어나지 않게
 
   gltf.scene.traverse((obj) => {
@@ -274,7 +357,10 @@ async function loadModel() {
     if (/weapon|shield/i.test(obj.name)) weaponMeshes.push(obj);
     obj.material = Array.isArray(obj.material) ? obj.material.map(toUnlit) : toUnlit(obj.material);
   });
-  updateHiddenParts = hiddenPartsUpdater(gltf.scene);
+  const hideParts = hiddenPartsUpdater(gltf.scene);
+  // 옷으로 숨긴 메시는 매 프레임 되살린 뒤 모프 숨김 → 옷 숨김 (모프 숨김 타깃이 없는 몸 메시는 hideParts가 다시 켜 주지 않음)
+  const outfitMeshes = cafeOutfit ? [...cafeOutfit.cafe, ...cafeOutfit.battle] : [];
+  updateHiddenParts = () => { for (const m of outfitMeshes) m.visible = true; hideParts(); applyOutfit(); };
   updateOutlines = addOutlines(gltf.scene); // 숨김 판정·무기 목록을 만든 뒤에 (외곽선 메시는 거기 들어가지 않게)
   refreshWeapons(); // 동작을 틀기 전에는 무기를 숨김
   pivot.add(gltf.scene);
@@ -377,6 +463,7 @@ const twinOf = (action) => {
 function play(name, { once = false, fade = 0.2, onDone = null, again = false } = {}) {
   let action = mixer.clipAction(clips[resolve(clipName(name))]);
   if (again && action === currentAction && once && fade > 0) action = twinOf(action);
+  if (cafeOutfit) wearCafe = outfitFor(clipKey(action.getClip().name)) ?? wearCafe;
   doneCallbacks.clear();
   if (once && onDone) doneCallbacks.set(action, onDone);
   if (action === currentAction && !once) return;
@@ -1403,6 +1490,7 @@ window.__pet = {
   get state() { return state; },
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
   get clip() { return currentAction?.getClip().name; },
+  get outfit() { return cafeOutfit && (wearCafe ? 'cafe' : 'battle'); }, // 카페 차림 학생(Toki 등)이 지금 입은 옷
   get yaw() { return Math.round(THREE.MathUtils.radToDeg(pivot.rotation.y)); }, // 실제로 돌아가 있는 각도(도)
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get victoryPoses() { return victoryPoses(); },

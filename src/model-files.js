@@ -37,15 +37,24 @@ function modelFiles(dirs) {
 
   // 펫으로 쓸 수 있는 모델: 카페 대기 동작이 있는 것 (이름에 cafe_idle이 들어간 동작. Hoshino (Battle)의 01_Cafe_Idle 포함)
   // 아리스(배틀) (Carrier)·(Scenario)처럼 동작 몇 개뿐인 장면용 모델은 학생 메뉴에서 뺀다 (애니메이션 보기 창에는 모두 나옴)
-  // .glb 앞부분의 JSON만 읽어서 동작 이름을 본다
-  const usableCache = new Map(); // 경로 → { mtime, usable }
+  // 카페 대기가 없어도 "<학생> (Cafe).glb"에 있으면 씀: 펫이 그 카페 차림을 붙여 오간다 (pet.js borrowCafeOutfit, Toki·Saori (Dress)).
+  // 그때 (Cafe) 파일은 그 학생에 합쳐진 것이라 따로 메뉴에 안 냄
+  const CAFE_SUFFIX = ' (Cafe).glb';
+  const cafeOf = (file) => path.basename(file).replace(/\.glb$/i, CAFE_SUFFIX);
   function usable(file) {
-    const full = pathOf(file);
+    const name = path.basename(file ?? '');
+    if (name.endsWith(CAFE_SUFFIX) && pathOf(name.slice(0, -CAFE_SUFFIX.length) + '.glb')) return false;
+    return hasCafeIdle(pathOf(name)) || hasCafeIdle(pathOf(cafeOf(name)));
+  }
+
+  // .glb 앞부분의 JSON만 읽어서 동작 이름을 본다
+  const cafeIdleCache = new Map(); // 경로 → { mtime, result }
+  function hasCafeIdle(full) {
     if (!full) return false;
     try {
       const { mtimeMs } = fs.statSync(full);
-      const hit = usableCache.get(full);
-      if (hit?.mtime === mtimeMs) return hit.usable;
+      const hit = cafeIdleCache.get(full);
+      if (hit?.mtime === mtimeMs) return hit.result;
       const fd = fs.openSync(full, 'r');
       try {
         const head = Buffer.alloc(20);
@@ -54,7 +63,7 @@ function modelFiles(dirs) {
         fs.readSync(fd, json, 0, json.length, 20);
         const names = (JSON.parse(json.toString('utf8')).animations ?? []).map((a) => a.name ?? '');
         const result = names.some((n) => /cafe_idle/i.test(n));
-        usableCache.set(full, { mtime: mtimeMs, usable: result });
+        cafeIdleCache.set(full, { mtime: mtimeMs, result });
         return result;
       } finally {
         fs.closeSync(fd);

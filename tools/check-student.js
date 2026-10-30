@@ -48,6 +48,7 @@ const ACCEPTED = [
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },
   { kind: 'angle', model: 'Shun.glb', key: /^Normal\d*_Idle\d* → Normal\d*_Attack_Start$/i, why: '뛰고 나서 등을 보인 채 사격 시작 (드묾, 2026-10-20 사용자 "괜찮음")' },
+  { kind: 'angle', model: 'Wakamo.glb', key: /^Exs → Normal_Idle$/i, why: 'EX가 몸을 반 바퀴 돌려 끝나(전투 대기와 170°) 이어 받기 한도를 넘은 56°를 휙 돎. EX 뒤 뛰어서 돌아서기와 비교 영상 보고 2026-10-30 사용자 "그대로"' },
 ];
 const accepted = (model, w) => ACCEPTED.find((a) => a.kind === w.kind && (!a.model || a.model === model)
   && (a.clip ? a.clip.test(w.clip) && w.what.startsWith(a.side) : a.key.test(w.key)));

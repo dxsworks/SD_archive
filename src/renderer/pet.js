@@ -1275,9 +1275,11 @@ function update(dt) {
       fallVelocity += GRAVITY * dt;
       lift -= fallVelocity * dt;
       if (lift <= 0) {
+        // 내려놓으면 잠깐 무장도 끝내고 평소 대기로 (2026-10-30 사용자). 무장 대기로 돌아가면 들어 올리는 동작과 골반 방향이 크게 다른
+        // 학생(Toki 97°)은 섞이는 동안 몸이 58° 휙 돌았다
         lift = 0;
-        if (armed) armedIdle();
-        else toIdle({ fade: 0.15 });
+        armed = null;
+        toIdle({ fade: 0.15 });
       }
       break;
   }
@@ -1328,7 +1330,7 @@ canvas.addEventListener('pointermove', (e) => {
 });
 
 function pickUp() {
-  if (battle) { endBattle(); arm(); } // 집어 들면 전투는 끝 (총은 든 채로 무장 상태)
+  if (battle) { endBattle(); arm(); } // 집어 들면 전투는 끝 (들고 있는 동안은 총을 든 무장 상태, 내려놓으면 평소)
   setState('drag');
   facing = FACE_FRONT;
   play(armed ? 'pickup' : calmClip('pickup'), { fade: 0.15 }); // 들고 있는 동안 반복

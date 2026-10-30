@@ -1,4 +1,4 @@
-// 창 끝 검사 (화면 밖, 정적 서버 불필요): 펫이 그 학생에게 쓰는 동작이 펫 창(보통 크기 862×538) 안에 드는지
+// 창 끝 검사 (화면 밖, 정적 서버 불필요): 펫이 그 학생에게 쓰는 동작이 펫 창(보통 크기 862×603) 안에 드는지
 //   1) 펫을 펫 시간 30분 빨리 돌려 실제로 넘어간 곳(transition-marks.json, 없으면 모음)을 펫과 같은 방향·자세로 넘겨
 //      뒤 동작이 끝날 때까지 그려 보고(__pet.edges) 모델이 창 위·왼쪽·오른쪽 끝에서 몇 px 떨어지는지 잰다
 //   2) 그동안 안 나온 동작(드문 EX 변형, 승리 포즈 _Random 등, __pet.usedClips)은 그 동작이 나올 만한 방향 몇 개로 따로 잰다
@@ -36,7 +36,7 @@ app.whenReady().then(async () => {
   const marks = loadMarks();
   const out = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
   const size = /^--window=(\d+)x(\d+)@([\d.]+)$/.exec(process.argv.find((a) => a.startsWith('--window=')) ?? '');
-  const [W, H] = size ? [+size[1], +size[2]] : [862, 538];
+  const [W, H] = size ? [+size[1], +size[2]] : [862, 603];
   const query = size ? `&window=${W}x${H}&viewHeight=${size[3]}&footMargin=0.03` : '';
   const win = new BrowserWindow({ show: false, width: W, height: H, useContentSize: true, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) console.log('[page]', m); });

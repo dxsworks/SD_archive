@@ -12,11 +12,12 @@ import {
 
 // ---- 화면 구성 ----
 // 창 높이에 들어갈 월드 단위 높이. 검사 도구가 예전 창을 흉내 낼 때만 주소의 ?viewHeight=로 바꾼다 (tools/edge-check.js --window)
-const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 2.5;
+const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 2.8;
 const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에서 내려다보는 각도
 // 발 자리(바닥 원점)가 창 맨 아래에서 이만큼 위 (월드 단위). 카메라가 내려다봐서 앞으로 내디딘 발·그림자는 발 자리보다
-// 25~40px 아래에 그려지므로 0.2단위를 더 둔다(main.js BELOW). ?footMargin=은 검사 도구가 예전 창을 흉내 낼 때
-const FOOT_MARGIN = Number(new URLSearchParams(location.search).get('footMargin')) || 0.23;
+// 25~40px 아래에 그려지므로 0.2단위, 날개·헤일로가 발밑 아래로 내려오는 동작(츠루기 낮잠, 스미레 EX)에 0.3단위를 더 둔다
+// (main.js BELOW). 정사영 카메라라 늘려도 발 위쪽 그림은 그대로. ?footMargin=은 검사 도구가 예전 창을 흉내 낼 때
+const FOOT_MARGIN = Number(new URLSearchParams(location.search).get('footMargin')) || 0.53;
 const FACE_FRONT = 0;
 // 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림. ?battleFace=(도)는 각도 비교용
 const FACE_BATTLE = THREE.MathUtils.degToRad(Number(new URLSearchParams(location.search).get('battleFace')) || 60);
@@ -1971,7 +1972,7 @@ function createBrowserStub() {
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   // main.js SIZES.medium과 같게. 검사 도구가 예전 창을 흉내 낼 때만 ?window=560x280
-  const [W, H] = (q.get('window') ?? '862x538').split('x').map(Number);
+  const [W, H] = (q.get('window') ?? '862x603').split('x').map(Number);
   // ?review: 넘어가는 곳 확인 도구. 페이지는 펫 창 크기 그대로, 바닥은 1920×1040 바탕화면인 셈 치고 걷기·뛰기도 한다
   const review = q.has('review');
   const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });

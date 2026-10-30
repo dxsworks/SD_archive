@@ -40,9 +40,6 @@ function run(label, cmd, args) {
 const ACCEPTED = [
   { kind: 'edge', clip: /^Formation_Pickup/i, side: '아래', why: '집어 드는 순간 늘어진 총이 창 아래에 닿음' },
   { kind: 'edge', model: 'Hoshino.glb', clip: /^Exs$/i, side: '아래', why: '호시노 EX 끝에 바닥에 놓인 방패' },
-  // 서 있을 때도 날개가 바닥까지 늘어져 아래 여유가 6px뿐이라, 넘어가는 순간마다 닿는 동작이 검사마다 바뀜 → 동작은 가리지 않음
-  ...['Tsurugi.glb', 'Tsurugi (Swimsuit).glb'].map((model) => ({ kind: 'edge', model, clip: /./, side: '아래',
-    why: '츠루기 날개 끝이 잠깐 창 아래로 나감 (낮잠 쓰러질 때 0.4초 최대 49px, EX 0.1초 24px, 2026-10-30 사용자 "그대로 둠")' })),
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Normal_Callsign_Random$/i, side: '위', why: '총 꺼내기 0.07초 만에 클릭으로 끊으면 공중 첫 프레임으로 감(30분에 2번)' },
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Victory_Start$/i, side: '위', why: '하늘에서 떨어지며 착지하는 첫 순간 (그대로 두기로 한 연출, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'edge', model: 'Shiroko＊Terror.glb', clip: /^Normal02_FormRelease$/i, side: '위', why: '전투가 02로 끝나 떼어 보낸 드론이 날아가며 창 위로 나가 잘림, 몸은 그대로 (2026-10-30 사용자 "그대로 둠")' },
@@ -141,7 +138,7 @@ ${bad.length ? `<table><tr><th>넘어가는 곳</th><th class="num">30분에</th
 ${bad.map((r) => `<tr><td><code>${esc(r.key)}</code></td><td class="num">${r.count}번</td><td class="num">${r.spin}°</td></tr>`).join('')}</table>` : '<p class="dim">없음</p>'}
 
 <h2>창 끝</h2>
-<p class="dim">펫 창(보통 862×538)에서 모델이 위·옆·아래 끝까지 남는 여백(px). 경고: 위 35px 미만, 옆·아래 3px 미만</p>
+<p class="dim">펫 창(보통 862×603)에서 모델이 위·옆·아래 끝까지 남는 여백(px). 경고: 위 35px 미만, 옆·아래 3px 미만</p>
 <table><tr><th>동작</th><th class="num">위</th><th class="num">왼쪽</th><th class="num">오른쪽</th><th class="num">아래</th><th>경고</th></tr>
 ${edges.slice(0, Math.max(6, edgeWarn.length)).map((b) => `<tr><td><code>${esc(b.clip)}</code></td><td class="num">${b.top}</td><td class="num">${b.left}</td><td class="num">${b.right}</td><td class="num">${b.bottom}</td><td class="bad">${esc(b.warn.join(', '))}</td></tr>`).join('')}</table>
 

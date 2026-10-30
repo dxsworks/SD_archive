@@ -1414,6 +1414,7 @@ function hitTest() {
     hitRead.sync = null;
     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
     gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, pixelBuf);
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null); // 묶인 채 두면 다른 readPixels(창 끝 검사 measureEdges)가 실패해 빈 값이 됨
     hit = false;
     for (let i = 3; mouse && i < pixelBuf.length; i += 4) {
       if (pixelBuf[i] > 16) { hit = true; break; }
@@ -1422,6 +1423,7 @@ function hitTest() {
     hitRead.buf = gl.createBuffer();
     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
     gl.bufferData(gl.PIXEL_PACK_BUFFER, pixelBuf.byteLength, gl.STREAM_READ);
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
   }
   // 다음 읽기: 렌더 직후에 해야 픽셀이 남아 있다
   if (!mouse) return false;

@@ -136,11 +136,11 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 **학생 배포 (2026-10-29~30 사용자, main에 합침) — 새 세션은 여기서 이어서, 하나씩 하고 단계마다 보고**
 - 정한 것: 앱 안에서 받기 대신 **학생 압축 하나를 설치 파일과 따로 배포**. 펫으로 쓸 수 있는 학생은 검사 안 했어도 **모두** 넣고 메뉴에 '검사 전' 표시. 압축은 zip(윈도우 기본 기능으로 풀림, 7z보다 120MB 크지만). glb는 원본 그대로(압축하면 원본의 53%)
 - 끝난 것: 받은 학생 폴더 읽기·하위 폴더 두 단계·"학생 폴더 열기"(`src/model-files.js`), '검사 전' 표시(`src/checked-students.json`, 지금 13명), 압축 도구 `tools/make-pack.js`, 토키·사오리(드레스) 카페 옷 갈아입기(위 "지켜야 할 것"), 내려놓으면 평소로
-- 첫 압축(원본 커밋 `06bb8e9`, 2026-10-29): 학생 266 + 짝 파일 20, 원본 1.70GB → `dist/students.zip` 898MB. **토키·사오리(드레스)를 쓸 수 있게 되기 전에 만든 것이라 다시 만들어야 함**. 받은 원본은 `C:/bluearchive/pack-cache`(289개, `.git/info/exclude`로 git 제외)에 있어 다시 만들 때 안 받음: `node tools/make-pack.js --commit=06bb8e91b0b93ce9f8bf26c80ee94046fd1cb734 --cache=C:/bluearchive/pack-cache --out=C:/bluearchive/dist/students.zip` (원본 최신 커밋으로 바꾸려면 `--commit` 빼고, 새로 받을 게 있으면 크기 알리고 허락)
+- 압축(원본 커밋 `06bb8e9`, 2026-10-30 다시 만듦): 학생 266 + 짝 파일 21, 원본 1.71GB → `dist/students.zip` 906MB. 빠진 것은 카페 대기 없는 `Nonomi`·`Material Development Club Member` 2개. 받은 원본은 `C:/bluearchive/pack-cache`(289개, `.git/info/exclude`로 git 제외)에 있어 다시 만들 때 안 받음: `node tools/make-pack.js --commit=06bb8e91b0b93ce9f8bf26c80ee94046fd1cb734 --cache=C:/bluearchive/pack-cache --out=C:/bluearchive/dist/students.zip` (원본 최신 커밋으로 바꾸려면 `--commit` 빼고, 새로 받을 게 있으면 크기 알리고 허락)
 - 빠진 학생: 원본에 모델이 없음 — 라나·안나·에리나(붉은겨울), 츠무기(와일드헌트), 코코로·코토네(오디세이). 카페 동작이 없어 못 씀 — `Nonomi` 기본 차림(카페 파일도 없음, 사용자 "어쩔 수 없다"), `Material Development Club Member`
 - **남은 순서**
   4. ~~설치 파일 정리~~ 완료(2026-10-30 사용자): 설치 파일엔 호시노만(`build.files` `models/Hoshino.glb`, 86MB), 나머지는 학생 압축으로. 삭제할 때 받은 학생·설정(`%APPDATA%/bluearchive-desktop-pet`)은 늘 지움(`nsis.deleteAppDataOnUninstall`, 덮어 설치(`--updated`)엔 안 지움. 개발용 `npm start`도 같은 폴더라 이 컴퓨터에서 설치본을 지우면 같이 사라짐). README "배포용 설치 파일"에 학생 압축 푸는 법
-  5. 학생 압축 다시 만들기(위 명령) → 토키·사오리(드레스)가 학생으로, `(Cafe)` 파일이 짝 파일로 들어갔는지 `students-pack.json`으로 확인
+  5. ~~학생 압축 다시 만들기~~ 완료(2026-10-30): `students-pack.json`에서 토키·사오리(드레스)는 학생(`pet: true`), `(Cafe)` 파일은 짝 파일(`pet: false`)로 확인. 예전 압축은 토키 빠짐·사오리(드레스)가 사오리의 짝 파일이었음
   6. GitHub Releases에 올리기(**올리기 전에 사용자 확인**, 밖으로 나가는 일): 저장소 `dxsworks/SD_archive`(공개), 파일 하나 2GB까지. 설치 파일 + `students.zip`. 게임 원본 에셋을 다시 배포하는 것이라 신고·내려질 위험은 사용자에게 이미 말해 둠
 - 그 뒤 생각해 둔 것(사용자 응답 없음): 원본 저장소 변경 따라가기(새 학생·바뀐 학생을 검사해 압축 다시 만들기), 앱 자동 업데이트(`electron-updater` + Releases)
 

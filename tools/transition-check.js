@@ -33,7 +33,7 @@ function footTravel(frames, ground) {
       const [p, q] = [frames[i - 1].feet[k], frames[i].feet[k]];
       if (p.h > ground[k] || q.h > ground[k]) continue;
       slide += Math.hypot(q.x - p.x, q.z - p.z) * PX;
-      twist += Math.abs(wrap(q.dir - p.dir));
+      if (p.dir != null) twist += Math.abs(wrap(q.dir - p.dir)); // 발가락 뼈가 없는 모델은 발끝 방향을 못 잼
     }
     return { slide, twist };
   });

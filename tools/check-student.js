@@ -40,6 +40,9 @@ function run(label, cmd, args) {
 const ACCEPTED = [
   { kind: 'edge', clip: /^Formation_Pickup/i, side: '아래', why: '집어 드는 순간 늘어진 총이 창 아래에 닿음' },
   { kind: 'edge', model: 'Hoshino.glb', clip: /^Exs$/i, side: '아래', why: '호시노 EX 끝에 바닥에 놓인 방패' },
+  // 서 있을 때도 날개가 바닥까지 늘어져 아래 여유가 6px뿐이라, 넘어가는 순간마다 닿는 동작이 검사마다 바뀜 → 동작은 가리지 않음
+  ...['Tsurugi.glb', 'Tsurugi (Swimsuit).glb'].map((model) => ({ kind: 'edge', model, clip: /./, side: '아래',
+    why: '츠루기 날개 끝이 잠깐 창 아래로 나감 (낮잠 쓰러질 때 0.4초 최대 49px, EX 0.1초 24px, 2026-10-30 사용자 "그대로 둠")' })),
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Normal_Callsign_Random$/i, side: '위', why: '총 꺼내기 0.07초 만에 클릭으로 끊으면 공중 첫 프레임으로 감(30분에 2번)' },
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Victory_Start$/i, side: '위', why: '하늘에서 떨어지며 착지하는 첫 순간 (그대로 두기로 한 연출, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },

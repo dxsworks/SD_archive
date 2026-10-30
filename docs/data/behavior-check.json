@@ -1884,6 +1884,16 @@
     "name": "클릭 반응",
     "ok": true,
     "why": "",
+    "time": 6.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
     "time": 7.03,
     "clips": [
      "Victory_Start",
@@ -1892,20 +1902,10 @@
     ]
    },
    {
-    "name": "클릭 반응 (두 번째)",
-    "ok": true,
-    "why": "",
-    "time": 6.67,
-    "clips": [
-     "Cafe_Reaction",
-     "Cafe_Idle"
-    ]
-   },
-   {
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 10.37,
+    "time": 8.3,
     "clips": [
      "Public01",
      "Normal_Idle01",
@@ -1916,7 +1916,7 @@
     "name": "더블클릭 EX → 전투",
     "ok": true,
     "why": "",
-    "time": 47.47,
+    "time": 57.8,
     "clips": [
      "Formation_Idle",
      "Normal_Idle01",
@@ -1924,8 +1924,8 @@
      "Normal_Attack_Ing01",
      "Normal_Attack_Delay01",
      "Normal_Attack_End01",
-     "Normal_Callsign",
      "Normal_Reload01",
+     "Normal_Callsign",
      "Victory_Start",
      "Victory_End",
      "Cafe_Idle"
@@ -1946,13 +1946,11 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 26.73,
+    "time": 26.97,
     "clips": [
      "Public01",
      "Normal_Idle01",
      "Formation_Idle",
-     "Move_Ing01",
-     "Move_End_Normal01",
      "Normal_Attack_Start01",
      "Normal_Attack_Ing01",
      "Normal_Attack_Delay01",
@@ -1976,7 +1974,7 @@
     "name": "걷기",
     "ok": true,
     "why": "",
-    "time": 7.47,
+    "time": 7.5,
     "clips": [
      "Cafe_Walk",
      "Cafe_Idle"
@@ -1986,7 +1984,7 @@
     "name": "종료 (밧줄)",
     "ok": true,
     "why": "",
-    "time": 1.9,
+    "time": 1.93,
     "clips": [
      "Vital_Retreat01"
     ]
@@ -1994,49 +1992,54 @@
   ],
   "longest": {
    "idle": {
-    "dur": 14.7,
-    "at": 1058.17,
+    "dur": 13.7,
+    "at": 1146.33,
     "clip": "Cafe_Idle"
    },
-   "walk": {
-    "dur": 7.5,
-    "at": 5.83,
-    "clip": "Cafe_Walk"
-   },
    "action": {
-    "dur": 11.6,
-    "at": 771,
+    "dur": 10,
+    "at": 727.03,
     "clip": "Normal_Attack_Start01"
    },
    "battle": {
     "dur": 3.5,
-    "at": 552.63,
+    "at": 561.6,
     "clip": "Normal_Idle01"
+   },
+   "run": {
+    "dur": 2.2,
+    "at": 872.5,
+    "clip": "Move_Ing01"
    },
    "drag": {
     "dur": 1.5,
-    "at": 52.43,
+    "at": 32.9,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 53.93,
+    "at": 34.4,
     "clip": "Formation_Pickup"
    },
    "armed": {
-    "dur": 12,
-    "at": 627.67,
+    "dur": 27.9,
+    "at": 1675.73,
     "clip": "Normal_Idle01"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 263.07,
+    "clip": "Cafe_Walk"
+   },
+   "nap": {
+    "dur": 21.3,
+    "at": 218.03,
+    "clip": "Vital_Death01"
    },
    "ex": {
     "dur": 4.5,
-    "at": 1574.53,
+    "at": 637.43,
     "clip": "Normal_Attack_End01"
-   },
-   "run": {
-    "dur": 2.1,
-    "at": 1764.93,
-    "clip": "Move_Ing01"
    }
   },
   "stuck": [],
@@ -2048,10 +2051,9 @@
     "name": "클릭 반응",
     "ok": true,
     "why": "",
-    "time": 7.03,
+    "time": 7.23,
     "clips": [
-     "Victory_Start",
-     "Victory_End",
+     "Cafe_Reaction",
      "Cafe_Idle"
     ]
    },
@@ -2070,7 +2072,7 @@
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 7.27,
+    "time": 9.27,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -2081,16 +2083,16 @@
     "name": "더블클릭 EX → 전투",
     "ok": true,
     "why": "",
-    "time": 61.27,
+    "time": 42.53,
     "clips": [
      "Exs",
      "Normal_Idle",
+     "Normal_Callsign",
      "Normal_Attack_Start",
      "Normal_Attack_Ing",
      "Normal_Attack_Delay",
      "Normal_Attack_End",
      "Normal_Reload",
-     "Normal_Callsign",
      "Victory_Start_Random",
      "Victory_End_Random",
      "Cafe_Idle"
@@ -2111,7 +2113,7 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 26.93,
+    "time": 27,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -2119,8 +2121,11 @@
      "Normal_Attack_Ing",
      "Normal_Attack_Delay",
      "Normal_Attack_End",
-     "Victory_Start",
-     "Victory_End",
+     "Move_Ing",
+     "Move_End_Normal",
+     "Normal_Callsign",
+     "Victory_Start_Random",
+     "Victory_End_Random",
      "Cafe_Idle"
     ]
    },
@@ -2138,7 +2143,7 @@
     "name": "걷기",
     "ok": true,
     "why": "",
-    "time": 7.47,
+    "time": 5.1,
     "clips": [
      "Cafe_Walk",
      "Cafe_Idle"
@@ -2148,7 +2153,7 @@
     "name": "종료 (밧줄)",
     "ok": true,
     "why": "",
-    "time": 1.87,
+    "time": 2,
     "clips": [
      "Vital_Retreat"
     ]
@@ -2156,54 +2161,54 @@
   ],
   "longest": {
    "idle": {
-    "dur": 15.1,
-    "at": 1053.87,
+    "dur": 13.8,
+    "at": 199.63,
     "clip": "Cafe_Idle"
    },
-   "walk": {
-    "dur": 7.5,
-    "at": 5.83,
-    "clip": "Cafe_Walk"
+   "nap": {
+    "dur": 34.2,
+    "at": 4.47,
+    "clip": "Vital_Death"
    },
    "action": {
-    "dur": 13,
-    "at": 872.07,
-    "clip": "Normal_Attack_Start"
+    "dur": 9.1,
+    "at": 986.73,
+    "clip": "Normal_Reload"
+   },
+   "battle": {
+    "dur": 3.5,
+    "at": 1302.13,
+    "clip": "Normal_Idle"
+   },
+   "run": {
+    "dur": 2.2,
+    "at": 983.07,
+    "clip": "Move_Ing"
+   },
+   "ex": {
+    "dur": 5.4,
+    "at": 151.57,
+    "clip": "Normal_Attack_End"
    },
    "drag": {
     "dur": 1.5,
-    "at": 40.6,
+    "at": 71,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 42.1,
+    "at": 72.5,
     "clip": "Formation_Pickup"
    },
-   "ex": {
-    "dur": 4.7,
-    "at": 65.8,
-    "clip": "Exs"
-   },
-   "battle": {
-    "dur": 3.5,
-    "at": 868.57,
-    "clip": "Normal_Idle"
-   },
-   "run": {
-    "dur": 2.1,
-    "at": 645.13,
-    "clip": "Move_Ing"
-   },
    "armed": {
-    "dur": 18.4,
-    "at": 245.53,
+    "dur": 16.2,
+    "at": 268.23,
     "clip": "Normal_Idle"
    },
-   "nap": {
-    "dur": 15.2,
-    "at": 1342.4,
-    "clip": "Vital_Death"
+   "walk": {
+    "dur": 7.5,
+    "at": 108.67,
+    "clip": "Cafe_Walk"
    }
   },
   "stuck": [],

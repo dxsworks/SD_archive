@@ -312,12 +312,20 @@ async function borrowCafeOutfit(gltf) {
   });
   if (!cafe.length) return null;
   const nodeOf = (tr) => tr.name.slice(0, tr.name.lastIndexOf('.'));
+  // 원래 모델 동작이 크기 0으로 숨기는 소품 뼈(토키 로봇 bone_root_Machine)는 카페 파일에 없어 카페 동작 동안 기본 크기(보임)가 된다.
+  // 카페 옷일 땐 그 메시를 숨기지만 카페 → 총 꺼내기로 섞는 0.2초 동안 크기가 1 → 0으로 줄며 로봇이 번쩍 나왔다 (사용자 2026-10-29)
+  // → 카페 동작에 없는 크기 값은 01 무장 대기 첫 순간 값으로 고정해 넣는다
+  let form2 = false;
+  const armedIdle = gltf.animations.find((c) => { form2 = false; return clipKey(c.name, (n) => { form2 = n === 2; }) === clipKey(ARMED_IDLE) && !form2; });
   for (const clip of source.animations) {
     const tracks = clip.tracks.flatMap((tr) => {
       const node = nodeOf(tr);
       if (renamed.has(node)) { const t = tr.clone(); t.name = renamed.get(node) + tr.name.slice(node.length); return [t]; }
       return nodes.has(node) && !tr.name.endsWith('.morphTargetInfluences') ? [tr] : [];
     });
+    for (const tr of armedIdle?.tracks ?? []) {
+      if (tr.name.endsWith('.scale') && !tracks.some((t) => t.name === tr.name)) tracks.push(new THREE.VectorKeyframeTrack(tr.name, [0], tr.values.slice(0, 3)));
+    }
     gltf.animations = [...gltf.animations.filter((c) => c.name !== clip.name), new THREE.AnimationClip(clip.name, clip.duration, tracks)];
   }
   // 카페 동작이 아닐 때(집어 들기·낮잠 등 원래 모델 동작) 가져온 입 모양은 카페 대기 첫 순간 값으로 (기본값이면 입이 여러 개 겹쳐 보임)

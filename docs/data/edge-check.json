@@ -7993,13 +7993,13 @@
     "bottom": 538
    },
    "topAt": 0.02,
-   "topHow": "Normal_Callsign 다음",
+   "topHow": "Normal_Attack_End01 다음",
    "leftAt": 0.02,
-   "leftHow": "Normal_Callsign 다음",
+   "leftHow": "Normal_Attack_End01 다음",
    "rightAt": 0.02,
-   "rightHow": "Normal_Callsign 다음",
+   "rightHow": "Normal_Attack_End01 다음",
    "bottomAt": 0.02,
-   "bottomHow": "Normal_Callsign 다음",
+   "bottomHow": "Normal_Attack_End01 다음",
    "warn": [],
    "gunOnly": []
   },
@@ -8050,6 +8050,29 @@
    "gunOnly": []
   },
   {
+   "clip": "Victory_End",
+   "top": 538,
+   "left": 862,
+   "right": 862,
+   "bottom": 538,
+   "body": {
+    "top": 538,
+    "left": 862,
+    "right": 862,
+    "bottom": 538
+   },
+   "topAt": 0.02,
+   "topHow": "Victory_Start 다음",
+   "leftAt": 0.02,
+   "leftHow": "Victory_Start 다음",
+   "rightAt": 0.02,
+   "rightHow": "Victory_Start 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Victory_Start 다음",
+   "warn": [],
+   "gunOnly": []
+  },
+  {
    "clip": "Move_Ing01",
    "top": 538,
    "left": 862,
@@ -8096,29 +8119,6 @@
    "gunOnly": []
   },
   {
-   "clip": "Formation_Idle",
-   "top": 538,
-   "left": 862,
-   "right": 862,
-   "bottom": 538,
-   "body": {
-    "top": 538,
-    "left": 862,
-    "right": 862,
-    "bottom": 538
-   },
-   "topAt": 0.02,
-   "topHow": "Normal_Idle01 다음",
-   "leftAt": 0.02,
-   "leftHow": "Normal_Idle01 다음",
-   "rightAt": 0.02,
-   "rightHow": "Normal_Idle01 다음",
-   "bottomAt": 0.02,
-   "bottomHow": "Normal_Idle01 다음",
-   "warn": [],
-   "gunOnly": []
-  },
-  {
    "clip": "Cafe_Walk",
    "top": 538,
    "left": 862,
@@ -8138,6 +8138,52 @@
    "rightHow": "Cafe_Idle 다음",
    "bottomAt": 0.02,
    "bottomHow": "Cafe_Idle 다음",
+   "warn": [],
+   "gunOnly": []
+  },
+  {
+   "clip": "Cafe_Idle",
+   "top": 538,
+   "left": 862,
+   "right": 862,
+   "bottom": 538,
+   "body": {
+    "top": 538,
+    "left": 862,
+    "right": 862,
+    "bottom": 538
+   },
+   "topAt": 0.02,
+   "topHow": "Victory_End 다음",
+   "leftAt": 0.02,
+   "leftHow": "Victory_End 다음",
+   "rightAt": 0.02,
+   "rightHow": "Victory_End 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Victory_End 다음",
+   "warn": [],
+   "gunOnly": []
+  },
+  {
+   "clip": "Formation_Idle",
+   "top": 538,
+   "left": 862,
+   "right": 862,
+   "bottom": 538,
+   "body": {
+    "top": 538,
+    "left": 862,
+    "right": 862,
+    "bottom": 538
+   },
+   "topAt": 0.02,
+   "topHow": "Normal_Idle01 다음",
+   "leftAt": 0.02,
+   "leftHow": "Normal_Idle01 다음",
+   "rightAt": 0.02,
+   "rightHow": "Normal_Idle01 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Normal_Idle01 다음",
    "warn": [],
    "gunOnly": []
   },
@@ -8165,29 +8211,6 @@
    "gunOnly": []
   },
   {
-   "clip": "Victory_End",
-   "top": 538,
-   "left": 862,
-   "right": 862,
-   "bottom": 538,
-   "body": {
-    "top": 538,
-    "left": 862,
-    "right": 862,
-    "bottom": 538
-   },
-   "topAt": 0.02,
-   "topHow": "Victory_Start 다음",
-   "leftAt": 0.02,
-   "leftHow": "Victory_Start 다음",
-   "rightAt": 0.02,
-   "rightHow": "Victory_Start 다음",
-   "bottomAt": 0.02,
-   "bottomHow": "Victory_Start 다음",
-   "warn": [],
-   "gunOnly": []
-  },
-  {
    "clip": "Normal_Callsign_Random",
    "top": 538,
    "left": 862,
@@ -8211,7 +8234,7 @@
    "gunOnly": []
   },
   {
-   "clip": "Cafe_Idle",
+   "clip": "Cafe_Reaction",
    "top": 538,
    "left": 862,
    "right": 862,
@@ -8223,36 +8246,13 @@
     "bottom": 538
    },
    "topAt": 0.02,
-   "topHow": "Cafe_Walk 다음",
+   "topHow": "Cafe_Idle 다음",
    "leftAt": 0.02,
-   "leftHow": "Cafe_Walk 다음",
+   "leftHow": "Cafe_Idle 다음",
    "rightAt": 0.02,
-   "rightHow": "Cafe_Walk 다음",
+   "rightHow": "Cafe_Idle 다음",
    "bottomAt": 0.02,
-   "bottomHow": "Cafe_Walk 다음",
-   "warn": [],
-   "gunOnly": []
-  },
-  {
-   "clip": "Victory_Start",
-   "top": 538,
-   "left": 862,
-   "right": 862,
-   "bottom": 538,
-   "body": {
-    "top": 538,
-    "left": 862,
-    "right": 862,
-    "bottom": 538
-   },
-   "topAt": 0.02,
-   "topHow": "Normal_Idle01 다음",
-   "leftAt": 0.02,
-   "leftHow": "Normal_Idle01 다음",
-   "rightAt": 0.02,
-   "rightHow": "Normal_Idle01 다음",
-   "bottomAt": 0.02,
-   "bottomHow": "Normal_Idle01 다음",
+   "bottomHow": "Cafe_Idle 다음",
    "warn": [],
    "gunOnly": []
   },
@@ -8280,7 +8280,7 @@
    "gunOnly": []
   },
   {
-   "clip": "Vital_Death01",
+   "clip": "Victory_Start",
    "top": 538,
    "left": 862,
    "right": 862,
@@ -8303,7 +8303,7 @@
    "gunOnly": []
   },
   {
-   "clip": "Cafe_Reaction",
+   "clip": "Vital_Death01",
    "top": 538,
    "left": 862,
    "right": 862,
@@ -8315,13 +8315,13 @@
     "bottom": 538
    },
    "topAt": 0.02,
-   "topHow": "Vital_Death01 다음",
+   "topHow": "흉내에 안 나옴, 낮잠 자리",
    "leftAt": 0.02,
-   "leftHow": "Vital_Death01 다음",
+   "leftHow": "흉내에 안 나옴, 낮잠 자리",
    "rightAt": 0.02,
-   "rightHow": "Vital_Death01 다음",
+   "rightHow": "흉내에 안 나옴, 낮잠 자리",
    "bottomAt": 0.02,
-   "bottomHow": "Vital_Death01 다음",
+   "bottomHow": "흉내에 안 나옴, 낮잠 자리",
    "warn": [],
    "gunOnly": []
   }
@@ -8466,29 +8466,6 @@
    "gunOnly": []
   },
   {
-   "clip": "Cafe_Walk",
-   "top": 538,
-   "left": 862,
-   "right": 862,
-   "bottom": 538,
-   "body": {
-    "top": 538,
-    "left": 862,
-    "right": 862,
-    "bottom": 538
-   },
-   "topAt": 0.02,
-   "topHow": "Cafe_Idle 다음",
-   "leftAt": 0.02,
-   "leftHow": "Cafe_Idle 다음",
-   "rightAt": 0.02,
-   "rightHow": "Cafe_Idle 다음",
-   "bottomAt": 0.02,
-   "bottomHow": "Cafe_Idle 다음",
-   "warn": [],
-   "gunOnly": []
-  },
-  {
    "clip": "Normal_Callsign",
    "top": 538,
    "left": 862,
@@ -8512,30 +8489,7 @@
    "gunOnly": []
   },
   {
-   "clip": "Cafe_Idle",
-   "top": 538,
-   "left": 862,
-   "right": 862,
-   "bottom": 538,
-   "body": {
-    "top": 538,
-    "left": 862,
-    "right": 862,
-    "bottom": 538
-   },
-   "topAt": 0.02,
-   "topHow": "Cafe_Walk 다음",
-   "leftAt": 0.02,
-   "leftHow": "Cafe_Walk 다음",
-   "rightAt": 0.02,
-   "rightHow": "Cafe_Walk 다음",
-   "bottomAt": 0.02,
-   "bottomHow": "Cafe_Walk 다음",
-   "warn": [],
-   "gunOnly": []
-  },
-  {
-   "clip": "Public01",
+   "clip": "Cafe_Walk",
    "top": 538,
    "left": 862,
    "right": 862,
@@ -8581,29 +8535,6 @@
    "gunOnly": []
   },
   {
-   "clip": "Exs",
-   "top": 538,
-   "left": 862,
-   "right": 862,
-   "bottom": 538,
-   "body": {
-    "top": 538,
-    "left": 862,
-    "right": 862,
-    "bottom": 538
-   },
-   "topAt": 0.02,
-   "topHow": "Normal_Idle 다음",
-   "leftAt": 0.02,
-   "leftHow": "Normal_Idle 다음",
-   "rightAt": 0.02,
-   "rightHow": "Normal_Idle 다음",
-   "bottomAt": 0.02,
-   "bottomHow": "Normal_Idle 다음",
-   "warn": [],
-   "gunOnly": []
-  },
-  {
    "clip": "Move_End_Normal",
    "top": 538,
    "left": 862,
@@ -8623,29 +8554,6 @@
    "rightHow": "Move_Ing 다음",
    "bottomAt": 0.02,
    "bottomHow": "Move_Ing 다음",
-   "warn": [],
-   "gunOnly": []
-  },
-  {
-   "clip": "Victory_End",
-   "top": 538,
-   "left": 862,
-   "right": 862,
-   "bottom": 538,
-   "body": {
-    "top": 538,
-    "left": 862,
-    "right": 862,
-    "bottom": 538
-   },
-   "topAt": 0.02,
-   "topHow": "Victory_Start 다음",
-   "leftAt": 0.02,
-   "leftHow": "Victory_Start 다음",
-   "rightAt": 0.02,
-   "rightHow": "Victory_Start 다음",
-   "bottomAt": 0.02,
-   "bottomHow": "Victory_Start 다음",
    "warn": [],
    "gunOnly": []
   },
@@ -8696,7 +8604,30 @@
    "gunOnly": []
   },
   {
-   "clip": "Vital_Death",
+   "clip": "Victory_End",
+   "top": 538,
+   "left": 862,
+   "right": 862,
+   "bottom": 538,
+   "body": {
+    "top": 538,
+    "left": 862,
+    "right": 862,
+    "bottom": 538
+   },
+   "topAt": 0.02,
+   "topHow": "Victory_Start 다음",
+   "leftAt": 0.02,
+   "leftHow": "Victory_Start 다음",
+   "rightAt": 0.02,
+   "rightHow": "Victory_Start 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Victory_Start 다음",
+   "warn": [],
+   "gunOnly": []
+  },
+  {
+   "clip": "Public01",
    "top": 538,
    "left": 862,
    "right": 862,
@@ -8719,7 +8650,7 @@
    "gunOnly": []
   },
   {
-   "clip": "Cafe_Reaction",
+   "clip": "Cafe_Idle",
    "top": 538,
    "left": 862,
    "right": 862,
@@ -8731,13 +8662,36 @@
     "bottom": 538
    },
    "topAt": 0.02,
-   "topHow": "Vital_Death 다음",
+   "topHow": "Normal_Idle 다음",
    "leftAt": 0.02,
-   "leftHow": "Vital_Death 다음",
+   "leftHow": "Normal_Idle 다음",
    "rightAt": 0.02,
-   "rightHow": "Vital_Death 다음",
+   "rightHow": "Normal_Idle 다음",
    "bottomAt": 0.02,
-   "bottomHow": "Vital_Death 다음",
+   "bottomHow": "Normal_Idle 다음",
+   "warn": [],
+   "gunOnly": []
+  },
+  {
+   "clip": "Exs",
+   "top": 538,
+   "left": 862,
+   "right": 862,
+   "bottom": 538,
+   "body": {
+    "top": 538,
+    "left": 862,
+    "right": 862,
+    "bottom": 538
+   },
+   "topAt": 0.02,
+   "topHow": "Normal_Idle 다음",
+   "leftAt": 0.02,
+   "leftHow": "Normal_Idle 다음",
+   "rightAt": 0.02,
+   "rightHow": "Normal_Idle 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Normal_Idle 다음",
    "warn": [],
    "gunOnly": []
   },
@@ -8777,13 +8731,36 @@
     "bottom": 538
    },
    "topAt": 0.02,
-   "topHow": "Normal_Idle 다음",
+   "topHow": "Cafe_Idle 다음",
    "leftAt": 0.02,
-   "leftHow": "Normal_Idle 다음",
+   "leftHow": "Cafe_Idle 다음",
    "rightAt": 0.02,
-   "rightHow": "Normal_Idle 다음",
+   "rightHow": "Cafe_Idle 다음",
    "bottomAt": 0.02,
-   "bottomHow": "Normal_Idle 다음",
+   "bottomHow": "Cafe_Idle 다음",
+   "warn": [],
+   "gunOnly": []
+  },
+  {
+   "clip": "Cafe_Reaction",
+   "top": 538,
+   "left": 862,
+   "right": 862,
+   "bottom": 538,
+   "body": {
+    "top": 538,
+    "left": 862,
+    "right": 862,
+    "bottom": 538
+   },
+   "topAt": 0.02,
+   "topHow": "Cafe_Idle 다음",
+   "leftAt": 0.02,
+   "leftHow": "Cafe_Idle 다음",
+   "rightAt": 0.02,
+   "rightHow": "Cafe_Idle 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Cafe_Idle 다음",
    "warn": [],
    "gunOnly": []
   },
@@ -8800,13 +8777,36 @@
     "bottom": 538
    },
    "topAt": 0.02,
-   "topHow": "Cafe_Walk 다음",
+   "topHow": "Normal_Idle 다음",
    "leftAt": 0.02,
-   "leftHow": "Cafe_Walk 다음",
+   "leftHow": "Normal_Idle 다음",
    "rightAt": 0.02,
-   "rightHow": "Cafe_Walk 다음",
+   "rightHow": "Normal_Idle 다음",
    "bottomAt": 0.02,
-   "bottomHow": "Cafe_Walk 다음",
+   "bottomHow": "Normal_Idle 다음",
+   "warn": [],
+   "gunOnly": []
+  },
+  {
+   "clip": "Vital_Death",
+   "top": 538,
+   "left": 862,
+   "right": 862,
+   "bottom": 538,
+   "body": {
+    "top": 538,
+    "left": 862,
+    "right": 862,
+    "bottom": 538
+   },
+   "topAt": 0.02,
+   "topHow": "Cafe_Idle 다음",
+   "leftAt": 0.02,
+   "leftHow": "Cafe_Idle 다음",
+   "rightAt": 0.02,
+   "rightHow": "Cafe_Idle 다음",
+   "bottomAt": 0.02,
+   "bottomHow": "Cafe_Idle 다음",
    "warn": [],
    "gunOnly": []
   }

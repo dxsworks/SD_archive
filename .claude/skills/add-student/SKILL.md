@@ -33,7 +33,8 @@ node tools/check-student.js "<파일>.glb"
 
 ## 4. 경고가 없으면 (`ok: true`) → 바로 추가
 
-- `models/`에 있으면 학생 메뉴에 저절로 나온다(`main.js` `petUsable`: 카페 대기가 있는 모델). 코드에서 할 일은 없다
+- `models/`에 있으면 학생 메뉴에 저절로 나온다(`src/model-files.js` `usable`: 카페 대기가 있는 모델)
+- `src/checked-students.json`의 `files`에 파일 이름을 넣는다(파일 이름 순). 안 넣으면 메뉴에 '검사 전'으로 나온다 (학생 압축에는 검사 안 한 학생도 모두 들어 있음)
 - 사용자에게 짧게 알린다: 추가했다, `notes`의 특징 한두 줄, `known`이 있으면 한 줄
 - `picks`가 있으면 `reports/<파일>.picks.png`를 보여 주고(SendUserFile) 연출 판단이 필요한 것만 묻는다 (예: 하늘에서 떨어지는 승리 포즈, 쓰러질 때 멀리 날아가는 소품, 빌려온 동작). `picks`가 없으면 시트도 안 보여 준다
 

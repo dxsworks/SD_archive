@@ -29,6 +29,8 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 - `src/viewer/` 애니메이션 보기 창
 - `src/menu/` 캐릭터 우클릭 메뉴 창(2026-10-27 사용자: 블루 아카이브 느낌으로, 트레이 메뉴는 윈도우 기본 메뉴 그대로). 테두리 없는 투명 창을 시작할 때 만들어 두고 다시 씀. **숨기지(hide) 않는다**: `show()`하면 윈도우가 한 프레임 진하게 → 0.2초 흐릿 → 진하게 다시 그려 두 번 켜지는 것처럼 보였음(2026-10-27 사용자, `thickFrame: false`·DWM 전환 끄기로도 그대로) → 닫힘은 투명도 0·클릭 통과로 화면 밖(`parkMenu`), 열 때 옮기고 그 크기로 그려진 뒤(`menu:painted`) 투명도 1. 메인이 `buildMenuTemplate()`을 id 붙인 항목으로 보내면(`menu:open`) 그리고 필요한 크기·좌우 뒤집기를 알림(`menu:ready`) → 커서 옆에 띄우고 focus. 다른 곳 클릭(blur)·Esc·바깥 투명 부분 클릭이면 닫힘. 메뉴 템플릿에 항목을 넣으면 두 메뉴에 같이 나옴
 - `src/students.json` 학생 메뉴를 학원 → 학생으로 나누는 표(학원·한글 이름, 차림 한글 이름. 2026-10-29 사용자). 표에 없는 학생은 메뉴 '기타'에 영어 이름으로 → 새 학생이 기타에 나오면 표에 넣는다
+- `src/model-files.js` 학생 파일 찾기: 받은 학생 폴더(`%APPDATA%/bluearchive-desktop-pet/models`, 메뉴 학생 → "학생 폴더 열기") → 설치 폴더 `models/` 순. 펫으로 쓸 수 있는지(`usable`, 카페 대기 있음)도. 메인과 도구가 같이 씀(Electron 없이)
+- `src/checked-students.json` 학생 검사를 통과한 학생 파일. 학생은 압축 하나에 쓸 수 있는 학생을 모두 넣어 따로 배포하고(2026-10-29 사용자, 앱 안에서 받기 대신) 여기 없는 학생은 메뉴에 '검사 전'(우클릭 메뉴 `note`, 트레이는 괄호). 학생을 붙이면 여기 넣는다
 - `src/fx/` 클릭 효과 창: 모니터 전체를 덮는 투명·클릭 통과 창에 [ba-click-fx](https://github.com/CialloKing/ba-click-fx)로 클릭 고리·끌기 트레일. 펫 창이 `petBridge.fx(down|move|up|cancel)` → 메인이 실제 커서 위치로 변환해 전달. 메뉴 "클릭 효과"로 끄기
 - `tools/` 테스트·조사 도구 (아래)
 
@@ -51,6 +53,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   - `npx electron tools/behavior-check.js ["모델.glb" …]` 행동 테스트(가상 시계 `__pet.run`): 명령마다 대기로 돌아오는지 + 30분 동안 멈춤·오류 → `docs/data/behavior-check.json`
   - `npx electron tools/sheet-check.js "모델.glb" [출력.png] [--picks]` 펫이 쓰는 동작마다 5장 시트(`__pet.sheet`). `--picks`는 사람이 볼 동작만 이유와 함께(`__pet.picks`: 몸이 크게 뜸(골반이 서 있을 때의 1.6배 넘게), 낮잠 끝에 몸에서 멀리 떨어진 조각, 빌려온 동작, EX 여러 개, 장비 모습이 다름, 02 차림)
   - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
+  - `node tools/make-pack.js [--out=dist/students.zip] [--local-only]` **학생 압축**(배포용, 설치 파일과 따로): 원본 저장소를 한 커밋으로 고정해 `.glb`를 받아(`pack-cache/`, git 해시로 확인, `models/`에 같은 게 있으면 복사) 펫으로 쓸 수 있는 학생과 짝 파일(`<학생> (…)`)만 zip으로. 압축 안에 `students-pack.json`(커밋·파일별 해시·검사한 학생)과 `읽어주세요.txt`. zip은 파이썬 `zipfile`로 씀(Node zlib보다 4% 작음). `--local-only`는 받지 않고 시험
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
 - 브라우저 미리보기 창이 숨겨지면 rAF가 멈춰서 시간 기반 확인이 틀린다 → Electron 테스트 스크립트를 쓴다.
@@ -77,6 +80,8 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 - 일반 브라우저에서 file:// fetch가 안 되므로 모델은 IPC(`readModel`)로 읽는다.
 - 부드러움(2026-10-20 사용자 "렉 걸린 느낌" → 고침): 항상 60fps(예전 대기·낮잠 30fps는 끊겨 보였음). 창은 정수 px로만 옮겨지니 반올림 나머지만큼 카메라를 밀어 몸이 고르게 움직이게 함(`setViewShift`). 마우스 통과 판정은 GPU를 기다리지 않게 버퍼로 읽고 fence 뒤에 꺼냄(바로 `readPixels`는 Intel 내장 GPU에서 프레임당 4~7ms 멈춤). 바탕화면에서는 통과 중 `mouseleave`가 자주 오니 읽던 것은 버리지 않는다(버렸더니 클릭·끌기가 안 됐음)
 - 마우스 이동 넘겨받기(`setIgnoreMouseEvents(true, { forward: true })`)는 페이지가 뜰 때마다 껐다 켠다(`main.js` `restartMouseForwarding`): 이미 켜져 있으면 다시 켜도 아무것도 안 해서 예전 안쪽 창에 걸린 채 이동마다 `mouseleave`가 같이 와 켜고 몇 초~1분 넘게 클릭이 안 됐음(2026-10-23). 실행 중인 앱은 `--remote-debugging-port=9333`으로 켜면 CDP로 읽기만 하며 볼 수 있음
+- 카페 차림(2026-10-29 사용자): 원본에 카페 동작이 없고 "<학생> (Cafe).glb"(다른 옷 + 카페 동작 3개)가 따로 있는 학생(`Toki`, `Saori (Dress)`)은 카페 파일의 몸을 같은 뼈대에 붙이고 카페 동작을 가져와(`pet.js` `borrowCafeOutfit`, 카페 옷에만 있는 뼈는 부모 아래 복사, 이름이 겹치는 입 메시는 `Cafe__` 붙임) 평소엔 카페 옷, 총·EX 동작을 틀면 전투 옷, 카페·집어 들기·낮잠 동작에서 다시 카페 옷(`outfitFor`, 승리 포즈·퇴장은 앞 옷 그대로). 순간 바뀜. 학생 메뉴·압축은 이 학생을 쓸 수 있는 것으로 세고 (Cafe) 파일은 따로 안 냄(`model-files.js`). 학생별로 안 쓰는 동작은 `clip-names.js` `SKIP_CLIPS`(토키 로봇 탄 모습: 02 전부·EX 둘·FormRelease·`Victory_*_Random`, 사용자 2026-10-29) → 토키는 EX 없음
+- 집어 들었다 내려놓으면 잠깐 무장도 끝내고 평소 대기로(2026-10-30 사용자, 모든 학생. 들고 있는 동안은 무장 상태 그대로, 전투는 집어 들 때 끝남). 무장 대기로 돌아가면 토키는 들어 올리는 동작과 무장 대기의 골반 방향이 97° 달라 섞이는 0.2초 동안 몸이 58° 휙 돌았음(몸 돌림이 섞기보다 느림)
 
 ## 현재 상태와 다음 할 일
 
@@ -127,6 +132,8 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 2. **EX가 여러 개인 학생** — 사용자가 직접 볼 것 → 문서로 정리해 주기: `Hina (Dress)` EX 4개, `Mika (Swimsuit)` 3개, `Atsuko (Swimsuit)`·`Kisaki (Swimsuit)`·`Neru (School Uniform)` 2개 (코드는 이미 무작위로 섞음. 창을 넘는지 확인 필요)
 3. **몸이 여러 벌인 학생**(아리스 장비처럼 모습이 바뀌는 부분: `Fubuki (Swimsuit)` Body01/02, `Kisaki` Body01/02) — 사용자가 무슨 뜻인지 잘 모르겠다고 함 → 받아서 애니메이션 보기 창(`npx electron . --viewer`)에 띄워 비교해 보여 주기. 이름에 Body가 들어가도 외곽선·투명·컷인용이면 해당 없음(`Eimi (Swimsuit)`, `Junko (New Year)`, `Reisa`, `Hanako (Swimsuit)`, `Sena`, `Shigure (Hot Spring)`)
 4. **장면용 짝 파일이 있는 학생** — 사용자가 직접 볼 것 → 문서로 정리해 주기: `Kei` ← (Carrier)·(Carrier 2)·(Prototype)·(Scenario 1)·(Scenario 2), `Eimi (Battle)`·`Rio (Battle)`·`Toki (Battle)` ← (Scenario), `Mika`·`Nagusa`·`Yuzu (Battle)` ← (Cut-in), `Midori`·`Momoi` ← (Battle), `Saori` ← (Dress), `Natsu (Band)` ← (No Weapon)
+
+**학생 배포(2026-10-29 사용자, 브랜치 `feat/student-pack`)**: 앱 안에서 받기 대신 학생 압축을 따로 배포하기로. 받은 학생 폴더 읽기·"학생 폴더 열기"·'검사 전' 표시·`tools/make-pack.js` 완료. 첫 압축(원본 `06bb8e9`): 학생 266 + 짝 파일 20, 원본 1.70GB → `dist/students.zip` 898MB. 카페 대기가 없어 빠진 것: `Nonomi`·`Toki`(전투 동작만 있음, 다른 차림은 들어감)·`Material Development Club Member`. 남은 것: 설치 파일에 넣을 학생 + 삭제할 때 받은 학생 지울지 묻기 → GitHub Releases에 올리기(올리기 전 확인)
 
 2번·4번 문서는 `docs/models.md` 옆에 새 문서로 두거나 거기에 장을 추가(사용자에게 위치 확인). 그 밖에: `Hoshino (Battle)`만 이름 앞에 `01_`/`02_` 접두사가 붙어 아직 지원 안 됨. 클릭 반응 중 원래 짧은 동작(카페 반응 2.3~2.7초, 무장·전투 중 구호·재장전 1.5~2.2초)이 짧게 느껴지면 손볼 수 있다고 말해 둠(사용자 응답 없음).
 

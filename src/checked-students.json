@@ -1,0 +1,18 @@
+{
+  "_comment": "학생 검사(node tools/check-student.js)를 통과해 펫에 붙인 학생 파일. 여기 없는 학생은 학생 압축에 들어 있어도 메뉴에 '검사 전'으로 표시 (2026-10-29 사용자: 학생은 모두 압축으로 배포하고 검사 안 한 학생은 표시). 학생을 붙이면(스킬 add-student) 여기 넣는다",
+  "files": [
+    "Arisu (Battle).glb",
+    "Eimi (Battle).glb",
+    "Hoshino (Swimsuit).glb",
+    "Hoshino.glb",
+    "Kayoko (New Year).glb",
+    "Kurumi.glb",
+    "Otogi.glb",
+    "Saori (Dress).glb",
+    "Shiroko.glb",
+    "Shiroko＊Terror.glb",
+    "Shun.glb",
+    "Subaru.glb",
+    "Toki.glb"
+  ]
+}

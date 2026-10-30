@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { modelFiles } = require('./model-files');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
 // 창은 월드 단위로 가로 4.0 × 세로 2.5 (pet.js VIEW_HEIGHT). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
@@ -188,46 +189,15 @@ function resetPosition() {
   sendToPet('pet:bounds-changed');
 }
 
-function modelsDir() {
-  return path.join(__dirname, '..', 'models');
-}
+// 학생 폴더: 받은 학생(학생 압축을 풀어 넣는 곳, 메뉴 "학생 폴더 열기") → 설치 폴더 models/ 순서로 찾는다 (src/model-files.js)
+const userModelsDir = () => path.join(app.getPath('userData'), 'models');
+const studentFiles = modelFiles([userModelsDir(), path.join(__dirname, '..', 'models')]);
+const petModels = () => studentFiles.petModels();
 
-function listModels() {
-  try {
-    return fs.readdirSync(modelsDir()).filter((f) => f.toLowerCase().endsWith('.glb')).sort();
-  } catch {
-    return [];
-  }
+function openModelsFolder() {
+  fs.mkdirSync(userModelsDir(), { recursive: true });
+  shell.openPath(userModelsDir());
 }
-
-// 펫으로 쓸 수 있는 모델: 카페 대기 동작이 있는 것 (이름에 cafe_idle이 들어간 동작. Hoshino (Battle)의 01_Cafe_Idle 포함)
-// 아리스(배틀) (Carrier)·(Scenario)처럼 동작 몇 개뿐인 장면용 모델은 학생 메뉴에서 뺀다 (애니메이션 보기 창에는 모두 나옴)
-// .glb 앞부분의 JSON만 읽어서 동작 이름을 본다
-const usableCache = new Map(); // 파일 → { mtime, usable }
-function petUsable(file) {
-  const full = path.join(modelsDir(), file);
-  try {
-    const { mtimeMs } = fs.statSync(full);
-    const hit = usableCache.get(file);
-    if (hit?.mtime === mtimeMs) return hit.usable;
-    const fd = fs.openSync(full, 'r');
-    try {
-      const head = Buffer.alloc(20);
-      fs.readSync(fd, head, 0, 20, 0);
-      const json = Buffer.alloc(head.readUInt32LE(12));
-      fs.readSync(fd, json, 0, json.length, 20);
-      const names = (JSON.parse(json.toString('utf8')).animations ?? []).map((a) => a.name ?? '');
-      const usable = names.some((n) => /cafe_idle/i.test(n));
-      usableCache.set(file, { mtime: mtimeMs, usable });
-      return usable;
-    } finally {
-      fs.closeSync(fd);
-    }
-  } catch {
-    return false;
-  }
-}
-const petModels = () => listModels().filter(petUsable);
 
 // 학생 메뉴를 학원별로 나누는 표 (students.json). 파일 이름 "Hoshino (Swimsuit).glb" → 아비도스 / "호시노 (수영복)"
 // 표에 없는 학생은 '기타'에 영어 이름 그대로
@@ -246,8 +216,14 @@ function studentInfo(file) {
 }
 
 // 학생 메뉴: 학원 → 학생. 표의 학원은 학생이 아직 없어도 모두 순서대로 (나중에 학생을 다 넣을 것, 2026-10-29 사용자). 기타는 있을 때만 맨 끝
+// 맨 아래 "학생 폴더 열기": 학생 압축을 풀어 넣는 곳 (받은 학생 폴더, 2026-10-29 사용자: 학생은 압축으로 따로 배포)
 function studentMenu(models) {
-  if (!models.length) return [{ label: 'models 폴더에 .glb 파일이 없습니다', enabled: false }];
+  const openFolder = { label: '학생 폴더 열기', click: openModelsFolder };
+  if (!models.length) return [{ label: '학생이 없습니다', enabled: false }, { type: 'separator' }, openFolder];
+  return [...schoolMenus(models), { type: 'separator' }, openFolder];
+}
+
+function schoolMenus(models) {
   const bySchool = new Map(STUDENTS.schools.map((s) => [s.name, []]));
   for (const file of models) {
     const { school, label } = studentInfo(file);
@@ -260,12 +236,18 @@ function studentMenu(models) {
       .sort((a, b) => a.label.localeCompare(b.label, 'ko'))
       .map(({ file, label }) => ({
         label,
+        note: CHECKED.has(file) ? undefined : UNCHECKED_NOTE,
         type: 'radio',
         checked: settings.model === file,
         click: () => setModel(file),
       })),
   }));
 }
+
+// 학생 검사를 통과한 학생 (checked-students.json). 나머지는 학생 압축에 같이 들어 있어도 '검사 전' 표시
+// (우클릭 메뉴는 이름 옆에 흐리게, 트레이 메뉴는 이름 뒤에 괄호로)
+const CHECKED = new Set(require('./checked-students.json').files);
+const UNCHECKED_NOTE = '검사 전';
 
 function setModel(file) {
   settings.model = file;
@@ -428,6 +410,7 @@ function toMenuItems(template) {
     return {
       id,
       label: item.label,
+      note: item.note,
       type: item.type ?? 'normal',
       checked: !!item.checked,
       enabled: item.enabled !== false,
@@ -482,7 +465,16 @@ ipcMain.on('menu:click', (_e, id) => {
 ipcMain.on('menu:close', hideMenu);
 
 function rebuildMenus() {
-  if (tray) tray.setContextMenu(Menu.buildFromTemplate(buildMenuTemplate()));
+  if (tray) tray.setContextMenu(Menu.buildFromTemplate(forTray(buildMenuTemplate())));
+}
+
+// 트레이(윈도우 기본 메뉴)에는 note 칸이 없어서 이름 뒤에 괄호로
+function forTray(template) {
+  return template.map(({ note, submenu, ...item }) => ({
+    ...item,
+    ...(note && { label: `${item.label}  (${note})` }),
+    ...(submenu && { submenu: forTray(submenu) }),
+  }));
 }
 
 function createTray() {
@@ -495,22 +487,26 @@ function createTray() {
 
 // ---- IPC ----
 ipcMain.handle('pet:read-model', () => {
-  let file = path.join(modelsDir(), path.basename(settings.model));
-  if (!fs.existsSync(file)) {
-    // 설정의 모델이 없으면 폴더의 첫 번째 모델로 대체
-    const first = listModels()[0];
+  let file = studentFiles.pathOf(settings.model);
+  if (!file) {
+    // 설정의 모델이 없으면(받은 학생 파일을 지웠을 때 등) 펫으로 쓸 수 있는 첫 번째 모델로 대체
+    const first = petModels()[0] ?? studentFiles.list()[0];
     if (!first) throw new Error('models 폴더에 .glb 파일이 없습니다');
     settings.model = first;
-    file = path.join(modelsDir(), first);
+    file = studentFiles.pathOf(first);
   }
   return fs.readFileSync(file);
 });
 
 ipcMain.handle('pet:get-settings', () => settings);
 
-ipcMain.handle('pet:list-models', () => ({ models: listModels(), current: settings.model }));
+ipcMain.handle('pet:list-models', () => ({ models: studentFiles.list(), current: settings.model }));
 
-ipcMain.handle('pet:read-model-file', (_e, name) => fs.readFileSync(path.join(modelsDir(), path.basename(name))));
+ipcMain.handle('pet:read-model-file', (_e, name) => {
+  const file = studentFiles.pathOf(name);
+  if (!file) throw new Error(`학생 파일이 없습니다: ${path.basename(name)}`);
+  return fs.readFileSync(file);
+});
 
 ipcMain.handle('pet:get-bounds', () => {
   if (!win) return null;
@@ -549,7 +545,7 @@ if (!app.requestSingleInstanceLock()) {
   app.whenReady().then(() => {
     loadSettings();
     // 설정의 모델이 펫으로 못 쓰는 장면용 모델이면(예: 메뉴에서 빠지기 전에 고른 Arisu (Battle) (Carrier)) 쓸 수 있는 첫 모델로
-    if (fs.existsSync(path.join(modelsDir(), path.basename(settings.model ?? ''))) && !petUsable(path.basename(settings.model))) {
+    if (studentFiles.pathOf(settings.model) && !studentFiles.usable(settings.model)) {
       const first = petModels()[0];
       if (first) { settings.model = first; saveSettings(); }
     }

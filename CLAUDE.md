@@ -133,7 +133,16 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 3. **몸이 여러 벌인 학생**(아리스 장비처럼 모습이 바뀌는 부분: `Fubuki (Swimsuit)` Body01/02, `Kisaki` Body01/02) — 사용자가 무슨 뜻인지 잘 모르겠다고 함 → 받아서 애니메이션 보기 창(`npx electron . --viewer`)에 띄워 비교해 보여 주기. 이름에 Body가 들어가도 외곽선·투명·컷인용이면 해당 없음(`Eimi (Swimsuit)`, `Junko (New Year)`, `Reisa`, `Hanako (Swimsuit)`, `Sena`, `Shigure (Hot Spring)`)
 4. **장면용 짝 파일이 있는 학생** — 사용자가 직접 볼 것 → 문서로 정리해 주기: `Kei` ← (Carrier)·(Carrier 2)·(Prototype)·(Scenario 1)·(Scenario 2), `Eimi (Battle)`·`Rio (Battle)`·`Toki (Battle)` ← (Scenario), `Mika`·`Nagusa`·`Yuzu (Battle)` ← (Cut-in), `Midori`·`Momoi` ← (Battle), `Saori` ← (Dress), `Natsu (Band)` ← (No Weapon)
 
-**학생 배포(2026-10-29 사용자, 브랜치 `feat/student-pack`)**: 앱 안에서 받기 대신 학생 압축을 따로 배포하기로. 받은 학생 폴더 읽기·"학생 폴더 열기"·'검사 전' 표시·`tools/make-pack.js` 완료. 첫 압축(원본 `06bb8e9`): 학생 266 + 짝 파일 20, 원본 1.70GB → `dist/students.zip` 898MB. 카페 대기가 없어 빠진 것: `Nonomi`·`Toki`(전투 동작만 있음, 다른 차림은 들어감)·`Material Development Club Member`. 남은 것: 설치 파일에 넣을 학생 + 삭제할 때 받은 학생 지울지 묻기 → GitHub Releases에 올리기(올리기 전 확인)
+**학생 배포 (2026-10-29~30 사용자, main에 합침) — 새 세션은 여기서 이어서, 하나씩 하고 단계마다 보고**
+- 정한 것: 앱 안에서 받기 대신 **학생 압축 하나를 설치 파일과 따로 배포**. 펫으로 쓸 수 있는 학생은 검사 안 했어도 **모두** 넣고 메뉴에 '검사 전' 표시. 압축은 zip(윈도우 기본 기능으로 풀림, 7z보다 120MB 크지만). glb는 원본 그대로(압축하면 원본의 53%)
+- 끝난 것: 받은 학생 폴더 읽기·하위 폴더 두 단계·"학생 폴더 열기"(`src/model-files.js`), '검사 전' 표시(`src/checked-students.json`, 지금 13명), 압축 도구 `tools/make-pack.js`, 토키·사오리(드레스) 카페 옷 갈아입기(위 "지켜야 할 것"), 내려놓으면 평소로
+- 첫 압축(원본 커밋 `06bb8e9`, 2026-10-29): 학생 266 + 짝 파일 20, 원본 1.70GB → `dist/students.zip` 898MB. **토키·사오리(드레스)를 쓸 수 있게 되기 전에 만든 것이라 다시 만들어야 함**. 받은 원본은 `C:/bluearchive/pack-cache`(289개, `.git/info/exclude`로 git 제외)에 있어 다시 만들 때 안 받음: `node tools/make-pack.js --commit=06bb8e91b0b93ce9f8bf26c80ee94046fd1cb734 --cache=C:/bluearchive/pack-cache --out=C:/bluearchive/dist/students.zip` (원본 최신 커밋으로 바꾸려면 `--commit` 빼고, 새로 받을 게 있으면 크기 알리고 허락)
+- 빠진 학생: 원본에 모델이 없음 — 라나·안나·에리나(붉은겨울), 츠무기(와일드헌트), 코코로·코토네(오디세이). 카페 동작이 없어 못 씀 — `Nonomi` 기본 차림(카페 파일도 없음, 사용자 "어쩔 수 없다"), `Material Development Club Member`
+- **남은 순서**
+  4. 설치 파일 정리: `package.json` `build.files`가 지금 `models/*.glb` 전부(파일 17개 = 검사한 학생 13명 + 짝 파일 4개: 아리스 `(Carrier)`·`(Scenario)`, 시험하려고 복사한 `Toki (Cafe)`·`Saori (Dress) (Cafe)`) → 설치 파일에 넣을 학생을 사용자에게 물음(호시노만 / 검사한 학생 전부. 토키·사오리는 `(Cafe)` 파일도 같이 넣어야 함). 삭제할 때 받은 학생·설정(`%APPDATA%/bluearchive-desktop-pet`)도 지울지 묻기(NSIS `build/installer.nsh` `customUnInstall`, `nsis.include`). `npm run dist`로 만들어 보고 README "배포용 설치 파일" 고치기(학생 압축 푸는 법)
+  5. 학생 압축 다시 만들기(위 명령) → 토키·사오리(드레스)가 학생으로, `(Cafe)` 파일이 짝 파일로 들어갔는지 `students-pack.json`으로 확인
+  6. GitHub Releases에 올리기(**올리기 전에 사용자 확인**, 밖으로 나가는 일): 저장소 `dxsworks/SD_archive`(공개), 파일 하나 2GB까지. 설치 파일 + `students.zip`. 게임 원본 에셋을 다시 배포하는 것이라 신고·내려질 위험은 사용자에게 이미 말해 둠
+- 그 뒤 생각해 둔 것(사용자 응답 없음): 원본 저장소 변경 따라가기(새 학생·바뀐 학생을 검사해 압축 다시 만들기), 앱 자동 업데이트(`electron-updater` + Releases)
 
 2번·4번 문서는 `docs/models.md` 옆에 새 문서로 두거나 거기에 장을 추가(사용자에게 위치 확인). 그 밖에: `Hoshino (Battle)`만 이름 앞에 `01_`/`02_` 접두사가 붙어 아직 지원 안 됨. 클릭 반응 중 원래 짧은 동작(카페 반응 2.3~2.7초, 무장·전투 중 구호·재장전 1.5~2.2초)이 짧게 느껴지면 손볼 수 있다고 말해 둠(사용자 응답 없음).
 

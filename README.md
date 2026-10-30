@@ -23,10 +23,20 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 npm run dist
 ```
 
-`dist/샬레 당번 Setup 1.0.0.exe`가 만들어집니다. 받는 사람은 이것만 실행하면 되고(Node 불필요), 설치할 때 바탕화면·시작 메뉴에 "샬레 당번" 바로가기가 생깁니다. `models/`의 `.glb`가 모두 들어가니 빌드 전에 넣을 학생만 남겨 두세요. 서명이 없어서 처음 실행할 때 Windows SmartScreen 경고가 뜹니다("추가 정보 → 실행").
+`dist/샬레 당번 Setup 1.0.0.exe`(약 86MB)가 만들어집니다. 받는 사람은 이것만 실행하면 되고(Node 불필요), 설치할 때 바탕화면·시작 메뉴에 "샬레 당번" 바로가기가 생깁니다. 서명이 없어서 처음 실행할 때 Windows SmartScreen 경고가 뜹니다("추가 정보 → 실행").
+
+설치 파일에 든 학생은 호시노(`models/Hoshino.glb`) 하나뿐이고, 다른 학생은 학생 압축으로 따로 배포합니다.
+
+```bash
+node tools/make-pack.js
+```
+
+`dist/students.zip`(약 0.9GB)에 펫으로 쓸 수 있는 학생이 모두 들어갑니다. 받는 사람은 캐릭터 우클릭 → 학생 → 학생 폴더 열기(`%APPDATA%\bluearchive-desktop-pet\models`)에 압축을 풀면 됩니다(압축 안 `읽어주세요.txt`에도 같은 설명).
+
+앱을 삭제하면 `%APPDATA%\bluearchive-desktop-pet`(받은 학생·설정)도 같이 지워집니다(`nsis.deleteAppDataOnUninstall`, 새 버전을 덮어 설치할 때는 안 지움). 개발용 `npm start`도 같은 폴더를 쓰니 이 컴퓨터에서 설치본을 삭제하면 개발용 설정·받은 학생도 사라집니다.
 
 - three.js `examples/jsm`은 electron-builder가 기본으로 빼므로 쓰는 파일(GLTFLoader 등)을 `build.files`에 직접 적어 두었습니다. 새 addon을 import하면 거기에도 추가
-- `models`가 링크(junction)이면 빌드에 안 들어갑니다(워크트리에서 빌드할 때 주의)
+- `models`가 링크(junction)이면 빌드에 안 들어갑니다(워크트리에서 빌드할 때는 `models/Hoshino.glb`를 복사해 둠)
 - 빌드 중 `Cannot create symbolic link` 오류가 나면 `%LOCALAPPDATA%\electron-builder\Cache\winCodeSign`의 `.7z`를 `winCodeSign-2.6.0` 폴더에 `darwin` 빼고 직접 풀면 됩니다(Windows 개발자 모드를 켜도 됨)
 
 ## 조작

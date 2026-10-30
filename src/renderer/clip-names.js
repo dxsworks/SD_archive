@@ -66,6 +66,7 @@ const FORM_NUMBER = /([a-z])0(\d)/gi;
 // 글자가 틀린 이름 → 맞는 이름 (모델 295개 조사에서 맞는 이름이 없이 이것만 있는 것들. 괄호는 그 모델)
 export const CLIP_TYPOS = {
   normal_ilde: 'normal_idle',            // Kirino (Swimsuit)
+  normal_delay: 'normal_attack_delay',   // Tsurugi·Tsurugi (Swimsuit) Normal01_Delay (되풀이가 아니라 옆으로 겨눴다가 총을 돌리고 대기 자세로 끝남)
   normal_callsigh: 'normal_callsign',    // Momoi (Maid)
   fomation_pickup: 'formation_pickup',   // Tomoe (Qipao)
   normal_callsign1: 'normal_callsign',   // Koyuki (구호가 1·2 두 개)

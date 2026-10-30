@@ -102,6 +102,9 @@ function checkModel(file, names, { companions = [] }, N) {
   const exLike = names.filter((n) => /^exs(_?\d+)+$/i.test(n));
   if (!ex.length && exLike.length) warn(`EX처럼 보이는 동작(${exLike.join(', ')})이 있는데 펫이 못 찾음`);
   if (exVariants.length > 1) notes.push(`EX가 ${exVariants.length}개: ${exVariants.join(', ')} (무작위로 섞음)`);
+  // EX 끝 자세를 푸는 동작(02 차림이 없는 학생): 펫이 EX 끝 자세에서 이어지는 것만 EX 뒤에 붙임 (pet.js findExAfters, 이름만으로는 모름)
+  const exRelease = names.filter((n) => (!forms.has(2) || variants) && /^(exs\w*_)?formrelease$/i.test(n));
+  if (exVariants.length && exRelease.length) notes.push(`EX 끝 자세를 푸는 동작 ${exRelease.join(', ')}: 펫이 끝 자세에서 이어지는 EX 뒤에 붙임(그 EX의 _Idle이 있으면 먼저)`);
   // 02 차림 학생: 02에서는 EX를 안 씀. EX가 여럿이면 펫이 끝 모습(숨긴 소품)이 02 대기와 같은 것을 고름 (pet.js findFormEx, 이름만으로는 모름)
   const exAll = index.get(N.clipKey('Exs')) ?? [];
   if (forms.has(2) && !variants && exAll.length > 1) {

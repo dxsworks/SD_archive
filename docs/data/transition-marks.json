@@ -534331,133 +534331,27 @@
   "simSeconds": 1800,
   "pairs": [
    {
-    "key": "Normal_Callsign → Normal_Idle",
-    "from": "Normal_Callsign",
-    "to": "Normal_Idle",
-    "count": 54,
-    "examples": [
-     {
-      "from": "Normal_Callsign",
-      "fromTime": 1.5000001192092896,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": 2.876474399877768,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 26416,
-      "faceAfter": 0.5138115069177669,
-      "state": "armed",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Callsign",
-      "fromTime": 1.5000001192092896,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": 0.9498494884498982,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 53680,
-      "faceAfter": 0.8123799939681018,
-      "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Callsign",
-      "fromTime": 1.5000001192092896,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -5.537047555249318,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 2779,
-      "faceAfter": 0.48041213250794595,
-      "state": "armed",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Callsign",
-      "fromTime": 1.5000001192092896,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -4.778317471441245,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 38378,
-      "faceAfter": 0.9963130862884493,
-      "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
     "key": "Normal_Idle → Normal_Attack_Start",
     "from": "Normal_Idle",
     "to": "Normal_Attack_Start",
-    "count": 52,
+    "count": 57,
     "examples": [
      {
       "from": "Normal_Idle",
-      "fromTime": 1.466666666666668,
+      "fromTime": 0.8666666666666692,
       "fromLoop": true,
       "to": "Normal_Attack_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -3.9217354812508,
+      "yawBefore": -3.9217354812508005,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 46887,
+      "at": 2616,
       "faceAfter": -0.22541739010758155,
       "state": "action",
       "pivotTarget": [
@@ -534468,36 +534362,12 @@
      },
      {
       "from": "Normal_Idle",
-      "fromTime": 1.700000000000002,
+      "fromTime": 1.4333333333333373,
       "fromLoop": true,
       "to": "Normal_Attack_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.7060851111559489,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 36304,
-      "faceAfter": -0.22541739010758144,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.3666666666666705,
-      "fromLoop": true,
-      "to": "Normal_Attack_Start",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.1088131627833375,
+      "yawBefore": -4.03291874034338,
       "pivotPos": [
        0,
        0,
@@ -534505,7 +534375,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 4852,
+      "at": 6774,
       "faceAfter": 0.8748834033183563,
       "state": "action",
       "pivotTarget": [
@@ -534516,21 +534386,45 @@
      },
      {
       "from": "Normal_Idle",
-      "fromTime": 0.06666666666666933,
+      "fromTime": 1.5000000000000013,
       "fromLoop": true,
       "to": "Normal_Attack_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 1.1743721441061024,
+      "yawBefore": 0.9739454047870657,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 53082,
-      "faceAfter": 0.7117108045059388,
+      "at": 9758,
+      "faceAfter": 0.8454940315478674,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.9000000000000026,
+      "fromLoop": true,
+      "to": "Normal_Attack_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.1743721438888657,
+      "pivotPos": [
+       -5.99219372443243e-79,
+       1.9878609210325035e-79,
+       -3.174861780070522e-79
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 30537,
+      "faceAfter": 0.7967053218355413,
       "state": "action",
       "pivotTarget": [
        0,
@@ -534546,7 +534440,7 @@
     "key": "Normal_Attack_Start → Normal_Attack_Ing",
     "from": "Normal_Attack_Start",
     "to": "Normal_Attack_Ing",
-    "count": 51,
+    "count": 57,
     "examples": [
      {
       "from": "Normal_Attack_Start",
@@ -534555,16 +534449,16 @@
       "to": "Normal_Attack_Ing",
       "toLoop": false,
       "fade": 0.08,
-      "yawBefore": -0.7373954568371206,
+      "yawBefore": -4.139463789448074,
       "pivotPos": [
-       -1.9801617724156113e-261,
-       6.569023609263067e-262,
-       -1.04915498709022e-261
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 11700,
-      "faceAfter": 0.8565093504015386,
+      "at": 2451,
+      "faceAfter": -0.22541739010758155,
       "state": "action",
       "pivotTarget": [
        0,
@@ -534579,7 +534473,7 @@
       "to": "Normal_Attack_Ing",
       "toLoop": false,
       "fade": 0.08,
-      "yawBefore": 1.7317477066513058,
+      "yawBefore": 1.1620314827243559,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -534587,8 +534481,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 31619,
-      "faceAfter": 0.7066489452957292,
+      "at": 41574,
+      "faceAfter": -0.22541739010758155,
       "state": "action",
       "pivotTarget": [
        0,
@@ -534603,16 +534497,16 @@
       "to": "Normal_Attack_Ing",
       "toLoop": false,
       "fade": 0.08,
-      "yawBefore": 0.014466024398086919,
+      "yawBefore": 1.7483638304513358,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       -1.7267680816789416e-215,
+       5.7284109077781096e-216,
+       -9.148986560990121e-216
       ],
       "lift": 0,
       "form": 1,
-      "at": 18643,
-      "faceAfter": -0.22541739010758133,
+      "at": 33520,
+      "faceAfter": 0.8748834033183563,
       "state": "action",
       "pivotTarget": [
        0,
@@ -534627,16 +534521,16 @@
       "to": "Normal_Attack_Ing",
       "toLoop": false,
       "fade": 0.08,
-      "yawBefore": 0.21119801331374535,
+      "yawBefore": 0.2767603798452924,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 19253,
-      "faceAfter": -0.22541739010758133,
+      "at": 22004,
+      "faceAfter": -0.22541739010758155,
       "state": "action",
       "pivotTarget": [
        0,
@@ -534652,7 +534546,7 @@
     "key": "Normal_Attack_Ing → Normal_Attack_Delay",
     "from": "Normal_Attack_Ing",
     "to": "Normal_Attack_Delay",
-    "count": 49,
+    "count": 53,
     "examples": [
      {
       "from": "Normal_Attack_Ing",
@@ -534661,16 +534555,16 @@
       "to": "Normal_Attack_Delay",
       "toLoop": false,
       "fade": 0.3,
-      "yawBefore": -0.7362986786189605,
+      "yawBefore": -4.138367011229914,
       "pivotPos": [
-       -8.26630000581849e-264,
-       2.742276952111358e-264,
-       -4.379758258492482e-264
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 11752,
-      "faceAfter": 0.8565093504015386,
+      "at": 2477,
+      "faceAfter": -0.22541739010758155,
       "state": "action",
       "pivotTarget": [
        0,
@@ -534685,31 +534579,7 @@
       "to": "Normal_Attack_Delay",
       "toLoop": false,
       "fade": 0.3,
-      "yawBefore": -5.4869733846463555,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 5135,
-      "faceAfter": 0.8454940315478674,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Attack_Ing",
-      "fromTime": 0.8333333730697632,
-      "fromLoop": false,
-      "to": "Normal_Attack_Delay",
-      "toLoop": false,
-      "fade": 0.3,
-      "yawBefore": 0.01556280261624654,
+      "yawBefore": 1.166362256748736,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -534717,7 +534587,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 18721,
+      "at": 38298,
       "faceAfter": -0.22541739010758133,
       "state": "action",
       "pivotTarget": [
@@ -534733,158 +534603,16 @@
       "to": "Normal_Attack_Delay",
       "toLoop": false,
       "fade": 0.3,
-      "yawBefore": 0.21229479153190506,
+      "yawBefore": 1.7410760969024832,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       -5.826845009985722e-225,
+       1.9330078466982434e-225,
+       -3.0872545800996356e-225
       ],
       "lift": 0,
       "form": 1,
-      "at": 19279,
-      "faceAfter": -0.22541739010758133,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Idle → Normal_Callsign",
-    "from": "Normal_Idle",
-    "to": "Normal_Callsign",
-    "count": 49,
-    "examples": [
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.633333333333335,
-      "fromLoop": true,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -3.9607959335204166,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 47080,
-      "click": true,
-      "faceAfter": -0.13381467142848913,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.700000000000002,
-      "fromLoop": true,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 1.1743721439134636,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 13527,
-      "click": true,
-      "faceAfter": 0.9963130862884491,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 0.10000000000000889,
-      "fromLoop": true,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.9841258601977919,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 24646,
-      "faceAfter": 0.48041213250794595,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 0.6000000000000058,
-      "fromLoop": true,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.9737637544638088,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 16917,
-      "faceAfter": 0.48041213250794595,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Attack_Ing → Normal_Attack_Ing",
-    "from": "Normal_Attack_Ing",
-    "to": "Normal_Attack_Ing",
-    "count": 47,
-    "examples": [
-     {
-      "from": "Normal_Attack_Ing",
-      "fromTime": 0.8333333730697632,
-      "fromLoop": false,
-      "to": "Normal_Attack_Ing",
-      "toLoop": false,
-      "fade": 0.3,
-      "yawBefore": -0.7362986786189605,
-      "pivotPos": [
-       -1.2793987365493497e-262,
-       4.244299947171204e-263,
-       -6.778676286080464e-263
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 11726,
-      "faceAfter": 0.8565093504015386,
+      "at": 33727,
+      "faceAfter": 0.8748834033183563,
       "state": "action",
       "pivotTarget": [
        0,
@@ -534896,10 +534624,10 @@
       "from": "Normal_Attack_Ing",
       "fromTime": 0.8333333730697632,
       "fromLoop": false,
-      "to": "Normal_Attack_Ing",
+      "to": "Normal_Attack_Delay",
       "toLoop": false,
       "fade": 0.3,
-      "yawBefore": -5.495357896413367,
+      "yawBefore": 0.27785715806345207,
       "pivotPos": [
        0,
        0,
@@ -534907,55 +534635,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 5341,
-      "faceAfter": 0.8454940315478674,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Attack_Ing",
-      "fromTime": 0.8333333730697632,
-      "fromLoop": false,
-      "to": "Normal_Attack_Ing",
-      "toLoop": false,
-      "fade": 0.3,
-      "yawBefore": 0.01556280261624654,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 18669,
-      "faceAfter": -0.22541739010758133,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Attack_Ing",
-      "fromTime": 0.8333333730697632,
-      "fromLoop": false,
-      "to": "Normal_Attack_Ing",
-      "toLoop": false,
-      "fade": 0.3,
-      "yawBefore": -5.956026126989997,
-      "pivotPos": [
-       -4.3244564667792494e-11,
-       1.4346028199932792e-11,
-       -2.2912396006116605e-11
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 6229,
+      "at": 22056,
       "faceAfter": -0.22541739010758155,
       "state": "action",
       "pivotTarget": [
@@ -534972,7 +534652,7 @@
     "key": "Normal_Attack_Delay → Normal_Attack_End",
     "from": "Normal_Attack_Delay",
     "to": "Normal_Attack_End",
-    "count": 47,
+    "count": 53,
     "examples": [
      {
       "from": "Normal_Attack_Delay",
@@ -534981,15 +534661,39 @@
       "to": "Normal_Attack_End",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -0.5600628763699118,
+      "yawBefore": -3.9621312089808662,
       "pivotPos": [
-       -1.8622650928941192e-265,
-       6.177911084004268e-266,
-       -9.86689439575656e-266
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 11788,
+      "at": 2513,
+      "faceAfter": -0.17202866041819065,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Delay",
+      "fromTime": 1.166666865348816,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 2.466329286662882,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 19752,
       "faceAfter": 0.9963130862884492,
       "state": "action",
       "pivotTarget": [
@@ -535005,15 +534709,15 @@
       "to": "Normal_Attack_End",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.349988108186179,
+      "yawBefore": -5.1321728839935945,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 39555,
+      "at": 6215,
       "faceAfter": 0.9963130862884492,
       "state": "action",
       "pivotTarget": [
@@ -535029,39 +534733,15 @@
       "to": "Normal_Attack_End",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -4.536409089563014,
+      "yawBefore": 0.30009974515314725,
       "pivotPos": [
-       -5.5444269331083247e-36,
-       1.839317975469847e-36,
-       -2.9376201724830858e-36
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 6773,
-      "faceAfter": 0.9963130862884493,
-      "state": "action",
-      "pivotTarget": [
        0,
        0,
        0
-      ]
-     },
-     {
-      "from": "Normal_Attack_Delay",
-      "fromTime": 1.166666865348816,
-      "fromLoop": false,
-      "to": "Normal_Attack_End",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.970218797899066,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
       ],
       "lift": 0,
       "form": 1,
-      "at": 42626,
+      "at": 14625,
       "faceAfter": -0.17202866041819065,
       "state": "action",
       "pivotTarget": [
@@ -535078,7 +534758,7 @@
     "key": "Normal_Attack_End → Normal_Idle",
     "from": "Normal_Attack_End",
     "to": "Normal_Idle",
-    "count": 43,
+    "count": 45,
     "examples": [
      {
       "from": "Normal_Attack_End",
@@ -535087,15 +534767,15 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": -3.9499285842137,
+      "yawBefore": -3.8683467515614103,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 47031,
+      "at": 2529,
       "faceAfter": -0.22541739010758155,
       "state": "battle",
       "pivotTarget": [
@@ -535111,7 +534791,7 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 0.9736567826132947,
+      "yawBefore": 0.4847911341891349,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535119,8 +534799,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 23574,
-      "faceAfter": 0.9355807876918631,
+      "at": 43724,
+      "faceAfter": 0.9963130862884493,
       "state": "battle",
       "pivotTarget": [
        0,
@@ -535135,16 +534815,16 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 1.258381551991715,
+      "yawBefore": 0.9523084903383272,
       "pivotPos": [
-       -3.298524e-317,
-       1.094258e-317,
-       -1.7476663e-317
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 12919,
-      "faceAfter": 0.9963130862884491,
+      "at": 9902,
+      "faceAfter": 0.9518768541215983,
       "state": "battle",
       "pivotTarget": [
        0,
@@ -535159,17 +534839,123 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": -5.991781342997471,
+      "yawBefore": 1.5009679762868586,
       "pivotPos": [
-       -2.082564268489353e-141,
-       6.90873545691443e-142,
-       -1.1034112054168647e-141
+       -2e-323,
+       2e-323,
+       -2e-323
       ],
       "lift": 0,
       "form": 1,
-      "at": 9077,
-      "faceAfter": -0.22541739010758144,
+      "at": 46162,
+      "faceAfter": 0.9963130862884492,
       "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_Ing → Normal_Attack_Ing",
+    "from": "Normal_Attack_Ing",
+    "to": "Normal_Attack_Ing",
+    "count": 45,
+    "examples": [
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": -4.19378439849348,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 2657,
+      "faceAfter": -0.22541739010758155,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": 1.1631282609425155,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 41626,
+      "faceAfter": -0.22541739010758155,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": 0.9467156207832133,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 25346,
+      "faceAfter": 0.8454940315478674,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.8333333730697632,
+      "fromLoop": false,
+      "to": "Normal_Attack_Ing",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": 0.27785715806345207,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 22030,
+      "faceAfter": -0.22541739010758155,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -535184,16 +534970,16 @@
     "key": "Cafe_Idle → Cafe_Walk",
     "from": "Cafe_Idle",
     "to": "Cafe_Walk",
-    "count": 26,
+    "count": 33,
     "examples": [
      {
       "from": "Cafe_Idle",
-      "fromTime": 2.3666666666666636,
+      "fromTime": 3.4666666666666597,
       "fromLoop": true,
       "to": "Cafe_Walk",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": -5.802773174671642,
+      "yawBefore": 0.235556177142862,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535201,8 +534987,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 48578,
-      "faceAfter": -2.7956510505123866,
+      "at": 52034,
+      "faceAfter": -2.831186842200438,
       "state": "walk",
       "pivotTarget": [
        0,
@@ -535212,12 +534998,12 @@
      },
      {
       "from": "Cafe_Idle",
-      "fromTime": 0.23333333333332873,
+      "fromTime": 1.4333333333333298,
       "fromLoop": true,
       "to": "Cafe_Walk",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": -0.4632589351891964,
+      "yawBefore": 0.480412132507946,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535225,8 +535011,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 35319,
-      "faceAfter": -2.9818015302014507,
+      "at": 42155,
+      "faceAfter": 2.8390404816219967,
       "state": "walk",
       "pivotTarget": [
        0,
@@ -535236,21 +535022,21 @@
      },
      {
       "from": "Cafe_Idle",
-      "fromTime": 2.1999999999999975,
+      "fromTime": 3.2666666666666604,
       "fromLoop": true,
       "to": "Cafe_Walk",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 0.513811506917767,
+      "yawBefore": 0.4804121325079459,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 21382,
-      "faceAfter": 2.1190355903933273,
+      "at": 21390,
+      "faceAfter": -1.4171108331360194,
       "state": "walk",
       "pivotTarget": [
        0,
@@ -535260,12 +535046,12 @@
      },
      {
       "from": "Cafe_Idle",
-      "fromTime": 3.9666666666666623,
+      "fromTime": 0.9999999999999908,
       "fromLoop": true,
       "to": "Cafe_Walk",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 0.513811506917767,
+      "yawBefore": 0.480412132507946,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535273,8 +535059,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 50737,
-      "faceAfter": 0.9788339946959714,
+      "at": 51688,
+      "faceAfter": 0.23555617714286306,
       "state": "walk",
       "pivotTarget": [
        0,
@@ -535287,51 +535073,27 @@
     "note": ""
    },
    {
-    "key": "Public → Normal_Idle",
-    "from": "Public",
+    "key": "Normal_Callsign → Normal_Idle",
+    "from": "Normal_Callsign",
     "to": "Normal_Idle",
-    "count": 25,
+    "count": 31,
     "examples": [
      {
-      "from": "Public",
-      "fromTime": 3.3333334922790527,
+      "from": "Normal_Callsign",
+      "fromTime": 1.5000001192092896,
       "fromLoop": false,
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 0.6256095011552644,
+      "yawBefore": -3.830132762571708,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 52574,
-      "faceAfter": 0.9963130862884492,
-      "state": "battle",
-      "pivotTarget": [
        0,
        0,
        0
-      ]
-     },
-     {
-      "from": "Public",
-      "fromTime": 3.3333334922790527,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -5.7462013402063,
-      "pivotPos": [
-       -0.000005764617188177814,
-       0.000001912364279273429,
-       -0.0000030542842286389666
       ],
       "lift": 0,
       "form": 1,
-      "at": 6117,
+      "at": 1955,
       "faceAfter": -0.22541739010758155,
       "state": "battle",
       "pivotTarget": [
@@ -535341,13 +535103,37 @@
       ]
      },
      {
-      "from": "Public",
-      "fromTime": 3.3333334922790527,
+      "from": "Normal_Callsign",
+      "fromTime": 1.5000001192092896,
       "fromLoop": false,
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 0.8454474252230404,
+      "yawBefore": 0.7820016505578351,
+      "pivotPos": [
+       -6.258376154295965e-289,
+       2.0761647500682255e-289,
+       -3.315894006657964e-289
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 35125,
+      "faceAfter": -0.22541739010758133,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 1.5000001192092896,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.7667771761107051,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535355,8 +535141,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 20201,
-      "faceAfter": 0.35297531157988304,
+      "at": 45734,
+      "faceAfter": 0.48041213250794595,
       "state": "armed",
       "pivotTarget": [
        0,
@@ -535365,23 +535151,23 @@
       ]
      },
      {
-      "from": "Public",
-      "fromTime": 3.3333334922790527,
+      "from": "Normal_Callsign",
+      "fromTime": 1.5000001192092896,
       "fromLoop": false,
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": -5.670397140914823,
+      "yawBefore": 1.46067309152102,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 44351,
-      "faceAfter": 0.1203160526216171,
-      "state": "armed",
+      "at": 19144,
+      "faceAfter": 0.9963130862884492,
+      "state": "battle",
       "pivotTarget": [
        0,
        0,
@@ -535393,29 +535179,29 @@
     "note": ""
    },
    {
-    "key": "Normal_Idle → Move_Ing",
+    "key": "Normal_Idle → Normal_Callsign",
     "from": "Normal_Idle",
-    "to": "Move_Ing",
-    "count": 21,
+    "to": "Normal_Callsign",
+    "count": 29,
     "examples": [
      {
       "from": "Normal_Idle",
-      "fromTime": 1.9666666666666694,
+      "fromTime": 0.43333333333333596,
       "fromLoop": true,
-      "to": "Move_Ing",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": -4.376262042574501,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -3.9217354812508005,
       "pivotPos": [
-       -4.238889753852112e-232,
-       1.4062167676406113e-232,
-       -2.245903535221951e-232
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 11060,
-      "faceAfter": -2.223744783351582,
-      "state": "run",
+      "at": 2177,
+      "faceAfter": -0.13381467142848913,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -535424,12 +535210,62 @@
      },
      {
       "from": "Normal_Idle",
-      "fromTime": 1.3000000000000007,
+      "fromTime": 1.5000000000000042,
       "fromLoop": true,
-      "to": "Move_Ing",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": -5.845438871098878,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.043578421330532,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 9666,
+      "click": true,
+      "faceAfter": 0.9518768541215983,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.4000000000000244,
+      "fromLoop": true,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.0102481259853882,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 9515,
+      "click": true,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.40000000000000574,
+      "fromLoop": true,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.9620168789201992,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535437,23 +535273,33 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 42802,
-      "faceAfter": 1.5707963267948961,
-      "state": "run",
+      "at": 45470,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
        0
       ]
-     },
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Reload_Random → Normal_Idle",
+    "from": "Normal_Reload_Random",
+    "to": "Normal_Idle",
+    "count": 22,
+    "examples": [
      {
-      "from": "Normal_Idle",
-      "fromTime": 1.4666666666666708,
-      "fromLoop": true,
-      "to": "Move_Ing",
+      "from": "Normal_Reload_Random",
+      "fromTime": 2.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
       "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": -3.1930778748057427,
+      "fade": 0.2,
+      "yawBefore": -3.3981367056525027,
       "pivotPos": [
        0,
        0,
@@ -535461,9 +535307,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 4519,
-      "faceAfter": 1.5707963267948977,
-      "state": "run",
+      "at": 2376,
+      "faceAfter": -0.22541739010758155,
+      "state": "battle",
       "pivotTarget": [
        0,
        0,
@@ -535471,13 +535317,13 @@
       ]
      },
      {
-      "from": "Normal_Idle",
-      "fromTime": 0.9666666666666692,
-      "fromLoop": true,
-      "to": "Move_Ing",
+      "from": "Normal_Reload_Random",
+      "fromTime": 2.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
       "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": 1.1743721435012535,
+      "fade": 0.2,
+      "yawBefore": 2.8578212143873873,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535485,9 +535331,57 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 52778,
-      "faceAfter": 0.645947759688491,
-      "state": "run",
+      "at": 52598,
+      "faceAfter": 0.9164560184280767,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Reload_Random",
+      "fromTime": 2.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": -3.9120351137994067,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 6390,
+      "faceAfter": 0.9963130862884492,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Reload_Random",
+      "fromTime": 2.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.9610916008983732,
+      "pivotPos": [
+       -8.781945706364723e-212,
+       2.913338166810543e-212,
+       -4.652964349952264e-212
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 33439,
+      "faceAfter": 0.9963130862884491,
+      "state": "battle",
       "pivotTarget": [
        0,
        0,
@@ -535502,7 +535396,7 @@
     "key": "Victory_Start → Victory_End",
     "from": "Victory_Start",
     "to": "Victory_End",
-    "count": 21,
+    "count": 22,
     "examples": [
      {
       "from": "Victory_Start",
@@ -535511,15 +535405,15 @@
       "to": "Victory_End",
       "toLoop": false,
       "fade": 0.2,
-      "yawBefore": -5.802773174670311,
+      "yawBefore": 0.4804121325064981,
       "pivotPos": [
-       -6.095686512157701e-174,
-       2.0221938010742444e-174,
-       -3.229695670857818e-174
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 9788,
+      "at": 21050,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -535535,7 +535429,7 @@
       "to": "Victory_End",
       "toLoop": false,
       "fade": 0.2,
-      "yawBefore": -5.802773174672035,
+      "yawBefore": 0.4804121325087206,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -535543,7 +535437,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 48265,
+      "at": 44391,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -535559,15 +535453,15 @@
       "to": "Victory_End",
       "toLoop": false,
       "fade": 0.2,
-      "yawBefore": 0.480412132507721,
+      "yawBefore": 0.4804121325077926,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 30591,
+      "at": 15479,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -535591,9 +535485,327 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 17555,
+      "at": 41870,
       "faceAfter": 0.48041213250794595,
       "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Idle → Move_Ing",
+    "from": "Normal_Idle",
+    "to": "Move_Ing",
+    "count": 20,
+    "examples": [
+     {
+      "from": "Normal_Idle",
+      "fromTime": 1.9666666666666694,
+      "fromLoop": true,
+      "to": "Move_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 3.5723129001559264,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 20364,
+      "faceAfter": 0.8401725273466197,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.8000000000000026,
+      "fromLoop": true,
+      "to": "Move_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.43336152124878285,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 49640,
+      "faceAfter": 1.1102829674021157,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.133333333333336,
+      "fromLoop": true,
+      "to": "Move_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.9414411410316106,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 9967,
+      "faceAfter": 0.833149473064201,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 1.3666666666666705,
+      "fromLoop": true,
+      "to": "Move_Ing",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 1.67521680841402,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10148,
+      "faceAfter": 1.0988700186096227,
+      "state": "run",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Victory_End → Cafe_Idle",
+    "from": "Victory_End",
+    "to": "Cafe_Idle",
+    "count": 20,
+    "examples": [
+     {
+      "from": "Victory_End",
+      "fromTime": 4,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": -5.802773174671639,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 3506,
+      "faceAfter": 0.48041213250794595,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_End",
+      "fromTime": 4,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.480412132507946,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 17162,
+      "faceAfter": 0.48041213250794595,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_End",
+      "fromTime": 4,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.480412132507946,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 36975,
+      "faceAfter": 0.48041213250794595,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Victory_End",
+      "fromTime": 4,
+      "fromLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 0.480412132507946,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 51417,
+      "faceAfter": 0.48041213250794595,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Public → Normal_Idle",
+    "from": "Public",
+    "to": "Normal_Idle",
+    "count": 19,
+    "examples": [
+     {
+      "from": "Public",
+      "fromTime": 3.3333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.5968311612444266,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 43312,
+      "faceAfter": 0.9963130862884493,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public",
+      "fromTime": 3.3333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.9728842461511057,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 24934,
+      "faceAfter": 0.9963130862884492,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public",
+      "fromTime": 3.3333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.9728842461511057,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 45337,
+      "faceAfter": 0.48041213250794595,
+      "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Public",
+      "fromTime": 3.3333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.8454474252230341,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 315,
+      "faceAfter": 0.35297531157988304,
+      "state": "armed",
       "pivotTarget": [
        0,
        0,
@@ -535612,21 +535824,21 @@
     "examples": [
      {
       "from": "Move_Ing",
-      "fromTime": 0.6666666467984516,
+      "fromTime": 0.13333329359690327,
       "fromLoop": true,
       "to": "Move_End_Normal",
       "toLoop": false,
       "fade": 0.15,
-      "yawBefore": -1.5688438430380294,
+      "yawBefore": 0.2799874463438133,
       "pivotPos": [
-       -6.265453325333455e-234,
-       2.0785125432778416e-234,
-       -3.319643725186979e-234
+       -2e-323,
+       2e-323,
+       -2e-323
       ],
       "lift": 0,
       "form": 1,
-      "at": 11100,
-      "faceAfter": -1.7001460077532946,
+      "at": 50178,
+      "faceAfter": -0.15687843078450375,
       "state": "action",
       "pivotTarget": [
        0,
@@ -535636,12 +535848,12 @@
      },
      {
       "from": "Move_Ing",
-      "fromTime": 0.29999998013178497,
+      "fromTime": 0.3333333134651183,
       "fromLoop": true,
       "to": "Move_End_Normal",
       "toLoop": false,
       "fade": 0.15,
-      "yawBefore": -4.0574012443826755,
+      "yawBefore": 1.4499949448659646,
       "pivotPos": [
        0,
        0,
@@ -535649,164 +535861,56 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 4548,
+      "at": 16029,
+      "faceAfter": 0.7951217005419193,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move_Ing",
+      "fromTime": 0.23333329359690325,
+      "fromLoop": true,
+      "to": "Move_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 1.4635191418112177,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 53260,
+      "faceAfter": 0.8086011855599702,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move_Ing",
+      "fromTime": 0.2666666070620215,
+      "fromLoop": true,
+      "to": "Move_End_Normal",
+      "toLoop": false,
+      "fade": 0.15,
+      "yawBefore": 1.8964363779354352,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 19881,
       "faceAfter": 1.0648520456115271,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Move_Ing",
-      "fromTime": 0.19999996026356992,
-      "fromLoop": true,
-      "to": "Move_End_Normal",
-      "toLoop": false,
-      "fade": 0.15,
-      "yawBefore": -5.8246692123124,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 40915,
-      "faceAfter": -0.15687843078450356,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Move_Ing",
-      "fromTime": 0.4999999801317849,
-      "fromLoop": true,
-      "to": "Move_End_Normal",
-      "toLoop": false,
-      "fade": 0.15,
-      "yawBefore": 1.7995475518471544,
-      "pivotPos": [
-       -6.580143028146747e-272,
-       2.182908260646458e-272,
-       -3.486376704124217e-272
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 11930,
-      "faceAfter": 1.0648520456115271,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Cafe_Idle → Public",
-    "from": "Cafe_Idle",
-    "to": "Public",
-    "count": 19,
-    "examples": [
-     {
-      "from": "Cafe_Idle",
-      "fromTime": 2.2666666666666684,
-      "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -6.738657797891663,
-      "pivotPos": [
-       -4.466163992441694e-208,
-       1.4816131246387989e-208,
-       -2.3663209193847082e-208
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 10534,
-      "click": true,
-      "faceAfter": 0.06812628604125859,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Idle",
-      "fromTime": 0.36666666666666203,
-      "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.20281875753211911,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 25589,
-      "faceAfter": 0.35297531157988304,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Idle",
-      "fromTime": 1.6666666666666639,
-      "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.4804121325079459,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 14661,
-      "faceAfter": 0.48041213250794595,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Idle",
-      "fromTime": 3.73333333333333,
-      "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.802773174671639,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 41822,
-      "click": true,
-      "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
        0,
@@ -535831,195 +535935,89 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": -0.5258360684442476,
+      "yawBefore": 1.9177917181524298,
       "pivotPos": [
-       -1.1189608661713671e-257,
-       3.7120605246076764e-258,
-       -5.928623557207438e-258
+       -2e-323,
+       2e-323,
+       -2e-323
       ],
       "lift": 0,
       "form": 1,
-      "at": 11618,
+      "at": 50534,
+      "faceAfter": 0.8363201892617829,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move_End_Normal",
+      "fromTime": 1.2000000476837158,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.9177917201086432,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 47090,
+      "faceAfter": 0.9963130862884491,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move_End_Normal",
+      "fromTime": 1.2000000476837158,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 0.6960537760127528,
+      "pivotPos": [
+       -1.0851708789583659e-259,
+       3.599965024709139e-260,
+       -5.7495930653957345e-260
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34486,
+      "faceAfter": -0.22541739010758155,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Move_End_Normal",
+      "fromTime": 1.2000000476837158,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.6615356084267787,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 53296,
       "faceAfter": 0.9963130862884492,
       "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Move_End_Normal",
-      "fromTime": 1.2000000476837158,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -4.365393587548978,
-      "pivotPos": [
-       -3.3383057894481513e-21,
-       1.107455453958827e-21,
-       -1.7687444612967615e-21
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 6450,
-      "faceAfter": 0.9963130862884493,
-      "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Move_End_Normal",
-      "fromTime": 1.2000000476837158,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": 0.6960534991908347,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 32274,
-      "faceAfter": -0.22541739010758133,
-      "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Move_End_Normal",
-      "fromTime": 1.2000000476837158,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -4.6722594414296825,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 37598,
-      "faceAfter": 0.9963130862884493,
-      "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Victory_End → Cafe_Idle",
-    "from": "Victory_End",
-    "to": "Cafe_Idle",
-    "count": 18,
-    "examples": [
-     {
-      "from": "Victory_End",
-      "fromTime": 4,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": -5.802773174671639,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 2359,
-      "faceAfter": 0.48041213250794595,
-      "state": "idle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Victory_End",
-      "fromTime": 4,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": -5.802773174671639,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 41710,
-      "faceAfter": 0.48041213250794595,
-      "state": "idle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Victory_End",
-      "fromTime": 4,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": 0.4804121325079459,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 16262,
-      "faceAfter": 0.48041213250794595,
-      "state": "idle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Victory_End",
-      "fromTime": 4,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": 0.480412132507946,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 53918,
-      "faceAfter": 0.48041213250794595,
-      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -536034,25 +536032,49 @@
     "key": "Cafe_Walk → Cafe_Idle",
     "from": "Cafe_Walk",
     "to": "Cafe_Idle",
-    "count": 18,
+    "count": 17,
     "examples": [
      {
       "from": "Cafe_Walk",
-      "fromTime": 1.166666150093082,
+      "fromTime": 0.9333331267038992,
       "fromLoop": true,
       "to": "Cafe_Idle",
       "toLoop": true,
       "fade": 0.25,
-      "yawBefore": 2.7397024532971326,
+      "yawBefore": 2.67561367710535,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 33330,
-      "faceAfter": -0.06939696726861146,
+      "at": 12034,
+      "faceAfter": -0.2506242785546003,
+      "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 1.0666662534077986,
+      "fromLoop": true,
+      "to": "Cafe_Idle",
+      "toLoop": true,
+      "fade": 0.25,
+      "yawBefore": 2.502815204581538,
+      "pivotPos": [
+       -5.077767825878606e-28,
+       1.6845076596879122e-28,
+       -2.6903687931051845e-28
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29424,
+      "faceAfter": 0.26622755773677453,
       "state": "idle",
       "pivotTarget": [
        0,
@@ -536067,7 +536089,7 @@
       "to": "Cafe_Idle",
       "toLoop": true,
       "fade": 0.25,
-      "yawBefore": -8.649035650781544,
+      "yawBefore": -1.8397431591009548,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536075,8 +536097,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 48137,
-      "faceAfter": -0.23510517323403357,
+      "at": 43201,
+      "faceAfter": -0.4192397279970178,
       "state": "idle",
       "pivotTarget": [
        0,
@@ -536086,12 +536108,12 @@
      },
      {
       "from": "Cafe_Walk",
-      "fromTime": 0.16666646003723273,
+      "fromTime": 0.2666663567225157,
       "fromLoop": true,
       "to": "Cafe_Idle",
       "toLoop": true,
       "fade": 0.25,
-      "yawBefore": 1.914217902544005,
+      "yawBefore": 0.23555617714286448,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536099,9 +536121,43 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 28371,
-      "faceAfter": 0.2326075131408487,
+      "at": 51810,
+      "faceAfter": 0.23555617714286198,
       "state": "idle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Idle → Normal_Reload",
+    "from": "Normal_Idle",
+    "to": "Normal_Reload",
+    "count": 17,
+    "examples": [
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.633333333333336,
+      "fromLoop": true,
+      "to": "Normal_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 3.012958116886545,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 20159,
+      "faceAfter": 0.9963130862884492,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -536109,13 +536165,13 @@
       ]
      },
      {
-      "from": "Cafe_Walk",
-      "fromTime": 0.5333329200744653,
+      "from": "Normal_Idle",
+      "fromTime": 0.30000000000000265,
       "fromLoop": true,
-      "to": "Cafe_Idle",
-      "toLoop": true,
+      "to": "Normal_Reload",
+      "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -0.46325893518920375,
+      "yawBefore": 1.5045067385859854,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536123,9 +536179,164 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 35192,
-      "faceAfter": -0.46325893518919636,
-      "state": "idle",
+      "at": 38639,
+      "faceAfter": 0.2981813854907175,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.133333333333336,
+      "fromLoop": true,
+      "to": "Normal_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.8639980766920488,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 49903,
+      "faceAfter": 0.8863155535719731,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.2333333333333422,
+      "fromLoop": true,
+      "to": "Normal_Reload",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.9620168789201992,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 8938,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Idle → Normal_Reload_Random",
+    "from": "Normal_Idle",
+    "to": "Normal_Reload_Random",
+    "count": 17,
+    "examples": [
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.2666666666666693,
+      "fromLoop": true,
+      "to": "Normal_Reload_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -3.9217354812508005,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 2290,
+      "click": true,
+      "faceAfter": 0.29818138549071727,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 1.466666666666668,
+      "fromLoop": true,
+      "to": "Normal_Reload_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.9616227872174283,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10588,
+      "faceAfter": 0.9963130862884492,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.9333333333333359,
+      "fromLoop": true,
+      "to": "Normal_Reload_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.4759530856061265,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 15024,
+      "faceAfter": 0.2981813854907175,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 1.3333333333333341,
+      "fromLoop": true,
+      "to": "Normal_Reload_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.6226956460807185,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 19443,
+      "faceAfter": 0.9963130862884492,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -536149,31 +536360,7 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 1.156481663247602,
-      "pivotPos": [
-       -8.5316523313758e-310,
-       2.83030540087954e-310,
-       -4.52035066845243e-310
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 12757,
-      "faceAfter": 0.9963130862884491,
-      "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Exs",
-      "fromTime": 2.2333333492279053,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -5.126703642943949,
+      "yawBefore": -5.126703643727078,
       "pivotPos": [
        0,
        0,
@@ -536181,7 +536368,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 2068,
+      "at": 6071,
       "faceAfter": 0.9963130862884492,
       "state": "battle",
       "pivotTarget": [
@@ -536197,7 +536384,7 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 0.4030941536187546,
+      "yawBefore": 1.1564816628863792,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536205,8 +536392,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 22014,
-      "faceAfter": -0.22541739010758133,
+      "at": 52389,
+      "faceAfter": 0.9164560184280767,
       "state": "battle",
       "pivotTarget": [
        0,
@@ -536221,7 +536408,7 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 1.1564816639454913,
+      "yawBefore": 0.4030941534357611,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536229,8 +536416,32 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 53019,
-      "faceAfter": 0.7117108045059388,
+      "at": 40366,
+      "faceAfter": -0.22541739010758155,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Exs",
+      "fromTime": 2.2333333492279053,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.1564816637282547,
+      "pivotPos": [
+       -5.734393933589134e-75,
+       1.9023379634588522e-75,
+       -3.0382709519867565e-75
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 30449,
+      "faceAfter": 0.7967053218355413,
       "state": "battle",
       "pivotTarget": [
        0,
@@ -536243,19 +536454,19 @@
     "note": ""
    },
    {
-    "key": "Normal_Idle → Normal_Reload",
-    "from": "Normal_Idle",
-    "to": "Normal_Reload",
-    "count": 16,
+    "key": "Cafe_Idle → Public",
+    "from": "Cafe_Idle",
+    "to": "Public",
+    "count": 15,
     "examples": [
      {
-      "from": "Normal_Idle",
-      "fromTime": 0.8333333333333452,
+      "from": "Cafe_Idle",
+      "fromTime": 0.36666666666666664,
       "fromLoop": true,
-      "to": "Normal_Reload",
+      "to": "Public",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 1.8542444418463049,
+      "yawBefore": -0.4660949472223852,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536263,33 +536474,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 50265,
-      "faceAfter": 0.5138115069177669,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.0666666666666667,
-      "fromLoop": true,
-      "to": "Normal_Reload",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.9627894333065781,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 23606,
+      "at": 43211,
       "click": true,
-      "faceAfter": 0.9355807876918631,
+      "faceAfter": 0.10435904760128101,
       "state": "action",
       "pivotTarget": [
        0,
@@ -536298,22 +536485,22 @@
       ]
      },
      {
-      "from": "Normal_Idle",
-      "fromTime": 1.8333333333333357,
+      "from": "Cafe_Idle",
+      "fromTime": 3.466666666666664,
       "fromLoop": true,
-      "to": "Normal_Reload",
+      "to": "Public",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 1.1447826662315144,
+      "yawBefore": 0.20281875753211911,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       -1.8726703643944938e-93,
+       6.212429715309491e-94,
+       -9.922024954475204e-94
       ],
       "lift": 0,
       "form": 1,
-      "at": 13629,
-      "faceAfter": 0.9963130862884491,
+      "at": 30854,
+      "faceAfter": 0.35297531157988304,
       "state": "action",
       "pivotTarget": [
        0,
@@ -536322,13 +536509,37 @@
       ]
      },
      {
-      "from": "Normal_Idle",
-      "fromTime": 0.23333333333333908,
+      "from": "Cafe_Idle",
+      "fromTime": 1.1666666666666623,
       "fromLoop": true,
-      "to": "Normal_Reload",
+      "to": "Public",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.9899688287343237,
+      "yawBefore": -6.080366549647466,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 5378,
+      "faceAfter": 0.35297531157988304,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 0.49999999999999534,
+      "fromLoop": true,
+      "to": "Public",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.480412132507946,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536336,7 +536547,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 17090,
+      "at": 45237,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -536350,135 +536561,29 @@
     "note": ""
    },
    {
-    "key": "Normal_Idle → Normal_Reload_Random",
-    "from": "Normal_Idle",
-    "to": "Normal_Reload_Random",
+    "key": "Cafe_Reaction → Cafe_Idle",
+    "from": "Cafe_Reaction",
+    "to": "Cafe_Idle",
     "count": 15,
     "examples": [
      {
-      "from": "Normal_Idle",
-      "fromTime": 1.400000000000001,
-      "fromLoop": true,
-      "to": "Normal_Reload_Random",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -3.9217354812508,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 46688,
-      "faceAfter": 0.29818138549071727,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.3000000000000036,
-      "fromLoop": true,
-      "to": "Normal_Reload_Random",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.332774739268584,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 37865,
-      "faceAfter": 0.9963130862884493,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.2333333333333338,
-      "fromLoop": true,
-      "to": "Normal_Reload_Random",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.1510377534521625,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 1400,
-      "faceAfter": 0.9963130862884492,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.53333333333335,
-      "fromLoop": true,
-      "to": "Normal_Reload_Random",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.8345800579921328,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 49914,
-      "faceAfter": 0.5138115069177669,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Reload_Random → Normal_Idle",
-    "from": "Normal_Reload_Random",
-    "to": "Normal_Idle",
-    "count": 15,
-    "examples": [
-     {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.8333334922790527,
+      "from": "Cafe_Reaction",
+      "fromTime": 5.333333492279053,
       "fromLoop": false,
-      "to": "Normal_Idle",
+      "to": "Cafe_Idle",
       "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -3.398136705652502,
+      "fade": 0.25,
+      "yawBefore": -5.897304058021057,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 46842,
-      "faceAfter": -0.22541739010758155,
-      "state": "battle",
+      "at": 1487,
+      "faceAfter": 0.38588124915852806,
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -536486,23 +536591,23 @@
       ]
      },
      {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.8333334922790527,
+      "from": "Cafe_Reaction",
+      "fromTime": 5.333333492279053,
       "fromLoop": false,
-      "to": "Normal_Idle",
+      "to": "Cafe_Idle",
       "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": 2.798399579898935,
+      "fade": 0.25,
+      "yawBefore": 0.3707319618105211,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 31960,
-      "faceAfter": 0.7066489452957292,
-      "state": "battle",
+      "at": 12769,
+      "faceAfter": 0.37073196181052115,
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -536510,23 +536615,23 @@
       ]
      },
      {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.8333334922790527,
+      "from": "Cafe_Reaction",
+      "fromTime": 5.333333492279053,
       "fromLoop": false,
-      "to": "Normal_Idle",
+      "to": "Cafe_Idle",
       "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": 1.865111844015195,
+      "fade": 0.25,
+      "yawBefore": 0.45804367400621326,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 49999,
-      "faceAfter": 0.5138115069177669,
-      "state": "armed",
+      "at": 23868,
+      "faceAfter": 0.4580436740062132,
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -536534,13 +536639,13 @@
       ]
      },
      {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.8333334922790527,
+      "from": "Cafe_Reaction",
+      "fromTime": 5.333333492279053,
       "fromLoop": false,
-      "to": "Normal_Idle",
+      "to": "Cafe_Idle",
       "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -4.333319648578134,
+      "fade": 0.25,
+      "yawBefore": 0.480412132507946,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536548,116 +536653,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 37950,
-      "faceAfter": 0.9963130862884493,
-      "state": "battle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Idle → Exs",
-    "from": "Normal_Idle",
-    "to": "Exs",
-    "count": 12,
-    "examples": [
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.2666666666666702,
-      "fromLoop": true,
-      "to": "Exs",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -4.376260674313058,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 4683,
-      "faceAfter": 0.5279701201849123,
-      "state": "ex",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 0.8000000000000026,
-      "fromLoop": true,
-      "to": "Exs",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 1.488015095046741,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 52951,
-      "click": true,
-      "faceAfter": 0.5279701201849122,
-      "state": "ex",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.3666666666666676,
-      "fromLoop": true,
-      "to": "Exs",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.733454274726086,
-      "pivotPos": [
-       -1.420270302687058e-214,
-       4.71162976674627e-215,
-       -7.525060284657947e-215
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 10677,
-      "faceAfter": -0.22541739010758133,
-      "state": "ex",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 0.533333333333336,
-      "fromLoop": true,
-      "to": "Exs",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.86220067354202,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 3929,
-      "faceAfter": -0.22541739010758155,
-      "state": "ex",
+      "at": 47690,
+      "faceAfter": 0.48041213250794595,
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -536672,7 +536670,7 @@
     "key": "Normal_Reload → Normal_Idle",
     "from": "Normal_Reload",
     "to": "Normal_Idle",
-    "count": 12,
+    "count": 15,
     "examples": [
      {
       "from": "Normal_Reload",
@@ -536681,7 +536679,7 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 1.9085930735048755,
+      "yawBefore": 1.624201155748061,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536689,32 +536687,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 50350,
-      "faceAfter": 0.5138115069177669,
-      "state": "armed",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Reload",
-      "fromTime": 2.8333334922790527,
-      "fromLoop": false,
-      "to": "Normal_Idle",
-      "toLoop": true,
-      "fade": 0.2,
-      "yawBefore": -4.353178573451914,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 38217,
-      "faceAfter": 0.9963130862884493,
+      "at": 38724,
+      "faceAfter": -0.22541739010758133,
       "state": "battle",
       "pivotTarget": [
        0,
@@ -536729,16 +536703,16 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": 1.2125821703232227,
+      "yawBefore": 0.5602252496269284,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       -9.922656028761316e-53,
+       3.291759422262417e-53,
+       -5.2573502845962245e-53
       ],
       "lift": 0,
       "form": 1,
-      "at": 23012,
-      "faceAfter": 0.9355807876918631,
+      "at": 29963,
+      "faceAfter": 0.7967053218355413,
       "state": "battle",
       "pivotTarget": [
        0,
@@ -536753,7 +536727,7 @@
       "to": "Normal_Idle",
       "toLoop": true,
       "fade": 0.2,
-      "yawBefore": -5.338562121188004,
+      "yawBefore": -5.357288967650448,
       "pivotPos": [
        0,
        0,
@@ -536761,9 +536735,141 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 3618,
+      "at": 5161,
+      "faceAfter": 0.9963130862884491,
+      "state": "battle",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Reload",
+      "fromTime": 2.8333334922790527,
+      "fromLoop": false,
+      "to": "Normal_Idle",
+      "toLoop": true,
+      "fade": 0.2,
+      "yawBefore": 1.0813863845314953,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 9023,
       "faceAfter": 0.48041213250794595,
       "state": "armed",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Idle → Exs",
+    "from": "Normal_Idle",
+    "to": "Exs",
+    "count": 14,
+    "examples": [
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.40000000000000263,
+      "fromLoop": true,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 3.068165995082623,
+      "pivotPos": [
+       -6.9331515816055054e-248,
+       2.3000159411524557e-248,
+       -3.673412273392372e-248
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34229,
+      "faceAfter": 0.5279701201849123,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 1.3000000000000036,
+      "fromLoop": true,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.5608512347017882,
+      "pivotPos": [
+       -8.253733245152938e-65,
+       2.7381080327506237e-65,
+       -4.373099974403028e-65
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 30228,
+      "faceAfter": 0.5279701201849123,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 2.6645352591003757e-15,
+      "fromLoop": true,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.2183156027897553,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 25483,
+      "click": true,
+      "faceAfter": 0.5279701201849122,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.43333333333333596,
+      "fromLoop": true,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.39546392491064275,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 14714,
+      "click": true,
+      "faceAfter": -0.22541739010758133,
+      "state": "ex",
       "pivotTarget": [
        0,
        0,
@@ -536787,7 +536893,7 @@
       "to": "Cafe_Idle",
       "toLoop": true,
       "fade": 0.15,
-      "yawBefore": -6.080366380925849,
+      "yawBefore": 0.20281901854148415,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536795,7 +536901,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 42995,
+      "at": 42270,
       "faceAfter": 0.2028187575321191,
       "state": "idle",
       "pivotTarget": [
@@ -536811,15 +536917,15 @@
       "to": "Cafe_Idle",
       "toLoop": true,
       "fade": 0.15,
-      "yawBefore": 0.20281882007382945,
+      "yawBefore": 0.20281883457487657,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       -6.984294067991145e-172,
+       2.316982039841135e-172,
+       -3.7005092486956674e-172
       ],
       "lift": 0,
       "form": 1,
-      "at": 49354,
+      "at": 32568,
       "faceAfter": 0.2028187575321191,
       "state": "idle",
       "pivotTarget": [
@@ -536835,15 +536941,15 @@
       "to": "Cafe_Idle",
       "toLoop": true,
       "fade": 0.15,
-      "yawBefore": 0.20281878501632886,
+      "yawBefore": 0.2028187850165358,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       -1.0745839657141558e-88,
+       3.5648438118773126e-89,
+       -5.693500108836412e-89
       ],
       "lift": 0,
       "form": 1,
-      "at": 32866,
+      "at": 30750,
       "faceAfter": 0.2028187575321191,
       "state": "idle",
       "pivotTarget": [
@@ -536859,7 +536965,7 @@
       "to": "Cafe_Idle",
       "toLoop": true,
       "fade": 0.15,
-      "yawBefore": 0.2028187723989517,
+      "yawBefore": 0.20281878041643087,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -536867,7 +536973,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 29705,
+      "at": 39256,
       "faceAfter": 0.2028187575321191,
       "state": "idle",
       "pivotTarget": [
@@ -536881,29 +536987,30 @@
     "note": ""
    },
    {
-    "key": "Normal_Idle → Cafe_Idle",
-    "from": "Normal_Idle",
-    "to": "Cafe_Idle",
-    "count": 9,
+    "key": "Cafe_Walk → Cafe_Reaction",
+    "from": "Cafe_Walk",
+    "to": "Cafe_Reaction",
+    "count": 7,
     "examples": [
      {
-      "from": "Normal_Idle",
-      "fromTime": 0.06666666666667555,
+      "from": "Cafe_Walk",
+      "fromTime": 1.0333332300186162,
       "fromLoop": true,
-      "to": "Cafe_Idle",
-      "toLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 3.0880819711157286,
+      "yawBefore": -3.3995559397543036,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 26599,
-      "faceAfter": 0.5138115069177669,
-      "state": "idle",
+      "at": 1326,
+      "click": true,
+      "faceAfter": 0.38588124915852806,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -536911,23 +537018,24 @@
       ]
      },
      {
-      "from": "Normal_Idle",
-      "fromTime": 1.0000000000000089,
+      "from": "Cafe_Walk",
+      "fromTime": 0.5333332300186163,
       "fromLoop": true,
-      "to": "Cafe_Idle",
-      "toLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 1.7193978863538981,
+      "yawBefore": -1.3535148557918038,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 34628,
-      "faceAfter": 0.5138115069177669,
-      "state": "idle",
+      "at": 7901,
+      "click": true,
+      "faceAfter": 0.350528321725011,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -536935,23 +537043,24 @@
       ]
      },
      {
-      "from": "Normal_Idle",
-      "fromTime": 1.6000000000000107,
+      "from": "Cafe_Walk",
+      "fromTime": 1.1333329200744655,
       "fromLoop": true,
-      "to": "Cafe_Idle",
-      "toLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.9810677584922943,
+      "yawBefore": 2.098527019744659,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 15383,
-      "faceAfter": 0.48041213250794595,
-      "state": "idle",
+      "at": 27069,
+      "click": true,
+      "faceAfter": 0.4469407963435347,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -536959,13 +537068,13 @@
       ]
      },
      {
-      "from": "Normal_Idle",
-      "fromTime": 0.5666666666666724,
+      "from": "Cafe_Walk",
+      "fromTime": 0.06666615009308174,
       "fromLoop": true,
-      "to": "Cafe_Idle",
-      "toLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.409700379734111,
+      "yawBefore": -1.4171108331359978,
       "pivotPos": [
        0,
        0,
@@ -536973,9 +537082,10 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 3756,
-      "faceAfter": 0.48041213250794595,
-      "state": "idle",
+      "at": 21581,
+      "click": true,
+      "faceAfter": -0.3993466589495505,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -536990,24 +537100,24 @@
     "key": "Cafe_Idle → Victory_Start",
     "from": "Cafe_Idle",
     "to": "Victory_Start",
-    "count": 8,
+    "count": 7,
     "examples": [
      {
       "from": "Cafe_Idle",
-      "fromTime": 1.2666666666666673,
+      "fromTime": 3.8666666666666627,
       "fromLoop": true,
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -6.518306697980762,
+      "yawBefore": 0.07478800725115167,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 48174,
+      "at": 18220,
       "click": true,
       "faceAfter": 0.48041213250794595,
       "state": "action",
@@ -537019,12 +537129,60 @@
      },
      {
       "from": "Cafe_Idle",
-      "fromTime": 0.6333333333333198,
+      "fromTime": 1.9666666666666648,
       "fromLoop": true,
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.07340378367498752,
+      "yawBefore": -6.080366549647466,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 3812,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 3.3999999999999932,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.45804367400621326,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 24091,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 2.0999999999999934,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.480412132507946,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537032,7 +537190,66 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 30500,
+      "at": 36764,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Cafe_Reaction",
+    "from": "Cafe_Idle",
+    "to": "Cafe_Reaction",
+    "count": 7,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 0.6666666666666666,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.36451284585663396,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 17595,
+      "click": true,
+      "faceAfter": 0.36188759651733693,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 3.4999999999999973,
+      "fromLoop": true,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -5.802773174671642,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 4128,
       "click": true,
       "faceAfter": 0.48041213250794595,
       "state": "action",
@@ -537044,22 +537261,22 @@
      },
      {
       "from": "Cafe_Idle",
-      "fromTime": 1.9666666666666694,
+      "fromTime": 0.7333333333333333,
       "fromLoop": true,
-      "to": "Victory_Start",
+      "to": "Cafe_Reaction",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.4804121388066799,
+      "yawBefore": 0.3707319618105211,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 17464,
+      "at": 12791,
       "click": true,
-      "faceAfter": 0.48041213250794595,
+      "faceAfter": 0.37073196181052115,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537069,12 +537286,12 @@
      },
      {
       "from": "Cafe_Idle",
-      "fromTime": 2.43333333333333,
+      "fromTime": 1.4999999999999967,
       "fromLoop": true,
-      "to": "Victory_Start",
+      "to": "Cafe_Reaction",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.802773174671639,
+      "yawBefore": 0.480412132507946,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537082,7 +537299,114 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 41499,
+      "at": 47529,
+      "click": true,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Victory_Start",
+    "from": "Normal_Attack_End",
+    "to": "Victory_Start",
+    "count": 5,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 1.7550716807439108,
+      "pivotPos": [
+       -6.284254633935819e-275,
+       2.0847497225737133e-275,
+       -3.329605278307935e-275
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34819,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 1.4455955922557757,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 41703,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -5.153104066800535,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 7171,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": -5.54837379939191,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 3294,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -537099,24 +537423,24 @@
     "key": "Normal_Idle → Victory_Start",
     "from": "Normal_Idle",
     "to": "Victory_Start",
-    "count": 7,
+    "count": 5,
     "examples": [
      {
       "from": "Normal_Idle",
-      "fromTime": 0.7999999999999999,
+      "fromTime": 1.0333333333333332,
       "fromLoop": true,
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 1.9516352824380998,
+      "yawBefore": 1.9677474275520066,
       "pivotPos": [
-       -1.4316734701219134e-289,
-       4.749458835635225e-290,
-       -7.585478025014145e-290
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 12316,
+      "at": 10705,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -537127,36 +537451,12 @@
      },
      {
       "from": "Normal_Idle",
-      "fromTime": 0.633333333333336,
+      "fromTime": 0.6000000000000026,
       "fromLoop": true,
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.1088131627833375,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 2148,
-      "faceAfter": 0.48041213250794595,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Idle",
-      "fromTime": 0.6666666666666666,
-      "fromLoop": true,
-      "to": "Victory_Start",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 1.1530961434034723,
+      "yawBefore": 1.9632277807839529,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537164,7 +537464,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 13735,
+      "at": 53911,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -537175,12 +537475,12 @@
      },
      {
       "from": "Normal_Idle",
-      "fromTime": 1.1,
+      "fromTime": 0.26666666666666666,
       "fromLoop": true,
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.6693856700599499,
+      "yawBefore": 1.9069246306538932,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537188,7 +537488,31 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 32693,
+      "at": 50543,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.30000000000000265,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.3446177658570266,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 23212,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -537202,150 +537526,19 @@
     "note": ""
    },
    {
-    "key": "Cafe_Reaction → Cafe_Idle",
-    "from": "Cafe_Reaction",
+    "key": "Normal_Idle → Cafe_Idle",
+    "from": "Normal_Idle",
     "to": "Cafe_Idle",
-    "count": 6,
-    "examples": [
-     {
-      "from": "Cafe_Reaction",
-      "fromTime": 5.333333492279053,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": -5.887275948061445,
-      "pivotPos": [
-       -4.359176971081938e-86,
-       1.446121061364623e-86,
-       -2.3096356684233383e-86
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 7868,
-      "faceAfter": 0.39590935911814257,
-      "state": "idle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Reaction",
-      "fromTime": 5.333333492279053,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": 0.06271938231724491,
-      "pivotPos": [
-       0,
-       0,
-       0
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 428,
-      "faceAfter": 0.06271938231724493,
-      "state": "idle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Reaction",
-      "fromTime": 5.333333492279053,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": 0.480412132507946,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 15688,
-      "faceAfter": 0.48041213250794595,
-      "state": "idle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Reaction",
-      "fromTime": 5.333333492279053,
-      "fromLoop": false,
-      "to": "Cafe_Idle",
-      "toLoop": true,
-      "fade": 0.25,
-      "yawBefore": -0.3078957883799715,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 35725,
-      "faceAfter": -0.30789578837997145,
-      "state": "idle",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Cafe_Walk → Public",
-    "from": "Cafe_Walk",
-    "to": "Public",
     "count": 4,
     "examples": [
      {
-      "from": "Cafe_Walk",
-      "fromTime": 0.7999999999999999,
+      "from": "Normal_Idle",
+      "fromTime": 0.5000000000000089,
       "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
       "fade": 0.25,
-      "yawBefore": -2.541618908385483,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 36640,
-      "click": true,
-      "faceAfter": 0.35297531157988304,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Walk",
-      "fromTime": 0.6,
-      "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -2.582975250019426,
+      "yawBefore": 1.8693698681184667,
       "pivotPos": [
        0,
        0,
@@ -537353,95 +537546,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 796,
-      "click": true,
-      "faceAfter": 0.35297531157988293,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Walk",
-      "fromTime": 0.1333330233891824,
-      "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 2.7066664829001503,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 52473,
-      "click": true,
-      "faceAfter": 0.13313738751204068,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Walk",
-      "fromTime": 0.6666665633519496,
-      "fromLoop": true,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 2.1190355566865766,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 21439,
-      "click": true,
-      "faceAfter": 0.5079998919532761,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Cafe_Idle → Cafe_Reaction",
-    "from": "Cafe_Idle",
-    "to": "Cafe_Reaction",
-    "count": 4,
-    "examples": [
-     {
-      "from": "Cafe_Idle",
-      "fromTime": 0.6,
-      "fromLoop": true,
-      "to": "Cafe_Reaction",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.5183469947125687,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 34645,
-      "click": true,
+      "at": 26643,
       "faceAfter": 0.5138115069177669,
-      "state": "action",
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -537449,24 +537556,23 @@
       ]
      },
      {
-      "from": "Cafe_Idle",
-      "fromTime": 1.5333333333333348,
+      "from": "Normal_Idle",
+      "fromTime": 1.5666666666666742,
       "fromLoop": true,
-      "to": "Cafe_Reaction",
-      "toLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
       "fade": 0.25,
-      "yawBefore": -5.887276868113296,
+      "yawBefore": 1.7803884135737627,
       "pivotPos": [
-       -1.014753319924779e-78,
-       3.366360571657814e-79,
-       -5.3764976230537533e-79
+       -3.375206600611111e-137,
+       1.1196969941757494e-137,
+       -1.7882957275612692e-137
       ],
       "lift": 0,
       "form": 1,
-      "at": 7707,
-      "click": true,
-      "faceAfter": 0.39590935911814257,
-      "state": "action",
+      "at": 31810,
+      "faceAfter": 0.5138115069177669,
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -537474,24 +537580,23 @@
       ]
      },
      {
-      "from": "Cafe_Idle",
-      "fromTime": 0.8333333333333286,
+      "from": "Normal_Idle",
+      "fromTime": 5.773159728050814e-15,
       "fromLoop": true,
-      "to": "Cafe_Reaction",
-      "toLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
       "fade": 0.25,
-      "yawBefore": 0.480412132507946,
+      "yawBefore": 1.753088589424155,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 15527,
-      "click": true,
-      "faceAfter": 0.48041213250794595,
-      "state": "action",
+      "at": 14244,
+      "faceAfter": 0.5138115069177669,
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -537499,24 +537604,23 @@
       ]
      },
      {
-      "from": "Cafe_Idle",
-      "fromTime": 0.26666666666666206,
+      "from": "Normal_Idle",
+      "fromTime": 1.9000000000000117,
       "fromLoop": true,
-      "to": "Cafe_Reaction",
-      "toLoop": false,
+      "to": "Cafe_Idle",
+      "toLoop": true,
       "fade": 0.25,
-      "yawBefore": -0.3078957883799715,
+      "yawBefore": 0.7847200332000224,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 35564,
-      "click": true,
-      "faceAfter": -0.30789578837997145,
-      "state": "action",
+      "at": 870,
+      "faceAfter": 0.35297531157988304,
+      "state": "idle",
       "pivotTarget": [
        0,
        0,
@@ -537528,28 +537632,29 @@
     "note": ""
    },
    {
-    "key": "Normal_Attack_End → Normal_Callsign",
+    "key": "Normal_Attack_End → Normal_Reload_Random",
     "from": "Normal_Attack_End",
-    "to": "Normal_Callsign",
-    "count": 3,
+    "to": "Normal_Reload_Random",
+    "count": 4,
     "examples": [
      {
       "from": "Normal_Attack_End",
-      "fromTime": 0.5000002384185791,
+      "fromTime": 0.13333333333333333,
       "fromLoop": false,
-      "to": "Normal_Callsign",
+      "to": "Normal_Reload_Random",
       "toLoop": false,
-      "fade": 0.2,
-      "yawBefore": -5.354883740208399,
+      "fade": 0,
+      "yawBefore": -3.9608917807435184,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 37719,
-      "faceAfter": 0.9963130862884493,
+      "at": 2723,
+      "click": true,
+      "faceAfter": 0.29818138549071727,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537561,10 +537666,10 @@
       "from": "Normal_Attack_End",
       "fromTime": 0.5000002384185791,
       "fromLoop": false,
-      "to": "Normal_Callsign",
+      "to": "Normal_Reload_Random",
       "toLoop": false,
       "fade": 0.2,
-      "yawBefore": 0.8892417085501478,
+      "yawBefore": 0.9689958049722425,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537572,8 +537677,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 21641,
-      "faceAfter": 0.8712251779339912,
+      "at": 53485,
+      "faceAfter": 0.9963130862884492,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537585,10 +537690,10 @@
       "from": "Normal_Attack_End",
       "fromTime": 0.5000002384185791,
       "fromLoop": false,
-      "to": "Normal_Callsign",
+      "to": "Normal_Reload_Random",
       "toLoop": false,
       "fade": 0.2,
-      "yawBefore": 1.1393480587480438,
+      "yawBefore": 0.2214972893861429,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537596,8 +537701,32 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 53634,
-      "faceAfter": 0.8123799939681018,
+      "at": 37925,
+      "faceAfter": 0.17089142324978823,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
+      "fromLoop": false,
+      "to": "Normal_Reload_Random",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 0.7668636668701869,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 44214,
+      "faceAfter": 0.17089142324978823,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537613,32 +537742,8 @@
     "key": "Normal_Idle → Formation_Pickup",
     "from": "Normal_Idle",
     "to": "Formation_Pickup",
-    "count": 3,
+    "count": 4,
     "examples": [
-     {
-      "from": "Normal_Idle",
-      "fromTime": 1.5666666666666682,
-      "fromLoop": true,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": -4.376260675047851,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 42942,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
      {
       "from": "Normal_Idle",
       "fromTime": 1.166666666666667,
@@ -537646,15 +537751,15 @@
       "to": "Formation_Pickup",
       "toLoop": true,
       "fade": 0.15,
-      "yawBefore": 0.8344965320949509,
+      "yawBefore": 1.5053379120578838,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 49301,
+      "at": 15144,
       "faceAfter": 0.2028187575321191,
       "state": "drag",
       "pivotTarget": [
@@ -537665,12 +537770,60 @@
      },
      {
       "from": "Normal_Idle",
-      "fromTime": 0.5666666666666724,
+      "fromTime": 2.6645352591003757e-15,
       "fromLoop": true,
       "to": "Formation_Pickup",
       "toLoop": true,
       "fade": 0.15,
-      "yawBefore": 0.7601534063204116,
+      "yawBefore": 0.8547752313718586,
+      "pivotPos": [
+       -5.060132367616789e-193,
+       1.6786572416414746e-193,
+       -2.681024945929291e-193
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 33029,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 0.3,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": -5.428427226196555,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 5170,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Idle",
+      "fromTime": 1.7666666666666688,
+      "fromLoop": true,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.4339526849738739,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537678,7 +537831,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 51929,
+      "at": 39203,
       "faceAfter": 0.2028187575321191,
       "state": "drag",
       "pivotTarget": [
@@ -537692,19 +537845,19 @@
     "note": ""
    },
    {
-    "key": "Cafe_Walk → Cafe_Reaction",
-    "from": "Cafe_Walk",
-    "to": "Cafe_Reaction",
-    "count": 2,
+    "key": "Normal_Attack_Ing → Normal_Attack_End",
+    "from": "Normal_Attack_Ing",
+    "to": "Normal_Attack_End",
+    "count": 4,
     "examples": [
      {
-      "from": "Cafe_Walk",
-      "fromTime": 0.9666664600372326,
-      "fromLoop": true,
-      "to": "Cafe_Reaction",
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.2333333333333333,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
       "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -1.718201516816925,
+      "fade": 0,
+      "yawBefore": 1.2238037911642385,
       "pivotPos": [
        0,
        0,
@@ -537712,9 +537865,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 267,
+      "at": 22799,
       "click": true,
-      "faceAfter": 0.06271938231724493,
+      "faceAfter": -0.1529216659233399,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537723,13 +537876,13 @@
       ]
      },
      {
-      "from": "Cafe_Walk",
-      "fromTime": 0.06666666666666667,
-      "fromLoop": true,
-      "to": "Cafe_Reaction",
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.1,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
       "toLoop": false,
-      "fade": 0,
-      "yawBefore": -6.956577266730562,
+      "fade": 0.25,
+      "yawBefore": 0.8637117099426004,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537737,9 +537890,59 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 43769,
+      "at": 53469,
       "click": true,
-      "faceAfter": -0.4032827229766817,
+      "faceAfter": 0.9963130862884492,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.5666666666666667,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.7959374553419156,
+      "pivotPos": [
+       -4.6120284100793655e-48,
+       1.5300024439641804e-48,
+       -2.4436046965666598e-48
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29861,
+      "click": true,
+      "faceAfter": 0.7967053218355413,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Normal_Attack_Ing",
+      "fromTime": 0.8333333333333333,
+      "fromLoop": false,
+      "to": "Normal_Attack_End",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.6028154882731673,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 10310,
+      "click": true,
+      "faceAfter": 0.9963130862884492,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537755,24 +537958,49 @@
     "key": "Cafe_Idle → Exs",
     "from": "Cafe_Idle",
     "to": "Exs",
-    "count": 2,
+    "count": 4,
     "examples": [
      {
       "from": "Cafe_Idle",
-      "fromTime": 1.3999999999999964,
+      "fromTime": 2.066666666666669,
       "fromLoop": true,
       "to": "Exs",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.480412132507946,
+      "yawBefore": -0.041116584597850246,
       "pivotPos": [
-       -1.1029161790230877e-306,
-       3.658833596308928e-307,
-       -5.84361351523807e-307
+       -2e-323,
+       2e-323,
+       -2e-323
       ],
       "lift": 0,
       "form": 1,
-      "at": 12689,
+      "at": 52321,
+      "click": true,
+      "faceAfter": 0.5279701201849122,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 1.633333333333335,
+      "fromLoop": true,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.2662281192445841,
+      "pivotPos": [
+       -2.9077415477267657e-30,
+       9.646193125600428e-31,
+       -1.5406173316059144e-30
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29472,
       "click": true,
       "faceAfter": 0.5279701201849123,
       "state": "ex",
@@ -537784,12 +538012,37 @@
      },
      {
       "from": "Cafe_Idle",
-      "fromTime": 0.9666666666666666,
+      "fromTime": 0.36666666666666203,
       "fromLoop": true,
       "to": "Exs",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.802724397754978,
+      "yawBefore": 0.20281875753211911,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 49214,
+      "click": true,
+      "faceAfter": -0.22541739010758155,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 1.4666666666666632,
+      "fromLoop": true,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 0.513811506917767,
       "pivotPos": [
        0,
        0,
@@ -537797,9 +538050,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 3784,
+      "at": 14407,
       "click": true,
-      "faceAfter": -0.22541739010758155,
+      "faceAfter": -0.22541739010758133,
       "state": "ex",
       "pivotTarget": [
        0,
@@ -537812,19 +538065,19 @@
     "note": ""
    },
    {
-    "key": "Normal_Attack_End → Normal_Reload_Random",
-    "from": "Normal_Attack_End",
-    "to": "Normal_Reload_Random",
-    "count": 2,
+    "key": "Cafe_Walk → Public",
+    "from": "Cafe_Walk",
+    "to": "Public",
+    "count": 3,
     "examples": [
      {
-      "from": "Normal_Attack_End",
-      "fromTime": 0.5000002384185791,
-      "fromLoop": false,
-      "to": "Normal_Reload_Random",
+      "from": "Cafe_Walk",
+      "fromTime": 0.399999793370566,
+      "fromLoop": true,
+      "to": "Public",
       "toLoop": false,
-      "fade": 0.2,
-      "yawBefore": -6.165306785245095,
+      "fade": 0.25,
+      "yawBefore": -1.2925329266534982,
       "pivotPos": [
        0,
        0,
@@ -537832,8 +538085,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 5384,
-      "faceAfter": 0.9963130862884491,
+      "at": 18612,
+      "click": true,
+      "faceAfter": 0.35297531157988304,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537842,13 +538096,38 @@
       ]
      },
      {
-      "from": "Normal_Attack_End",
-      "fromTime": 0.5000002384185791,
-      "fromLoop": false,
-      "to": "Normal_Reload_Random",
+      "from": "Cafe_Walk",
+      "fromTime": 0.13333333333333333,
+      "fromLoop": true,
+      "to": "Public",
       "toLoop": false,
-      "fade": 0.2,
-      "yawBefore": 1.683109331398024,
+      "fade": 0,
+      "yawBefore": -7.543000198276042,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 1583,
+      "click": true,
+      "faceAfter": 0.20922566230249556,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 0.6333328167597483,
+      "fromLoop": true,
+      "to": "Public",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 2.3473143107062726,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -537856,8 +538135,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 31874,
-      "faceAfter": 0.7066489452957292,
+      "at": 48035,
+      "click": true,
+      "faceAfter": 0.3426950978887069,
       "state": "action",
       "pivotTarget": [
        0,
@@ -537870,27 +538150,28 @@
     "note": ""
    },
    {
-    "key": "Normal_Reload_Random → Victory_Start",
-    "from": "Normal_Reload_Random",
+    "key": "Cafe_Walk → Victory_Start",
+    "from": "Cafe_Walk",
     "to": "Victory_Start",
-    "count": 2,
+    "count": 3,
     "examples": [
      {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.8333334922790527,
-      "fromLoop": false,
+      "from": "Cafe_Walk",
+      "fromTime": 0.16666625340779873,
+      "fromLoop": true,
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -3.398136705652502,
+      "yawBefore": -2.139598741219696,
       "pivotPos": [
-       -8.891074823752783e-170,
-       2.949540852801489e-170,
-       -4.710784554007987e-170
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 9697,
+      "at": 20959,
+      "click": true,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -537900,13 +538181,38 @@
       ]
      },
      {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.8333334922790527,
-      "fromLoop": false,
+      "from": "Cafe_Walk",
+      "fromTime": 0.699999793370566,
+      "fromLoop": true,
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.0500165367441845,
+      "yawBefore": -1.8979414323533268,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 37242,
+      "click": true,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 0.8333331267038993,
+      "fromLoop": true,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": -0.44833075049381965,
       "pivotPos": [
        0,
        0,
@@ -537914,7 +538220,8 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 5470,
+      "at": 24503,
+      "click": true,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -537928,29 +538235,29 @@
     "note": ""
    },
    {
-    "key": "Normal_Attack_Delay → Formation_Pickup",
-    "from": "Normal_Attack_Delay",
-    "to": "Formation_Pickup",
+    "key": "Normal_Attack_End → Normal_Callsign",
+    "from": "Normal_Attack_End",
+    "to": "Normal_Callsign",
     "count": 2,
     "examples": [
      {
-      "from": "Normal_Attack_Delay",
-      "fromTime": 0,
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
       "fromLoop": false,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": -4.679507915670154,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 1.157275196150426,
       "pivotPos": [
-       -4.2800737323071695e-46,
-       1.4198792133338588e-46,
-       -2.2677241647211526e-46
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 6994,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
+      "at": 22815,
+      "faceAfter": -0.1529216659233399,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -537958,23 +538265,23 @@
       ]
      },
      {
-      "from": "Normal_Attack_Delay",
-      "fromTime": 1.166666666666667,
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
       "fromLoop": false,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": 0.3885305937809533,
+      "to": "Normal_Callsign",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 0.9319745111715523,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 19314,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
+      "at": 10326,
+      "faceAfter": 0.9963130862884492,
+      "state": "action",
       "pivotTarget": [
        0,
        0,
@@ -537993,37 +538300,12 @@
     "examples": [
      {
       "from": "Normal_Callsign",
-      "fromTime": 1.1,
+      "fromTime": 1.0666666666666667,
       "fromLoop": false,
       "to": "Normal_Callsign",
       "toLoop": false,
       "fade": 0,
-      "yawBefore": -5.581265466398377,
-      "pivotPos": [
-       -5.942768393698233e-107,
-       1.9714644745900356e-107,
-       -3.1486746104408834e-107
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 8324,
-      "click": true,
-      "faceAfter": -0.13381467142848924,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Normal_Callsign",
-      "fromTime": 0.8999999999999999,
-      "fromLoop": false,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0,
-      "yawBefore": 0.5515529922527618,
+      "yawBefore": 0.8016528826530599,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -538031,42 +538313,7 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 29047,
-      "click": true,
-      "faceAfter": 0.35297531157988304,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Reload → Normal_Callsign",
-    "from": "Normal_Reload",
-    "to": "Normal_Callsign",
-    "count": 2,
-    "examples": [
-     {
-      "from": "Normal_Reload",
-      "fromTime": 0.7333333333333333,
-      "fromLoop": false,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 2.082443514704595,
-      "pivotPos": [
-       -2.2849058864413767e-286,
-       7.579987111188022e-287,
-       -1.2106184652112483e-286
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 12245,
+      "at": 45952,
       "click": true,
       "faceAfter": 0.9963130862884492,
       "state": "action",
@@ -538077,23 +538324,23 @@
       ]
      },
      {
-      "from": "Normal_Reload",
-      "fromTime": 2.233333333333335,
+      "from": "Normal_Callsign",
+      "fromTime": 0.7333333333333333,
       "fromLoop": false,
       "to": "Normal_Callsign",
       "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -4.389066797295609,
+      "fade": 0,
+      "yawBefore": 1.5687808423358023,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       -1.8821136789812022e-127,
+       6.243757133772939e-128,
+       -9.972058748336496e-128
       ],
       "lift": 0,
       "form": 1,
-      "at": 38332,
+      "at": 31596,
       "click": true,
-      "faceAfter": 0.9963130862884493,
+      "faceAfter": 0.5138115069177669,
       "state": "action",
       "pivotTarget": [
        0,
@@ -538106,19 +538353,19 @@
     "note": ""
    },
    {
-    "key": "Cafe_Walk → Victory_Start",
+    "key": "Cafe_Walk → Formation_Pickup",
     "from": "Cafe_Walk",
-    "to": "Victory_Start",
+    "to": "Formation_Pickup",
     "count": 2,
     "examples": [
      {
       "from": "Cafe_Walk",
-      "fromTime": 0.299999483426415,
+      "fromTime": 0.8333332300186163,
       "fromLoop": true,
-      "to": "Victory_Start",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -1.5863829059611179,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 2.839040471118159,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -538126,10 +538373,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 14278,
-      "click": true,
-      "faceAfter": 0.48041213250794595,
-      "state": "action",
+      "at": 42217,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
       "pivotTarget": [
        0,
        0,
@@ -538138,12 +538384,71 @@
      },
      {
       "from": "Cafe_Walk",
-      "fromTime": 0.5333329200744653,
+      "fromTime": 1.1333330233891825,
       "fromLoop": true,
-      "to": "Victory_Start",
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.9809586151513148,
+      "pivotPos": [
+       -1.6730619637577266e-169,
+       5.550245284392724e-170,
+       -8.864433842928296e-170
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 32515,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Exs → Normal_Reload_Random",
+    "from": "Exs",
+    "to": "Normal_Reload_Random",
+    "count": 2,
+    "examples": [
+     {
+      "from": "Exs",
+      "fromTime": 1.2000000000000004,
+      "fromLoop": false,
+      "to": "Normal_Reload_Random",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 1.4303790513955237,
+      "yawBefore": 1.1565087199607,
+      "pivotPos": [
+       -1.5619280893603571e-249,
+       5.181567808201182e-250,
+       -8.275609938826667e-250
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34264,
+      "click": true,
+      "faceAfter": 0.9963130862884491,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "from": "Exs",
+      "fromTime": 1.8333333333333357,
+      "fromLoop": false,
+      "to": "Normal_Reload_Random",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.156481664414418,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -538151,9 +538456,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 27855,
+      "at": 52512,
       "click": true,
-      "faceAfter": 0.48041213250794595,
+      "faceAfter": 0.9164560184280767,
       "state": "action",
       "pivotTarget": [
        0,
@@ -538166,54 +538471,29 @@
     "note": ""
    },
    {
-    "key": "Normal_Attack_Ing → Normal_Attack_End",
-    "from": "Normal_Attack_Ing",
-    "to": "Normal_Attack_End",
-    "count": 2,
+    "key": "Move_Ing → Normal_Callsign",
+    "from": "Move_Ing",
+    "to": "Normal_Callsign",
+    "count": 1,
     "examples": [
      {
-      "from": "Normal_Attack_Ing",
-      "fromTime": 0.2333333333333333,
-      "fromLoop": false,
-      "to": "Normal_Attack_End",
+      "from": "Move_Ing",
+      "fromTime": 0.4666666666666666,
+      "fromLoop": true,
+      "to": "Normal_Callsign",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.7830100540861391,
+      "yawBefore": -4.540416673997841,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 21625,
-      "click": true,
-      "faceAfter": 0.8712251779339912,
-      "state": "action",
-      "pivotTarget": [
        0,
        0,
        0
-      ]
-     },
-     {
-      "from": "Normal_Attack_Ing",
-      "fromTime": 0.6333333333333333,
-      "fromLoop": false,
-      "to": "Normal_Attack_End",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 1.5211616694046564,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
       ],
       "lift": 0,
       "form": 1,
-      "at": 53618,
+      "at": 1909,
       "click": true,
-      "faceAfter": 0.8123799939681018,
+      "faceAfter": -0.13381467142848913,
       "state": "action",
       "pivotTarget": [
        0,
@@ -538229,131 +538509,15 @@
     "key": "Cafe_Idle → Formation_Pickup",
     "from": "Cafe_Idle",
     "to": "Formation_Pickup",
-    "count": 2,
-    "examples": [
-     {
-      "from": "Cafe_Idle",
-      "fromTime": 1.1333333333333289,
-      "fromLoop": true,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": 0.480412132507946,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 25405,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Cafe_Idle",
-      "fromTime": 2.200000000000002,
-      "fromLoop": true,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": 0.3529753121515885,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 29652,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Victory_End → Formation_Pickup",
-    "from": "Victory_End",
-    "to": "Formation_Pickup",
-    "count": 2,
-    "examples": [
-     {
-      "from": "Victory_End",
-      "fromTime": 2.7666666666666666,
-      "fromLoop": false,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": 0.480412132507946,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 26976,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     },
-     {
-      "from": "Victory_End",
-      "fromTime": 0.9999999999999999,
-      "fromLoop": false,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": 0.480412132507946,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 32813,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Cafe_Idle → Vital_Death",
-    "from": "Cafe_Idle",
-    "to": "Vital_Death",
     "count": 1,
     "examples": [
      {
       "from": "Cafe_Idle",
-      "fromTime": 3.833333333333325,
+      "fromTime": 2.4666666666666677,
       "fromLoop": true,
-      "to": "Vital_Death",
-      "toLoop": false,
-      "fade": 0.3,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
       "yawBefore": -5.802773174671639,
       "pivotPos": [
        0,
@@ -538362,44 +538526,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 5918,
-      "faceAfter": 1.0122909661567112,
-      "state": "nap",
-      "pivotTarget": [
-       -0.24115142708555448,
-       0.08,
-       -0.12776997611770466
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Vital_Death → Public",
-    "from": "Vital_Death",
-    "to": "Public",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Vital_Death",
-      "fromTime": 2.5333335399627686,
-      "fromLoop": false,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -5.270894341022899,
-      "pivotPos": [
-       -0.24114431006416878,
-       0.07999763898676557,
-       -0.12776620528514743
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 6016,
-      "click": true,
-      "faceAfter": 0.04451185333011476,
-      "state": "action",
+      "at": 3580,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
       "pivotTarget": [
        0,
        0,
@@ -538411,100 +538540,30 @@
     "note": ""
    },
    {
-    "key": "Normal_Reload → Normal_Reload_Random",
+    "key": "Normal_Reload → Normal_Callsign",
     "from": "Normal_Reload",
-    "to": "Normal_Reload_Random",
+    "to": "Normal_Callsign",
     "count": 1,
     "examples": [
      {
       "from": "Normal_Reload",
-      "fromTime": 1.9666666666666694,
+      "fromTime": 2.8,
       "fromLoop": false,
-      "to": "Normal_Reload_Random",
+      "to": "Normal_Callsign",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -4.710150866794879,
+      "yawBefore": 2.835039714014177,
       "pivotPos": [
-       -7.657701851673659e-166,
-       2.5403795264149615e-166,
-       -4.057302892749303e-166
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 9611,
-      "click": true,
-      "faceAfter": 0.2981813854907174,
-      "state": "action",
-      "pivotTarget": [
        0,
        0,
        0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Move_Ing → Normal_Reload_Random",
-    "from": "Move_Ing",
-    "to": "Normal_Reload_Random",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Move_Ing",
-      "fromTime": 0.5999999801317849,
-      "fromLoop": true,
-      "to": "Normal_Reload_Random",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 1.8549304112663918,
-      "pivotPos": [
-       -3.6844522684636816e-248,
-       1.222286697778995e-248,
-       -1.9521442773026223e-248
       ],
       "lift": 0,
       "form": 1,
-      "at": 11410,
+      "at": 16904,
       "click": true,
-      "faceAfter": 0.2981813854907174,
+      "faceAfter": 0.8672724300855793,
       "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Callsign → Exs",
-    "from": "Normal_Callsign",
-    "to": "Exs",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Normal_Callsign",
-      "fromTime": 0.7333333333333333,
-      "fromLoop": false,
-      "to": "Exs",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.7210346478707744,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 18166,
-      "click": true,
-      "faceAfter": -0.22541739010758133,
-      "state": "ex",
       "pivotTarget": [
        0,
        0,
@@ -538528,15 +538587,15 @@
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": 0.03808047015623356,
+      "yawBefore": 2.626092955607148,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 22732,
+      "at": 16950,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -538550,203 +538609,29 @@
     "note": ""
    },
    {
-    "key": "Victory_Start → Exs",
-    "from": "Victory_Start",
-    "to": "Exs",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Victory_Start",
-      "fromTime": 1.3000000000000007,
-      "fromLoop": false,
-      "to": "Exs",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 0.48040966360711684,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 22771,
-      "click": true,
-      "faceAfter": 0.5279701201849123,
-      "state": "ex",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Reload_Random → Normal_Callsign",
-    "from": "Normal_Reload_Random",
-    "to": "Normal_Callsign",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.8,
-      "fromLoop": false,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 3.0739028462326115,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 26370,
-      "click": true,
-      "faceAfter": 0.5138115069177669,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Move_Ing → Normal_Callsign",
-    "from": "Move_Ing",
-    "to": "Normal_Callsign",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Move_Ing",
-      "fromTime": 0.39999998013178495,
-      "fromLoop": true,
-      "to": "Normal_Callsign",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": 1.4585145403540782,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 32076,
-      "click": true,
-      "faceAfter": 0.7066489452957292,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Attack_Start → Formation_Pickup",
-    "from": "Normal_Attack_Start",
-    "to": "Formation_Pickup",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Normal_Attack_Start",
-      "fromTime": 0.4333333333333333,
-      "fromLoop": false,
-      "to": "Formation_Pickup",
-      "toLoop": true,
-      "fade": 0.15,
-      "yawBefore": 0.38778473913653594,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 36446,
-      "faceAfter": 0.2028187575321191,
-      "state": "drag",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Reload → Exs",
+    "key": "Normal_Reload → Normal_Reload_Random",
     "from": "Normal_Reload",
-    "to": "Exs",
+    "to": "Normal_Reload_Random",
     "count": 1,
     "examples": [
      {
       "from": "Normal_Reload",
-      "fromTime": 1.0333333333333332,
+      "fromTime": 2.0000000000000027,
       "fromLoop": false,
-      "to": "Exs",
+      "to": "Normal_Reload_Random",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.510704179318422,
+      "yawBefore": 3.108428283900192,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 36967,
-      "click": true,
-      "faceAfter": 0.5279701201849122,
-      "state": "ex",
-      "pivotTarget": [
        0,
        0,
        0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Victory_Start → Public",
-    "from": "Victory_Start",
-    "to": "Public",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Victory_Start",
-      "fromTime": 0.1,
-      "fromLoop": false,
-      "to": "Public",
-      "toLoop": false,
-      "fade": 0,
-      "yawBefore": -5.794575608814035,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
       ],
       "lift": 0,
       "form": 1,
-      "at": 39302,
+      "at": 20218,
       "click": true,
-      "faceAfter": 0.48041213250794595,
+      "faceAfter": 0.9963130862884492,
       "state": "action",
       "pivotTarget": [
        0,
@@ -538771,15 +538656,15 @@
       "to": "Victory_Start",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.587129725308373,
+      "yawBefore": 1.6931069571726376,
       "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
+       0,
+       0,
+       0
       ],
       "lift": 0,
       "form": 1,
-      "at": 40951,
+      "at": 20426,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -538793,19 +538678,259 @@
     "note": ""
    },
    {
-    "key": "Victory_End → Victory_Start",
+    "key": "Victory_End → Formation_Pickup",
     "from": "Victory_End",
-    "to": "Victory_Start",
+    "to": "Formation_Pickup",
     "count": 1,
     "examples": [
      {
       "from": "Victory_End",
-      "fromTime": 1.7333333333333354,
+      "fromTime": 0.7,
       "fromLoop": false,
-      "to": "Victory_Start",
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.48041213250794584,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 23323,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Callsign → Formation_Pickup",
+    "from": "Normal_Callsign",
+    "to": "Formation_Pickup",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Callsign",
+      "fromTime": 0.8999999999999999,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.8782690570562826,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 25672,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Idle → Vital_Death",
+    "from": "Cafe_Idle",
+    "to": "Vital_Death",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Cafe_Idle",
+      "fromTime": 2.43333333333333,
+      "fromLoop": true,
+      "to": "Vital_Death",
+      "toLoop": false,
+      "fade": 0.3,
+      "yawBefore": 0.33968348689934863,
+      "pivotPos": [
+       0,
+       0,
+       0
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 28114,
+      "faceAfter": 1.0122909661567112,
+      "state": "nap",
+      "pivotTarget": [
+       -0.24115142708555448,
+       0.08,
+       -0.12776997611770466
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Vital_Death → Cafe_Reaction",
+    "from": "Vital_Death",
+    "to": "Cafe_Reaction",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Vital_Death",
+      "fromTime": 2.5333335399627686,
+      "fromLoop": false,
+      "to": "Cafe_Reaction",
+      "toLoop": false,
+      "fade": 0.8,
+      "yawBefore": 1.012290966156711,
+      "pivotPos": [
+       -0.24115142708555437,
+       0.07999999999999993,
+       -0.12776997611770452
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 28840,
+      "click": true,
+      "faceAfter": 0.3291770739941882,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Attack_End → Normal_Reload",
+    "from": "Normal_Attack_End",
+    "to": "Normal_Reload",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Attack_End",
+      "fromTime": 0.5000002384185791,
+      "fromLoop": false,
+      "to": "Normal_Reload",
+      "toLoop": false,
+      "fade": 0.2,
+      "yawBefore": 0.4543929572170775,
+      "pivotPos": [
+       -8.546181755435322e-49,
+       2.835125417658284e-49,
+       -4.528048836311197e-49
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 29877,
+      "faceAfter": 0.7967053218355413,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Victory_Start → Formation_Pickup",
+    "from": "Victory_Start",
+    "to": "Formation_Pickup",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Victory_Start",
+      "fromTime": 1.3666666666666676,
+      "fromLoop": false,
+      "to": "Formation_Pickup",
+      "toLoop": true,
+      "fade": 0.15,
+      "yawBefore": 0.48041422297801417,
+      "pivotPos": [
+       -2.574126378984778e-86,
+       8.53945227724996e-87,
+       -1.3638570169031366e-86
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 30697,
+      "faceAfter": 0.2028187575321191,
+      "state": "drag",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Victory_Start → Public",
+    "from": "Victory_Start",
+    "to": "Public",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Victory_Start",
+      "fromTime": 2.8666666666666663,
+      "fromLoop": false,
+      "to": "Public",
       "toLoop": false,
       "fade": 0.25,
-      "yawBefore": -5.802773174671639,
+      "yawBefore": 0.4804121325112673,
+      "pivotPos": [
+       -7.296415980158168e-279,
+       2.420525913809193e-279,
+       -3.865881727496071e-279
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 34905,
+      "click": true,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Reload → Exs",
+    "from": "Normal_Reload",
+    "to": "Exs",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Reload",
+      "fromTime": 0.13333333333333333,
+      "fromLoop": false,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 1.9701774308902256,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -538813,8 +538938,146 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 41094,
+      "at": 36180,
       "click": true,
+      "faceAfter": 0.5279701201849121,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Exs → Victory_Start",
+    "from": "Exs",
+    "to": "Victory_Start",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Exs",
+      "fromTime": 2.2333333492279053,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.156481664279448,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 36248,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Cafe_Walk → Exs",
+    "from": "Cafe_Walk",
+    "to": "Exs",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Cafe_Walk",
+      "fromTime": 0.399999896685283,
+      "fromLoop": true,
+      "to": "Exs",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 2.7910775360310307,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 37697,
+      "click": true,
+      "faceAfter": -0.22541739010758133,
+      "state": "ex",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Victory_Start → Victory_Start",
+    "from": "Victory_Start",
+    "to": "Victory_Start",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Victory_Start",
+      "fromTime": 2.533333333333334,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0,
+      "yawBefore": 0.4804121325638597,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 41779,
+      "click": true,
+      "faceAfter": 0.48041213250794595,
+      "state": "action",
+      "pivotTarget": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "mark": null,
+    "note": ""
+   },
+   {
+    "key": "Normal_Reload_Random → Victory_Start",
+    "from": "Normal_Reload_Random",
+    "to": "Victory_Start",
+    "count": 1,
+    "examples": [
+     {
+      "from": "Normal_Reload_Random",
+      "fromTime": 2.8333334922790527,
+      "fromLoop": false,
+      "to": "Victory_Start",
+      "toLoop": false,
+      "fade": 0.25,
+      "yawBefore": 1.8821539153710967,
+      "pivotPos": [
+       -2e-323,
+       2e-323,
+       -2e-323
+      ],
+      "lift": 0,
+      "form": 1,
+      "at": 44300,
       "faceAfter": 0.48041213250794595,
       "state": "action",
       "pivotTarget": [
@@ -538835,12 +539098,12 @@
     "examples": [
      {
       "from": "Normal_Reload_Random",
-      "fromTime": 0.2333333333333333,
+      "fromTime": 2.7333333333333334,
       "fromLoop": false,
       "to": "Formation_Pickup",
       "toLoop": true,
-      "fade": 0,
-      "yawBefore": -4.8203811092724695,
+      "fade": 0.15,
+      "yawBefore": 1.8469601293672298,
       "pivotPos": [
        -2e-323,
        2e-323,
@@ -538848,78 +539111,9 @@
       ],
       "lift": 0,
       "form": 1,
-      "at": 44775,
+      "at": 49031,
       "faceAfter": 0.2028187575321191,
       "state": "drag",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Reload_Random → Normal_Reload_Random",
-    "from": "Normal_Reload_Random",
-    "to": "Normal_Reload_Random",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Normal_Reload_Random",
-      "fromTime": 2.3000000000000016,
-      "fromLoop": false,
-      "to": "Normal_Reload_Random",
-      "toLoop": false,
-      "fade": 0,
-      "yawBefore": -3.398136705652502,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 46756,
-      "click": true,
-      "faceAfter": 0.29818138549071727,
-      "state": "action",
-      "pivotTarget": [
-       0,
-       0,
-       0
-      ]
-     }
-    ],
-    "mark": null,
-    "note": ""
-   },
-   {
-    "key": "Normal_Attack_End → Victory_Start",
-    "from": "Normal_Attack_End",
-    "to": "Victory_Start",
-    "count": 1,
-    "examples": [
-     {
-      "from": "Normal_Attack_End",
-      "fromTime": 0.5000002384185791,
-      "fromLoop": false,
-      "to": "Victory_Start",
-      "toLoop": false,
-      "fade": 0.25,
-      "yawBefore": -3.9544665453782195,
-      "pivotPos": [
-       -2e-323,
-       2e-323,
-       -2e-323
-      ],
-      "lift": 0,
-      "form": 1,
-      "at": 47486,
-      "faceAfter": 0.48041213250794595,
-      "state": "action",
       "pivotTarget": [
        0,
        0,

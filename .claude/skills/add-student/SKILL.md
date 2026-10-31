@@ -15,9 +15,10 @@ description: 블루 아카이브 학생 모델(.glb)을 펫에 새로 붙일 때
 
 ## 2. 받기 허락 (받을 때마다)
 
+- 먼저 `C:/project/bluearchive/pack-cache/`(학생 압축을 만들 때 받아 둔 원본 289개)에 있는지 본다. 있으면 `models/`로 복사만 하면 되고 받기 허락도 필요 없다
 - 크기 확인: `curl -sIL "https://github.com/lihaohong6/BlueArchiveModels/raw/main/<파일 이름, 공백은 %20>" | grep -i content-length`
 - 사용자에게 **파일 이름·크기·받을 곳(`models/`)** 을 알리고 허락받은 뒤에만 받는다. 짝 파일(예: 아리스(배틀) ← `(Carrier)`)이 필요하면 같이 묻는다
-- 받기: `curl -L -o "C:/bluearchive/models/<파일>" "<위 주소>"` (`models/*.glb`는 git 밖. 작업 폴더의 `models`는 이 폴더로 이어 둔 연결)
+- 받기: `curl -L -o "C:/project/bluearchive/models/<파일>" "<위 주소>"` (`models/*.glb`는 git 밖. 작업 폴더의 `models`는 이 폴더로 이어 둔 연결)
 
 ## 3. 검사
 

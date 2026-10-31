@@ -84,14 +84,24 @@ function isAncestor(a, node) {
 // 예: 아리스(배틀)는 등 뒤 장비(CH0334_Arms_Body)를 카페 동작에서만 숨기고 편성·승리·전투 동작에서는 보인다
 // → 평소 상태에서 이런 동작을 틀면 장비가 갑자기 생기거나 사라지므로 펫이 평소에는 피한다
 const GEAR_SIZE = 0.25;
+// 표정용 얼굴 메시 (Ibuki_Original_Face01_Outline, CH0238_Face02, CH0291_Face_02, CH0310_Face01_Mesh …)
+const FACE_MESH = /_Face(_?\d+)?(_|$)/i;
 export function clipsChangingParts(root, animations, baseName) {
   const changing = new Set();
   const base = animations.find((c) => c.name === baseName);
-  // 입 모양(Mouth_*) 같은 표정용 작은 조각은 동작마다 바뀌므로 빼고, 모델 전체의 GEAR_SIZE 이상인 큰 부분만 본다
+  // 입 모양(Mouth_*) 같은 표정용 작은 조각은 동작마다 바뀌므로 빼고, 모델 전체의 GEAR_SIZE 이상인 큰 부분만 본다.
+  // 얼굴을 통째로 바꿔 표정을 짓는 학생도 뺀다(원본 289개 중 약 20개): 이부키 Face01(> < 눈)이 크기로는 걸려서 장비로 잡혀
+  // 평소에 집어 들면 Formation_Pickup 대신 승리 포즈를 틀고 Victory_*_Random을 안 썼음 (2026-10-31).
+  // 펫이 붙인 외곽선 메시(outline.js)는 이름이 없고 원본과 모프 값 배열을 같이 쓰므로 그 배열로 가린다
   const size = (mesh) => { mesh.geometry.computeBoundingBox(); return mesh.geometry.boundingBox.getSize(new THREE.Vector3()).length(); };
   let biggest = 0;
-  root.traverse((o) => { if (o.isMesh) biggest = Math.max(biggest, size(o)); });
-  const parts = findHiddenParts(root).filter(([mesh]) => size(mesh) >= biggest * GEAR_SIZE);
+  const faces = new Set();
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    biggest = Math.max(biggest, size(o));
+    if (FACE_MESH.test(o.name) && o.morphTargetInfluences) faces.add(o.morphTargetInfluences);
+  });
+  const parts = findHiddenParts(root).filter(([mesh]) => size(mesh) >= biggest * GEAR_SIZE && !faces.has(mesh.morphTargetInfluences));
   if (!base || !parts.length) return changing;
   const saved = [];
   root.traverse((o) => saved.push([o, o.position.clone(), o.quaternion.clone(), o.scale.clone(), o.morphTargetInfluences?.slice()]));

@@ -58,7 +58,7 @@ app.whenReady().then(async () => {
   const metricsFile = turn === 'C' ? METRICS : METRICS.replace(/\.json$/, `.turn-${turn}.json`);
   const marks = loadMarks();
   const out = fs.existsSync(metricsFile) ? JSON.parse(fs.readFileSync(metricsFile, 'utf8')) : {};
-  const win = new BrowserWindow({ show: false, width: 862, height: 732, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = new BrowserWindow({ show: false, width: 862, height: 764, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) console.log('[page]', m); });
   for (const model of modelsFromArgs()) {
     const js = await openPet(win, port, model);

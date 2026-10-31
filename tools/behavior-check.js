@@ -23,12 +23,17 @@ const TESTS = [
 // 한 상태에 이보다 오래 있으면 멈춘 것으로 본다 (펫 초). 대기·무장 대기·전투 대기·낮잠은 같은 대기를 다시 고르면 이어지므로 넉넉히
 // (무장은 최대 40초, 전투 대기 1.2~3.5초씩, 낮잠 20~45초), 한 번 트는 동작·걷기·뛰기는 그 길이 + 여유
 const STUCK = { idle: 60, armed: 60, battle: 15, nap: 50, action: 20, ex: 15, walk: 12, run: 8, fall: 3, drag: 3 };
+// 이어 트는 동작(action)이 동작 길이를 다 더한 것보다 길 때만 멈춤으로 본다 (+ 여유 3초). 사격(Attack_Ing)은 한 번에 1~3번이라 3번으로 셈:
+// Momiji 사격은 4.67초(조사 295개 중 가장 김)라 사격 3번 → 전투가 끝나 승리 포즈까지 이어지면 24초로, 멈춘 게 아닌데 20초에 걸렸음 (2026-10-31)
+const SHOT = /_Attack\d*_Ing/i;
+const actionLimit = (lengths, entries) => Math.max(STUCK.action,
+  entries.reduce((sum, r) => sum + (lengths[r.clip] ?? 0) * (SHOT.test(r.clip) ? 3 : 1), 3));
 const SIM_SECONDS = 1800;
 
 app.whenReady().then(async () => {
   const port = await serve();
   const out = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
-  const win = new BrowserWindow({ show: false, width: 862, height: 732, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = new BrowserWindow({ show: false, width: 862, height: 764, webPreferences: { offscreen: true, backgroundThrottling: false } });
   let errors = [];
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) errors.push(m); });
   let failed = 0;
@@ -63,6 +68,7 @@ app.whenReady().then(async () => {
     // 30분 동안 멈춘 곳 찾기
     await js('__pet.reset(); 0');
     const trace = await js(`__pet.run(${SIM_SECONDS}, { pokes: true })`);
+    const lengths = await js('__pet.clipLengths');
     const longest = {};
     const stuck = [];
     let from = 0;
@@ -72,7 +78,8 @@ app.whenReady().then(async () => {
       const end = i < trace.length ? trace[i].t : SIM_SECONDS;
       const dur = +(end - trace[from].t).toFixed(1);
       if (dur > (longest[cur]?.dur ?? -1)) longest[cur] = { dur, at: trace[from].t, clip: trace[from].clip };
-      if (STUCK[cur] !== undefined && dur > STUCK[cur] && i < trace.length) stuck.push({ state: cur, dur, at: trace[from].t, clip: trace[from].clip });
+      const limit = cur === 'action' ? actionLimit(lengths, trace.slice(from, i)) : STUCK[cur];
+      if (limit !== undefined && dur > limit && i < trace.length) stuck.push({ state: cur, dur, at: trace[from].t, clip: trace[from].clip });
       if (!(cur in STUCK)) stuck.push({ state: cur, dur, at: trace[from].t, clip: trace[from].clip, unknown: true });
       from = i;
     }

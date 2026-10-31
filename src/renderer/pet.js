@@ -12,8 +12,9 @@ import {
 
 // ---- 화면 구성 ----
 // 창 높이에 들어갈 월드 단위 높이. 검사 도구가 예전 창을 흉내 낼 때만 주소의 ?viewHeight=로 바꾼다 (tools/edge-check.js --window)
-// 3.4 = 발 위 2.87단위 + 발 아래 FOOT_MARGIN. 위로 0.6 늘림(2026-10-30 사용자): 이즈나 EX 공중제비가 창 위로 최대 93px 나가 잘렸음
-const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 3.4;
+// 3.55 = 발 위 3.02단위 + 발 아래 FOOT_MARGIN. 위로 0.6 늘림(2026-10-30 사용자): 이즈나 EX 공중제비가 창 위로 최대 93px 나가 잘렸음.
+// 0.15 더(2026-10-31 사용자): 미네 EX 점프 꼭대기에서 머리카락·날개가 창 위 10px까지 감(잘리지는 않지만 위 여유 기준 35px 아래)
+const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 3.55;
 const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에서 내려다보는 각도
 // 발 자리(바닥 원점)가 창 맨 아래에서 이만큼 위 (월드 단위). 카메라가 내려다봐서 앞으로 내디딘 발·그림자는 발 자리보다
 // 25~40px 아래에 그려지므로 0.2단위, 날개·헤일로가 발밑 아래로 내려오는 동작(츠루기 낮잠, 스미레 EX)에 0.3단위를 더 둔다
@@ -1616,6 +1617,7 @@ window.__pet = {
   get proneStances() { return [...proneStances]; },
   get clipLifts() { return Object.fromEntries([...clipLifts].map(([n, v]) => [n, v.map((y) => +y.toFixed(3))])); },
   get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipLengths() { return Object.fromEntries(Object.entries(clips).map(([n, c]) => [n, +c.duration.toFixed(2)])); }, // 행동 검사 멈춤 기준용
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
   perfStart() { perfLog = []; },
   perfStop() { const log = perfLog; perfLog = null; return log; },
@@ -2085,7 +2087,7 @@ function createBrowserStub() {
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   // main.js SIZES.medium과 같게. 검사 도구가 예전 창을 흉내 낼 때만 ?window=560x280
-  const [W, H] = (q.get('window') ?? '862x732').split('x').map(Number);
+  const [W, H] = (q.get('window') ?? '862x764').split('x').map(Number);
   // ?review: 넘어가는 곳 확인 도구. 페이지는 펫 창 크기 그대로, 바닥은 1920×1040 바탕화면인 셈 치고 걷기·뛰기도 한다
   const review = q.has('review');
   const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });

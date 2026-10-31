@@ -496,9 +496,11 @@ function play(name, { once = false, fade = 0.2, onDone = null, again = false } =
   action.setEffectiveWeight(1);
   action.play();
 
+  let blended = false;
   if (prev && prev !== action) {
     if (fade > 0 && prev.enabled && prev.getEffectiveWeight() > 0.99) {
       action.crossFadeFrom(prev, fade, false);
+      blended = true;
     } else {
       prev.stop(); // 이전 동작이 아직 페이드 중이면 섞지 않고 바로 전환
     }
@@ -507,6 +509,7 @@ function play(name, { once = false, fade = 0.2, onDone = null, again = false } =
   refreshWeapons();
   if (prev?.getClip().name !== action.getClip().name) carryTurn(action.getClip().name);
   if (frontFaces.has(action.getClip().name)) facing = frontFaces.get(action.getClip().name);
+  syncTurn(prev, blended ? fade : 0);
 }
 
 // ---- 집어 들기·승리 포즈는 무조건 정면 (2026-10-19 사용자) ----
@@ -558,6 +561,22 @@ function carryTurn(name) {
   const body = hipYaw(thighs, root); // 지금 몸 방향 (펫 회전 포함)
   const planned = facing + (clipTurns.get(name) ?? 0) + clipHips.get(name);
   carry = THREE.MathUtils.clamp(wrapAngle(body - planned), -CARRY_MAX, CARRY_MAX);
+}
+
+// ---- 섞는 동안 몸 돌림도 섞는 비율에 맞추기 (2026-10-31 사용자, 비교 영상에서 B) ----
+// 펫 회전은 평소 목표를 dt * 8로 따라가(0.2초에 80%) 동작 섞기와 빠르기가 다르다. 그래서
+// - 총 자세로 이어 받으며 넘어갈 때(carry): 두 자세의 골반 방향 차이를 펫 회전이 먼저 메워 몸이 잠깐 돌았다 돌아왔다
+//   (코타마 맨손 대기 → 무장 대기는 골반이 107° 달라 오른쪽으로 20° 돌았다 돌아옴, 각도 검사 52°)
+// - 낮잠에서 깰 때(0.8초 섞기): 누운 몸과 떨어진 소품이 일어나기도 전에 크게 돌아 에리 모자가 창 오른쪽 끝 밖으로 0.1초 나갔다
+// → 이 두 경우만 섞는 동안 펫 회전을 섞는 비율(0 → 1)에 맞춰 돌린다. 걷다 멈추며 돌기 같은 다른 돌기는 그대로.
+// ?turnSync=0이면 예전처럼 (비교용)
+const SYNC_TURN = new URLSearchParams(location.search).get('turnSync') !== '0';
+let turnSync = null; // { t, fade, from }
+function syncTurn(prev, fade) {
+  turnSync = null;
+  if (!SYNC_TURN || !prev || fade <= 0) return;
+  const fromNap = clipKey(prev.getClip().name) === clipKey(resolve(clipName('nap')) ?? '');
+  if (carry !== 0 || fromNap) turnSync = { t: 0, fade, from: pivot.rotation.y };
 }
 
 // 총 꺼내기(Public01)는 이어 받지 않고 펫이 정한 방향(정면 쪽)으로 돌며 시작한다 (2026-10-23 사용자).
@@ -1354,8 +1373,16 @@ function update(dt) {
   }
   placeWindow();
   fillTransitionLogs();
-  // 방향 전환과 자세 보정을 부드럽게
-  pivot.rotation.y += wrapAngle(facing + clipTurn() + carry - pivot.rotation.y) * Math.min(1, dt * 8); // clipTurn: 학생별 동작 방향 차이 보정
+  // 방향 전환과 자세 보정을 부드럽게 (섞는 동안 맞춰 도는 경우는 syncTurn)
+  const turnTo = facing + clipTurn() + carry; // clipTurn: 학생별 동작 방향 차이 보정
+  if (turnSync) {
+    turnSync.t += dt;
+    const w = Math.min(1, turnSync.t / turnSync.fade);
+    pivot.rotation.y = turnSync.from + wrapAngle(turnTo - turnSync.from) * w;
+    if (w >= 1) turnSync = null;
+  } else {
+    pivot.rotation.y += wrapAngle(turnTo - pivot.rotation.y) * Math.min(1, dt * 8);
+  }
   pivot.position.lerp(pivotTarget, Math.min(1, dt * 3));
 }
 

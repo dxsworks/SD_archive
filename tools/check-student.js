@@ -50,6 +50,7 @@ const ACCEPTED = [
   { kind: 'angle', model: 'Shun.glb', key: /^Normal\d*_Idle\d* → Normal\d*_Attack_Start$/i, why: '뛰고 나서 등을 보인 채 사격 시작 (드묾, 2026-10-20 사용자 "괜찮음")' },
   { kind: 'angle', model: 'Wakamo.glb', key: /^Exs → Normal_Idle$/i, why: 'EX가 몸을 반 바퀴 돌려 끝나(전투 대기와 170°) 이어 받기 한도를 넘은 56°를 휙 돎. EX 뒤 뛰어서 돌아서기와 비교 영상 보고 2026-10-30 사용자 "그대로"' },
   { kind: 'angle', model: 'Ichika.glb', key: /^Normal_Idle → Normal_Callsign$/i, why: '잠깐 무장 중 등을 보이는 쪽일 때 반대쪽 적을 향해 전투를 시작하면 구호에서 이어 받기 한도를 넘은 51°를 돎 (드묾, 영상 보고 2026-10-31 사용자 "그대로 두기")' },
+  { kind: 'angle', model: 'Reisa.glb', key: /^Normal_\w+ → Normal_\w+$/i, why: '구호(54°)·사격 시작(20°)·재장전(15°)이 몸을 한쪽으로 돌려 끝나 총 자세가 이어지는 동안 이어 받은 방향이 쌓이다가 가끔 이어 받기 한도를 넘은 50°쯤을 정면 쪽으로 돎 (30분에 0~1번, 총 자세로 넘어감 약 500번 중. 이치카와 같은 종류라 2026-11-01 그 결정대로 둠)' },
 ];
 const accepted = (model, w) => ACCEPTED.find((a) => a.kind === w.kind && (!a.model || a.model === model)
   && (a.clip ? a.clip.test(w.clip) && w.what.startsWith(a.side) : a.key.test(w.key)));

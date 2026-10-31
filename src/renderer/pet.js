@@ -1616,6 +1616,7 @@ window.__pet = {
   get proneStances() { return [...proneStances]; },
   get clipLifts() { return Object.fromEntries([...clipLifts].map(([n, v]) => [n, v.map((y) => +y.toFixed(3))])); },
   get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get clipLengths() { return Object.fromEntries(Object.entries(clips).map(([n, c]) => [n, +c.duration.toFixed(2)])); }, // 행동 검사 멈춤 기준용
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
   perfStart() { perfLog = []; },
   perfStop() { const log = perfLog; perfLog = null; return log; },

@@ -61,6 +61,7 @@ const FIX = {
   behavior: 'pet.js 상태 머신. docs/data/behavior-check.json의 지나간 동작 순서로 어디서 안 돌아오는지',
   stuck: 'pet.js 상태 머신 (그 상태에서 끝나는 조건)',
   error: '펫 페이지 오류: 메시지의 파일·줄',
+  unmeasured: 'pet.js measureTransition이 null을 돌려줌(뼈 이름이 다른 모델). __pet.measure로 그 학생 기록 하나를 직접 불러 볼 것',
 };
 
 // "이어 트는 동작의 차림 번호가 섞임 (차림 02 중)"은 01 동작이 02 차림과 모습이 다를 때만(수영복 호시노 겉옷) 문제다.
@@ -81,6 +82,9 @@ function summarize(model, names, angles, edges, behavior, looks) {
     ...behavior.tests.filter((t) => !t.ok).map((t) => ({ kind: 'behavior', what: `${t.name}: ${t.why}`, clips: t.clips })),
     ...behavior.stuck.map((x) => ({ kind: 'stuck', what: `${x.state} ${x.dur}초 (${x.clip})` })),
     ...behavior.errors.map((e) => ({ kind: 'error', what: e })),
+    // 못 잰 것을 경고 없음으로 세지 않게 (2026-10-30 발가락 뼈 없는 모모이·미도리·후부키: 각도·창 끝을 하나도 안 재고 ok였음)
+    ...(angles.length ? [] : [{ kind: 'unmeasured', what: '넘어가는 곳 각도를 하나도 못 잼' }]),
+    ...(edges.length && edges.every((b) => b.top != null) ? [] : [{ kind: 'unmeasured', what: `창 끝을 못 잰 동작 ${edges.filter((b) => b.top == null).length}개 (전체 ${edges.length}개)` }]),
   ].map((w) => ({ ...w, fix: FIX[w.kind] }));
   const warnings = [], known = [];
   for (const w of all) {
@@ -101,7 +105,7 @@ function report(model, names, angles, edges, behavior, sheetFile, summary, picks
   const n = (kind) => summary.warnings.filter((w) => w.kind === kind).length;
   const counts = [
     ['동작 이름 경고', n('names')], ['휙 도는 곳', n('angle')], ['창 끝 경고', n('edge')],
-    ['행동 실패', n('behavior')], ['멈춤', n('stuck')], ['오류', n('error')],
+    ['행동 실패', n('behavior')], ['멈춤', n('stuck')], ['오류', n('error')], ['못 잰 검사', n('unmeasured')],
   ];
   const total = counts.reduce((s, [, n]) => s + n, 0);
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>${esc(model)} 검사</title>

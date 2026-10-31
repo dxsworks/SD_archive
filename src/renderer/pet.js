@@ -1750,7 +1750,9 @@ function switchLikePet(rec) {
 function measureTransition(rec, { span = 0.8, alone = false, record = true, onFrame = null } = {}) {
   const hips = ['L', 'R'].map((s) => pivot.getObjectByName(`Bip001_${s}_Thigh`));
   const feet = ['L', 'R'].map((s) => [`Bip001_${s}_Foot`, `Bip001_${s}_Toe0`].map((n) => pivot.getObjectByName(n)));
-  if ([...hips, ...feet.flat()].some((b) => !b)) return null;
+  // 발가락 뼈(Toe0)가 없는 모델도 있음(289개 중 18개, 모모이·미도리·후부키 등) → 발끝 방향(dir)만 빼고 잰다
+  // (예전엔 null을 돌려 각도·창 끝 검사가 아무것도 안 재고 ok였음, 2026-10-30)
+  if ([...hips, ...feet.map(([foot]) => foot)].some((b) => !b)) return null;
   endBattle();
   armed = null; drag = null;
   setState('pose');
@@ -1800,8 +1802,8 @@ function measureTransition(rec, { span = 0.8, alone = false, record = true, onFr
       t: +t.toFixed(4), hip: +hip.toFixed(2),
       feet: feet.map(([foot, toe]) => {
         root.worldToLocal(foot.getWorldPosition(a));
-        root.worldToLocal(toe.getWorldPosition(b));
-        return { x: +a.x.toFixed(4), z: +a.z.toFixed(4), h: +a.y.toFixed(4), dir: +deg(Math.atan2(b.x - a.x, b.z - a.z)).toFixed(1) };
+        if (toe) root.worldToLocal(toe.getWorldPosition(b));
+        return { x: +a.x.toFixed(4), z: +a.z.toFixed(4), h: +a.y.toFixed(4), dir: toe ? +deg(Math.atan2(b.x - a.x, b.z - a.z)).toFixed(1) : null };
       }),
     });
   }

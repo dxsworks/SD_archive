@@ -1,12 +1,17 @@
 {
   "_comment": "학생 검사(node tools/check-student.js)를 통과해 펫에 붙인 학생 파일. 여기 없는 학생은 학생 압축에 들어 있어도 메뉴에 '검사 전'으로 표시 (2026-10-29 사용자: 학생은 모두 압축으로 배포하고 검사 안 한 학생은 표시). 학생을 붙이면(스킬 add-student) 여기 넣는다",
   "files": [
+    "Akari.glb",
     "Arisu (Battle).glb",
     "Arisu.glb",
     "Aru.glb",
     "Azusa.glb",
+    "Chise.glb",
     "Eimi (Battle).glb",
+    "Fubuki.glb",
     "Haruka.glb",
+    "Haruna.glb",
+    "Hasumi.glb",
     "Hifumi.glb",
     "Hina (Dress).glb",
     "Hina.glb",
@@ -21,9 +26,11 @@
     "Kisaki (Swimsuit).glb",
     "Koharu.glb",
     "Kurumi.glb",
+    "Midori.glb",
     "Mika (Swimsuit).glb",
     "Mika.glb",
     "Misaki.glb",
+    "Momoi.glb",
     "Mutsuki.glb",
     "Neru (School Uniform).glb",
     "Neru.glb",
@@ -41,6 +48,7 @@
     "Tsurugi (Swimsuit).glb",
     "Tsurugi.glb",
     "Wakamo.glb",
-    "Yuuka.glb"
+    "Yuuka.glb",
+    "Yuzu.glb"
   ]
 }

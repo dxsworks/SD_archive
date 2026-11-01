@@ -9,6 +9,22 @@ export function hiddenPartsUpdater(root) {
   return () => { for (const [mesh, i] of parts) mesh.visible = mesh.morphTargetInfluences[i] < 0.5; };
 }
 
+// 무기를 기본 값 1(숨김)인 모프로 숨겨 두고 일부 동작만 값 0(보임) 키를 넣은 학생이 있다 (메구: 무장 대기·구호·뛰기·편성만 보임,
+// 사격·재장전·EX·승리 포즈엔 키가 없음). 게임은 마지막 값을 이어 써서 사격 중에도 보이지만, three.js는 키가 없는 동작에서 기본 값으로
+// 돌아가 맨손으로 쏘는 것처럼 보였다 → 키가 "보임"뿐인 무기 숨김 타깃은 기본 값을 보임으로 바꾼다 (카페 동작은 뼈 크기 0으로 숨김).
+// 원본 289개 중 메구뿐 (몸 두 벌을 바꾸는 아리스(배틀)·수영복 호시노·토키는 무기가 아니라 해당 없음). 모델을 읽은 뒤, 동작을 틀기 전에 한 번
+export function showSwitchedWeapons(root, animations) {
+  const keyed = new Map(); // 트랙 이름 → 값들
+  for (const clip of animations) for (const tr of clip.tracks) if (tr.name.endsWith('.morphTargetInfluences')) keyed.set(tr.name, [...(keyed.get(tr.name) ?? []), tr]);
+  for (const [mesh, i] of findHiddenParts(root)) {
+    if (!/weapon/i.test(mesh.name) || mesh.morphTargetInfluences[i] < 0.5) continue;
+    const tracks = keyed.get(`${THREE.PropertyBinding.sanitizeNodeName(mesh.name)}.morphTargetInfluences`) ?? [];
+    const n = mesh.morphTargetInfluences.length;
+    const values = tracks.flatMap((tr) => [...tr.values].filter((_, k) => k % n === i));
+    if (values.length && values.every((v) => v < 0.5)) mesh.morphTargetInfluences[i] = 0;
+  }
+}
+
 function findHiddenParts(root) {
   const parts = [];
   root.traverse((o) => {

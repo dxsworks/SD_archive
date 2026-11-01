@@ -120,5 +120,6 @@ export function formVariants(index, forms) {
 // 차림이 바뀌지 않는데 EX가 여러 개면(아리스(배틀) Exs01 / Exs02_01) 그중 무작위로.
 // Exs02_02는 Exs02_01과 같은 데이터라 EX 번호 뒤에는 _01만 고른다 (Exs_Cutin·Exs_Root·Exs_01_Root 등은 제외)
 // Exs 바로 뒤 _01·_02는 EX 종류 번호 (노아(잠옷) Exs_01 / Exs_02 = 같은 베개 던지기에 베개만 다름, 카호는 Exs_01 하나)
-const EX_VARIANT = /^exs(0\d(_0?1)?|_0\d)?$/i;
+// Exs 바로 뒤 0 없는 한 자리 번호도 (라부 Exs = 수류탄 던지기 / Exs2 = 무전 지시, 조사 295개 중 라부뿐)
+const EX_VARIANT = /^exs(0\d(_0?1)?|_0\d|[1-9])?$/i;
 export const exVariants = (names, forms) => (forms.has(2) ? [] : names.filter((n) => EX_VARIANT.test(n)));

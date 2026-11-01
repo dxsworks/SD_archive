@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, hiddenPropsAt, showsProp } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, showSwitchedWeapons, hiddenPropsAt, showsProp } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
@@ -361,6 +361,7 @@ async function loadModel() {
   cafeOutfit = await borrowCafeOutfit(gltf);
   gltf.animations = gltf.animations.filter((c) => !skipClip(settings.model, c.name)); // 학생별로 안 쓰기로 한 동작 (clip-names.js SKIP_CLIPS)
   restUnderHiddenBones(gltf.scene, gltf.animations); // 숨긴 소품 아래 뼈가 섞일 때 늘어나지 않게
+  showSwitchedWeapons(gltf.scene, gltf.animations); // 키가 없는 동작에서 무기가 기본 값(숨김)으로 돌아가지 않게 (메구)
 
   gltf.scene.traverse((obj) => {
     if (!obj.isMesh) return;

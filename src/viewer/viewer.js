@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { hiddenPartsUpdater } from '../renderer/hidden-parts.js';
+import { hiddenPartsUpdater, showSwitchedWeapons } from '../renderer/hidden-parts.js';
 import { addOutlines } from '../renderer/outline.js';
 
 // Electron 창에서는 preload 브리지로, 브라우저에서는 models/ 폴더를 직접 읽는다
@@ -71,6 +71,7 @@ async function loadModel(name) {
     if (/weapon|shield/i.test(o.name)) weaponMeshes.push(o);
     o.material = Array.isArray(o.material) ? o.material.map(unlit) : unlit(o.material);
   });
+  showSwitchedWeapons(gltf.scene, gltf.animations); // 펫과 같게: 키가 없는 동작에서 무기가 숨김으로 돌아가지 않게 (메구)
   updateHiddenParts = hiddenPartsUpdater(gltf.scene);
   updateOutlines = addOutlines(gltf.scene);
   model = gltf.scene;

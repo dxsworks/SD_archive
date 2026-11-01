@@ -840,23 +840,38 @@ function rest() {
 // 더블클릭 EX로 시작하는 전투는 여기를 거치지 않고 EX로 바로 시작한다
 function startBattle({ thenAttack = false } = {}) {
   const wasArmed = Boolean(armed);
-  if (!beginBattle()) { fidget(); return; }
+  const bare = !wasArmed && lowDraw(); // 낮은 자세에서 시작하는 총 꺼내기를 뺀 학생: 맨손에서 바로 전투 대기
+  if (!beginBattle({ bare })) { fidget(); return; }
   const onEnd = thenAttack ? burst : rest;
   const draw = wasArmed ? undefined : drawClip();
   if (draw) playSequence([draw], { onEnd });
-  else if (!wasArmed && lowDraw()) onEnd(); // 낮은 자세에서 시작하는 총 꺼내기를 뺀 학생: 바로 전투 대기
+  else if (bare) onEnd();
   else playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd });
 }
 
+// 맨손에서 바로 전투 대기로 갈 때(bare) 처음 자세: 엄폐·무릎은 대기가 나간 자세라 사격 시작(엄폐물 뒤에서 나오는 동작)부터 트는데,
+// 그 첫 자세의 몸(허벅지 선)이 지금 몸에서 반 바퀴 가까이 돌아 있으면 펫은 몸 방향을 이어 받느라 0.25초 만에 반대로 돌고
+// 뼈 섞기는 중간에 뒤집혀 한 바퀴 돈다 (평소 대기와의 차이: 시로코(라이딩) 엄폐 168° → 277°, 무릎 157° → 179°, 스즈미 엄폐 151° → 144°.
+// 140° 이하는 20°쯤으로 괜찮음: 스즈미 무릎 140°, 미사키 128°, 시로코 126°). 사격 시작을 건너뛰면 엄폐물 밖으로 나간 자리로
+// 0.2초 만에 85~100px 미끄러진다 → 그런 자세는 처음 자세로 고르지 않는다 (다 그러면 그대로. 그 자세는 전투 중 뛰어가서 잡음, 2026-11-01)
+const FAR_START = THREE.MathUtils.degToRad(145);
+function startsFar(st) {
+  const start = resolve(`${st}_Attack_Start`);
+  if (!aimsAtRest(st) || thighs.length < 2 || !clipHips.has(start)) return false;
+  return Math.abs(wrapAngle(clipHips.get(start) - hipYaw(thighs, modelRoot))) > FAR_START;
+}
+
 // 전투 상태만 만든다 (전투 자세가 없는 학생이면 false)
-function beginBattle() {
+function beginBattle({ bare = false } = {}) {
   const stances = STANCES.filter(stanceReady);
   if (!stances.length) return false;
   armed = null;
   form = 1;
+  const near = bare ? stances.filter((st) => !startsFar(st)) : [];
+  const pool = near.length ? near : stances;
   battle = {
     until: clock() + rand(...BATTLE_TIME) * 1000,
-    stance: stances[Math.floor(Math.random() * stances.length)],
+    stance: pool[Math.floor(Math.random() * pool.length)],
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
     engaged: false, // 나간 자세(Attack_Ing·Attack_Delay)인지 (aimsAtRest 설명)

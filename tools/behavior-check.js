@@ -2,10 +2,10 @@
 //   1) 명령마다 대기로 돌아오는지: 클릭 반응·잠깐 무장·더블클릭 EX·낮잠 → 깨우기·전투·집어 들었다 놓기·걷기, 종료는 사라지는지
 //   2) 펫 시간 30분(사람 손 섞음) 동안 한 상태에 너무 오래 머무는 곳(멈춤)이 없는지, 페이지 오류가 없는지
 // 사용: npx electron tools/behavior-check.js ["모델.glb" …]   (모델이 없으면 기본 네 학생) → docs/data/behavior-check.json
-const { app, BrowserWindow } = require('electron');
+const { app } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { ROOT, serve, openPet, modelsFromArgs } = require('./pet-page');
+const { ROOT, serve, petWindow, openPet, modelsFromArgs } = require('./pet-page');
 
 const OUT = path.join(ROOT, 'docs', 'data', 'behavior-check.json');
 // [이름, 시작 명령, 끝났다고 볼 상태, 제한 시간(펫 초), 중간에 할 것]
@@ -33,7 +33,7 @@ const SIM_SECONDS = 1800;
 app.whenReady().then(async () => {
   const port = await serve();
   const out = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
-  const win = new BrowserWindow({ show: false, width: 862, height: 764, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = petWindow();
   let errors = [];
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) errors.push(m); });
   let failed = 0;

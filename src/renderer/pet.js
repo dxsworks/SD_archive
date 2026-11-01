@@ -13,8 +13,10 @@ import {
 // ---- 화면 구성 ----
 // 창 높이에 들어갈 월드 단위 높이. 검사 도구가 예전 창을 흉내 낼 때만 주소의 ?viewHeight=로 바꾼다 (tools/edge-check.js --window)
 // 3.55 = 발 위 3.02단위 + 발 아래 FOOT_MARGIN. 위로 0.6 늘림(2026-10-30 사용자): 이즈나 EX 공중제비가 창 위로 최대 93px 나가 잘렸음.
-// 0.15 더(2026-10-31 사용자): 미네 EX 점프 꼭대기에서 머리카락·날개가 창 위 10px까지 감(잘리지는 않지만 위 여유 기준 35px 아래)
-const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 3.55;
+// 0.15 더(2026-10-31 사용자): 미네 EX 점프 꼭대기에서 머리카락·날개가 창 위 10px까지 감(잘리지는 않지만 위 여유 기준 35px 아래).
+// 1.4 더(2026-11-01 사용자): 수영복 와카모 EX에서 하늘로 던진 양산이 발에서 909px(4.22단위)까지 올라가 창 위로 최대 약 260px, 2초쯤 잘렸음
+// → 4.95 = 발 위 4.42단위(위 여유 42px). 사용자 화면(작업 영역 852px)에서는 맨 아래에 서도 양산 꼭대기가 화면 위로 나가지만 그래도 늘림(GPU 약 29 → 41%)
+const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 4.95;
 const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에서 내려다보는 각도
 // 발 자리(바닥 원점)가 창 맨 아래에서 이만큼 위 (월드 단위). 카메라가 내려다봐서 앞으로 내디딘 발·그림자는 발 자리보다
 // 25~40px 아래에 그려지므로 0.2단위, 날개·헤일로가 발밑 아래로 내려오는 동작(츠루기 낮잠, 스미레 EX)에 0.3단위를 더 둔다
@@ -2103,7 +2105,7 @@ function createBrowserStub() {
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   // main.js SIZES.medium과 같게. 검사 도구가 예전 창을 흉내 낼 때만 ?window=560x280
-  const [W, H] = (q.get('window') ?? '862x764').split('x').map(Number);
+  const [W, H] = (q.get('window') ?? '862x1065').split('x').map(Number);
   // ?review: 넘어가는 곳 확인 도구. 페이지는 펫 창 크기 그대로, 바닥은 1920×1040 바탕화면인 셈 치고 걷기·뛰기도 한다
   const review = q.has('review');
   const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });

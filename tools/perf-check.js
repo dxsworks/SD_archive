@@ -3,11 +3,12 @@
 // anim = 상태 머신 + 애니메이션 섞기, extra = 숨김·외곽선·밧줄·그림자, render = three.js 그리기(CPU),
 // hit = 마우스 통과 판정(readPixels — GPU가 다 그릴 때까지 기다리므로 GPU 시간이 여기에 잡힘)
 const { app, BrowserWindow } = require('electron');
-const { serve, openPet, sleep } = require('./pet-page');
+const { PET_SIZE, serve, openPet, sleep } = require('./pet-page');
 
 app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion'); // 화면 밖이라도 가려진 창으로 보고 멈추지 않게
 const model = process.argv.find((a) => a.endsWith('.glb')) ?? 'Hoshino.glb';
 const SECONDS = Number(process.argv.find((a) => a.startsWith('--seconds='))?.slice(10)) || 10;
+const CHEST_Y = PET_SIZE[1] - 384; // 몸 위(가슴께): 창은 위로만 늘어나니 창 아래 끝에서 잰다
 
 const pct = (arr, p) => { const s = [...arr].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(p * s.length))] ?? 0; };
 const avg = (arr) => arr.reduce((a, b) => a + b, 0) / (arr.length || 1);
@@ -35,16 +36,17 @@ function summarize(name, log) {
 app.whenReady().then(async () => {
   const port = await serve();
   const win = new BrowserWindow({
-    x: -6000, y: 100, width: 862, height: 764, useContentSize: true, transparent: true, frame: false, show: false,
+    x: -6000, y: 100, width: PET_SIZE[0], height: PET_SIZE[1], useContentSize: true, transparent: true, frame: false, show: false,
     backgroundColor: '#00000000', webPreferences: { backgroundThrottling: false },
   });
+  win.setContentSize(...PET_SIZE); // 작업 영역보다 높으면 만들 때 줄어듦
   win.showInactive();
   const js = await openPet(win, port, model);
   console.log(model, 'dpr', await js('devicePixelRatio'));
   const scenes = [
     ['idle', '__pet.reset()'],
     // 마우스가 창 위에 있으면 매 프레임 픽셀을 읽는다 (창 안에만 보내는 가짜 이동)
-    ['idle+hover', `__pet.reset(); window.dispatchEvent(new MouseEvent('mousemove', { clientX: 431, clientY: 300 }))`],
+    ['idle+hover', `__pet.reset(); window.dispatchEvent(new MouseEvent('mousemove', { clientX: 431, clientY: ${CHEST_Y - 80} }))`],
     ['walk', '__pet.reset(); __pet.walk()'],
     ['battle', '__pet.reset(); __pet.battleFor(60)'],
   ];
@@ -55,7 +57,7 @@ app.whenReady().then(async () => {
     return js(`document.getElementById('pet').style.cursor`);
   };
   await js('__pet.reset()');
-  console.log('커서: 몸 위', await cursorAt(431, 380), '/ 빈 곳', await cursorAt(20, 20));
+  console.log('커서: 몸 위', await cursorAt(431, CHEST_Y), '/ 빈 곳', await cursorAt(20, 20));
   const rows = [];
   for (const [name, setup] of scenes) {
     await js(setup);

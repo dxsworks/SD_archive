@@ -4,7 +4,7 @@ const fs = require('fs');
 const { modelFiles } = require('./model-files');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
-// 창은 월드 단위로 가로 4.0 × 세로 3.55 (pet.js VIEW_HEIGHT). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
+// 창은 월드 단위로 가로 4.0 × 세로 4.95 (pet.js VIEW_HEIGHT). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
 // 그중 아래 0.5단위(BELOW)는 발밑보다 아래: 카메라가 내려다봐서 앞으로 내디딘 발·그림자가 발 자리보다 25~40px 아래에 그려진다
 // (2026-10-12 시로코 웅크린 자세 등에서 잘렸음, 그때 0.2단위). 0.3단위 더 늘림(2026-10-30 사용자): 츠루기 날개가 낮잠으로 쓰러질 때
 // 최대 49px, 스미레 EX 공중제비 때 헤일로가 24px 창 아래로 나가 잘렸음.
@@ -13,12 +13,14 @@ const { modelFiles } = require('./model-files');
 // (예전 2.6 × 1.3 창에서는 위·옆이 크게 잘렸음. 호시노 EX 돌진은 옆으로 약 1.3단위)
 // 위로 0.6단위 더 늘림(2026-10-30 사용자): 이즈나 EX 공중제비가 발밑에서 2.7단위까지 올라가 창 위로 최대 93px 나가 잘렸음
 // 위로 0.15단위 더(2026-10-31 사용자): 미네 EX 점프 꼭대기에서 머리카락·날개가 창 위 10px까지 감
+// 위로 1.4단위 더(2026-11-01 사용자): 수영복 와카모 EX에서 던진 양산이 창 위로 최대 약 260px 나가 2초쯤 잘렸음.
+// 보통도 사용자 화면 작업 영역(852px)보다 높아짐 → createWindow에서 만든 뒤 크기를 다시 정한다
 const SIZES = {
-  small: { label: '작게', w: 615, h: 546, fx: 0.4 }, // fx: 클릭 효과 크기 배율
-  medium: { label: '보통', w: 862, h: 764, fx: 0.5 },
-  large: { label: '크게', w: 1231, h: 1093, fx: 0.65 },
+  small: { label: '작게', w: 615, h: 761, fx: 0.4 }, // fx: 클릭 효과 크기 배율
+  medium: { label: '보통', w: 862, h: 1065, fx: 0.5 },
+  large: { label: '크게', w: 1231, h: 1524, fx: 0.65 },
 };
-const BELOW = 0.5 / 3.55; // 창 높이 중 발 자리보다 아래인 비율 (pet.js FOOT_MARGIN의 대부분)
+const BELOW = 0.5 / 4.95; // 창 높이 중 발 자리보다 아래인 비율 (pet.js FOOT_MARGIN의 대부분)
 // 발이 작업 영역 맨 아래에 서도록 둘 때 창의 y
 const bottomY = (wa, h) => Math.round(wa.y + wa.height - h + h * BELOW);
 
@@ -63,12 +65,10 @@ function workAreaFor(bounds) {
 function createWindow() {
   const { w, h } = SIZES[settings.size];
   const wa = screen.getPrimaryDisplay().workArea;
+  const bounds = { x: Math.round(wa.x + wa.width - w - 120), y: bottomY(wa, h), width: w, height: h };
 
   win = new BrowserWindow({
-    width: w,
-    height: h,
-    x: Math.round(wa.x + wa.width - w - 120),
-    y: bottomY(wa, h),
+    ...bounds,
     transparent: true,
     backgroundColor: '#00000000',
     frame: false,
@@ -86,6 +86,8 @@ function createWindow() {
     },
   });
 
+  // 작업 영역보다 높은 창은 만들 때 높이가 작업 영역으로 줄어든다(사용자 화면 862×1065 → 862×852). 만든 뒤에 정하면 그대로 됨
+  win.setBounds(bounds);
   // 캐릭터가 없는 투명 영역은 클릭이 아래 창으로 통과하도록 시작
   win.setIgnoreMouseEvents(true, { forward: true });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));

@@ -13,9 +13,10 @@ app.whenReady().then(async () => {
   const win = new BrowserWindow({
     show: false,
     width: 862,
-    height: 764,
+    height: 1065,
     webPreferences: { offscreen: true, backgroundThrottling: false },
   });
+  win.setContentSize(862, 1065); // 펫 창 보통 크기. 작업 영역보다 높으면 만들 때 줄어듦
   win.webContents.setFrameRate(60);
   await win.loadURL(petUrl());
   const js = (code) => win.webContents.executeJavaScript(code);

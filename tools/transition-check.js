@@ -3,10 +3,10 @@
 // 뒤 동작만 틀 때 원래 움직이는 만큼은 뺀다. 결과는 docs/data/transition-metrics.json
 // 사용: npx electron tools/transition-check.js ["모델.glb" …] [--turn=A]   (모델이 없으면 확인 창의 기본 네 학생)
 //   --turn=A: 총 자세로 넘어갈 때 몸 방향 이어 받기(pet.js carryTurn)를 끄고 예전처럼 잼 → transition-metrics.turn-A.json
-const { app, BrowserWindow } = require('electron');
+const { app } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { ROOT, wrap, serve, openPet, loadMarks, pairsOf, modelsFromArgs } = require('./pet-page');
+const { ROOT, wrap, serve, petWindow, openPet, loadMarks, pairsOf, modelsFromArgs } = require('./pet-page');
 
 const METRICS = path.join(ROOT, 'docs', 'data', 'transition-metrics.json');
 const PX = 215; // 1 모델 단위 ≈ 215px (펫 창 기본 크기)
@@ -58,7 +58,7 @@ app.whenReady().then(async () => {
   const metricsFile = turn === 'C' ? METRICS : METRICS.replace(/\.json$/, `.turn-${turn}.json`);
   const marks = loadMarks();
   const out = fs.existsSync(metricsFile) ? JSON.parse(fs.readFileSync(metricsFile, 'utf8')) : {};
-  const win = new BrowserWindow({ show: false, width: 862, height: 764, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = petWindow();
   win.webContents.on('console-message', (_e, level, m) => { if (level >= 3) console.log('[page]', m); });
   for (const model of modelsFromArgs()) {
     const js = await openPet(win, port, model);

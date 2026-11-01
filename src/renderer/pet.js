@@ -13,8 +13,10 @@ import {
 // ---- 화면 구성 ----
 // 창 높이에 들어갈 월드 단위 높이. 검사 도구가 예전 창을 흉내 낼 때만 주소의 ?viewHeight=로 바꾼다 (tools/edge-check.js --window)
 // 3.55 = 발 위 3.02단위 + 발 아래 FOOT_MARGIN. 위로 0.6 늘림(2026-10-30 사용자): 이즈나 EX 공중제비가 창 위로 최대 93px 나가 잘렸음.
-// 0.15 더(2026-10-31 사용자): 미네 EX 점프 꼭대기에서 머리카락·날개가 창 위 10px까지 감(잘리지는 않지만 위 여유 기준 35px 아래)
-const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 3.55;
+// 0.15 더(2026-10-31 사용자): 미네 EX 점프 꼭대기에서 머리카락·날개가 창 위 10px까지 감(잘리지는 않지만 위 여유 기준 35px 아래).
+// 1.4 더(2026-11-01 사용자): 수영복 와카모 EX에서 하늘로 던진 양산이 발에서 909px(4.22단위)까지 올라가 창 위로 최대 약 260px, 2초쯤 잘렸음
+// → 4.95 = 발 위 4.42단위(위 여유 42px). 사용자 화면(작업 영역 852px)에서는 맨 아래에 서도 양산 꼭대기가 화면 위로 나가지만 그래도 늘림(GPU 약 29 → 41%)
+const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 4.95;
 const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에서 내려다보는 각도
 // 발 자리(바닥 원점)가 창 맨 아래에서 이만큼 위 (월드 단위). 카메라가 내려다봐서 앞으로 내디딘 발·그림자는 발 자리보다
 // 25~40px 아래에 그려지므로 0.2단위, 날개·헤일로가 발밑 아래로 내려오는 동작(츠루기 낮잠, 스미레 EX)에 0.3단위를 더 둔다
@@ -840,23 +842,38 @@ function rest() {
 // 더블클릭 EX로 시작하는 전투는 여기를 거치지 않고 EX로 바로 시작한다
 function startBattle({ thenAttack = false } = {}) {
   const wasArmed = Boolean(armed);
-  if (!beginBattle()) { fidget(); return; }
+  const bare = !wasArmed && lowDraw(); // 낮은 자세에서 시작하는 총 꺼내기를 뺀 학생: 맨손에서 바로 전투 대기
+  if (!beginBattle({ bare })) { fidget(); return; }
   const onEnd = thenAttack ? burst : rest;
   const draw = wasArmed ? undefined : drawClip();
   if (draw) playSequence([draw], { onEnd });
-  else if (!wasArmed && lowDraw()) onEnd(); // 낮은 자세에서 시작하는 총 꺼내기를 뺀 학생: 바로 전투 대기
+  else if (bare) onEnd();
   else playSequence([pickRandom(BATTLE_ENTRY)], { face: battleFace(), onEnd });
 }
 
+// 맨손에서 바로 전투 대기로 갈 때(bare) 처음 자세: 엄폐·무릎은 대기가 나간 자세라 사격 시작(엄폐물 뒤에서 나오는 동작)부터 트는데,
+// 그 첫 자세의 몸(허벅지 선)이 지금 몸에서 반 바퀴 가까이 돌아 있으면 펫은 몸 방향을 이어 받느라 0.25초 만에 반대로 돌고
+// 뼈 섞기는 중간에 뒤집혀 한 바퀴 돈다 (평소 대기와의 차이: 시로코(라이딩) 엄폐 168° → 277°, 무릎 157° → 179°, 스즈미 엄폐 151° → 144°.
+// 140° 이하는 20°쯤으로 괜찮음: 스즈미 무릎 140°, 미사키 128°, 시로코 126°). 사격 시작을 건너뛰면 엄폐물 밖으로 나간 자리로
+// 0.2초 만에 85~100px 미끄러진다 → 그런 자세는 처음 자세로 고르지 않는다 (다 그러면 그대로. 그 자세는 전투 중 뛰어가서 잡음, 2026-11-01)
+const FAR_START = THREE.MathUtils.degToRad(145);
+function startsFar(st) {
+  const start = resolve(`${st}_Attack_Start`);
+  if (!aimsAtRest(st) || thighs.length < 2 || !clipHips.has(start)) return false;
+  return Math.abs(wrapAngle(clipHips.get(start) - hipYaw(thighs, modelRoot))) > FAR_START;
+}
+
 // 전투 상태만 만든다 (전투 자세가 없는 학생이면 false)
-function beginBattle() {
+function beginBattle({ bare = false } = {}) {
   const stances = STANCES.filter(stanceReady);
   if (!stances.length) return false;
   armed = null;
   form = 1;
+  const near = bare ? stances.filter((st) => !startsFar(st)) : [];
+  const pool = near.length ? near : stances;
   battle = {
     until: clock() + rand(...BATTLE_TIME) * 1000,
-    stance: stances[Math.floor(Math.random() * stances.length)],
+    stance: pool[Math.floor(Math.random() * pool.length)],
     ammo: MAGAZINE,
     side: Math.random() < 0.5 ? 1 : -1,
     engaged: false, // 나간 자세(Attack_Ing·Attack_Delay)인지 (aimsAtRest 설명)
@@ -2088,7 +2105,7 @@ function createBrowserStub() {
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   // main.js SIZES.medium과 같게. 검사 도구가 예전 창을 흉내 낼 때만 ?window=560x280
-  const [W, H] = (q.get('window') ?? '862x764').split('x').map(Number);
+  const [W, H] = (q.get('window') ?? '862x1065').split('x').map(Number);
   // ?review: 넘어가는 곳 확인 도구. 페이지는 펫 창 크기 그대로, 바닥은 1920×1040 바탕화면인 셈 치고 걷기·뛰기도 한다
   const review = q.has('review');
   const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });

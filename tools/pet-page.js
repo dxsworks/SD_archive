@@ -26,6 +26,16 @@ function serve() {
   return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(server.address().port)));
 }
 
+// 화면 밖 창: 펫 창 보통 크기(main.js SIZES.medium). 작업 영역(사용자 화면 852px)보다 높은 창은 만들 때 높이가 줄어
+// 배율이 바뀌므로(2026-10-31 1100px로 잡았다가 852px로 줄어 잘못 잼) 만든 뒤 크기를 다시 정한다
+const PET_SIZE = [862, 1065];
+function petWindow([w, h] = PET_SIZE) {
+  const { BrowserWindow } = require('electron');
+  const win = new BrowserWindow({ show: false, width: w, height: h, useContentSize: true, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  win.setContentSize(w, h);
+  return win;
+}
+
 // 화면 밖 창에 펫 페이지(?review)를 열고 모델을 다 읽을 때까지 기다린다. 돌려주는 js(코드)로 페이지 안에서 실행
 async function openPet(win, port, model, query = '') {
   await win.loadURL(`http://127.0.0.1:${port}/src/renderer/index.html?review${query}&model=${encodeURIComponent(model)}`);
@@ -75,4 +85,4 @@ const modelsFromArgs = () => {
   return list.length ? list : DEFAULT_MODELS;
 };
 
-module.exports = { ROOT, sleep, wrap, serve, openPet, loadMarks, saveMarks, pairsOf, modelsFromArgs };
+module.exports = { ROOT, PET_SIZE, sleep, wrap, serve, petWindow, openPet, loadMarks, saveMarks, pairsOf, modelsFromArgs };

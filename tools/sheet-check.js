@@ -1,17 +1,17 @@
 // 동작 시트 (화면 밖, 정적 서버 불필요): 펫이 그 학생에게 쓰는 동작(__pet.usedClips)마다 한 줄에 5장(__pet.sheet)
 // 사용: npx electron tools/sheet-check.js "모델.glb" [출력.png] [--picks]   (기본 reports/<모델>.sheet.png)
 //   --picks: 사람이 볼 동작만(__pet.picks, 연출 판단·이 학생만의 특징) 이유와 함께 → 기본 reports/<모델>.picks.png, 고른 목록은 같은 이름 .json
-const { app, BrowserWindow } = require('electron');
+const { app } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { ROOT, serve, openPet } = require('./pet-page');
+const { ROOT, serve, petWindow, openPet } = require('./pet-page');
 
 const picksOnly = process.argv.includes('--picks');
 const [model = 'Hoshino.glb', out = path.join(ROOT, 'reports', `${model}.${picksOnly ? 'picks' : 'sheet'}.png`)] = process.argv.slice(2).filter((a) => !a.startsWith('--') && !a.endsWith('sheet-check.js'));
 
 app.whenReady().then(async () => {
   const port = await serve();
-  const win = new BrowserWindow({ show: false, width: 862, height: 764, webPreferences: { offscreen: true, backgroundThrottling: false } });
+  const win = petWindow();
   const js = await openPet(win, port, model);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   let clips, opts = {};

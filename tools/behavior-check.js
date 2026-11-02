@@ -41,7 +41,10 @@ app.whenReady().then(async () => {
     errors = [];
     const js = await openPet(win, port, model);
     const tests = [];
-    for (const [name, start, until, limit, mid] of TESTS) {
+    const hasNap = await js('__pet.hasNap');
+    for (let [name, start, until, limit, mid] of TESTS) {
+      // 낮잠 동작(Vital_Death)이 없는 학생(수영복 아야네)은 낮잠 대신 잠깐 무장 → 대기로 돌아오는지만
+      if (mid?.expect === 'nap' && !hasNap) { name = `${name} (낮잠 없음 → 잠깐 무장)`; limit = 60; mid = null; }
       await js('__pet.reset(); 0');
       await js(`${start}; 0`);
       let trace = [];

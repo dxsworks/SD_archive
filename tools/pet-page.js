@@ -28,7 +28,7 @@ function serve() {
 
 // 화면 밖 창: 펫 창 보통 크기(main.js SIZES.medium). 작업 영역(사용자 화면 852px)보다 높은 창은 만들 때 높이가 줄어
 // 배율이 바뀌므로(2026-10-31 1100px로 잡았다가 852px로 줄어 잘못 잼) 만든 뒤 크기를 다시 정한다
-const PET_SIZE = [862, 1065];
+const PET_SIZE = [862, 1140];
 function petWindow([w, h] = PET_SIZE) {
   const { BrowserWindow } = require('electron');
   const win = new BrowserWindow({ show: false, width: w, height: h, useContentSize: true, webPreferences: { offscreen: true, backgroundThrottling: false } });

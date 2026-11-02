@@ -26,7 +26,7 @@ app.whenReady().then(async () => {
   const log = [];
   const info = async (label) => {
     const p = await js('JSON.stringify(__pet.floorPos)');
-    const box = await js('JSON.stringify((({left, top}) => ({left, top}))(document.getElementById("pet").style))');
+    const box = await js('JSON.stringify((({left, top}) => ({left, top}))(document.getElementById("frame").style))');
     log.push(`${label}: state=${await js('__pet.state')} pos=${p} win=${box}`);
   };
   const snap = async (name) => fs.writeFileSync(path.join(outDir, `${name}.png`), (await win.webContents.capturePage()).toPNG());

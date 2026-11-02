@@ -61,6 +61,7 @@ const FIX = {
   names: 'src/renderer/clip-names.js (clipKey 차림 번호 규칙, CLIP_TYPOS 오타 별칭). node tools/check-model.js로 다시',
   angle: 'pet.js carryTurn·clip-facing.js 방향 보정. npx electron tools/transition-review.js로 펫과 똑같이 다시 틀어 보기 (판단 규칙은 CLAUDE.md "이어지는 곳 각도")',
   edge: '그 순간을 그려 볼 것(__pet.still). 몸 전체가 나가면 창 크기(VIEW_HEIGHT·main.js BELOW), 가는 선이 튀면 뼈 늘어남(hidden-parts.js restUnderHiddenBones처럼)',
+  canvas: '캐릭터 둘레 캔버스가 모델을 다 못 담음: 그 순간 뼈 반지름 범위(tight-canvas.js meshSpheres, MIN_WEIGHT) 밖으로 나가는 조각을 찾을 것 (모프로 움직이는 메시, 뼈 늘어남). 여유는 pet.js CANVAS_PAD',
   behavior: 'pet.js 상태 머신. docs/data/behavior-check.json의 지나간 동작 순서로 어디서 안 돌아오는지',
   stuck: 'pet.js 상태 머신 (그 상태에서 끝나는 조건)',
   error: '펫 페이지 오류: 메시지의 파일·줄',
@@ -82,6 +83,7 @@ function summarize(model, names, angles, edges, behavior, looks) {
     ...names.warnings.map((w) => ({ kind: 'names', what: w })),
     ...angles.filter((r) => r.verdict === 'bad').map((r) => ({ kind: 'angle', key: r.key, what: `${r.key}: 총 자세로 ${r.spin}° 휙 돎 (30분에 ${r.count}번)`, clickOnly: Boolean(r.clickOnly) })),
     ...edges.flatMap((b) => b.warn.map((w) => ({ kind: 'edge', clip: b.clip, what: w, gunOnly: (b.gunOnly ?? []).some((side) => w.startsWith(side)) }))),
+    ...edges.flatMap((b) => (b.canvasWarn ?? []).map((w) => ({ kind: 'canvas', clip: b.clip, what: w }))),
     ...behavior.tests.filter((t) => !t.ok).map((t) => ({ kind: 'behavior', what: `${t.name}: ${t.why}`, clips: t.clips })),
     ...behavior.stuck.map((x) => ({ kind: 'stuck', what: `${x.state} ${x.dur}초 (${x.clip})` })),
     ...behavior.errors.map((e) => ({ kind: 'error', what: e })),
@@ -107,7 +109,7 @@ function report(model, names, angles, edges, behavior, sheetFile, summary, picks
   const edgeWarn = edges.filter((b) => b.warn.length);
   const n = (kind) => summary.warnings.filter((w) => w.kind === kind).length;
   const counts = [
-    ['동작 이름 경고', n('names')], ['휙 도는 곳', n('angle')], ['창 끝 경고', n('edge')],
+    ['동작 이름 경고', n('names')], ['휙 도는 곳', n('angle')], ['창 끝 경고', n('edge')], ['캔버스 끝 경고', n('canvas')],
     ['행동 실패', n('behavior')], ['멈춤', n('stuck')], ['오류', n('error')], ['못 잰 검사', n('unmeasured')],
   ];
   const total = counts.reduce((s, [, n]) => s + n, 0);

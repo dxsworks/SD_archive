@@ -22,7 +22,7 @@ app.whenReady().then(async () => {
   await js('__pet.retreat(); 0');
   for (const at of [150, 400, 700, 1000, 1300, 1600, 1900, 3300]) {
     await sleep(at - (Date.now() - t0));
-    const info = JSON.parse(await js(`JSON.stringify({ s: __pet.state, c: __pet.clip, p: __pet.floorPos, o: document.getElementById('pet').style.opacity, l: document.getElementById('pet').style.left, t: document.getElementById('pet').style.top })`));
+    const info = JSON.parse(await js(`JSON.stringify({ s: __pet.state, c: __pet.clip, p: __pet.floorPos, o: document.getElementById('pet').style.opacity, l: document.getElementById('frame').style.left, t: document.getElementById('frame').style.top })`));
     log.push(`${at}ms state=${info.s} clip=${info.c} lift=${info.p.lift.toFixed(2)} opacity=${info.o} win=(${info.l}, ${info.t})`);
     fs.writeFileSync(path.join(outDir, `${at}.png`), (await win.webContents.capturePage()).toPNG());
   }

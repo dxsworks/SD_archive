@@ -75,13 +75,13 @@ function openSub(level, row) {
   }
 }
 
-// 하위 메뉴 판을 그 줄 높이에 맞춤 (윗 판이 스크롤됐을 수 있어 펼칠 때 다시 잼). 창 아래로 넘치면 올림
+// 하위 메뉴 판을 그 줄 높이에 맞춤 (윗 판이 스크롤됐을 수 있어 펼칠 때 다시 잼). 창 아래로 넘치면 올림 (창 위 끝까지, 메인 판보다 위도)
 function placeSub(row) {
   const sub = row.subEl;
   const colTop = sub.parentElement.getBoundingClientRect().top;
   const top = row.getBoundingClientRect().top - colTop - 4;
   const maxTop = winH - 10 - colTop - sub.offsetHeight;
-  sub.style.top = `${Math.max(0, Math.min(top, maxTop))}px`;
+  sub.style.top = `${Math.max(10 - colTop, Math.min(top, maxTop))}px`;
 }
 
 function colAt(level) {
@@ -93,7 +93,8 @@ function colAt(level) {
   return cols[level - 1];
 }
 
-// 하위 메뉴 판을 미리 만들어 두고 숨김 (재귀). 줄의 처음 위치로 창 높이를 정함
+// 하위 메뉴 판을 미리 만들어 두고 숨김 (재귀). 줄의 처음 위치로 창 높이를 정함. 가장 큰 판 높이는 subMax에
+let subMax = 0;
 function buildSubs(rows, level) {
   let bottom = 0;
   for (const [item, row] of rows) {
@@ -110,6 +111,7 @@ function buildSubs(rows, level) {
     col.append(sub);
     const top = Math.max(0, row.getBoundingClientRect().top - col.getBoundingClientRect().top - 4);
     sub.style.top = `${top}px`;
+    subMax = Math.max(subMax, sub.offsetHeight);
     bottom = Math.max(bottom, top + sub.offsetHeight, buildSubs(subRows, level + 1));
     sub.classList.add('hidden');
     row.subEl = sub;
@@ -120,7 +122,9 @@ function buildSubs(rows, level) {
 function render({ items, title, roomRight }) {
   openRows = [];
   cols = [];
+  subMax = 0;
   root.className = '';
+  root.style.paddingTop = '';
   root.replaceChildren();
 
   const main = el('div', 'panel main');
@@ -145,14 +149,18 @@ function render({ items, title, roomRight }) {
   // 커서 오른쪽에 다 안 들어가면 하위 메뉴가 왼쪽으로 펼쳐지게 뒤집고, 메인은 창을 커서 왼쪽에 둔다
   const flip = w > roomRight;
   if (flip) root.classList.add('flip');
-  bridge.ready(seq, w, h, flip);
+  bridge.ready(seq, w, h, flip, main.offsetHeight, Math.ceil(Math.max(main.offsetHeight, subMax) + pad * 2));
 }
 bridge.onOpen((data) => {
   seq = data.seq;
   render(data);
 });
 // 메인이 창을 옮기고 크기를 바꾼 뒤: 그 크기로 한 번 그려진 다음에 보이게 (예전 크기의 화면이 잠깐 보이지 않게)
-bridge.onPlaced((placed) => {
+// 창이 화면 아래 끝까지만이라 처음 높이보다 작을 수 있고, 하위 메뉴 판을 올릴 자리로 위로 늘었으면 그만큼 메인 판을 내림
+bridge.onPlaced((placed, offset, height) => {
+  if (placed !== seq) return;
+  root.style.paddingTop = `${10 + offset}px`;
+  winH = height;
   requestAnimationFrame(() => requestAnimationFrame(() => {
     if (placed === seq) bridge.painted(seq);
   }));

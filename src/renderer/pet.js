@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
 import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, limitRevivedScales, showSwitchedWeapons, hiddenPropsAt, showsProp } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
+import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
@@ -67,6 +68,7 @@ const MAGAZINE = 3;             // 이만큼 쏘면 재장전할 확률이 크�
 const ARMED_TIME = [15, 40];    // 총을 들고 있는 시간(초)
 
 const canvas = document.getElementById('pet');
+const winBox = document.getElementById('frame'); // 펫 창 크기 상자. 캔버스는 그 안에서 캐릭터 둘레만 (?sim에서는 이 상자가 창 흉내)
 // Electron 밖(일반 브라우저)에서 열었을 때 화면 확인용 대체 브리지 (?sim 이면 바탕화면 흉내)
 const bridge = window.petBridge ?? createBrowserStub();
 const cursorOf = bridge.cursor ?? ((e) => ({ x: e.screenX, y: e.screenY }));
@@ -79,15 +81,14 @@ const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 50);
 
 function layout() {
-  const w = canvas.clientWidth;
-  const h = canvas.clientHeight;
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(w, h, false);
   // 원점(발밑)이 화면 맨 아래에서 FOOT_MARGIN 위에 오도록 시점 중심을 잡는다
   const targetY = (VIEW_HEIGHT / 2 - FOOT_MARGIN) / Math.cos(TILT);
   camera.position.set(0, targetY + 10 * Math.sin(TILT), 10 * Math.cos(TILT));
   camera.lookAt(0, targetY, 0);
+  camera.updateMatrixWorld(); // 캔버스 자리 재기(toWindowPx)에 씀
   setViewShift(viewShift.x, viewShift.y, true);
+  setCanvasRect(canvasRect, true); // 창 크기·배율이 바뀌면 캔버스 버퍼도 다시
 }
 
 // 창은 정수 px로만 옮겨져서(setBounds) 걸을 때 한 프레임에 1px, 다음엔 2px처럼 들쭉날쭉 움직였다(2026-10-20 사용자).
@@ -96,15 +97,87 @@ const viewShift = { x: 0, y: 0 };
 function setViewShift(x, y, force = false) {
   if (!force && x === viewShift.x && y === viewShift.y) return;
   Object.assign(viewShift, { x, y });
-  const w = canvas.clientWidth;
-  const h = canvas.clientHeight;
+  const w = winBox.clientWidth;
+  const h = winBox.clientHeight;
   const halfH = VIEW_HEIGHT / 2;
   const halfW = halfH * (w / h);
   const ox = (x / h) * VIEW_HEIGHT; // px → 창 안 단위
   const oy = (y / h) * VIEW_HEIGHT;
   Object.assign(camera, { left: -halfW - ox, right: halfW - ox, top: halfH + oy, bottom: -halfH + oy });
-  camera.updateProjectionMatrix();
+  camera.updateProjectionMatrix(); // 캔버스가 창 일부면(setViewOffset) 그 부분만 그리게 같이 반영됨
 }
+
+// 캔버스는 캐릭터 둘레만 그린다(tight-canvas.js, 2026-11-02 사용자: GPU 줄이기). 카메라는 창 전체 시야 그대로이고
+// 캔버스는 그중 한 부분만(setViewOffset) 창 안 같은 자리에 그려서 화면에 보이는 그림은 창 전체 캔버스와 같다.
+// 매 프레임 보이는 메시의 뼈 위치 ± 반지름으로 필요한 범위를 잡고, 넘치면 바로 키우고 한참 크면 몇 초 뒤 줄인다
+// (크기가 바뀔 때만 GPU 버퍼를 다시 잡음, 자리만 옮기는 건 가벼움). 창 전체: 종료(밧줄이 창 위 끝까지), ?fullCanvas, 창 끝 재기·동작 시트
+const FULL_CANVAS = new URLSearchParams(location.search).has('fullCanvas');
+const CANVAS_PAD = 12;          // 뼈 반지름으로 잡은 범위 바깥 여유(창 px): 외곽선, 작게 붙은 뼈(MIN_WEIGHT 미만)
+const CANVAS_GRID = 32;         // 캔버스 자리·크기를 이 px 단위로 (배율 1.25·1.5·2에서도 화면 픽셀에 딱 맞음)
+const CANVAS_SLACK = 32;        // 키울 때 사방으로 더 (조금씩 움직일 때마다 버퍼를 다시 잡지 않게)
+const CANVAS_SHRINK_AFTER = 2;  // 필요한 것(+여유)보다 넓이가 1.6배 넘게 큰 채 이만큼(초) 지나면 줄임
+let canvasRect = null;          // 지금 캔버스 자리 (창 CSS px { left, top, width, height }), null = 창 전체
+let appliedRect = null;         // 실제로 캔버스에 적용한 자리 (창 전체일 때도 값이 있음)
+let canvasSpheres = [];         // tight-canvas.js meshSpheres (모델을 읽은 뒤)
+let canvasShrink = 0;
+
+function setCanvasRect(r, force = false) {
+  const next = r ?? { left: 0, top: 0, width: winBox.clientWidth, height: winBox.clientHeight };
+  canvasRect = r;
+  const a = appliedRect;
+  if (!force && a && next.left === a.left && next.top === a.top && next.width === a.width && next.height === a.height) return;
+  if (force || !a || next.width !== a.width || next.height !== a.height) renderer.setSize(next.width, next.height, false);
+  Object.assign(canvas.style, { left: `${next.left}px`, top: `${next.top}px`, width: `${next.width}px`, height: `${next.height}px` });
+  if (r) camera.setViewOffset(winBox.clientWidth, winBox.clientHeight, next.left, next.top, next.width, next.height);
+  else camera.clearViewOffset();
+  appliedRect = next;
+}
+
+// 월드 점 → 창 CSS px (창 전체 시야 기준)
+const toWindowTmp = new THREE.Vector3();
+function toWindowPx(world) {
+  const q = toWindowTmp.copy(world).applyMatrix4(camera.matrixWorldInverse);
+  const k = winBox.clientHeight / (camera.top - camera.bottom);
+  return { x: (q.x - camera.left) * k, y: (camera.top - q.y) * k };
+}
+
+// 지금 자세를 다 담는 캔버스 자리 (여유 CANVAS_PAD 넣고 CANVAS_GRID에 맞춤, 창 안으로). raw: 여유·맞춤 전 범위
+const shadowRim = Array.from({ length: 8 }, (_, i) => new THREE.Vector3(Math.cos((i * Math.PI) / 4), Math.sin((i * Math.PI) / 4), 0));
+const shadowRimWorld = shadowRim.map(() => new THREE.Vector3());
+function neededCanvas({ raw = false } = {}) {
+  scene.updateMatrixWorld();
+  const points = shadow.visible && shadow.material.opacity > 0
+    ? shadowRim.map((v, i) => shadowRimWorld[i].copy(v).multiplyScalar(SHADOW_SIZE / 2).applyMatrix4(shadow.matrixWorld)) : [];
+  const b = screenBounds(canvasSpheres, points, toWindowPx, winBox.clientHeight / (camera.top - camera.bottom));
+  if (!b || raw) return b;
+  const W = winBox.clientWidth, H = winBox.clientHeight;
+  const left = Math.max(0, Math.floor((b.left - CANVAS_PAD) / CANVAS_GRID) * CANVAS_GRID);
+  const top = Math.max(0, Math.floor((b.top - CANVAS_PAD) / CANVAS_GRID) * CANVAS_GRID);
+  const right = Math.min(W, Math.ceil((b.right + CANVAS_PAD) / CANVAS_GRID) * CANVAS_GRID);
+  const bottom = Math.min(H, Math.ceil((b.bottom + CANVAS_PAD) / CANVAS_GRID) * CANVAS_GRID);
+  if (right - left < CANVAS_GRID || bottom - top < CANVAS_GRID) return null; // 캐릭터가 창 밖: 창 전체로 (드묾)
+  return { left, top, width: right - left, height: bottom - top };
+}
+
+// 그리기 직전에 (이번 프레임 자세로)
+function updateCanvas(dt) {
+  const want = FULL_CANVAS || state === 'retreat' || state === 'gone' || !canvasSpheres.length ? null : neededCanvas();
+  if (!want) { canvasShrink = 0; setCanvasRect(null); return; }
+  const W = winBox.clientWidth, H = winBox.clientHeight;
+  const grown = {
+    left: Math.max(0, want.left - CANVAS_SLACK), top: Math.max(0, want.top - CANVAS_SLACK),
+    right: Math.min(W, want.left + want.width + CANVAS_SLACK), bottom: Math.min(H, want.top + want.height + CANVAS_SLACK),
+  };
+  const cur = canvasRect;
+  if (cur && want.left >= cur.left && want.top >= cur.top && want.left + want.width <= cur.left + cur.width && want.top + want.height <= cur.top + cur.height) {
+    const roomy = cur.width * cur.height > 1.6 * (grown.right - grown.left) * (grown.bottom - grown.top);
+    canvasShrink = roomy ? canvasShrink + dt : 0;
+    if (canvasShrink < CANVAS_SHRINK_AFTER) return;
+  }
+  canvasShrink = 0;
+  setCanvasRect({ left: grown.left, top: grown.top, width: grown.right - grown.left, height: grown.bottom - grown.top });
+}
+
 layout();
 window.addEventListener('resize', layout);
 
@@ -378,6 +451,7 @@ async function loadModel() {
   // 옷으로 숨긴 메시는 매 프레임 되살린 뒤 모프 숨김 → 옷 숨김 (모프 숨김 타깃이 없는 몸 메시는 hideParts가 다시 켜 주지 않음)
   const outfitMeshes = cafeOutfit ? [...cafeOutfit.cafe, ...cafeOutfit.battle] : [];
   updateHiddenParts = () => { for (const m of outfitMeshes) m.visible = true; hideParts(); applyOutfit(); };
+  canvasSpheres = meshSpheres(gltf.scene); // 외곽선 메시를 달기 전에 (외곽선은 원본 메시를 따라 보이고 두께는 CANVAS_PAD 안)
   updateOutlines = addOutlines(gltf.scene); // 숨김 판정·무기 목록을 만든 뒤에 (외곽선 메시는 거기 들어가지 않게)
   refreshWeapons(); // 동작을 틀기 전에는 무기를 숨김
   pivot.add(gltf.scene);
@@ -1414,14 +1488,14 @@ function update(dt) {
 }
 
 // ---- 마우스: 캐릭터 위에서만 클릭을 받고 나머지는 통과 ----
-let mouse = null;      // 창(캔버스) 기준 좌표
+let mouse = null;      // 창 기준 좌표 (캔버스는 창의 일부)
 let hovering = false;
 let ignoringMouse = true;
 let drag = null;
 const pixelBuf = new Uint8Array(5 * 5 * 4);
 
 window.addEventListener('mousemove', (e) => {
-  const r = canvas.getBoundingClientRect();
+  const r = winBox.getBoundingClientRect();
   mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
 });
 document.addEventListener('mouseleave', () => { mouse = null; });
@@ -1551,8 +1625,12 @@ function hitTest() {
   // 다음 읽기: 렌더 직후에 해야 픽셀이 남아 있다
   if (!mouse) return false;
   const dpr = renderer.getPixelRatio();
-  const px = Math.floor(mouse.x * dpr) - 2;
-  const py = Math.floor((canvas.clientHeight - mouse.y) * dpr) - 2;
+  const r = appliedRect; // 캔버스는 창의 일부 (캐릭터 둘레)
+  const cx = Math.floor((mouse.x - r.left) * dpr);
+  const cy = Math.floor((r.top + r.height - mouse.y) * dpr);
+  if (cx < 0 || cy < 0 || cx >= gl.drawingBufferWidth || cy >= gl.drawingBufferHeight) return false; // 캔버스 밖이면 몸 위가 아님
+  const px = cx - 2;
+  const py = cy - 2;
   gl.bindBuffer(gl.PIXEL_PACK_BUFFER, hitRead.buf);
   gl.readPixels(px, py, 5, 5, gl.RGBA, gl.UNSIGNED_BYTE, 0);
   gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
@@ -1590,6 +1668,7 @@ function frame(now) {
   updateOutlines();
   updateRope(); // 손 위치는 이번 프레임 자세로
   updateShadow(dt);
+  updateCanvas(dt);
   const t2 = performance.now();
   renderer.render(scene, camera);
   const t3 = performance.now();
@@ -1625,6 +1704,7 @@ window.__pet = {
   get state() { return state; },
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
   get clip() { return currentAction?.getClip().name; },
+  get canvasRect() { return canvasRect && { ...canvasRect }; }, // 캐릭터 둘레 캔버스 자리 (창 px), null = 창 전체
   get outfit() { return cafeOutfit && (wearCafe ? 'cafe' : 'battle'); }, // 카페 차림 학생(Toki 등)이 지금 입은 옷
   get yaw() { return Math.round(THREE.MathUtils.radToDeg(pivot.rotation.y)); }, // 실제로 돌아가 있는 각도(도)
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
@@ -1676,6 +1756,7 @@ window.__pet = {
     updateOutlines();
     updateRope();
     updateShadow(dt);
+    updateCanvas(dt);
     renderer.render(scene, camera);
   },
   // 각도 비교용: 그 자세로 side(±1)쪽을 겨눌 때 펫이 정할 방향(도, 무작위 흔들기 없이)
@@ -1706,6 +1787,7 @@ window.__pet = {
     updateHiddenParts();
     updateOutlines();
     updateShadow(0, { snap: true });
+    updateCanvas(0);
     renderer.render(scene, camera);
   },
 };
@@ -1870,9 +1952,12 @@ function measureTransition(rec, { span = 0.8, alone = false, record = true, onFr
 // 모델(외곽선 포함, 그림자 빼고)이 펫 창 위·왼쪽·오른쪽·아래 끝에서 몇 px 떨어지는지 가장 가까운 값과 그 시각을 돌려준다 (0 = 닿아서 잘림).
 // 바닥에서 가장 가까운 자리(화면 아래 가운데, 모델이 가장 큼)에 세워 잰다
 //   every: 몇 프레임마다 그릴지(60fps 기준), 픽셀은 가로세로 2칸마다 본다 (빠르게. 여백이 1~2px 덜 정확함)
+// canvas: 캐릭터 둘레 캔버스(neededCanvas, 그림자 빼고)의 끝에서 모델이 몇 px 떨어지는지 (음수 = 그 캔버스였으면 잘림).
+//   창 끝에 붙은 쪽은 창 끝 여백과 같아서 뺌. raw는 여유(CANVAS_PAD)·맞춤 전 뼈 반지름 범위에서 (음수면 여유가 메움)
 function measureEdges(rec, { every = 3, alone = false } = {}) {
   const clip = clips[resolve(rec.to)];
   if (!clip) return null;
+  setCanvasRect(null); // 창 끝을 재려면 창 전체를 그림 (펫 루프가 다음 프레임에 다시 줄임)
   const gl = renderer.getContext();
   const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight, dpr = w / canvas.clientWidth;
   const buf = new Uint8Array(w * h * 4);
@@ -1881,6 +1966,24 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
   const m = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity, topAt: 0, leftAt: 0, rightAt: 0, bottomAt: 0 };
   // 총·방패를 빼고 잰 여백도 따로: 총이 생기거나 사라지며 섞이는 0.1~0.4초 동안 작은 총이 늘어져 창 끝에 닿는 건 알고 둔 것 (2026-10-18 사용자)
   const body = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity };
+  const cv = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity, topAt: 0, leftAt: 0, rightAt: 0, bottomAt: 0, raw: Infinity };
+  const W = winBox.clientWidth, H = winBox.clientHeight;
+  const canvasMargins = (all, t) => {
+    if (all.top * dpr >= h) return; // 아무것도 안 그려짐
+    shadow.visible = false;
+    const need = neededCanvas(), raw = neededCanvas({ raw: true });
+    shadow.visible = true;
+    if (!need || !raw) return;
+    const px = { top: all.top, left: all.left, right: W - all.right, bottom: H - all.bottom }; // 모델이 그려진 범위 (창 px)
+    const gap = {
+      top: need.top > 0 ? px.top - need.top : Infinity,
+      left: need.left > 0 ? px.left - need.left : Infinity,
+      right: need.left + need.width < W ? need.left + need.width - px.right : Infinity,
+      bottom: need.top + need.height < H ? need.top + need.height - px.bottom : Infinity,
+    };
+    for (const k of ['top', 'left', 'right', 'bottom']) if (gap[k] < cv[k]) { cv[k] = gap[k]; cv[`${k}At`] = +t.toFixed(2); }
+    cv.raw = Math.min(cv.raw, px.top - raw.top, px.left - raw.left, raw.right - px.right, raw.bottom - px.bottom);
+  };
   const draw = () => {
     shadow.visible = false; // 발밑 그림자는 빼고 모델만 (그림자는 늘 창 아래 끝까지 감)
     renderer.render(scene, camera);
@@ -1910,6 +2013,7 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
       for (const k of ['top', 'left', 'right', 'bottom']) {
         if (all[k] < m[k]) { m[k] = all[k]; m[`${k}At`] = +t.toFixed(2); }
       }
+      canvasMargins(all, t);
       const shown = weaponMeshes.filter((o) => o.visible);
       let only = all;
       if (shown.length) {
@@ -1923,7 +2027,9 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
     },
   });
   for (const k of ['top', 'left', 'right', 'bottom']) { m[k] = Math.round(m[k]); body[k] = Math.round(body[k]); }
+  for (const k of ['top', 'left', 'right', 'bottom', 'raw']) cv[k] = Number.isFinite(cv[k]) ? Math.round(cv[k]) : null;
   m.body = body;
+  m.canvas = cv;
   return m;
 }
 
@@ -2062,6 +2168,7 @@ function drawSheet(names, { frames = 5, cell = [260, 200], label = 210, notes = 
   const g = sheet.getContext('2d');
   g.fillStyle = '#3c465f';
   g.fillRect(0, 0, sheet.width, sheet.height);
+  setCanvasRect(null); // 창 전체를 그려 잘라 씀 (펫 루프가 다음 프레임에 다시 줄임)
   const src = renderer.domElement;
   const unit = src.height / VIEW_HEIGHT;
   const sh = Math.min(src.height, 2.24 * unit);
@@ -2122,13 +2229,13 @@ function createBrowserStub() {
   const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });
   if (sim) {
     document.body.classList.add('sim');
-    Object.assign(canvas.style, {
+    Object.assign(winBox.style, {
       position: 'absolute', width: `${W}px`, height: `${H}px`,
       left: `${window.innerWidth - W - 120}px`, top: `${window.innerHeight - H}px`,
     });
   }
   const winRect = () => (sim
-    ? { x: parseFloat(canvas.style.left), y: parseFloat(canvas.style.top), width: W, height: H }
+    ? { x: parseFloat(winBox.style.left), y: parseFloat(winBox.style.top), width: W, height: H }
     : review ? { x: (1920 - W) / 2, y: 1040 - H, width: W, height: H } : area());
   return {
     readModel: () => fetch(new URL(`../../models/${encodeURIComponent(model)}`, import.meta.url)).then((r) => r.arrayBuffer()),
@@ -2136,7 +2243,7 @@ function createBrowserStub() {
     getSettings: async () => ({ walk: sim || review, model }),
     getBounds: async () => ({ win: winRect(), workArea: area() }),
     getWorkArea: async () => area(),
-    move(x, y) { if (sim) Object.assign(canvas.style, { left: `${x}px`, top: `${y}px` }); },
+    move(x, y) { if (sim) Object.assign(winBox.style, { left: `${x}px`, top: `${y}px` }); },
     cursor: (e) => ({ x: e.clientX, y: e.clientY }),
     setIgnoreMouse() {}, showMenu() {}, quit() {}, fx() {},
     onCommand() {}, onSettings() {}, onBoundsChanged() {},

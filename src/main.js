@@ -440,17 +440,24 @@ function showPetMenu() {
 }
 
 // 창이 그린 뒤 크기를 알려 오면 (아직 투명한 채로) 커서 옆에 옮기고, 그 크기로 다시 그린 뒤(menu:painted) 보이게 한다.
-// 창 안 판은 10px 안쪽 (그림자 자리)
-ipcMain.on('menu:ready', (_e, seq, w, h, flip) => {
+// 창 안 판은 10px 안쪽 (그림자 자리). h는 하위 메뉴를 다 제자리에 펼친 높이, mainH는 메인 판, minH는 가장 큰 판이 들어갈 높이
+// 메인 판은 커서 옆에 두고(아래에 다 안 들어가면 윈도우 기본 메뉴처럼 커서 위로) 창은 화면 아래 끝까지만: 하위 메뉴가 넘치면 그 판만 올린다.
+// 예전엔 창 전체(h)를 화면에 넣느라 커서가 화면 위쪽이 아니면 메인 판까지 커서보다 한참 위에 떴음(학원별 학생 목록이 길어 h 585px)
+// 판을 올릴 자리가 메인 판 위에 필요하면 창을 위로 늘리고 그만큼(offset) 메인 판을 아래로 내려 그린다
+ipcMain.on('menu:ready', (_e, seq, w, h, flip, mainH, minH) => {
   if (!menuAt || seq !== menuAt.seq || !menuWin) return;
   const { p, wa } = menuAt;
   const pad = 10;
+  const waBottom = wa.y + wa.height;
   let x = flip ? p.x - w + pad - 2 : p.x - pad + 2;
-  let y = p.y - pad + 2;
   x = Math.max(wa.x, Math.min(x, wa.x + wa.width - w));
-  y = Math.max(wa.y, Math.min(y, wa.y + wa.height - h));
-  menuWin.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: h });
-  menuWin.webContents.send('menu:placed', seq);
+  let top = p.y - pad + 2; // 메인 판 위 끝 - pad
+  if (top + mainH + pad * 2 > waBottom) top = p.y - mainH - pad - 2;
+  top = Math.max(wa.y, Math.min(top, waBottom - mainH - pad * 2));
+  const bottom = Math.min(top + h, waBottom);
+  const y = Math.max(wa.y, Math.min(top, bottom - minH));
+  menuWin.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: Math.round(bottom - y) });
+  menuWin.webContents.send('menu:placed', seq, Math.round(top - y), Math.round(bottom - y));
 });
 
 ipcMain.on('menu:painted', (_e, seq) => {

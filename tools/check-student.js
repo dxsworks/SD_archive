@@ -36,7 +36,7 @@ function run(label, cmd, args) {
 }
 
 // 사용자가 보고 그대로 두기로 한 경고 (2026-10-12). 새 학생에게 같은 종류가 나와도 "바로 추가"를 막지 않고 따로 적는다
-//   model: 특정 학생만(없으면 모든 학생), clip: 동작 이름, side: 창 끝 방향 / key: 넘어가는 곳(앞 → 뒤)
+//   model: 특정 학생만(없으면 모든 학생), clip: 동작 이름, side: 창 끝 방향(여럿이면 목록) / key: 넘어가는 곳(앞 → 뒤)
 const ACCEPTED = [
   { kind: 'edge', clip: /^Formation_Pickup/i, side: '아래', why: '집어 드는 순간 늘어진 총이 창 아래에 닿음' },
   { kind: 'edge', model: 'Hoshino.glb', clip: /^Exs$/i, side: '아래', why: '호시노 EX 끝에 바닥에 놓인 방패' },
@@ -44,6 +44,7 @@ const ACCEPTED = [
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Victory_Start$/i, side: '위', why: '하늘에서 떨어지며 착지하는 첫 순간 (그대로 두기로 한 연출, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'edge', model: 'Shiroko＊Terror.glb', clip: /^Normal02_FormRelease$/i, side: '위', why: '전투가 02로 끝나 떼어 보낸 드론이 날아가며 창 위로 나가 잘림, 몸은 그대로 (2026-10-30 사용자 "그대로 둠")' },
   { kind: 'edge', model: 'Otogi.glb', clip: /^Normal02_Attack_Start$/i, side: '아래', why: '거치 자세로 들어간 직후(ReadyStart → Attack_Start 0.12초) 몸 아래로 가는 선 하나가 잠깐 늘어남 (2026-10-30 사용자 "그대로 둠")' },
+  { kind: 'edge', model: 'Ayane (Swimsuit).glb', clip: /^Public01$/i, side: '위', why: '총 꺼내기 첫 1초쯤 헬기가 위에서 날아 들어오며 창 위 끝을 지남 (헬기 옆으로 나가는 건 이 학생만 창을 가로 6.55단위로 넓혀 고침, 2026-11-02 사용자 "아야네만 창 넓히기")' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },
@@ -53,7 +54,7 @@ const ACCEPTED = [
   { kind: 'angle', model: 'Reisa.glb', key: /^Normal_\w+ → Normal_\w+$/i, why: '구호(54°)·사격 시작(20°)·재장전(15°)이 몸을 한쪽으로 돌려 끝나 총 자세가 이어지는 동안 이어 받은 방향이 쌓이다가 가끔 이어 받기 한도를 넘은 50°쯤을 정면 쪽으로 돎 (30분에 0~1번, 총 자세로 넘어감 약 500번 중. 이치카와 같은 종류라 2026-11-01 그 결정대로 둠)' },
 ];
 const accepted = (model, w) => ACCEPTED.find((a) => a.kind === w.kind && (!a.model || a.model === model)
-  && (a.clip ? a.clip.test(w.clip) && w.what.startsWith(a.side) : a.key.test(w.key)));
+  && (a.clip ? a.clip.test(w.clip) && [a.side].flat().some((side) => w.what.startsWith(side)) : a.key.test(w.key)));
 
 // 경고 종류별로 Claude가 먼저 볼 곳
 const FIX = {
@@ -147,7 +148,7 @@ ${bad.length ? `<table><tr><th>넘어가는 곳</th><th class="num">30분에</th
 ${bad.map((r) => `<tr><td><code>${esc(r.key)}</code></td><td class="num">${r.count}번</td><td class="num">${r.spin}°</td></tr>`).join('')}</table>` : '<p class="dim">없음</p>'}
 
 <h2>창 끝</h2>
-<p class="dim">펫 창(보통 862×1065)에서 모델이 위·옆·아래 끝까지 남는 여백(px). 경고: 위 35px 미만, 옆·아래 3px 미만</p>
+<p class="dim">펫 창(보통 862×1140)에서 모델이 위·옆·아래 끝까지 남는 여백(px). 경고: 위 35px 미만, 옆·아래 3px 미만</p>
 <table><tr><th>동작</th><th class="num">위</th><th class="num">왼쪽</th><th class="num">오른쪽</th><th class="num">아래</th><th>경고</th></tr>
 ${edges.slice(0, Math.max(6, edgeWarn.length)).map((b) => `<tr><td><code>${esc(b.clip)}</code></td><td class="num">${b.top}</td><td class="num">${b.left}</td><td class="num">${b.right}</td><td class="num">${b.bottom}</td><td class="bad">${esc(b.warn.join(', '))}</td></tr>`).join('')}</table>
 

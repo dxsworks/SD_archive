@@ -2,12 +2,14 @@ const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage, shell } = 
 const path = require('path');
 const fs = require('fs');
 const { modelFiles } = require('./model-files');
+const { windowWidth } = require('./pet-window');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
-// 창은 월드 단위로 가로 4.0 × 세로 4.95 (pet.js VIEW_HEIGHT). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
-// 그중 아래 0.5단위(BELOW)는 발밑보다 아래: 카메라가 내려다봐서 앞으로 내디딘 발·그림자가 발 자리보다 25~40px 아래에 그려진다
+// 창은 월드 단위로 가로 4.0 × 세로 5.30 (pet.js VIEW_HEIGHT, 수영복 아야네만 가로 6.55: pet-window.js). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
+// 그중 아래 0.85단위(BELOW)는 발밑보다 아래: 카메라가 내려다봐서 앞으로 내디딘 발·그림자가 발 자리보다 25~40px 아래에 그려진다
 // (2026-10-12 시로코 웅크린 자세 등에서 잘렸음, 그때 0.2단위). 0.3단위 더 늘림(2026-10-30 사용자): 츠루기 날개가 낮잠으로 쓰러질 때
-// 최대 49px, 스미레 EX 공중제비 때 헤일로가 24px 창 아래로 나가 잘렸음.
+// 최대 49px, 스미레 EX 공중제비 때 헤일로가 24px 창 아래로 나가 잘렸음. 0.35단위 더(2026-11-02 사용자): 수영복 사오리 EX 끝에
+// DJ 테이블이 아래로 빠지며 창 아래로 최대 약 67px 나가 잘렸음.
 // 발이 화면에 서는 자리는 그대로이고 창만 아래로 늘어나, 맨 아래에 서면 작업 표시줄에 걸치고 화면 밖까지 나갈 수 있다
 // 투명한 창이라 넉넉하게: 아리스(배틀) Exs01은 날아올라 뒤로 1.2단위 갔다 오면서 발밑에서 2.1단위 높이·옆으로 1.8단위까지 간다
 // (예전 2.6 × 1.3 창에서는 위·옆이 크게 잘렸음. 호시노 EX 돌진은 옆으로 약 1.3단위)
@@ -16,11 +18,13 @@ const { modelFiles } = require('./model-files');
 // 위로 1.4단위 더(2026-11-01 사용자): 수영복 와카모 EX에서 던진 양산이 창 위로 최대 약 260px 나가 2초쯤 잘렸음.
 // 보통도 사용자 화면 작업 영역(852px)보다 높아짐 → createWindow에서 만든 뒤 크기를 다시 정한다
 const SIZES = {
-  small: { label: '작게', w: 615, h: 761, fx: 0.4 }, // fx: 클릭 효과 크기 배율
-  medium: { label: '보통', w: 862, h: 1065, fx: 0.5 },
-  large: { label: '크게', w: 1231, h: 1524, fx: 0.65 },
+  small: { label: '작게', w: 615, h: 815, fx: 0.4 }, // fx: 클릭 효과 크기 배율
+  medium: { label: '보통', w: 862, h: 1140, fx: 0.5 },
+  large: { label: '크게', w: 1231, h: 1632, fx: 0.65 },
 };
-const BELOW = 0.5 / 4.95; // 창 높이 중 발 자리보다 아래인 비율 (pet.js FOOT_MARGIN의 대부분)
+const BELOW = 0.85 / 5.30; // 창 높이 중 발 자리보다 아래인 비율 (pet.js FOOT_MARGIN의 대부분)
+// 지금 학생의 창 크기: 프리셋 크기에, 몸보다 훨씬 넓게 움직이는 학생(수영복 아야네 헬기)은 가로만 넓힘 (pet-window.js)
+const sizeOf = (key = settings.size) => ({ ...SIZES[key], w: windowWidth(settings.model, SIZES[key].w) });
 // 발이 작업 영역 맨 아래에 서도록 둘 때 창의 y
 const bottomY = (wa, h) => Math.round(wa.y + wa.height - h + h * BELOW);
 
@@ -63,7 +67,7 @@ function workAreaFor(bounds) {
 }
 
 function createWindow() {
-  const { w, h } = SIZES[settings.size];
+  const { w, h } = sizeOf();
   const wa = screen.getPrimaryDisplay().workArea;
   const bounds = { x: Math.round(wa.x + wa.width - w - 120), y: bottomY(wa, h), width: w, height: h };
 
@@ -175,7 +179,7 @@ function sendToPet(channel, payload) {
 function setSize(key) {
   if (!SIZES[key] || !win) return;
   const old = win.getBounds();
-  const { w, h } = SIZES[key];
+  const { w, h } = sizeOf(key);
   // 발밑 중앙을 기준으로 크기 변경
   const x = Math.round(old.x + old.width / 2 - w / 2);
   const y = Math.round(old.y + old.height * (1 - BELOW) - h * (1 - BELOW));
@@ -189,7 +193,7 @@ function setSize(key) {
 
 function resetPosition() {
   if (!win) return;
-  const { w, h } = SIZES[settings.size];
+  const { w, h } = sizeOf();
   const wa = screen.getPrimaryDisplay().workArea;
   win.setBounds({ x: Math.round(wa.x + wa.width - w - 120), y: bottomY(wa, h), width: w, height: h });
   sendToPet('pet:bounds-changed');
@@ -259,7 +263,18 @@ function setModel(file) {
   settings.model = file;
   saveSettings();
   rebuildMenus();
+  fitWindowWidth();
   if (win) win.reload();
+}
+
+// 학생마다 창 가로가 다를 수 있으니(pet-window.js) 학생을 바꾸면 발밑 가운데를 그대로 두고 가로만 맞춘다
+function fitWindowWidth() {
+  if (!win) return;
+  const old = win.getBounds();
+  const { w, h } = sizeOf();
+  if (old.width === w) return;
+  win.setBounds({ x: Math.round(old.x + old.width / 2 - w / 2), y: old.y, width: w, height: h });
+  sendToPet('pet:bounds-changed');
 }
 
 function openViewer() {
@@ -507,6 +522,7 @@ ipcMain.handle('pet:read-model', () => {
     if (!first) throw new Error('models 폴더에 .glb 파일이 없습니다');
     settings.model = first;
     file = studentFiles.pathOf(first);
+    fitWindowWidth();
   }
   return fs.readFileSync(file);
 });
@@ -534,7 +550,7 @@ ipcMain.handle('pet:get-work-area', (_e, x, y) => {
 
 ipcMain.on('pet:move', (_e, x, y) => {
   if (!win) return;
-  const { w, h } = SIZES[settings.size];
+  const { w, h } = sizeOf();
   // setPosition은 고DPI에서 창 크기가 조금씩 변하는 문제가 있어 setBounds 사용
   win.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: h });
 });

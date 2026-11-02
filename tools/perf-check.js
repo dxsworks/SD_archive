@@ -8,7 +8,7 @@ const { PET_SIZE, serve, openPet, sleep } = require('./pet-page');
 app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion'); // 화면 밖이라도 가려진 창으로 보고 멈추지 않게
 const model = process.argv.find((a) => a.endsWith('.glb')) ?? 'Hoshino.glb';
 const SECONDS = Number(process.argv.find((a) => a.startsWith('--seconds='))?.slice(10)) || 10;
-const CHEST_Y = PET_SIZE[1] - 384; // 몸 위(가슴께): 창은 위로만 늘어나니 창 아래 끝에서 잰다
+const CHEST_Y = PET_SIZE[1] - 459; // 몸 위(가슴께): 창 아래 끝에서 잰다 (발 자리가 창 아래에서 0.88단위 = 189px 위, 가슴은 그보다 270px 위)
 
 const pct = (arr, p) => { const s = [...arr].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(p * s.length))] ?? 0; };
 const avg = (arr) => arr.reduce((a, b) => a + b, 0) / (arr.length || 1);

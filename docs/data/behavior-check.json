@@ -21484,7 +21484,7 @@
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 7,
+    "time": 8.67,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -21505,7 +21505,7 @@
     "name": "낮잠 → 클릭으로 깨우기 (낮잠 없음 → 잠깐 무장)",
     "ok": true,
     "why": "",
-    "time": 38.6,
+    "time": 37.37,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -21517,7 +21517,7 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 19.97,
+    "time": 20.7,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -21526,8 +21526,6 @@
      "Normal_Attack_Delay",
      "Normal_Attack_End",
      "Normal_Reload",
-     "Move_Ing",
-     "Move_End_Normal",
      "Cafe_Idle"
     ]
    },
@@ -21535,7 +21533,7 @@
     "name": "집어 들었다 놓기",
     "ok": true,
     "why": "",
-    "time": 1.2,
+    "time": 1.23,
     "clips": [
      "Formation_Pickup",
      "Cafe_Idle"
@@ -21555,7 +21553,7 @@
     "name": "종료 (밧줄)",
     "ok": true,
     "why": "",
-    "time": 2,
+    "time": 2.03,
     "clips": [
      "Vital_Retreat"
     ]
@@ -21563,44 +21561,44 @@
   ],
   "longest": {
    "idle": {
-    "dur": 17.5,
-    "at": 487.8,
+    "dur": 16.7,
+    "at": 191.03,
     "clip": "Cafe_Idle"
-   },
-   "action": {
-    "dur": 6.5,
-    "at": 28,
-    "clip": "Normal_Attack_Start"
-   },
-   "armed": {
-    "dur": 19.2,
-    "at": 402.2,
-    "clip": "Normal_Idle"
-   },
-   "battle": {
-    "dur": 3.4,
-    "at": 1225.13,
-    "clip": "Normal_Idle"
-   },
-   "run": {
-    "dur": 2.3,
-    "at": 1784.7,
-    "clip": "Move_Ing"
    },
    "walk": {
     "dur": 7.5,
-    "at": 84.97,
+    "at": 7.2,
     "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 6.5,
+    "at": 146.17,
+    "clip": "Normal_Attack_Start"
+   },
+   "armed": {
+    "dur": 13.6,
+    "at": 1219.13,
+    "clip": "Normal_Idle"
    },
    "drag": {
     "dur": 1.5,
-    "at": 229.63,
+    "at": 36.83,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 231.13,
+    "at": 38.33,
     "clip": "Formation_Pickup"
+   },
+   "battle": {
+    "dur": 3.5,
+    "at": 341.27,
+    "clip": "Normal_Idle"
+   },
+   "run": {
+    "dur": 2.2,
+    "at": 964.23,
+    "clip": "Move_Ing"
    }
   },
   "stuck": [],

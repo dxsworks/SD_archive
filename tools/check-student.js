@@ -44,7 +44,7 @@ const ACCEPTED = [
   { kind: 'edge', model: 'Arisu (Battle).glb', clip: /^Victory_Start$/i, side: '위', why: '하늘에서 떨어지며 착지하는 첫 순간 (그대로 두기로 한 연출, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'edge', model: 'Shiroko＊Terror.glb', clip: /^Normal02_FormRelease$/i, side: '위', why: '전투가 02로 끝나 떼어 보낸 드론이 날아가며 창 위로 나가 잘림, 몸은 그대로 (2026-10-30 사용자 "그대로 둠")' },
   { kind: 'edge', model: 'Otogi.glb', clip: /^Normal02_Attack_Start$/i, side: '아래', why: '거치 자세로 들어간 직후(ReadyStart → Attack_Start 0.12초) 몸 아래로 가는 선 하나가 잠깐 늘어남 (2026-10-30 사용자 "그대로 둠")' },
-  { kind: 'edge', model: 'Ayane (Swimsuit).glb', clip: /./, side: ['위', '왼쪽', '오른쪽', '아래'], why: '무장·전투 동작 전부가 헬기(원본에 텍스처가 없어 하얌)를 타고 하는 것: 회전 날개가 창보다 넓어 양옆이 잘리고, 총 꺼내기·종료 때 헬기가 날아들고 나감. 2026-11-02 사용자: 창을 넓히는 건 GPU 최적화 세션에서 시험해 보기로 (섞을 때 몸이 부풀어 번쩍이던 것은 고침)' },
+  { kind: 'edge', model: 'Ayane (Swimsuit).glb', clip: /^Public01$/i, side: '위', why: '총 꺼내기 첫 1초쯤 헬기가 위에서 날아 들어오며 창 위 끝을 지남 (헬기 옆으로 나가는 건 이 학생만 창을 가로 6.55단위로 넓혀 고침, 2026-11-02 사용자 "아야네만 창 넓히기")' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },

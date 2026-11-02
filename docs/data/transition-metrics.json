@@ -343317,26 +343317,26 @@
  "Ayane (Swimsuit).glb": [
   {
    "key": "Normal_Reload → Normal_Idle",
-   "count": 65,
+   "count": 63,
    "mark": null,
    "verdict": "ok",
-   "spin": 2,
+   "spin": 0,
    "own": 0,
-   "gap": 122,
-   "slide": -1,
-   "twist": 2,
+   "gap": 66,
+   "slide": -3,
+   "twist": 0,
    "examples": [
     {
-     "spin": 2,
+     "spin": 0,
      "own": 0,
-     "gap": 122,
-     "slide": -1,
-     "twist": 2
+     "gap": 66,
+     "slide": -3,
+     "twist": 0
     },
     {
      "spin": 0,
      "own": 0,
-     "gap": 6,
+     "gap": 1,
      "slide": -3,
      "twist": 0
     },
@@ -343358,35 +343358,34 @@
   },
   {
    "key": "Normal_Idle → Normal_Reload",
-   "count": 59,
+   "count": 56,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 5,
-   "gap": 118,
+   "gap": 66,
    "slide": -2,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 5,
-     "gap": 118,
-     "slide": -4,
-     "twist": 0,
-     "click": true
+     "gap": 66,
+     "slide": -3,
+     "twist": 0
     },
     {
      "spin": 0,
      "own": 5,
-     "gap": 4,
-     "slide": -2,
+     "gap": 2,
+     "slide": -3,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 5,
      "gap": 0,
-     "slide": -5,
+     "slide": -2,
      "twist": 0
     },
     {
@@ -343394,26 +343393,25 @@
      "own": 5,
      "gap": 0,
      "slide": -3,
-     "twist": 0,
-     "click": true
+     "twist": 0
     }
    ]
   },
   {
    "key": "Normal_Idle → Normal_Attack_Start",
-   "count": 55,
+   "count": 54,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 1,
-   "gap": 120,
+   "gap": 66,
    "slide": -1,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 1,
-     "gap": 120,
+     "gap": 66,
      "slide": -1,
      "twist": 0
     },
@@ -343421,14 +343419,14 @@
      "spin": 0,
      "own": 1,
      "gap": 10,
-     "slide": -1,
+     "slide": -2,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 1,
      "gap": 1,
-     "slide": -2,
+     "slide": -1,
      "twist": 0
     },
     {
@@ -343442,33 +343440,33 @@
   },
   {
    "key": "Normal_Attack_Start → Normal_Attack_Ing",
-   "count": 55,
+   "count": 53,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 1,
-   "gap": 120,
+   "gap": 66,
    "slide": 0,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 1,
-     "gap": 120,
+     "gap": 66,
      "slide": 0,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 1,
-     "gap": 10,
+     "gap": 17,
      "slide": 0,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 1,
-     "gap": 2,
+     "gap": 0,
      "slide": 0,
      "twist": 0
     },
@@ -343483,20 +343481,20 @@
   },
   {
    "key": "Normal_Attack_Ing → Normal_Attack_Delay",
-   "count": 53,
+   "count": 49,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 0,
-   "gap": 120,
+   "gap": 66,
    "slide": -3,
    "twist": 1,
    "examples": [
     {
      "spin": 0,
      "own": 0,
-     "gap": 120,
-     "slide": -3,
+     "gap": 66,
+     "slide": -4,
      "twist": 1
     },
     {
@@ -343510,7 +343508,7 @@
      "spin": 0,
      "own": 0,
      "gap": 1,
-     "slide": -3,
+     "slide": -4,
      "twist": 1
     },
     {
@@ -343518,32 +343516,32 @@
      "own": 0,
      "gap": 0,
      "slide": -3,
-     "twist": 0
+     "twist": 1
     }
    ]
   },
   {
    "key": "Normal_Attack_Delay → Normal_Attack_End",
-   "count": 52,
+   "count": 48,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 0,
-   "gap": 119,
+   "gap": 66,
    "slide": 0,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 0,
-     "gap": 119,
+     "gap": 66,
      "slide": 0,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 0,
-     "gap": 10,
+     "gap": 18,
      "slide": 0,
      "twist": 0
     },
@@ -343565,26 +343563,26 @@
   },
   {
    "key": "Normal_Attack_Ing → Normal_Attack_Ing",
-   "count": 52,
+   "count": 47,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 1,
-   "gap": 120,
+   "gap": 66,
    "slide": 0,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 1,
-     "gap": 120,
+     "gap": 66,
      "slide": 0,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 1,
-     "gap": 11,
+     "gap": 22,
      "slide": 0,
      "twist": 0
     },
@@ -343611,28 +343609,28 @@
    "verdict": "ok",
    "spin": 0,
    "own": 0,
-   "gap": 120,
+   "gap": 66,
    "slide": -3,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 0,
-     "gap": 120,
+     "gap": 66,
      "slide": -3,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 0,
-     "gap": 10,
+     "gap": 17,
      "slide": -3,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 0,
-     "gap": 2,
+     "gap": 1,
      "slide": -3,
      "twist": 0
     },
@@ -343647,48 +343645,48 @@
   },
   {
    "key": "Cafe_Idle → Cafe_Walk",
-   "count": 35,
+   "count": 39,
    "mark": null,
    "verdict": "ok",
-   "spin": 160,
+   "spin": 157,
    "own": 19,
-   "gap": 162,
-   "slide": 33,
-   "twist": 198,
+   "gap": 160,
+   "slide": 27,
+   "twist": 195,
    "examples": [
     {
-     "spin": 160,
+     "spin": 157,
      "own": 19,
-     "gap": 162,
-     "slide": 28,
-     "twist": 198
+     "gap": 160,
+     "slide": 27,
+     "twist": 195
     },
     {
-     "spin": 71,
+     "spin": 122,
      "own": 19,
-     "gap": 94,
-     "slide": 33,
-     "twist": 87
+     "gap": 123,
+     "slide": 20,
+     "twist": 173
     },
     {
-     "spin": 95,
+     "spin": 93,
      "own": 19,
-     "gap": 96,
-     "slide": 15,
-     "twist": 157
+     "gap": 95,
+     "slide": 16,
+     "twist": 155
     },
     {
-     "spin": 26,
+     "spin": 22,
      "own": 19,
-     "gap": 27,
+     "gap": 22,
      "slide": 13,
-     "twist": 115
+     "twist": 111
     }
    ]
   },
   {
    "key": "Public01 → Normal_Idle",
-   "count": 27,
+   "count": 28,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
@@ -343729,7 +343727,7 @@
   },
   {
    "key": "Cafe_Idle → Public01",
-   "count": 26,
+   "count": 25,
    "mark": null,
    "verdict": "ok",
    "spin": 46,
@@ -343746,16 +343744,16 @@
      "twist": 0
     },
     {
-     "spin": 46,
+     "spin": 44,
      "own": 1,
-     "gap": 48,
+     "gap": 46,
      "slide": 0,
      "twist": 0
     },
     {
-     "spin": 41,
+     "spin": 39,
      "own": 1,
-     "gap": 42,
+     "gap": 40,
      "slide": 0,
      "twist": 0
     },
@@ -343770,171 +343768,48 @@
   },
   {
    "key": "Cafe_Walk → Cafe_Idle",
-   "count": 26,
+   "count": 25,
    "mark": null,
    "verdict": "ok",
-   "spin": 164,
-   "own": 0,
-   "gap": 164,
-   "slide": 44,
-   "twist": 162,
-   "examples": [
-    {
-     "spin": 164,
-     "own": 0,
-     "gap": 164,
-     "slide": 44,
-     "twist": 162
-    },
-    {
-     "spin": 80,
-     "own": 0,
-     "gap": 80,
-     "slide": 42,
-     "twist": 104
-    },
-    {
-     "spin": 61,
-     "own": 0,
-     "gap": 61,
-     "slide": 14,
-     "twist": 146
-    },
-    {
-     "spin": 18,
-     "own": 0,
-     "gap": 18,
-     "slide": 17,
-     "twist": 108
-    }
-   ]
-  },
-  {
-   "key": "Normal_Idle → Move_Ing",
-   "count": 23,
-   "mark": null,
-   "verdict": "ok",
-   "spin": 127,
-   "own": 0,
-   "gap": 127,
-   "slide": 137,
-   "twist": 45,
-   "examples": [
-    {
-     "spin": 127,
-     "own": 0,
-     "gap": 127,
-     "slide": 137,
-     "twist": 45
-    },
-    {
-     "spin": 85,
-     "own": 0,
-     "gap": 85,
-     "slide": 65,
-     "twist": 24
-    },
-    {
-     "spin": 35,
-     "own": 0,
-     "gap": 35,
-     "slide": 15,
-     "twist": 10
-    },
-    {
-     "spin": 5,
-     "own": 0,
-     "gap": 5,
-     "slide": -5,
-     "twist": 2
-    }
-   ]
-  },
-  {
-   "key": "Move_Ing → Move_End_Normal",
-   "count": 21,
-   "mark": null,
-   "verdict": "ok",
-   "spin": 58,
-   "own": 7,
-   "gap": 62,
-   "slide": 190,
-   "twist": 57,
-   "examples": [
-    {
-     "spin": 58,
-     "own": 7,
-     "gap": 62,
-     "slide": 190,
-     "twist": 57
-    },
-    {
-     "spin": 40,
-     "own": 7,
-     "gap": 43,
-     "slide": 127,
-     "twist": 39
-    },
-    {
-     "spin": 32,
-     "own": 7,
-     "gap": 36,
-     "slide": 83,
-     "twist": 28
-    },
-    {
-     "spin": 32,
-     "own": 7,
-     "gap": 35,
-     "slide": 56,
-     "twist": 20
-    }
-   ]
-  },
-  {
-   "key": "Move_End_Normal → Normal_Idle",
-   "count": 20,
-   "mark": null,
-   "verdict": "ok",
-   "spin": 16,
+   "spin": 136,
    "own": 0,
    "gap": 136,
-   "slide": 48,
-   "twist": 16,
+   "slide": 37,
+   "twist": 214,
    "examples": [
     {
-     "spin": 16,
+     "spin": 136,
      "own": 0,
      "gap": 136,
-     "slide": 48,
-     "twist": 16
+     "slide": 37,
+     "twist": 214
     },
     {
-     "spin": 0,
+     "spin": 132,
      "own": 0,
-     "gap": 11,
-     "slide": -3,
-     "twist": 0
+     "gap": 132,
+     "slide": 37,
+     "twist": 130
     },
     {
-     "spin": 0,
+     "spin": 98,
      "own": 0,
-     "gap": 2,
-     "slide": -3,
-     "twist": 0
+     "gap": 98,
+     "slide": 34,
+     "twist": 96
     },
     {
-     "spin": 0,
+     "spin": 19,
      "own": 0,
-     "gap": 0,
-     "slide": -3,
-     "twist": 0
+     "gap": 19,
+     "slide": 20,
+     "twist": 114
     }
    ]
   },
   {
    "key": "Cafe_Reaction → Cafe_Idle",
-   "count": 19,
+   "count": 22,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
@@ -343974,74 +343849,104 @@
    ]
   },
   {
-   "key": "Cafe_Idle → Cafe_Reaction",
-   "count": 13,
+   "key": "Normal_Idle → Move_Ing",
+   "count": 17,
    "mark": null,
    "verdict": "ok",
-   "spin": 13,
-   "own": 12,
-   "gap": 13,
-   "slide": 7,
-   "twist": 16,
+   "spin": 125,
+   "own": 0,
+   "gap": 125,
+   "slide": 134,
+   "twist": 44,
    "examples": [
     {
-     "spin": 13,
-     "own": 12,
-     "gap": 13,
-     "slide": 6,
-     "twist": 15,
-     "click": true
+     "spin": 125,
+     "own": 0,
+     "gap": 125,
+     "slide": 134,
+     "twist": 44
+    },
+    {
+     "spin": 61,
+     "own": 0,
+     "gap": 62,
+     "slide": 56,
+     "twist": 22
+    },
+    {
+     "spin": 34,
+     "own": 0,
+     "gap": 35,
+     "slide": 15,
+     "twist": 10
     },
     {
      "spin": 13,
-     "own": 12,
+     "own": 0,
      "gap": 13,
-     "slide": 7,
-     "twist": 15,
-     "click": true
+     "slide": -1,
+     "twist": 4
+    }
+   ]
+  },
+  {
+   "key": "Move_Ing → Move_End_Normal",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 58,
+   "own": 7,
+   "gap": 62,
+   "slide": 190,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 58,
+     "own": 7,
+     "gap": 62,
+     "slide": 190,
+     "twist": 57
     },
     {
-     "spin": 13,
-     "own": 12,
-     "gap": 13,
-     "slide": 6,
-     "twist": 16,
-     "click": true
+     "spin": 35,
+     "own": 7,
+     "gap": 39,
+     "slide": 64,
+     "twist": 23
     },
     {
-     "spin": 13,
-     "own": 12,
-     "gap": 13,
-     "slide": 6,
-     "twist": 15,
-     "click": true
+     "spin": 32,
+     "own": 7,
+     "gap": 36,
+     "slide": 99,
+     "twist": 33
+    },
+    {
+     "spin": 22,
+     "own": 7,
+     "gap": 25,
+     "slide": 37,
+     "twist": 14
     }
    ]
   },
   {
    "key": "Normal_Idle → Cafe_Idle",
-   "count": 11,
+   "count": 16,
    "mark": null,
    "verdict": "ok",
-   "spin": 56,
+   "spin": 48,
    "own": 0,
-   "gap": 56,
-   "slide": 2,
-   "twist": 10,
+   "gap": 48,
+   "slide": 1,
+   "twist": 6,
    "examples": [
     {
-     "spin": 56,
+     "spin": 35,
      "own": 0,
-     "gap": 56,
-     "slide": 2,
-     "twist": 10
-    },
-    {
-     "spin": 51,
-     "own": 0,
-     "gap": 51,
-     "slide": 0,
-     "twist": 3
+     "gap": 35,
+     "slide": 1,
+     "twist": 6
     },
     {
      "spin": 48,
@@ -344051,17 +343956,65 @@
      "twist": 4
     },
     {
-     "spin": 46,
+     "spin": 48,
      "own": 0,
-     "gap": 46,
+     "gap": 48,
      "slide": 0,
-     "twist": 3
+     "twist": 4
+    },
+    {
+     "spin": 40,
+     "own": 0,
+     "gap": 40,
+     "slide": 0,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Move_End_Normal → Normal_Idle",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 42,
+   "slide": -3,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 42,
+     "slide": -3,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 9,
+     "slide": -3,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 1,
+     "slide": -3,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": -3,
+     "twist": 0
     }
    ]
   },
   {
    "key": "Formation_Pickup → Cafe_Idle",
-   "count": 11,
+   "count": 12,
    "mark": null,
    "verdict": "ok",
    "spin": 17,
@@ -344101,43 +344054,131 @@
    ]
   },
   {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 12,
+   "gap": 13,
+   "slide": 7,
+   "twist": 15,
+   "examples": [
+    {
+     "spin": -6,
+     "own": 12,
+     "gap": 6,
+     "slide": 1,
+     "twist": 4,
+     "click": true
+    },
+    {
+     "spin": 13,
+     "own": 12,
+     "gap": 13,
+     "slide": 7,
+     "twist": 15,
+     "click": true
+    },
+    {
+     "spin": 13,
+     "own": 12,
+     "gap": 13,
+     "slide": 6,
+     "twist": 15,
+     "click": true
+    },
+    {
+     "spin": 13,
+     "own": 12,
+     "gap": 13,
+     "slide": 6,
+     "twist": 15,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 128,
+   "own": 12,
+   "gap": 153,
+   "slide": 44,
+   "twist": 165,
+   "examples": [
+    {
+     "spin": 128,
+     "own": 12,
+     "gap": 153,
+     "slide": 33,
+     "twist": 145,
+     "click": true
+    },
+    {
+     "spin": 96,
+     "own": 12,
+     "gap": 120,
+     "slide": 44,
+     "twist": 156,
+     "click": true
+    },
+    {
+     "spin": 82,
+     "own": 12,
+     "gap": 82,
+     "slide": 23,
+     "twist": 165,
+     "click": true
+    },
+    {
+     "spin": 35,
+     "own": 12,
+     "gap": 59,
+     "slide": 27,
+     "twist": 121,
+     "click": true
+    }
+   ]
+  },
+  {
    "key": "Normal_Attack_End → Normal_Reload",
-   "count": 6,
+   "count": 7,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 5,
-   "gap": 20,
+   "gap": 46,
    "slide": 0,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 5,
-     "gap": 20,
+     "gap": 46,
      "slide": 0,
      "twist": 0
     },
     {
      "spin": 0,
      "own": 5,
-     "gap": 2,
+     "gap": 7,
      "slide": 0,
-     "twist": 0,
-     "click": true
+     "twist": 0
     },
     {
      "spin": 0,
      "own": 5,
-     "gap": 2,
+     "gap": 3,
      "slide": 0,
-     "twist": 0,
-     "click": true
+     "twist": 0
     },
     {
      "spin": 0,
      "own": 5,
-     "gap": 0,
+     "gap": 1,
      "slide": 0,
      "twist": 0
     }
@@ -344145,15 +344186,22 @@
   },
   {
    "key": "Normal_Idle → Formation_Pickup",
-   "count": 6,
+   "count": 4,
    "mark": null,
    "verdict": "ok",
-   "spin": 122,
+   "spin": 139,
    "own": 12,
-   "gap": 37,
+   "gap": 30,
    "slide": 7,
    "twist": 8,
    "examples": [
+    {
+     "spin": 135,
+     "own": 12,
+     "gap": 5,
+     "slide": 2,
+     "twist": 6
+    },
     {
      "spin": 13,
      "own": 12,
@@ -344162,199 +344210,57 @@
      "twist": 8
     },
     {
-     "spin": 101,
+     "spin": 105,
      "own": 12,
-     "gap": 37,
-     "slide": 0,
-     "twist": 2
-    },
-    {
-     "spin": 122,
-     "own": 12,
-     "gap": 37,
+     "gap": 30,
      "slide": -1,
-     "twist": 1
-    },
-    {
-     "spin": 107,
-     "own": 12,
-     "gap": 26,
-     "slide": -1,
-     "twist": -1
-    }
-   ]
-  },
-  {
-   "key": "Normal_Attack_End → Cafe_Idle",
-   "count": 5,
-   "mark": null,
-   "verdict": "ok",
-   "spin": 55,
-   "own": 0,
-   "gap": 55,
-   "slide": 2,
-   "twist": 9,
-   "examples": [
-    {
-     "spin": 55,
-     "own": 0,
-     "gap": 55,
-     "slide": 2,
-     "twist": 9
-    },
-    {
-     "spin": 49,
-     "own": 0,
-     "gap": 49,
-     "slide": 0,
-     "twist": 4
-    },
-    {
-     "spin": 47,
-     "own": 0,
-     "gap": 47,
-     "slide": 0,
-     "twist": 3
-    },
-    {
-     "spin": 11,
-     "own": 0,
-     "gap": 2,
-     "slide": 0,
-     "twist": 2
-    }
-   ]
-  },
-  {
-   "key": "Cafe_Walk → Cafe_Reaction",
-   "count": 5,
-   "mark": null,
-   "verdict": "ok",
-   "spin": 128,
-   "own": 12,
-   "gap": 132,
-   "slide": 43,
-   "twist": 163,
-   "examples": [
-    {
-     "spin": 128,
-     "own": 12,
-     "gap": 128,
-     "slide": 43,
-     "twist": 133,
-     "click": true
-    },
-    {
-     "spin": 108,
-     "own": 12,
-     "gap": 132,
-     "slide": 12,
-     "twist": 163,
-     "click": true
-    },
-    {
-     "spin": 45,
-     "own": 12,
-     "gap": 69,
-     "slide": 10,
-     "twist": 66,
-     "click": true
-    },
-    {
-     "spin": -7,
-     "own": 12,
-     "gap": 11,
-     "slide": 22,
-     "twist": 27,
-     "click": true
-    }
-   ]
-  },
-  {
-   "key": "Cafe_Walk → Formation_Pickup",
-   "count": 3,
-   "mark": null,
-   "verdict": "ok",
-   "spin": 130,
-   "own": 12,
-   "gap": 146,
-   "slide": 0,
-   "twist": 0,
-   "examples": [
-    {
-     "spin": 130,
-     "own": 12,
-     "gap": 132,
-     "slide": 0,
      "twist": 0
     },
     {
-     "spin": 129,
+     "spin": 139,
      "own": 12,
-     "gap": 146,
+     "gap": 15,
      "slide": 0,
      "twist": 0
-    },
-    {
-     "spin": 98,
-     "own": 12,
-     "gap": 100,
-     "slide": 0,
-     "twist": 0
-    }
-   ]
-  },
-  {
-   "key": "Move_Ing → Normal_Reload",
-   "count": 2,
-   "mark": null,
-   "verdict": "ok",
-   "spin": 19,
-   "own": 5,
-   "gap": 140,
-   "slide": 68,
-   "twist": 19,
-   "examples": [
-    {
-     "spin": 19,
-     "own": 5,
-     "gap": 140,
-     "slide": 68,
-     "twist": 19,
-     "click": true
-    },
-    {
-     "spin": 0,
-     "own": 5,
-     "gap": 49,
-     "slide": 7,
-     "twist": 0,
-     "click": true
     }
    ]
   },
   {
    "key": "Cafe_Idle → Formation_Pickup",
-   "count": 2,
+   "count": 4,
    "mark": null,
    "verdict": "ok",
-   "spin": 31,
+   "spin": 14,
    "own": 12,
-   "gap": 33,
+   "gap": 16,
    "slide": 0,
    "twist": 0,
    "examples": [
     {
-     "spin": 31,
+     "spin": 14,
      "own": 12,
-     "gap": 33,
+     "gap": 16,
      "slide": 0,
      "twist": 0
     },
     {
-     "spin": 15,
+     "spin": 11,
      "own": 12,
-     "gap": 17,
+     "gap": 13,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 9,
+     "own": 12,
+     "gap": 11,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 5,
+     "own": 12,
+     "gap": 7,
      "slide": 0,
      "twist": 0
     }
@@ -344362,19 +344268,35 @@
   },
   {
    "key": "Normal_Attack_Ing → Normal_Attack_End",
-   "count": 2,
+   "count": 4,
    "mark": null,
    "verdict": "ok",
    "spin": 0,
    "own": 0,
-   "gap": 11,
-   "slide": 0,
+   "gap": 46,
+   "slide": -2,
    "twist": 0,
    "examples": [
     {
      "spin": 0,
      "own": 0,
-     "gap": 11,
+     "gap": 46,
+     "slide": -2,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 18,
+     "slide": -2,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 7,
      "slide": -2,
      "twist": 0,
      "click": true
@@ -344383,54 +344305,84 @@
      "spin": 0,
      "own": 0,
      "gap": 2,
-     "slide": 0,
+     "slide": -2,
      "twist": 0,
      "click": true
     }
    ]
   },
   {
-   "key": "Normal_Reload → Cafe_Idle",
-   "count": 2,
+   "key": "Normal_Attack_End → Cafe_Idle",
+   "count": 4,
    "mark": null,
    "verdict": "ok",
-   "spin": 35,
+   "spin": 49,
    "own": 0,
-   "gap": 35,
-   "slide": 1,
-   "twist": 6,
+   "gap": 49,
+   "slide": 0,
+   "twist": 3,
    "examples": [
     {
-     "spin": 35,
+     "spin": 49,
      "own": 0,
-     "gap": 35,
-     "slide": 1,
-     "twist": 6
+     "gap": 49,
+     "slide": 0,
+     "twist": 3
     },
     {
-     "spin": 12,
+     "spin": 32,
      "own": 0,
-     "gap": 2,
+     "gap": 32,
      "slide": 0,
-     "twist": 2
+     "twist": 1
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 10,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 11,
+     "slide": 0,
+     "twist": 1
     }
    ]
   },
   {
    "key": "Cafe_Walk → Public01",
-   "count": 1,
+   "count": 3,
    "mark": null,
    "verdict": "ok",
-   "spin": 105,
+   "spin": 113,
    "own": 1,
-   "gap": 107,
+   "gap": 115,
    "slide": 0,
    "twist": 0,
    "examples": [
     {
-     "spin": 105,
+     "spin": 113,
      "own": 1,
-     "gap": 107,
+     "gap": 115,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 81,
+     "own": 1,
+     "gap": 82,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 14,
+     "own": 1,
+     "gap": 14,
      "slide": 0,
      "twist": 0,
      "click": true
@@ -344438,43 +344390,111 @@
    ]
   },
   {
-   "key": "Normal_Attack_End → Cafe_Reaction",
+   "key": "Move_End_Normal → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 122,
+   "own": 12,
+   "gap": 40,
+   "slide": 0,
+   "twist": 3,
+   "examples": [
+    {
+     "spin": 100,
+     "own": 12,
+     "gap": 40,
+     "slide": 0,
+     "twist": 3
+    },
+    {
+     "spin": 122,
+     "own": 12,
+     "gap": 37,
+     "slide": -1,
+     "twist": 1
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Start → Normal_Attack_End",
    "count": 1,
    "mark": null,
    "verdict": "ok",
-   "spin": 12,
-   "own": 12,
-   "gap": 36,
-   "slide": -2,
-   "twist": 2,
+   "spin": 0,
+   "own": 0,
+   "gap": 5,
+   "slide": 0,
+   "twist": 0,
    "examples": [
     {
-     "spin": 12,
-     "own": 12,
-     "gap": 36,
-     "slide": -2,
-     "twist": 2,
+     "spin": 0,
+     "own": 0,
+     "gap": 5,
+     "slide": 0,
+     "twist": 0,
      "click": true
     }
    ]
   },
   {
-   "key": "Move_End_Normal → Cafe_Idle",
+   "key": "Move_Ing → Normal_Reload",
    "count": 1,
    "mark": null,
    "verdict": "ok",
-   "spin": 12,
-   "own": 0,
-   "gap": 10,
-   "slide": 0,
-   "twist": 1,
+   "spin": 0,
+   "own": 5,
+   "gap": 24,
+   "slide": 7,
+   "twist": 0,
    "examples": [
     {
-     "spin": 12,
-     "own": 0,
-     "gap": 10,
+     "spin": 0,
+     "own": 5,
+     "gap": 24,
+     "slide": 7,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Normal_Attack_Delay → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 125,
+   "own": 12,
+   "gap": 32,
+   "slide": -1,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 125,
+     "own": 12,
+     "gap": 32,
+     "slide": -1,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Normal_Reload → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 99,
+   "own": 12,
+   "gap": 41,
+   "slide": 0,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": 99,
+     "own": 12,
+     "gap": 41,
      "slide": 0,
-     "twist": 1
+     "twist": 2
     }
    ]
   }

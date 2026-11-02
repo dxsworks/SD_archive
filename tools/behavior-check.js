@@ -43,8 +43,9 @@ app.whenReady().then(async () => {
     const tests = [];
     const hasNap = await js('__pet.hasNap');
     for (let [name, start, until, limit, mid] of TESTS) {
-      // 낮잠 동작(Vital_Death)이 없는 학생(수영복 아야네)은 낮잠 대신 잠깐 무장 → 대기로 돌아오는지만
-      if (mid?.expect === 'nap' && !hasNap) { name = `${name} (낮잠 없음 → 잠깐 무장)`; limit = 60; mid = null; }
+      // 낮잠 동작(Vital_Death)이 없는 학생(수영복 아야네)은 낮잠 대신 잠깐 무장으로 들어가는지만 (무장 15~40초 뒤 자동 전투로도
+      // 이어져 대기까지는 길이가 무작위라 60초를 넘기도 했음. 무장 → 대기는 '잠깐 무장 (5초)'가 봄)
+      if (mid?.expect === 'nap' && !hasNap) { name = '낮잠 (낮잠 없음 → 잠깐 무장)'; until = 'armed'; limit = 10; mid = null; }
       await js('__pet.reset(); 0');
       await js(`${start}; 0`);
       let trace = [];

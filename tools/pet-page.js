@@ -7,6 +7,7 @@ const fs = require('fs');
 // 서버의 파일을 Electron이 캐시해서 코드를 고친 직후 예전 코드로 도는 일이 있음 → 캐시 끔 (pet-url.js와 같음)
 require('electron').app.commandLine.appendSwitch('disable-http-cache');
 const ROOT = path.resolve(__dirname, '..');
+const { windowWidth } = require(path.join(ROOT, 'src', 'pet-window.js'));
 const MARKS = path.join(ROOT, 'docs', 'data', 'transition-marks.json');
 const DEFAULT_MODELS = ['Hoshino.glb', 'Hoshino (Swimsuit).glb', 'Shiroko.glb', 'Arisu (Battle).glb'];
 const SIM_SECONDS = 1800; // 펫 시간 30분
@@ -28,16 +29,23 @@ function serve() {
 
 // 화면 밖 창: 펫 창 보통 크기(main.js SIZES.medium). 작업 영역(사용자 화면 852px)보다 높은 창은 만들 때 높이가 줄어
 // 배율이 바뀌므로(2026-10-31 1100px로 잡았다가 852px로 줄어 잘못 잼) 만든 뒤 크기를 다시 정한다
-const PET_SIZE = [862, 1065];
+const PET_SIZE = [862, 1140];
 function petWindow([w, h] = PET_SIZE) {
   const { BrowserWindow } = require('electron');
   const win = new BrowserWindow({ show: false, width: w, height: h, useContentSize: true, webPreferences: { offscreen: true, backgroundThrottling: false } });
   win.setContentSize(w, h);
+  win.petDefault = w === PET_SIZE[0] && h === PET_SIZE[1]; // 보통 크기 창은 학생마다 가로를 맞춘다 (openPet)
   return win;
 }
 
 // 화면 밖 창에 펫 페이지(?review)를 열고 모델을 다 읽을 때까지 기다린다. 돌려주는 js(코드)로 페이지 안에서 실행
+// 보통 크기 창이면 그 학생의 창 가로로 맞춘다(src/pet-window.js, 수영복 아야네는 넓음). 다른 크기를 흉내 내는 창(--window)은 그대로
 async function openPet(win, port, model, query = '') {
+  if (win.petDefault && !query.includes('&window=')) {
+    const w = windowWidth(model, PET_SIZE[0]);
+    win.setContentSize(w, PET_SIZE[1]);
+    query += `&window=${w}x${PET_SIZE[1]}`;
+  }
   await win.loadURL(`http://127.0.0.1:${port}/src/renderer/index.html?review${query}&model=${encodeURIComponent(model)}`);
   const js = (code) => win.webContents.executeJavaScript(code);
   for (let i = 0; i < 100 && !(await js('Boolean(window.__pet?.clip)')); i++) await sleep(100);

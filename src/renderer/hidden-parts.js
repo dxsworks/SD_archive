@@ -39,6 +39,10 @@ function findHiddenParts(root) {
 // EX처럼 처음·끝에만 숨기는 동작도 있어서(수영복 호시노 Exs → 승리 포즈에서도 번쩍임) 숨긴 순간마다 따진다.
 // → 숨겨진 뼈 아래 뼈들은 숨긴 순간의 값을 기본 자세 값으로 바꾼다 (트랙은 남겨서 "그 동작이 움직이는 뼈"는 그대로).
 //   키를 직접 고치면 곡선 접선 때문에 깨지므로, 원래 보간으로 원래 키 시각 + 1/60초마다 값을 뽑아 직선 보간 트랙으로 새로 담는다.
+// 단 아래 뼈가 크기를 도로 키워 되살리면 숨긴 게 아니다: 수영복 아야네는 몸 뼈대가 헬기 뼈(Bone_Body) 아래에 있어,
+// 카페 동작이 헬기를 0.001로 줄이고 몸(character_root)을 1000배로 되돌린다. 예전엔 그 1000배도 기본 값 1로 바꿔 몸이 사라지고
+// 가방만 떠 있었다 → 숨긴 뼈부터 그 뼈의 부모까지, 그리고 그 뼈까지 크기를 곱한 값이 둘 다 0 가까울 때만 숨긴 것으로 본다
+// (부모까지만 보면 몸을 되살리는 character_root를, 그 뼈까지만 보면 몸 아래에서 따로 숨는 총 뼈를 잘못 바꿈) (2026-11-02)
 // 모델을 읽은 뒤, 동작을 틀기 전에 한 번 부른다
 const HIDDEN_SCALE = 0.02;
 const STEP = 1 / 60;
@@ -47,6 +51,7 @@ export function restUnderHiddenBones(root, animations) {
   root.traverse((o) => nodes.set(THREE.PropertyBinding.sanitizeNodeName(o.name), o));
   const split = (tr) => { const i = tr.name.lastIndexOf('.'); return [nodes.get(tr.name.slice(0, i)), tr.name.slice(i + 1)]; };
   const tiny = (values) => values.every((v) => Math.abs(v) < HIDDEN_SCALE);
+  const largest = (values) => Math.max(...[...values].map(Math.abs));
   for (const clip of animations) {
     // 어느 순간이라도 크기가 0 가까이 되는 뼈 → 그 순간을 알려 주는 함수
     const hiders = clip.tracks.filter((tr) => split(tr)[0] && split(tr)[1] === 'scale').map((tr) => {
@@ -54,6 +59,17 @@ export function restUnderHiddenBones(root, animations) {
       return { bone: split(tr)[0], tr, at: (t) => tiny(f.evaluate(t)) };
     }).filter((h) => h.tr.times.some(h.at));
     if (!hiders.length) continue;
+    // t초에 이 뼈의 크기 (이 동작이 안 움직이면 기본 값)
+    const scales = new Map(clip.tracks.filter((tr) => split(tr)[0] && split(tr)[1] === 'scale').map((tr) => [split(tr)[0], tr.createInterpolant()]));
+    const scaleOf = (node, t) => (scales.has(node) ? largest(scales.get(node).evaluate(t)) : largest(node.scale.toArray()));
+    // 숨긴 뼈 h 때문에 node가 안 보이는지: h부터 node의 부모까지 곱한 크기가 0 가깝고(중간에 도로 키우면 보임),
+    // node 자기 크기로도 되살리지 않을 때
+    const stillHidden = (h, node, t) => {
+      let s = 1;
+      for (let n = node.parent; n && n !== h.bone; n = n.parent) s *= scaleOf(n, t);
+      s *= scaleOf(h.bone, t);
+      return s < HIDDEN_SCALE && s * scaleOf(node, t) < HIDDEN_SCALE;
+    };
     clip.tracks = clip.tracks.map((tr) => {
       const [node, prop] = split(tr);
       if (!node || !['position', 'quaternion', 'scale'].includes(prop)) return tr;
@@ -63,7 +79,7 @@ export function restUnderHiddenBones(root, animations) {
         .filter((t) => t <= clip.duration + 1e-6).sort((a, b) => a - b);
       const f = tr.createInterpolant();
       const rest = node[prop].toArray();
-      const hiddenAt = times.map((t) => above.some((h) => h.at(t)));
+      const hiddenAt = times.map((t) => above.some((h) => h.at(t) && stillHidden(h, node, t)));
       if (!hiddenAt.some(Boolean)) return tr;
       const Track = prop === 'quaternion' ? THREE.QuaternionKeyframeTrack : THREE.VectorKeyframeTrack;
       if (hiddenAt.every(Boolean)) return new Track(tr.name, [0], rest);
@@ -71,6 +87,113 @@ export function restUnderHiddenBones(root, animations) {
       return new Track(tr.name, times, values);
     });
   }
+}
+
+// 숨긴 뼈 아래에서 크기를 도로 키워 되살리는 뼈는 두 동작을 섞을 때 크기가 뼈마다 따로 직선으로 섞여 곱이 부푼다:
+// 수영복 아야네 카페 동작(헬기 0.001 × 몸 1000) → 헬기 동작(0.6 × 1)이면 섞는 중간에 0.3 × 500 = 150배 → 무장을 시작할 때마다
+// 몸이 창을 덮어 살구색으로 번쩍였다. 미나 낮잠 → 카페 반응의 소품, 나구사 카페 동작의 총알도 창 끝까지 커졌다 (2026-11-02)
+// → 되살리는 뼈와 그 아래 크기 키가 있는 뼈마다 "숨긴 뼈부터 그 뼈까지 곱한 크기"가 섞이는 동작들의 그 순간 값보다 커지면 줄인다.
+// 모델을 읽을 때(restUnderHiddenBones 뒤, 동작을 틀기 전) 한 번 부르고, 돌려주는 함수를 mixer.update() 뒤마다 mixer를 주고 부른다
+export function limitRevivedScales(root, animations) {
+  const nodes = new Map();
+  root.traverse((o) => nodes.set(THREE.PropertyBinding.sanitizeNodeName(o.name), o));
+  const split = (tr) => { const i = tr.name.lastIndexOf('.'); return [nodes.get(tr.name.slice(0, i)), tr.name.slice(i + 1)]; };
+  const largest = (values) => Math.max(...[...values].map(Math.abs));
+  const scaleTracks = (clip) => clip.tracks.filter((tr) => split(tr)[0] && split(tr)[1] === 'scale');
+  // 1) 되살리는 뼈 → 그 위 가장 높은 숨긴 뼈
+  const top = new Map();
+  for (const clip of animations) {
+    const scales = new Map(scaleTracks(clip).map((tr) => [split(tr)[0], tr.createInterpolant()]));
+    const scaleOf = (node, t) => (scales.has(node) ? largest(scales.get(node).evaluate(t)) : largest(node.scale.toArray()));
+    for (const tr of scaleTracks(clip)) {
+      const h = split(tr)[0];
+      const hidden = [...tr.times].filter((t) => scaleOf(h, t) < HIDDEN_SCALE);
+      if (!hidden.length) continue;
+      for (const node of scales.keys()) {
+        if (node === h || !isAncestor(h, node)) continue;
+        if (top.has(node) && !isAncestor(h, top.get(node))) continue; // 이미 같거나 더 높은 숨긴 뼈를 찾음
+        for (const t of hidden) {
+          let s = scaleOf(h, t);
+          for (let n = node; n !== h; n = n.parent) s *= scaleOf(n, t);
+          if (s >= HIDDEN_SCALE) { top.set(node, h); break; }
+        }
+      }
+    }
+  }
+  if (!top.size) return () => {};
+  // 2) 되살리는 뼈와 그 아래 크기 키가 있는 뼈: 숨긴 뼈까지 곱한 크기의 최대 (모든 동작의 키 시각, 안 움직이면 기본 값)
+  const keyed = new Set(animations.flatMap((c) => scaleTracks(c).map((tr) => split(tr)[0])));
+  const under = new Map(); // 뼈 → 그 위 가장 높은 숨긴 뼈 (되살리는 뼈가 겹쳐 있어도 한 번만)
+  for (const [revived, h] of top) {
+    for (const node of keyed) {
+      if (node !== revived && !isAncestor(revived, node)) continue;
+      if (!under.has(node) || isAncestor(h, under.get(node))) under.set(node, h);
+    }
+  }
+  const depthOf = (node) => { let d = 0; for (let n = node.parent; n; n = n.parent) d++; return d; };
+  const scaleOfClip = new Map(animations.map((clip) => [clip, new Map(scaleTracks(clip).map((tr) => [split(tr)[0], tr]))]));
+  const limits = [...under].map(([node, h]) => {
+    const chain = [];
+    for (let n = node; n !== h; n = n.parent) chain.push(n);
+    chain.push(h);
+    // 동작마다 t초에 이 사슬의 크기를 곱한 값 (그 동작이 안 움직이는 뼈는 기본 값: 섞을 때 믹서도 기본 값을 씀)
+    const of = new Map(animations.map((clip) => { // 이름으로 (연달아 사격의 쌍둥이 동작은 같은 이름의 복사본)
+      const f = chain.map((n) => scaleOfClip.get(clip).get(n)?.createInterpolant() ?? largest(n.scale.toArray()));
+      return [clip.name, (t) => f.reduce((p, x) => p * (typeof x === 'number' ? x : largest(x.evaluate(t))), 1)];
+    }));
+    return { node, chain, of, rest: chain.reduce((p, n) => p * largest(n.scale.toArray()), 1), depth: depthOf(node) };
+  });
+  limits.sort((a, b) => a.depth - b.depth); // 위 뼈부터 줄여야 아래 뼈가 줄인 값으로 잼
+  const size = (v) => Math.max(Math.abs(v.x), Math.abs(v.y), Math.abs(v.z));
+  // 3) 크기만 묶으면 위치가 남는다: 숨긴 뼈 아래 값은 그 작은 크기 기준이라(나구사 카페 동작은 총 0.01배 안에서 총알 위치가 100배)
+  //    섞는 동안 부모는 커지는데 위치는 아직 커서 총알이 창 끝까지 날아갔음 → 섞이는 동작 중 부모를 숨긴 것과 안 숨긴 것이 같이 있으면
+  //    되살리는 뼈는 안 숨긴 동작(그중 가중치가 큰 것)의 값을 그대로 씀 (아야네는 헬기 동작의 몸 자리로 헬기와 같이 커짐)
+  const transformTracks = (clip, node) => ['position', 'quaternion', 'scale'].map((prop) => clip.tracks.find((tr) => split(tr)[0] === node && split(tr)[1] === prop));
+  const revivedList = [...top].map(([node, h]) => {
+    const above = [];
+    for (let n = node.parent; n !== h; n = n.parent) above.push(n);
+    above.push(h);
+    const restParent = above.reduce((p, n) => p * largest(n.scale.toArray()), 1);
+    const rest = [node.position.toArray(), node.quaternion.toArray(), node.scale.toArray()];
+    const of = new Map(animations.map((clip) => {
+      const f = above.map((n) => scaleOfClip.get(clip).get(n)?.createInterpolant() ?? largest(n.scale.toArray()));
+      const own = transformTracks(clip, node).map((tr, i) => (tr ? tr.createInterpolant() : rest[i]));
+      return [clip.name, {
+        parent: (t) => f.reduce((p, x) => p * (typeof x === 'number' ? x : largest(x.evaluate(t))), 1),
+        apply: (t) => {
+          const [pos, quat, scale] = own.map((x) => (Array.isArray(x) ? x : x.evaluate(t)));
+          node.position.fromArray(pos);
+          node.quaternion.fromArray(quat).normalize();
+          node.scale.fromArray(scale);
+        },
+      }];
+    }));
+    return { of, restParent };
+  });
+  // 크기 상한 = 지금 섞이는 동작들의 그 순간 값 중 최대 (모든 동작의 최대로 하면 나구사는 재장전 한 순간에 총알이 0.97배라
+  // 카페 → EX를 섞는 동안 총알이 평소 0.1배의 10배로 커지는 걸 못 막았음). 동작 하나뿐이고 가중치가 1이면 섞는 게 아님
+  return (mixer) => {
+    const actions = mixer._actions.slice(0, mixer._nActiveActions).filter((a) => a.getEffectiveWeight() > 0);
+    const weight = actions.reduce((s, a) => s + a.getEffectiveWeight(), 0);
+    if (actions.length < 2 && weight > 0.999) return;
+    for (const { of, restParent } of revivedList) {
+      let hidden = weight < 0.999 && restParent < HIDDEN_SCALE; // 가중치가 모자라면 믹서가 기본 값을 섞음
+      let pick = null;
+      for (const a of actions) {
+        const f = of.get(a.getClip().name);
+        if (!f) continue;
+        if (f.parent(a.time) < HIDDEN_SCALE) hidden = true;
+        else if (!pick || a.getEffectiveWeight() > pick.a.getEffectiveWeight()) pick = { a, f };
+      }
+      if (hidden && pick) pick.f.apply(pick.a.time);
+    }
+    for (const { node, chain, of, rest } of limits) {
+      let max = weight < 0.999 ? rest : 0; // 가중치가 모자라면 믹서가 기본 값을 섞음
+      for (const a of actions) max = Math.max(max, of.get(a.getClip().name)?.(a.time) ?? rest);
+      const p = chain.reduce((s, n) => s * size(n.scale), 1);
+      if (p > max * 1.01) node.scale.multiplyScalar(max / p);
+    }
+  };
 }
 
 // t초에 크기를 0 가까이로 숨긴 소품 뼈 이름들. 몸 뼈(Bip001*)는 뺀다: 주먹 쥘 때 손가락 뼈를 크기 0으로 하는 동작이 있음

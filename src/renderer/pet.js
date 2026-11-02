@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, showSwitchedWeapons, hiddenPropsAt, showsProp } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, limitRevivedScales, showSwitchedWeapons, hiddenPropsAt, showsProp } from './hidden-parts.js';
 import { addOutlines } from './outline.js';
 import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
@@ -17,12 +17,14 @@ import {
 // 0.15 더(2026-10-31 사용자): 미네 EX 점프 꼭대기에서 머리카락·날개가 창 위 10px까지 감(잘리지는 않지만 위 여유 기준 35px 아래).
 // 1.4 더(2026-11-01 사용자): 수영복 와카모 EX에서 하늘로 던진 양산이 발에서 909px(4.22단위)까지 올라가 창 위로 최대 약 260px, 2초쯤 잘렸음
 // → 4.95 = 발 위 4.42단위(위 여유 42px). 사용자 화면(작업 영역 852px)에서는 맨 아래에 서도 양산 꼭대기가 화면 위로 나가지만 그래도 늘림(GPU 약 29 → 41%)
-const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 4.95;
+// 아래로 0.35 더(2026-11-02 사용자): 수영복 사오리 EX 끝에 DJ 테이블이 아래로 빠지며 창 아래로 최대 약 67px 나가 잘렸음 → 5.30 (FOOT_MARGIN 0.88)
+const VIEW_HEIGHT = Number(new URLSearchParams(location.search).get('viewHeight')) || 5.30;
 const TILT = THREE.MathUtils.degToRad(12);       // 카페처럼 살짝 위에서 내려다보는 각도
 // 발 자리(바닥 원점)가 창 맨 아래에서 이만큼 위 (월드 단위). 카메라가 내려다봐서 앞으로 내디딘 발·그림자는 발 자리보다
-// 25~40px 아래에 그려지므로 0.2단위, 날개·헤일로가 발밑 아래로 내려오는 동작(츠루기 낮잠, 스미레 EX)에 0.3단위를 더 둔다
+// 25~40px 아래에 그려지므로 0.2단위, 날개·헤일로가 발밑 아래로 내려오는 동작(츠루기 낮잠, 스미레 EX)에 0.3단위,
+// 소품이 발밑 아래로 빠지는 동작(수영복 사오리 EX 끝 DJ 테이블)에 0.35단위를 더 둔다
 // (main.js BELOW). 정사영 카메라라 늘려도 발 위쪽 그림은 그대로. ?footMargin=은 검사 도구가 예전 창을 흉내 낼 때
-const FOOT_MARGIN = Number(new URLSearchParams(location.search).get('footMargin')) || 0.53;
+const FOOT_MARGIN = Number(new URLSearchParams(location.search).get('footMargin')) || 0.88;
 const FACE_FRONT = 0;
 // 전투 동작은 옆을 보도록 만들어져 있어서 카메라 쪽으로 돌림. ?battleFace=(도)는 각도 비교용
 const FACE_BATTLE = THREE.MathUtils.degToRad(Number(new URLSearchParams(location.search).get('battleFace')) || 60);
@@ -436,6 +438,7 @@ async function loadModel() {
   cafeOutfit = await borrowCafeOutfit(gltf);
   gltf.animations = gltf.animations.filter((c) => !skipClip(settings.model, c.name)); // 학생별로 안 쓰기로 한 동작 (clip-names.js SKIP_CLIPS)
   restUnderHiddenBones(gltf.scene, gltf.animations); // 숨긴 소품 아래 뼈가 섞일 때 늘어나지 않게
+  const limitRevived = limitRevivedScales(gltf.scene, gltf.animations); // 되살리는 뼈가 섞일 때 부풀지 않게 (동작을 틀기 전 기본 값으로 잼)
   showSwitchedWeapons(gltf.scene, gltf.animations); // 키가 없는 동작에서 무기가 기본 값(숨김)으로 돌아가지 않게 (메구)
 
   gltf.scene.traverse((obj) => {
@@ -473,6 +476,8 @@ async function loadModel() {
   measureFrontFaces();
   bodyBones = ['Bip001_L_Foot', 'Bip001_R_Foot', 'Bip001_Pelvis', 'Bip001_Head'].map((n) => gltf.scene.getObjectByName(n)).filter(Boolean);
   mixer = new THREE.AnimationMixer(gltf.scene);
+  const update = mixer.update.bind(mixer);
+  mixer.update = (dt) => { update(dt); limitRevived(mixer); return mixer; }; // 섞은 뒤마다 (hidden-parts.js limitRevivedScales)
   mixer.addEventListener('finished', (e) => {
     const cb = doneCallbacks.get(e.action);
     if (!cb || e.action !== currentAction) return;
@@ -653,7 +658,7 @@ let turnSync = null; // { t, fade, from }
 function syncTurn(prev, fade) {
   turnSync = null;
   if (!SYNC_TURN || !prev || fade <= 0) return;
-  const fromNap = clipKey(prev.getClip().name) === clipKey(resolve(clipName('nap')) ?? '');
+  const fromNap = hasNap() && clipKey(prev.getClip().name) === clipKey(resolve(clipName('nap')) ?? '');
   if (carry !== 0 || fromNap) turnSync = { t: 0, fade, from: pivot.rotation.y };
 }
 
@@ -837,8 +842,11 @@ function startWalk() {
 const fidget = () => (armed ? armedFidget() : startArmed());
 const wakeUp = () => playSequence(calmOk(clipName('wake')) ? ['wake'] : victoryPose(), { fade: 0.8, onEnd: toIdle });
 
+// 낮잠 동작이 있는지 (clipName('nap')은 없으면 파일 첫 동작을 돌려줘서 has()로 못 봄. 수영복 아야네는 Vital_Death가 없어
+// 낮잠 대신 첫 동작 Cafe_Reaction을 틀고 20~45초 멈춰 있었음, 2026-11-02)
+const hasNap = () => ANIM.nap.some(has);
 function startNap() {
-  if (!has(clipName('nap'))) { fidget(); return; }
+  if (!hasNap()) { fidget(); return; }
   setState('nap');
   napDuration = rand(20, 45);
   facing = FACE_NAP;
@@ -1702,6 +1710,7 @@ window.__pet = {
   get clipTurns() { return Object.fromEntries([...clipTurns].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get victoryPoses() { return victoryPoses(); },
   get exVariants() { return exVariants(); },
+  get hasNap() { return hasNap(); },
   get exAfters() { return Object.fromEntries(exAfters); },
   get formEx() { return formEx; },
   get forms() { return [...forms]; },
@@ -2148,7 +2157,8 @@ function poseRec(name, face = null) {
 }
 
 // 동작 시트 (tools/check-student.js): 동작마다 한 줄, 고르게 frames장. 그 동작이 나올 만한 방향으로 혼자 틀어 그린다
-// 창에서 가운데 60%·아래 2.24단위만 (위쪽은 날아오르는 EX 말고는 비어 있음. 창을 위로 늘려도 시트 그림은 그대로)
+// 창에서 가운데 60%·발 아래 0.53단위부터 위로 2.24단위만 (위쪽은 날아오르는 EX 말고는 비어 있음. 창을 위·아래로 늘려도 시트 그림은 그대로)
+const SHEET_BELOW = 0.53;
 // notes: { 동작: [이유, …] } 있으면 이름 아래에 적는다 (사람이 볼 동작만 고른 시트)
 function drawSheet(names, { frames = 5, cell = [260, 200], label = 210, notes = {} } = {}) {
   const [cw, ch] = cell;
@@ -2160,8 +2170,9 @@ function drawSheet(names, { frames = 5, cell = [260, 200], label = 210, notes = 
   g.fillRect(0, 0, sheet.width, sheet.height);
   setCanvasRect(null); // 창 전체를 그려 잘라 씀 (펫 루프가 다음 프레임에 다시 줄임)
   const src = renderer.domElement;
-  const sh = src.height * Math.min(1, 2.24 / VIEW_HEIGHT);
-  const [sx, sw, sy] = [src.width * 0.2, src.width * 0.6, src.height - sh];
+  const unit = src.height / VIEW_HEIGHT;
+  const sh = Math.min(src.height, 2.24 * unit);
+  const [sx, sw, sy] = [src.width * 0.2, src.width * 0.6, Math.max(0, src.height - sh - Math.max(0, FOOT_MARGIN - SHEET_BELOW) * unit)];
   const near = floor.toFloor(workArea.x + workArea.width / 2, workArea.y + workArea.height - 2);
   names.forEach((name, i) => {
     const clip = clips[name];
@@ -2212,7 +2223,7 @@ function createBrowserStub() {
   const sim = q.has('sim');
   const model = q.get('model') ?? 'Hoshino.glb'; // 테스트 도구의 --model=
   // main.js SIZES.medium과 같게. 검사 도구가 예전 창을 흉내 낼 때만 ?window=560x280
-  const [W, H] = (q.get('window') ?? '862x1065').split('x').map(Number);
+  const [W, H] = (q.get('window') ?? '862x1140').split('x').map(Number);
   // ?review: 넘어가는 곳 확인 도구. 페이지는 펫 창 크기 그대로, 바닥은 1920×1040 바탕화면인 셈 치고 걷기·뛰기도 한다
   const review = q.has('review');
   const area = () => (review ? { x: 0, y: 0, width: 1920, height: 1040 } : { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight });

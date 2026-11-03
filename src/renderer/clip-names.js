@@ -71,6 +71,7 @@ export const CLIP_TYPOS = {
   fomation_pickup: 'formation_pickup',   // Tomoe (Qipao)
   normal_callsign1: 'normal_callsign',   // Koyuki (움직임이 다른 구호 1·2: 같은 이름에 묶으면 2는 안 나옴
   normal_callsign2: 'normal_callsign_random', //   → 2는 다른 학생의 두 번째 구호(_Random)처럼 잠깐 무장에서 섞음)
+  normal_reload_01: 'normal_reload_random', // Izumi (Swimsuit) (몸 움직임이 다른 재장전: 수박·코코넛 주스를 꺼내 발밑에 두고 사라짐 → 재장전 변형처럼 섞음)
 };
 // 승리 포즈·쓰러짐·퇴장·뛰기·차림 풀기 앞에 Normal_이 붙은 학생 (Shiroko＊Terror Normal01_Victory_Start·Normal02_Vital_Death·
 // Normal02_FormRelease, Kazusa Normal_Move_Ing) → 앞의 Normal_을 뗀다. 조사 295개 중 Normal_이 없는 같은 이름과 같이 있는 모델은 없음

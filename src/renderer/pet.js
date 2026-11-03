@@ -7,7 +7,7 @@ import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
-  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf, skipClip, cafeOutfitFile, hasCafeIdle,
+  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, JUMP_VARIANT, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf, skipClip, cafeOutfitFile, hasCafeIdle,
   formVariants,
 } from './clip-names.js';
 
@@ -1435,7 +1435,7 @@ function update(dt) {
       facing = Math.atan2(dx, dz);
       if (runJumpAt !== null && dist < runJumpAt) {
         runJumpAt = null;
-        play('Move_Jump', { once: true, fade: 0.1, onDone: () => { if (state === 'run') play('Move_Ing', { fade: 0.1 }); } });
+        play(has(JUMP_VARIANT) && Math.random() < 0.5 ? JUMP_VARIANT : 'Move_Jump', { once: true, fade: 0.1, onDone: () => { if (state === 'run') play('Move_Ing', { fade: 0.1 }); } });
       }
       break;
     }

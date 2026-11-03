@@ -38,8 +38,10 @@ export const VICTORIES = [['Victory_Start', 'Victory_End'], ['Victory_Start_Rand
 // 02 차림을 푸는 동작: 전투가 02 차림으로 끝나면 승리 포즈 앞에 (Shiroko＊Terror Normal02_FormRelease = 상자 드론이 날아감.
 // Kurumi·Otogi·Subaru·Eimi (Battle)·Mika (Swimsuit)·Toki는 번호 없이 FormRelease) (사용자 2026-10-24)
 export const FORM_RELEASE = 'FormRelease';
+// 두 번째 구르기(리오(배틀) Move_Jump_random: 같은 1초 구르기에 몸 궤적이 조금 다르고 표정·총 뼈도 움직임): 있으면 Move_Jump와 무작위로
+export const JUMP_VARIANT = 'Move_Jump_Random';
 // 위 목록 밖에서 pet.js가 이름을 직접 부르는 동작 (자세별 동작은 stanceAll)
-export const OTHER_CLIPS = ['Move_Ing', 'Move_Jump', 'Vital_Retreat', FORM_RELEASE];
+export const OTHER_CLIPS = ['Move_Ing', 'Move_Jump', JUMP_VARIANT, 'Vital_Retreat', FORM_RELEASE];
 // 학생별로 안 쓰는 동작 (사용자 결정). 펫은 모델을 읽을 때 지우고 검사 도구도 없는 것으로 본다
 // 2026-10-29 Toki: 로봇(기계 장갑 CH0187_Machine)을 탄 모습은 안 씀 → 02 차림 전부, EX 둘(Exs01은 로봇을 부르고 Exs02는 탄 채),
 //   로봇에서 내리는 FormRelease, 로봇에 탄 승리 포즈(Victory_*_Random). EX가 없으니 더블클릭은 EX 없는 학생처럼

@@ -101,17 +101,24 @@ export function limitRevivedScales(root, animations) {
   const largest = (values) => Math.max(...[...values].map(Math.abs));
   const scaleTracks = (clip) => clip.tracks.filter((tr) => split(tr)[0] && split(tr)[1] === 'scale');
   // 1) 되살리는 뼈 → 그 위 가장 높은 숨긴 뼈
+  //    숨긴 뼈는 크기 키가 0 가까운 뼈, 또는 그 동작이 크기를 안 움직여 기본 크기(0 가까이)로 숨어 있는 뼈:
+  //    카즈사(밴드)는 디저트 소품 뼈(bone_desert_root)를 기본 크기 0.001로 두고 대부분 동작이 포크를 1460배로 되살리는데,
+  //    두 번째 구호만 디저트 뼈를 1로 키우고 포크 키가 없어(기본 1.46) 섞는 0.1초 동안 포크가 150~290배로 부풀어
+  //    창을 덮었음 (2026-11-03. 원본 289개 중 이 경우는 이 학생뿐)
   const top = new Map();
   for (const clip of animations) {
-    const scales = new Map(scaleTracks(clip).map((tr) => [split(tr)[0], tr.createInterpolant()]));
+    const tracks = new Map(scaleTracks(clip).map((tr) => [split(tr)[0], tr]));
+    const scales = new Map([...tracks].map(([n, tr]) => [n, tr.createInterpolant()]));
     const scaleOf = (node, t) => (scales.has(node) ? largest(scales.get(node).evaluate(t)) : largest(node.scale.toArray()));
-    for (const tr of scaleTracks(clip)) {
-      const h = split(tr)[0];
-      const hidden = [...tr.times].filter((t) => scaleOf(h, t) < HIDDEN_SCALE);
-      if (!hidden.length) continue;
+    const hiders = new Map([...tracks].map(([n, tr]) => [n, [...tr.times]])); // 숨긴 뼈 → 따져 볼 시각 (null: 되살리는 뼈의 키 시각)
+    for (const node of tracks.keys()) {
+      for (let n = node.parent; n; n = n.parent) if (!tracks.has(n) && largest(n.scale.toArray()) < HIDDEN_SCALE) hiders.set(n, null);
+    }
+    for (const [h, times] of hiders) {
       for (const node of scales.keys()) {
         if (node === h || !isAncestor(h, node)) continue;
         if (top.has(node) && !isAncestor(h, top.get(node))) continue; // 이미 같거나 더 높은 숨긴 뼈를 찾음
+        const hidden = (times ?? [...tracks.get(node).times]).filter((t) => scaleOf(h, t) < HIDDEN_SCALE);
         for (const t of hidden) {
           let s = scaleOf(h, t);
           for (let n = node; n !== h; n = n.parent) s *= scaleOf(n, t);

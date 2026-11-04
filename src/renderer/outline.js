@@ -7,16 +7,13 @@ const THICKNESS = 0.006 * 0.18;
 
 // 모델을 화면에 놓기 전(루트가 원점·배율 1일 때) 부른다. 돌려주는 함수를 매 프레임 불러 원본 메시의 보임/숨김을 따라가게 한다.
 export function addOutlines(root) {
-  root.updateMatrixWorld(true);
-  root.traverse((o) => { if (o.isSkinnedMesh) o.skeleton.update(); }); // 스킨 메시 크기를 재려면 뼈 행렬이 필요
-  const height = new THREE.Box3().setFromObject(root, true).getSize(new THREE.Vector3()).y;
+  const thickOf = outlineThickness(root);
   const meshes = [];
   root.traverse((o) => { if (o.isMesh) meshes.push(o); });
 
   const pairs = meshes.map((mesh) => {
     if (!mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals(); // 부풀릴 방향이 필요
-    const scale = new THREE.Vector3().setFromMatrixScale(mesh.matrixWorld).x;
-    const thick = (THICKNESS * height) / scale; // 메시 자신의 좌표 단위로
+    const thick = thickOf(mesh);
     const toOutline = (m) => outlineMaterial(m, thick);
     const material = Array.isArray(mesh.material) ? mesh.material.map(toOutline) : toOutline(mesh.material);
     const outline = mesh.isSkinnedMesh ? new THREE.SkinnedMesh(mesh.geometry, material) : new THREE.Mesh(mesh.geometry, material);
@@ -30,6 +27,14 @@ export function addOutlines(root) {
     return [mesh, outline];
   });
   return () => { for (const [mesh, outline] of pairs) outline.visible = mesh.visible; };
+}
+
+// 메시마다 외곽선 두께(메시 자신의 좌표 단위). 캐릭터 둘레 캔버스(tight-canvas.js)도 이만큼 넓혀 잡는다
+export function outlineThickness(root) {
+  root.updateMatrixWorld(true);
+  root.traverse((o) => { if (o.isSkinnedMesh) o.skeleton.update(); }); // 스킨 메시 크기를 재려면 뼈 행렬이 필요
+  const height = new THREE.Box3().setFromObject(root, true).getSize(new THREE.Vector3()).y;
+  return (mesh) => (THICKNESS * height) / new THREE.Vector3().setFromMatrixScale(mesh.matrixWorld).x;
 }
 
 function outlineMaterial(src, thick) {

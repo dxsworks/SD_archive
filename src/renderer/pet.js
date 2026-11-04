@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
 import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, limitRevivedScales, showSwitchedWeapons, hiddenPropsAt, showsProp } from './hidden-parts.js';
-import { addOutlines } from './outline.js';
+import { addOutlines, outlineThickness } from './outline.js';
 import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
@@ -451,7 +451,7 @@ async function loadModel() {
   // 옷으로 숨긴 메시는 매 프레임 되살린 뒤 모프 숨김 → 옷 숨김 (모프 숨김 타깃이 없는 몸 메시는 hideParts가 다시 켜 주지 않음)
   const outfitMeshes = cafeOutfit ? [...cafeOutfit.cafe, ...cafeOutfit.battle] : [];
   updateHiddenParts = () => { for (const m of outfitMeshes) m.visible = true; hideParts(); applyOutfit(); };
-  canvasSpheres = meshSpheres(gltf.scene); // 외곽선 메시를 달기 전에 (외곽선은 원본 메시를 따라 보이고 두께는 CANVAS_PAD 안)
+  canvasSpheres = meshSpheres(gltf.scene, outlineThickness(gltf.scene)); // 외곽선 메시를 달기 전에 (외곽선은 원본 메시를 따라 보임, 두께는 반지름에 더함)
   updateOutlines = addOutlines(gltf.scene); // 숨김 판정·무기 목록을 만든 뒤에 (외곽선 메시는 거기 들어가지 않게)
   refreshWeapons(); // 동작을 틀기 전에는 무기를 숨김
   pivot.add(gltf.scene);
@@ -783,6 +783,7 @@ function setState(next) {
   state = next;
   stateTime = 0;
   pivotTarget.set(0, 0, 0);
+  if (next === 'pose' || next === 'replay') { following = false; stepOff = null; } // 재기·다시 틀기는 앞 EX의 창 따라가기를 안 이어 받음
 }
 
 function toIdle({ fade = 0.25 } = {}) {
@@ -916,7 +917,9 @@ const battleReady = () => (clock() - lastBattleEnd) / 1000 > BATTLE_COOLDOWN;
 // 한 자리에서는 같은 방향으로 싸우고, 뛰어서 자리를 옮기면 새로 정한다
 // 전투 자리 방향: 겨누는 쪽(aim)에서 그 자세의 대기·사격 동작 얼굴이 보이도록 돌린 방향
 const stanceClips = (st) => [stanceIdle(st), ...ATTACK_STEPS.map((step) => `${st}_${step}`)];
-const battleFace = () => (battle ? showFace(battle.aim, stanceClips(battle.stance)) : aimFace(Math.random() < 0.5 ? 1 : -1));
+let exFaceFix = null; // __pet.exFace (녹화용)
+const battleFace = () => (battle ? showFace(battle.aim, stanceClips(battle.stance))
+  : exFaceFix !== null ? THREE.MathUtils.degToRad(exFaceFix) : aimFace(Math.random() < 0.5 ? 1 : -1));
 
 function rest() {
   if (battle) battleIdle();
@@ -1249,7 +1252,7 @@ function exSkill() {
   if (toForm2) form = 2;
   const variants = exVariants();
   const ex = toForm2 && formEx ? formEx : variants.length ? pickRandom(variants) : 'ex';
-  const onEnd = () => { stayWhereEnded(currentAction?.getClip().name); rest(); };
+  const onEnd = () => { if (!FOLLOW_EX) stayWhereEnded(currentAction?.getClip().name); rest(); };
   playSequence([...back, ex, ...(exAfters.get(ex) ?? [])], { face: battleFace(), as: 'ex', onEnd });
 }
 
@@ -1264,6 +1267,11 @@ let stepOff = null; // { t, fade, from } 모델 위치 보정을 from → 0으�
 function stayWhereEnded(name) {
   const end = name && clipEnds.get(name);
   if (!end || end.length() < EX_STAY || thighs.length < 2) return;
+  // 새 펫 자리: 몸이 간 곳의 발밑
+  if (moveUnder(end.clone().applyAxisAngle(UP, pivot.rotation.y).add(pivot.position))) stepOff = { t: 0, fade: STAY_FADE, from: pivot.position.clone() };
+}
+// 펫 자리를 went(모델 위치 보정 공간, 바닥 평면)만큼 옮기고 골반이 화면에서 그대로 남게 모델 위치 보정을 고친다
+function moveUnder(went) {
   const k = winH / VIEW_HEIGHT; // 창 안 1단위 = k px
   const view = (v) => v.applyMatrix4(camera.matrixWorldInverse);
   const hipPx = () => { // 골반(두 허벅지 가운데)의 화면 자리: 창 자리 + 창 안 px
@@ -1274,12 +1282,11 @@ function stayWhereEnded(name) {
   // 모델 위치 보정을 바닥 평면(x, z)으로 1단위 옮기면 화면에서 몇 px 가는지 (root 크기 포함)
   const unit = (x, z) => { const o = view(new THREE.Vector3(x, 0, z).multiplyScalar(root.scale.x)).sub(view(new THREE.Vector3())); return [o.x * k, -o.y * k]; };
   const before = hipPx();
-  // 새 펫 자리: 몸이 간 곳의 발밑이 보이는 화면 자리 (창 안 깊이와 바닥 원근이 달라 바닥 단위로 더하면 위아래로 어긋남)
-  const went = end.clone().applyAxisAngle(UP, pivot.rotation.y).add(pivot.position);
+  // 몸이 간 곳의 발밑이 보이는 화면 자리 (창 안 깊이와 바닥 원근이 달라 바닥 단위로 더하면 위아래로 어긋남)
   const [ux, uz] = [unit(1, 0), unit(0, 1)];
   const g = floor.toScreen(pos.x, pos.z);
   const spot = floor.toFloor(g.x + went.x * ux[0] + went.z * uz[0], g.y + went.x * ux[1] + went.z * uz[1]);
-  if (!spot) return;
+  if (!spot) return false;
   floor.clamp(pos.set(spot.x, 0, spot.z));
   placeWindow();
   const after = hipPx();
@@ -1288,7 +1295,32 @@ function stayWhereEnded(name) {
   const det = a[0] * b[1] - b[0] * a[1];
   pivot.position.x += (ex * b[1] - b[0] * ey) / det;
   pivot.position.z += (a[0] * ey - ex * a[1]) / det;
-  stepOff = { t: 0, fade: STAY_FADE, from: pivot.position.clone() };
+  return true;
+}
+
+// 몸이 멀리 걸어가는 EX(리츠·사야 3.4단위, 사키·유즈(메이드)·히요리 1.7~1.8단위, 미노리 1.4단위)는 그동안 창이 몸을 따라간다:
+// 창은 몸 둘레만큼이라 펫 방향에 따라 EX 도중 창 옆·아래로 걸어 나가 잘렸음(스물셋째 묶음). 매 프레임 펫 자리를 골반 밑으로 옮기고
+// 모델 위치 보정으로 몸은 화면에 그대로 둔다(걷기처럼 창만 움직임). EX가 끝나거나 끊기면 남은 보정을 섞는 동안 푼다(stepOff)
+// ?exFollow=0이면 예전처럼 EX가 끝난 뒤에만 옮김 (stayWhereEnded, 비교용)
+const FOLLOW_EX = new URLSearchParams(location.search).get('exFollow') !== '0';
+let following = false;
+const walksAway = (name) => /^exs/.test(clipKey(name)) && (clipEnds.get(name)?.length() ?? 0) >= EX_STAY;
+function bodyOffset() { // 골반의 모델 위치 보정 공간 자리 (바닥 평면)
+  root.updateMatrixWorld(true);
+  const v = thighs[0].getWorldPosition(new THREE.Vector3()).add(thighs[1].getWorldPosition(new THREE.Vector3())).multiplyScalar(0.5);
+  root.worldToLocal(v).y = 0;
+  return v;
+}
+function followBody() {
+  if (!FOLLOW_EX || thighs.length < 2) return;
+  if (currentAction && walksAway(currentAction.getClip().name)) {
+    following = true;
+    moveUnder(bodyOffset());
+    pivotTarget.copy(pivot.position);
+  } else if (following) {
+    following = false;
+    if (moveUnder(bodyOffset())) stepOff = { t: 0, fade: STAY_FADE, from: pivot.position.clone() };
+  }
 }
 
 // ---- 차림 바꾸기 (Hoshino (Battle)) ----
@@ -1513,6 +1545,7 @@ function update(dt) {
       break;
   }
   placeWindow();
+  followBody();
   fillTransitionLogs();
   // 방향 전환과 자세 보정을 부드럽게 (섞는 동안 맞춰 도는 경우는 syncTurn)
   const turnTo = facing + clipTurn() + carry; // clipTurn: 학생별 동작 방향 차이 보정
@@ -1752,6 +1785,8 @@ window.__pet = {
   play, has, ...COMMANDS,
   get state() { return state; },
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
+  placeAt(x, y) { const p = floor.toFloor(x, y); if (p) { floor.clamp(pos.set(p.x, 0, p.z)); placeWindow(); } }, // 녹화용: 발을 화면 (x, y) px에
+  set exFace(v) { exFaceFix = v; }, // 녹화용: EX 방향(도)을 정함 (null이면 펫대로)
   get clip() { return currentAction?.getClip().name; },
   get canvasRect() { return canvasRect && { ...canvasRect }; }, // 캐릭터 둘레 캔버스 자리 (창 px), null = 창 전체
   get outfit() { return cafeOutfit && (wearCafe ? 'cafe' : 'battle'); }, // 카페 차림 학생(Toki 등)이 지금 입은 옷

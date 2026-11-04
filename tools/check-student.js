@@ -37,6 +37,9 @@ function run(label, cmd, args) {
 
 // 사용자가 보고 그대로 두기로 한 경고 (2026-10-12). 새 학생에게 같은 종류가 나와도 "바로 추가"를 막지 않고 따로 적는다
 //   model: 특정 학생만(없으면 모든 학생), clip: 동작 이름, side: 창 끝 방향(여럿이면 목록) / key: 넘어가는 곳(앞 → 뒤)
+function exAndAfter(model, side, why) {
+  return [{ kind: 'edge', model, clip: /^Exs$/i, side, why }, { kind: 'edge', model, clip: /^Cafe_Idle$/i, how: /Exs 다음/, side, why }];
+}
 const ACCEPTED = [
   { kind: 'edge', clip: /^Formation_Pickup/i, side: '아래', why: '집어 드는 순간 늘어진 총이 창 아래에 닿음' },
   { kind: 'edge', model: 'Hoshino.glb', clip: /^Exs$/i, side: '아래', why: '호시노 EX 끝에 바닥에 놓인 방패' },
@@ -46,7 +49,14 @@ const ACCEPTED = [
   { kind: 'edge', model: 'Otogi.glb', clip: /^Normal02_Attack_Start$/i, side: '아래', why: '거치 자세로 들어간 직후(ReadyStart → Attack_Start 0.12초) 몸 아래로 가는 선 하나가 잠깐 늘어남 (2026-10-30 사용자 "그대로 둠")' },
   { kind: 'edge', model: 'Ayane (Swimsuit).glb', clip: /^Public01$/i, side: '위', why: '총 꺼내기 첫 1초쯤 헬기가 위에서 날아 들어오며 창 위 끝을 지남 (헬기 옆으로 나가는 건 이 학생만 창을 가로 6.55단위로 넓혀 고침, 2026-11-02 사용자 "아야네만 창 넓히기")' },
   { kind: 'edge', model: 'Hibiki.glb', clip: /^Exs$/i, side: '아래', why: 'EX 처음 1.2초 동안 상자 소품을 발밑 0.9~1.1단위 아래(게임에선 바닥에 가려 안 보이는 자리)에 두어 창 아래 끝에 걸림, 몸은 그대로. 바닥 밑 소품 숨기기를 영상으로 보고 2026-11-04 사용자 "그대로"' },
-  { kind: 'edge', model: 'Hiyori.glb', clip: /^Exs$/i, side: ['왼쪽', '오른쪽'], why: 'EX 끝에 몸이 옆으로 걸어가 창 옆 끝 가까이 감(펫 방향에 따라 1px까지). 끝난 자리에서 대기하게 하고 영상 보고 2026-11-04 사용자 "끝난 자리에서 대기"' },
+  { kind: 'edge', model: 'Hiyori.glb', clip: /^Exs$/i, side: ['왼쪽', '오른쪽'], why: 'EX 끝에 몸이 옆으로 걸어가 창 옆 끝 가까이 감(펫 방향에 따라 1px까지). 끝난 자리에서 대기하게 하고 영상 보고 2026-11-04 사용자 "끝난 자리에서 대기". 스물셋째 묶음부터 EX 동안 창이 몸을 따라가 다시 검사에선 안 나옴' },
+  // 스물셋째 묶음(2026-11-04): EX 동안 창이 몸을 따라가게 한 뒤에도 남은 것. 영상(reports/batch-23-walking-ex-AB.mp4) 보고 사용자 모두 "그대로".
+  // EX와, EX 다음 평소 대기 첫 0.1초(EX 끝 모습 그대로라 같은 것, how)
+  ...exAndAfter('Ritsu.glb', ['왼쪽', '오른쪽'], 'EX에서 줄지어 두고 가는 고리 소품이 창 옆 끝에 닿음, 몸은 창 안'),
+  ...exAndAfter('Minori.glb', ['왼쪽', '오른쪽'], 'EX에서 던지는 상자 소품이 창 옆 끝에 닿음, 몸은 창 안'),
+  ...exAndAfter('Saya.glb', ['왼쪽', '오른쪽', '아래'], 'EX 3초 동안 몸이 바닥 아래로 내려가(게임에선 땅에 가려짐) 창 아래로 사라지고 던진 병만 창 옆까지 굴러감'),
+  ...exAndAfter('Saki.glb', '위', 'EX에서 높이 뛰어올라 매달려 있다가 끝나기 직전 0.2초쯤 머리가 창 위로 나감 (창을 늘리지 않음)'),
+  { kind: 'edge', model: 'Rio.glb', clip: /^Exs$/i, side: '위', why: 'EX 드론이 창 위 19px까지 감 (기준 35px, 잘리지는 않음)' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },
@@ -56,7 +66,7 @@ const ACCEPTED = [
   { kind: 'angle', model: 'Reisa.glb', key: /^Normal_\w+ → Normal_\w+$/i, why: '구호(54°)·사격 시작(20°)·재장전(15°)이 몸을 한쪽으로 돌려 끝나 총 자세가 이어지는 동안 이어 받은 방향이 쌓이다가 가끔 이어 받기 한도를 넘은 50°쯤을 정면 쪽으로 돎 (30분에 0~1번, 총 자세로 넘어감 약 500번 중. 이치카와 같은 종류라 2026-11-01 그 결정대로 둠)' },
 ];
 const accepted = (model, w) => ACCEPTED.find((a) => a.kind === w.kind && (!a.model || a.model === model)
-  && (a.clip ? a.clip.test(w.clip) && [a.side].flat().some((side) => w.what.startsWith(side)) : a.key.test(w.key)));
+  && (a.clip ? a.clip.test(w.clip) && [a.side].flat().some((side) => w.what.startsWith(side)) && (!a.how || a.how.test(w.what)) : a.key.test(w.key)));
 
 // 경고 종류별로 Claude가 먼저 볼 곳
 const FIX = {

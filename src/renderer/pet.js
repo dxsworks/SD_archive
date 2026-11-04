@@ -7,7 +7,7 @@ import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
-  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, OTHER_CLIPS, JUMP_VARIANT, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf, skipClip, cafeOutfitFile, hasCafeIdle,
+  DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, SHOT_VARIANTS, OTHER_CLIPS, JUMP_VARIANT, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf, skipClip, cafeOutfitFile, hasCafeIdle,
   formVariants,
 } from './clip-names.js';
 
@@ -508,8 +508,8 @@ const ownForm = (name) => Boolean(clipIndex.get(clipKey(name))?.some((c) => c.fo
 // 02 차림에서 01 것을 빌려 쓰는 건 그대로 (Subaru 02 재장전은 01)
 const canPlay = (name) => has(name) && (currentForm() !== 1 || ownForm(name));
 const canReload = (st) => canPlay(`${st}_Reload`);
-// 재장전: 변형(_Random)이 지금 차림에 있으면 원래 것과 반반
-const reloadClip = (name) => (ownForm(RELOAD_VARIANT(name)) && Math.random() < 0.5 ? RELOAD_VARIANT(name) : name);
+// 재장전·사격: 변형(_Random)이 지금 차림에 있으면 원래 것과 반반
+const variantClip = (name) => (ownForm(RELOAD_VARIANT(name)) && Math.random() < 0.5 ? RELOAD_VARIANT(name) : name);
 // 그 차림 번호의 실제 이름 (없으면 undefined)
 const formName = (name, f) => clipIndex.get(clipKey(name))?.find((c) => c.form === f)?.name;
 const first = (names) => names.find(has) ?? Object.keys(clips)[0];
@@ -883,7 +883,7 @@ function armedIdle() {
 
 // 장비 모습이 평소와 다른 동작은 뺀다 (Shiroko＊Terror Normal01_Callsign_Random은 드론이 나옴). 다 빠지면 원래대로
 const calmList = (names) => { const ok = names.filter((n) => canPlay(n) && calmOk(n)); return ok.length ? ok : names; };
-const armedFidget = () => { const name = pickRandom(calmList(ARMED_FIDGETS)); playSequence([name.endsWith('_Reload') ? reloadClip(name) : name]); };
+const armedFidget = () => { const name = pickRandom(calmList(ARMED_FIDGETS)); playSequence([name.endsWith('_Reload') ? variantClip(name) : name]); };
 
 function chooseArmedBehavior() {
   if (clock() > armed.until) { armed = null; toIdle(); return; }
@@ -1056,7 +1056,7 @@ function burst(fixedShots) {
   const lieDown = form === 2 && proneStances.has(battle.stance) && !battle.down;
   if (lieDown) { battle.down = true; battle.engaged = false; }
   const lead = [...(lieDown ? [`${battle.stance}_ReadyStart`] : []), ...(battle.engaged ? [] : [start])];
-  const steps = [...lead, ...Array(shots).fill(ing), delay];
+  const steps = [...lead, ...Array.from({ length: shots }, () => variantClip(ing)), delay];
   battle.engaged = true;
   // 시작 → 사격은 이어지도록 만들어진 동작이라 짧게 섞는다
   const stepFade = oldShot ? 0.08 : [...lead.map(() => 0.08), ...Array(shots).fill(SHOT_FADE)];
@@ -1065,7 +1065,7 @@ function burst(fixedShots) {
 
 function reload() {
   battle.ammo = MAGAZINE;
-  playSequence([...toStanding(), reloadClip(`${battle.stance}_Reload`)], { face: battleFace() });
+  playSequence([...toStanding(), variantClip(`${battle.stance}_Reload`)], { face: battleFace() });
 }
 
 const callsign = () => (hasCallsign(battle.stance) ? playSequence([...toStanding(), `${battle.stance}_Callsign`], { face: battleFace() }) : rest());
@@ -2036,7 +2036,7 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
 // 이 학생에게 펫이 쓸 수 있는 동작 전부 (차림마다 실제 이름으로). 창 끝 검사에서 흉내 중에 안 나온 동작을 채울 때 씀
 function usedClips() {
   const names = [...Object.values(ANIM).flat(), REACTION, ARMED_IDLE, ...ARMED_FIDGETS, ...ARMED_REACTIONS,
-    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...[drawClip()].filter(Boolean), RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants(), ...[...exAfters.values()].flat()];
+    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...SHOT_VARIANTS, ...BATTLE_ENTRY, ...[drawClip()].filter(Boolean), RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants(), ...[...exAfters.values()].flat()];
   const keep = form;
   const out = new Set();
   for (const f of forms) {

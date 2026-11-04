@@ -158,7 +158,8 @@ function checkModel(file, names, { companions = [] }, N) {
   if (ready.length) {
     const stances = ready.map((st) => {
       const reload = has(`${st}_Reload`) ? (has(N.RELOAD_VARIANT(`${st}_Reload`)) ? '재장전 2가지' : '재장전') : '재장전 없음';
-      const extra = [reload + (has(`${st}_Reload`) && !own1(`${st}_Reload`) ? '(02 차림만)' : ''), has(`${st}_Callsign`) ? '구호' : '구호 없음',
+      const shot = has(N.RELOAD_VARIANT(`${st}_Attack_Ing`)) ? ['사격 2가지'] : [];
+      const extra = [...shot, reload + (has(`${st}_Reload`) && !own1(`${st}_Reload`) ? '(02 차림만)' : ''), has(`${st}_Callsign`) ? '구호' : '구호 없음',
         has(`Move_End_${st}`) ? '뛰어와 자세' : '뛰어와 자세 없음'];
       return `${label[st]}(${extra.join('·')})`;
     });
@@ -215,7 +216,7 @@ function checkModel(file, names, { companions = [] }, N) {
   // ---- 펫이 못 알아보는 이름 ----
   const used = new Set([
     ...Object.values(N.ANIM).flat(), N.REACTION, N.ARMED_IDLE, ...N.ARMED_FIDGETS, ...N.ARMED_REACTIONS,
-    ...N.STANCES.flatMap(N.stanceAll), ...N.RELOAD_VARIANTS, ...N.BATTLE_ENTRY, ...N.DRAW_WEAPON, N.RUN_CALLSIGN, ...N.VICTORIES.flat(), ...N.OTHER_CLIPS,
+    ...N.STANCES.flatMap(N.stanceAll), ...N.RELOAD_VARIANTS, ...N.SHOT_VARIANTS, ...N.BATTLE_ENTRY, ...N.DRAW_WEAPON, N.RUN_CALLSIGN, ...N.VICTORIES.flat(), ...N.OTHER_CLIPS,
     ...[...deploy, ...prone].flatMap((st) => [`${st}_ReadyStart`, `${st}_ReadyEnd`]), ...(formChange?.values() ?? []),
   ].map((n) => N.clipKey(n)));
   const unknown = [];

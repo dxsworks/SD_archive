@@ -7,10 +7,11 @@
   "private": true,
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win nsis"
+    "dist": "electron-builder --win nsis --publish never"
   },
   "dependencies": {
     "ba-click-fx": "1.3.9",
+    "electron-updater": "6.8.11",
     "three": "^0.169.0"
   },
   "devDependencies": {
@@ -22,6 +23,13 @@
     "directories": {
       "output": "dist"
     },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "dxsworks",
+        "repo": "SD_archive"
+      }
+    ],
     "files": [
       "src/**/*",
       "assets/**/*",
@@ -40,7 +48,8 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "assets/pet.ico"
+      "icon": "assets/pet.ico",
+      "artifactName": "BlueArchivePet-Setup-${version}.${ext}"
     },
     "nsis": {
       "oneClick": false,

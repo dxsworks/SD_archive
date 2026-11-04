@@ -23,7 +23,14 @@ $s.WorkingDirectory = 'C:\bluearchive'; $s.IconLocation = 'C:\bluearchive\assets
 npm run dist
 ```
 
-`dist/샬레 당번 Setup 1.0.0.exe`(약 86MB)가 만들어집니다. 받는 사람은 이것만 실행하면 되고(Node 불필요), 설치할 때 바탕화면·시작 메뉴에 "샬레 당번" 바로가기가 생깁니다. 서명이 없어서 처음 실행할 때 Windows SmartScreen 경고가 뜹니다("추가 정보 → 실행").
+`dist/BlueArchivePet-Setup-<버전>.exe`(약 86MB)와 `latest.yml`·`.blockmap`이 만들어집니다. 받는 사람은 설치 파일만 실행하면 되고(Node 불필요), 설치할 때 바탕화면·시작 메뉴에 "샬레 당번" 바로가기가 생깁니다. 서명이 없어서 처음 실행할 때 Windows SmartScreen 경고가 뜹니다("추가 정보 → 실행"). 설치 파일 이름은 영어로 둡니다(GitHub이 첨부 이름의 한글·공백을 바꾸면 `latest.yml`이 가리키는 이름과 달라져 자동 업데이트가 못 받음).
+
+**자동 업데이트**(`src/updater.js`, `electron-updater`): 설치본은 켤 때와 6시간마다 GitHub Releases(`build.publish`, `dxsworks/SD_archive`)의 최신 릴리스를 보고, 새 버전이면 알아서 받아 둔 뒤 윈도우 알림을 띄우고 메뉴에 "업데이트하고 다시 시작"을 넣습니다. 그냥 종료해도 설치됩니다. 새 버전을 올릴 때는:
+
+1. `package.json` `version`을 올리고 `npm run dist`
+2. 릴리스(태그 `v<버전>`, Latest)에 `BlueArchivePet-Setup-<버전>.exe`, `latest.yml`, `BlueArchivePet-Setup-<버전>.exe.blockmap` 셋을 올림 (`latest.yml`이 없으면 앱이 새 버전을 못 찾음)
+
+자동 업데이트는 이 기능이 든 버전(1.1.0 다음 버전)부터 됩니다. 1.1.0 이하를 쓰는 사람은 한 번은 직접 받아 설치해야 합니다. 시험할 때는 설치본(또는 `dist/win-unpacked`)을 환경 변수 `PET_UPDATE_URL=<latest.yml과 설치 파일이 있는 주소>`로 켜면 GitHub 대신 거기서 찾습니다.
 
 설치 파일에 든 학생은 호시노(`models/Hoshino.glb`) 하나뿐이고, 다른 학생은 학생 압축으로 따로 배포합니다.
 

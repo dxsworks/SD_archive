@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { modelFiles } = require('./model-files');
 const { windowWidth } = require('./pet-window');
+const { startUpdater } = require('./updater');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
 // 창은 월드 단위로 가로 4.0 × 세로 5.30 (pet.js VIEW_HEIGHT, 수영복 아야네만 가로 6.55: pet-window.js). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
@@ -297,10 +298,21 @@ function openViewer() {
 // 종료: 펫이 후퇴 동작으로 화면 밖으로 뛰어간 뒤 꺼진다. 다시 누르거나 응답이 없으면 바로 종료.
 let quitting = false;
 function quitWithRetreat() {
-  if (quitting || !win || win.isDestroyed()) { app.quit(); return; }
+  if (quitting || !win || win.isDestroyed()) { quitApp(); return; }
   quitting = true;
   sendToPet('pet:command', 'retreat');
-  setTimeout(() => app.quit(), 5000);
+  setTimeout(quitApp, 5000);
+}
+
+// 자동 업데이트 (updater.js): 받아 둔 새 버전은 그냥 종료해도 설치되고(다시 켜지지는 않음),
+// "업데이트하고 다시 시작"이면 후퇴한 뒤 설치하고 다시 켠다
+let updater = null;
+let updateReady = null; // 받아 둔 새 버전
+let restartForUpdate = false;
+const quitApp = () => (restartForUpdate && updater ? updater.install() : app.quit());
+function updateAndRestart() {
+  restartForUpdate = true;
+  quitWithRetreat();
 }
 
 function buildMenuTemplate() {
@@ -366,6 +378,7 @@ function buildMenuTemplate() {
     },
     { label: '위치 초기화', click: resetPosition },
     { type: 'separator' },
+    ...(updateReady ? [{ label: `업데이트하고 다시 시작 (${updateReady})`, click: updateAndRestart }] : []),
     { label: '종료', click: quitWithRetreat },
   ];
 }
@@ -561,7 +574,7 @@ ipcMain.on('pet:set-ignore', (_e, ignore) => {
 
 ipcMain.on('pet:fx', (_e, type) => relayFx(type));
 
-ipcMain.on('pet:quit', () => app.quit());
+ipcMain.on('pet:quit', quitApp);
 
 ipcMain.on('pet:show-menu', () => {
   if (win) showPetMenu();
@@ -582,6 +595,7 @@ if (!app.requestSingleInstanceLock()) {
     createFxWindow();
     createMenuWindow(); // 처음 우클릭할 때 만들면 창을 띄우고 페이지를 읽느라 늦게 떴음
     createTray();
+    updater = startUpdater({ onReady: (version) => { updateReady = version; rebuildMenus(); } });
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });
   app.on('window-all-closed', () => app.quit()); // 펫 창까지 모두 닫혔을 때만

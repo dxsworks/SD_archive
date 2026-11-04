@@ -94,7 +94,7 @@ function checkModel(file, names, { companions = [] }, N) {
     + ` · 집어 들기 ${nameOf(first(N.ANIM.pickup)) ?? '없음'}`);
   does.push(`승리 포즈: ${victories.length ? victories.map((p) => p.map((n) => nameOf(n)).join(' → ')).join(', ') : '없음'}`);
   const nap = first(N.ANIM.nap);
-  does.push(`낮잠: ${nap ? nameOf(nap) : '없음 (낮잠 안 함)'} · 종료: ${has('Vital_Retreat') ? nameOf('Vital_Retreat') : '밧줄 동작 없음 (집어 들기 자세로 올라감)'}`);
+  does.push(`낮잠: ${nap ? nameOf(nap) : '없음 (낮잠 안 함)'} · 종료: ${has('Vital_Retreat') ? nameOf('Vital_Retreat') : '밧줄 동작 없음 (바로 종료)'}`);
 
   // EX: 차림이 안 바뀌는 학생에게 EX가 여럿이면 무작위, 아니면 Exs
   // 02가 변형이면(N.formVariants) 차림은 01 하나 → EX가 여럿이면 무작위 (펫과 같게)
@@ -140,7 +140,7 @@ function checkModel(file, names, { companions = [] }, N) {
     const fidgets = N.ARMED_FIDGETS.filter(own1); // 펫은 01 차림에서 02에만 있는 동작을 안 씀 (pet.js canPlay)
     does.push(`잠깐 무장: 대기 ${nameOf(N.ARMED_IDLE)} · 총 꺼내기 ${draw ? nameOf(draw) : '없음(총이 바로 생김)'}`
       + ` · 할 동작 ${fidgets.length ? fidgets.map((n) => nameOf(n)).join(', ') : '없음(대기만)'}`);
-  } else does.push(`잠깐 무장: 안 함 (${N.ARMED_IDLE} 없음)`);
+  } else does.push(`잠깐 무장: 안 함 (${N.ARMED_IDLE} 없음 → 랜덤 행동은 ${has(N.REACTION) ? nameOf(N.REACTION) : '그냥 대기'})`);
 
   // 전투: 대기 + 사격 4단계가 다 있는 자세만
   const ready = N.STANCES.filter((st) => has(N.STANCE_IDLE[st]) && N.ATTACK_STEPS.every((step) => has(`${st}_${step}`)));

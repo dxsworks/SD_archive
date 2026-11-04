@@ -5,7 +5,8 @@
 export const ANIM = {
   idle: ['Cafe_Idle', 'Normal_Idle'],
   walk: ['Cafe_Walk', 'Move_Ing'],
-  pickup: ['Formation_Pickup', 'Victory_Start', 'Cafe_Reaction'], // 편성 화면에서 학생을 집어 들었을 때 동작
+  // 편성 화면에서 학생을 집어 들었을 때 동작. 둘 다 없는 카페 동작뿐인 학생은 평소 대기로 들림 (2026-11-04 사용자, 예전엔 카페 반응을 되풀이)
+  pickup: ['Formation_Pickup', 'Victory_Start', 'Cafe_Idle'],
   nap: ['Vital_Death'],
   wake: ['Cafe_Reaction'], // 평소 모습과 다르면(아리스(배틀)) 승리 포즈로 대신
   ex: ['Exs'],

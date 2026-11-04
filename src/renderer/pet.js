@@ -846,7 +846,7 @@ const wakeUp = () => playSequence(calmOk(clipName('wake')) ? ['wake'] : victoryP
 // 낮잠 대신 첫 동작 Cafe_Reaction을 틀고 20~45초 멈춰 있었음, 2026-11-02)
 const hasNap = () => ANIM.nap.some(has);
 function startNap() {
-  if (!hasNap()) { fidget(); return; }
+  if (!hasNap()) { if (canArm()) fidget(); else toIdle(); return; } // 카페 동작뿐인 학생은 그냥 대기
   setState('nap');
   napDuration = rand(20, 45);
   facing = FACE_NAP;
@@ -868,8 +868,11 @@ const DRAW_LOW = 0.6;
 const drawClip = () => DRAW_WEAPON.filter(has).find((n) => !(liftOf(resolve(n)) < DRAW_LOW * (liftOf(resolve('Cafe_Idle')) ?? 0)));
 const lowDraw = () => DRAW_WEAPON.some(has) && !drawClip();
 
+// 무장 대기가 없는 학생(카페 동작뿐인 보조 학생 77명)은 잠깐 무장 자리(랜덤 행동)에서 카페 반응을 한다 (2026-11-04 사용자 "가끔 카페 반응":
+// 그대로면 걷기 말고는 서 있기만 했음). 낮잠·전투 자리는 그냥 대기라 랜덤 행동 가중치 20만큼만
+const canArm = () => has(ARMED_IDLE);
 function startArmed() {
-  if (!has(ARMED_IDLE)) { toIdle(); return; }
+  if (!canArm()) { if (has(REACTION) && calmOk(REACTION)) playSequence([REACTION]); else toIdle(); return; }
   arm();
   playSequence([drawClip()].filter(Boolean)); // 없으면 바로 무장 대기
 }
@@ -925,7 +928,7 @@ function rest() {
 function startBattle({ thenAttack = false } = {}) {
   const wasArmed = Boolean(armed);
   const bare = !wasArmed && lowDraw(); // 낮은 자세에서 시작하는 총 꺼내기를 뺀 학생: 맨손에서 바로 전투 대기
-  if (!beginBattle({ bare })) { fidget(); return; }
+  if (!beginBattle({ bare })) { if (canArm()) fidget(); else toIdle(); return; }
   const onEnd = thenAttack ? burst : rest;
   const draw = wasArmed ? undefined : drawClip();
   if (draw) playSequence([draw], { onEnd });
@@ -1245,7 +1248,46 @@ function exSkill() {
   if (toForm2) form = 2;
   const variants = exVariants();
   const ex = toForm2 && formEx ? formEx : variants.length ? pickRandom(variants) : 'ex';
-  playSequence([...back, ex, ...(exAfters.get(ex) ?? [])], { face: battleFace(), as: 'ex' });
+  const onEnd = () => { stayWhereEnded(currentAction?.getClip().name); rest(); };
+  playSequence([...back, ex, ...(exAfters.get(ex) ?? [])], { face: battleFace(), as: 'ex', onEnd });
+}
+
+// EX 동안 몸이 멀리 걸어가 끝나는 학생(히요리: 몸 가운데가 끝에 약 2단위 옆): 다음 동작으로 섞는 0.25초 동안 몸이 제자리로
+// 미끄러져 돌아왔다(발 최대 509px, 다른 학생은 150px 넘는 곳 없음) → 펫 자리를 몸이 간 곳으로 옮기고, 섞는 동안 모델 위치 보정을
+// 섞는 비율에 맞춰 풀어 몸이 그 자리에 머물게 한다 (2026-11-04 사용자 "끝난 자리에서 대기")
+const EX_STAY = 0.7; // 끝난 몸 가운데가 이만큼(단위) 넘게 옮겨 간 EX만
+const STAY_FADE = 0.25; // toIdle 섞기
+let stepOff = null; // { t, fade, from } 모델 위치 보정을 from → 0으로
+// 펫 자리를 옮기면 창이 옮겨 가고 원근 크기도 바뀌므로, 옮기기 전후 골반의 화면 자리(px)를 재서 그대로 남는 모델 위치 보정을 정한다
+// (바닥 단위로 그냥 빼면 화면 안쪽·바깥쪽으로 걸어간 EX는 몸이 위아래로 튀었음)
+function stayWhereEnded(name) {
+  const end = name && clipEnds.get(name);
+  if (!end || end.length() < EX_STAY || thighs.length < 2) return;
+  const k = winH / VIEW_HEIGHT; // 창 안 1단위 = k px
+  const view = (v) => v.applyMatrix4(camera.matrixWorldInverse);
+  const hipPx = () => { // 골반(두 허벅지 가운데)의 화면 자리: 창 자리 + 창 안 px
+    root.updateMatrixWorld(true);
+    const v = view(thighs[0].getWorldPosition(new THREE.Vector3()).add(thighs[1].getWorldPosition(new THREE.Vector3())).multiplyScalar(0.5));
+    return [winX + v.x * k, winY - v.y * k];
+  };
+  // 모델 위치 보정을 바닥 평면(x, z)으로 1단위 옮기면 화면에서 몇 px 가는지 (root 크기 포함)
+  const unit = (x, z) => { const o = view(new THREE.Vector3(x, 0, z).multiplyScalar(root.scale.x)).sub(view(new THREE.Vector3())); return [o.x * k, -o.y * k]; };
+  const before = hipPx();
+  // 새 펫 자리: 몸이 간 곳의 발밑이 보이는 화면 자리 (창 안 깊이와 바닥 원근이 달라 바닥 단위로 더하면 위아래로 어긋남)
+  const went = end.clone().applyAxisAngle(UP, pivot.rotation.y).add(pivot.position);
+  const [ux, uz] = [unit(1, 0), unit(0, 1)];
+  const g = floor.toScreen(pos.x, pos.z);
+  const spot = floor.toFloor(g.x + went.x * ux[0] + went.z * uz[0], g.y + went.x * ux[1] + went.z * uz[1]);
+  if (!spot) return;
+  floor.clamp(pos.set(spot.x, 0, spot.z));
+  placeWindow();
+  const after = hipPx();
+  const [a, b] = [unit(1, 0), unit(0, 1)];
+  const [ex, ey] = [before[0] - after[0], before[1] - after[1]];
+  const det = a[0] * b[1] - b[0] * a[1];
+  pivot.position.x += (ex * b[1] - b[0] * ey) / det;
+  pivot.position.z += (a[0] * ey - ex * a[1]) / det;
+  stepOff = { t: 0, fade: STAY_FADE, from: pivot.position.clone() };
 }
 
 // ---- 차림 바꾸기 (Hoshino (Battle)) ----
@@ -1311,16 +1353,13 @@ function retreat({ face = null } = {}) { // face: 시험용으로 매달린 방�
   if (drag) bridge.fx('cancel');
   drag = null;
   hoistFrom = lift; // 들고 있던 중이면 그 높이에서 바로 올라간다
+  // 밧줄 동작이 없는 학생(카페 동작뿐인 학생)은 바로 끈다 (2026-11-04 사용자: 집어 들기 자세로 매달면 밧줄이 머리 뒤로 들어갔음)
+  if (!has('Vital_Retreat')) { setState('gone'); canvas.style.opacity = '0'; bridge.quit(); return; }
   setState('retreat');
   // 돌아서는 모습(대기 자세의 뒷모습)이 보이지 않게 방향과 자세를 한 번에 바꾼다
-  if (has('Vital_Retreat')) {
-    facing = face ?? HANG_FACE + spread(HANG_SPREAD);
-    play('Vital_Retreat', { fade: 0 });
-    pivot.rotation.y = facing + clipTurn();
-  } else {
-    facing = face ?? FACE_FRONT;
-    play('pickup', { fade: 0.15 });
-  }
+  facing = face ?? HANG_FACE + spread(HANG_SPREAD);
+  play('Vital_Retreat', { fade: 0 });
+  pivot.rotation.y = facing + clipTurn();
 }
 
 function updateHoist() {
@@ -1392,7 +1431,7 @@ const COMMANDS = {
   react,
   battle: () => (battle ? battleReply() : startBattle()),
   attack: burst,
-  ex: exSkill,
+  ex: () => (hasEx() ? exSkill() : react()), // EX가 없으면 더블클릭처럼 클릭 반응 (예전엔 파일 첫 동작을 EX로 틀었음, 2026-11-04 사용자)
   nap: unarmed(startNap),
   fidget: () => { if (battle) { endBattle(); arm(); } fidget(); }, // 전투 중이면 총을 든 채로 무장 상태가 된다
   walk: unarmed(startWalk),
@@ -1476,7 +1515,9 @@ function update(dt) {
   fillTransitionLogs();
   // 방향 전환과 자세 보정을 부드럽게 (섞는 동안 맞춰 도는 경우는 syncTurn)
   const turnTo = facing + clipTurn() + carry; // clipTurn: 학생별 동작 방향 차이 보정
-  if (turnSync) {
+  if (stepOff) {
+    // EX가 끝난 자리로 옮기는 동안은 돌지 않는다: 몸이 펫 가운데에서 2단위 넘게 떨어져 있어 돌면 크게 휘둘렸음 (stayWhereEnded)
+  } else if (turnSync) {
     turnSync.t += dt;
     const w = Math.min(1, turnSync.t / turnSync.fade);
     pivot.rotation.y = turnSync.from + wrapAngle(turnTo - turnSync.from) * w;
@@ -1484,7 +1525,14 @@ function update(dt) {
   } else {
     pivot.rotation.y += wrapAngle(turnTo - pivot.rotation.y) * Math.min(1, dt * 8);
   }
-  pivot.position.lerp(pivotTarget, Math.min(1, dt * 3));
+  if (stepOff) {
+    stepOff.t += dt;
+    const w = Math.min(1, stepOff.t / stepOff.fade);
+    pivot.position.copy(stepOff.from).multiplyScalar(1 - w);
+    if (w >= 1) stepOff = null;
+  } else {
+    pivot.position.lerp(pivotTarget, Math.min(1, dt * 3));
+  }
 }
 
 // ---- 마우스: 캐릭터 위에서만 클릭을 받고 나머지는 통과 ----
@@ -2036,7 +2084,8 @@ function measureEdges(rec, { every = 3, alone = false } = {}) {
 // 이 학생에게 펫이 쓸 수 있는 동작 전부 (차림마다 실제 이름으로). 창 끝 검사에서 흉내 중에 안 나온 동작을 채울 때 씀
 function usedClips() {
   const names = [...Object.values(ANIM).flat(), REACTION, ARMED_IDLE, ...ARMED_FIDGETS, ...ARMED_REACTIONS,
-    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...[drawClip()].filter(Boolean), RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants(), ...[...exAfters.values()].flat()];
+    // 총 꺼내기는 무장할 수 있는 학생만 (카페 동작뿐인 에리카·마코토는 Public01이 있어도 안 씀, 2026-11-04)
+    ...STANCES.flatMap(stanceAll), ...RELOAD_VARIANTS, ...BATTLE_ENTRY, ...[canArm() && drawClip()].filter(Boolean), RUN_CALLSIGN, ...VICTORIES.flat(), ...OTHER_CLIPS, ...exVariants(), ...[...exAfters.values()].flat()];
   const keep = form;
   const out = new Set();
   for (const f of forms) {

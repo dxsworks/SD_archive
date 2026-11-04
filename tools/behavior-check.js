@@ -42,10 +42,21 @@ app.whenReady().then(async () => {
     const js = await openPet(win, port, model);
     const tests = [];
     const hasNap = await js('__pet.hasNap');
+    const canArm = await js(`__pet.has('Normal_Idle')`);
+    const hasEx = await js(`__pet.has('Exs') || __pet.exVariants.length > 0`);
+    const hasRope = await js(`__pet.has('Vital_Retreat')`);
     for (let [name, start, until, limit, mid] of TESTS) {
       // 낮잠 동작(Vital_Death)이 없는 학생(수영복 아야네)은 낮잠 대신 잠깐 무장으로 들어가는지만 (무장 15~40초 뒤 자동 전투로도
       // 이어져 대기까지는 길이가 무작위라 60초를 넘기도 했음. 무장 → 대기는 '잠깐 무장 (5초)'가 봄)
-      if (mid?.expect === 'nap' && !hasNap) { name = '낮잠 (낮잠 없음 → 잠깐 무장)'; until = 'armed'; limit = 10; mid = null; }
+      // 무장 대기도 없는 카페 동작뿐인 학생(아이리 등, 2026-11-04)은 그대로 평소 대기에 있는지만
+      if (mid?.expect === 'nap' && !hasNap) {
+        mid = null;
+        if (canArm) { name = '낮잠 (낮잠 없음 → 잠깐 무장)'; until = 'armed'; limit = 10; } else name = '낮잠 (낮잠·무장 없음 → 대기)';
+      }
+      if (!canArm && /^(잠깐 무장|전투)/.test(name)) name = `${name.replace(/ \(.*\)$/, '')} (무장 없음 → 대기)`;
+      if (!hasEx && name.startsWith('더블클릭')) name = '더블클릭 (EX 없음 → 클릭 반응)';
+      else if (!canArm && name.startsWith('더블클릭')) name = '더블클릭 EX → 대기 (전투 없음)';
+      if (!hasRope && name.startsWith('종료')) name = '종료 (밧줄 동작 없음)';
       await js('__pet.reset(); 0');
       await js(`${start}; 0`);
       let trace = [];

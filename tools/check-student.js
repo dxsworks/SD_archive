@@ -45,6 +45,8 @@ const ACCEPTED = [
   { kind: 'edge', model: 'Shiroko＊Terror.glb', clip: /^Normal02_FormRelease$/i, side: '위', why: '전투가 02로 끝나 떼어 보낸 드론이 날아가며 창 위로 나가 잘림, 몸은 그대로 (2026-10-30 사용자 "그대로 둠")' },
   { kind: 'edge', model: 'Otogi.glb', clip: /^Normal02_Attack_Start$/i, side: '아래', why: '거치 자세로 들어간 직후(ReadyStart → Attack_Start 0.12초) 몸 아래로 가는 선 하나가 잠깐 늘어남 (2026-10-30 사용자 "그대로 둠")' },
   { kind: 'edge', model: 'Ayane (Swimsuit).glb', clip: /^Public01$/i, side: '위', why: '총 꺼내기 첫 1초쯤 헬기가 위에서 날아 들어오며 창 위 끝을 지남 (헬기 옆으로 나가는 건 이 학생만 창을 가로 6.55단위로 넓혀 고침, 2026-11-02 사용자 "아야네만 창 넓히기")' },
+  { kind: 'edge', model: 'Hibiki.glb', clip: /^Exs$/i, side: '아래', why: 'EX 처음 1.2초 동안 상자 소품을 발밑 0.9~1.1단위 아래(게임에선 바닥에 가려 안 보이는 자리)에 두어 창 아래 끝에 걸림, 몸은 그대로. 바닥 밑 소품 숨기기를 영상으로 보고 2026-11-04 사용자 "그대로"' },
+  { kind: 'edge', model: 'Hiyori.glb', clip: /^Exs$/i, side: ['왼쪽', '오른쪽'], why: 'EX 끝에 몸이 옆으로 걸어가 창 옆 끝 가까이 감(펫 방향에 따라 1px까지). 끝난 자리에서 대기하게 하고 영상 보고 2026-11-04 사용자 "끝난 자리에서 대기"' },
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },

@@ -521,8 +521,8 @@
     "why": "",
     "time": 7.03,
     "clips": [
-     "Victory_Start_Random",
-     "Victory_End_Random",
+     "Victory_Start",
+     "Victory_End",
      "Cafe_Idle"
     ]
    },
@@ -541,7 +541,7 @@
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 12.8,
+    "time": 11.37,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -552,19 +552,20 @@
     "name": "더블클릭 EX → 전투",
     "ok": true,
     "why": "",
-    "time": 62.3,
+    "time": 65.17,
     "clips": [
-     "Exs01",
+     "Exs02_01",
      "Normal_Idle",
-     "Move_Ing",
-     "Move_end_Normal",
      "Normal_Attack_Start",
      "Normal_Attack_Ing",
      "Normal_Attack_Delay",
      "Normal_Attack_End",
+     "Move_Ing",
+     "Move_end_Normal",
      "Normal_Reload",
-     "Victory_Start_Random",
-     "Victory_End_Random",
+     "Normal_Callsign",
+     "Victory_Start",
+     "Victory_End",
      "Cafe_Idle"
     ]
    },
@@ -584,7 +585,7 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 27,
+    "time": 30.17,
     "clips": [
      "Public01",
      "Normal_Idle",
@@ -592,8 +593,8 @@
      "Normal_Attack_Ing",
      "Normal_Attack_Delay",
      "Normal_Attack_End",
-     "Victory_Start_Random",
-     "Victory_End_Random",
+     "Victory_Start",
+     "Victory_End",
      "Cafe_Idle"
     ]
    },
@@ -611,7 +612,7 @@
     "name": "걷기",
     "ok": true,
     "why": "",
-    "time": 7.47,
+    "time": 7.5,
     "clips": [
      "Cafe_Walk",
      "Cafe_Idle"
@@ -621,7 +622,7 @@
     "name": "종료 (밧줄)",
     "ok": true,
     "why": "",
-    "time": 2.1,
+    "time": 2.03,
     "clips": [
      "Vital_Retreat"
     ]
@@ -629,49 +630,54 @@
   ],
   "longest": {
    "idle": {
-    "dur": 13.1,
-    "at": 258.53,
+    "dur": 15.5,
+    "at": 211.63,
     "clip": "Cafe_Idle"
    },
    "action": {
-    "dur": 13.9,
-    "at": 823.67,
+    "dur": 12.5,
+    "at": 713.03,
     "clip": "Normal_Attack_Start"
    },
-   "armed": {
-    "dur": 13.2,
-    "at": 1436.83,
-    "clip": "Normal_Idle"
+   "nap": {
+    "dur": 17,
+    "at": 17,
+    "clip": "Vital_Death"
    },
    "battle": {
     "dur": 3.5,
-    "at": 110.67,
+    "at": 1439.67,
     "clip": "Normal_Idle"
-   },
-   "ex": {
-    "dur": 8.2,
-    "at": 424.07,
-    "clip": "Normal_Attack_End"
    },
    "drag": {
     "dur": 1.5,
-    "at": 214.6,
+    "at": 49.37,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 216.1,
+    "at": 50.87,
     "clip": "Formation_Pickup"
+   },
+   "armed": {
+    "dur": 11.9,
+    "at": 1061.37,
+    "clip": "Normal_Idle"
    },
    "walk": {
     "dur": 7.5,
-    "at": 221.27,
+    "at": 186.37,
     "clip": "Cafe_Walk"
    },
    "run": {
-    "dur": 2.2,
-    "at": 1696.8,
+    "dur": 1.8,
+    "at": 499.43,
     "clip": "Move_Ing"
+   },
+   "ex": {
+    "dur": 7.9,
+    "at": 658.07,
+    "clip": "Exs01"
    }
   },
   "stuck": [],
@@ -5972,17 +5978,7 @@
     "name": "클릭 반응",
     "ok": true,
     "why": "",
-    "time": 3.87,
-    "clips": [
-     "Cafe_Reaction",
-     "Cafe_Idle"
-    ]
-   },
-   {
-    "name": "클릭 반응 (두 번째)",
-    "ok": true,
-    "why": "",
-    "time": 5.03,
+    "time": 5,
     "clips": [
      "Victory_Start",
      "Victory_End",
@@ -5990,10 +5986,20 @@
     ]
    },
    {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 3.87,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
     "name": "잠깐 무장 (5초)",
     "ok": true,
     "why": "",
-    "time": 7.6,
+    "time": 6.13,
     "clips": [
      "Normal_Idle",
      "Cafe_Idle"
@@ -6003,18 +6009,19 @@
     "name": "더블클릭 EX → 전투",
     "ok": true,
     "why": "",
-    "time": 50.73,
+    "time": 40.4,
     "clips": [
      "Exs",
-     "Normal_Idle",
-     "Move_Ing",
-     "Move_End_Stand",
      "Stand_Attack_Start",
      "Stand_Attack_Delay",
      "Stand_Attack_End",
-     "Stand_Reload",
-     "Stand_Attack_Ing",
-     "Move_End_Normal",
+     "Move_Ing",
+     "Move_End_Kneel",
+     "Kneel_Attack_Start",
+     "Kneel_Attack_Delay",
+     "Kneel_Attack_Ing",
+     "Kneel_Attack_End",
+     "Kneel_Reload",
      "Victory_Start",
      "Victory_End",
      "Cafe_Idle"
@@ -6035,19 +6042,14 @@
     "name": "전투 (20초)",
     "ok": true,
     "why": "",
-    "time": 25,
+    "time": 28.8,
     "clips": [
      "Stand_Attack_Start",
      "Stand_Attack_Delay",
+     "Stand_Attack_Ing",
      "Stand_Attack_End",
+     "Stand_Reload",
      "Exs",
-     "Move_Ing",
-     "Move_End_Normal",
-     "Normal_Idle",
-     "Normal_Attack_Start",
-     "Normal_Attack_Ing",
-     "Normal_Attack_Delay",
-     "Normal_Attack_End",
      "Victory_Start",
      "Victory_End",
      "Cafe_Idle"
@@ -6057,7 +6059,7 @@
     "name": "집어 들었다 놓기",
     "ok": true,
     "why": "",
-    "time": 1.23,
+    "time": 1.2,
     "clips": [
      "Formation_Pickup",
      "Cafe_Idle"
@@ -6067,7 +6069,7 @@
     "name": "걷기",
     "ok": true,
     "why": "",
-    "time": 7.47,
+    "time": 7.5,
     "clips": [
      "Cafe_Walk",
      "Cafe_Idle"
@@ -6077,7 +6079,7 @@
     "name": "종료 (밧줄)",
     "ok": true,
     "why": "",
-    "time": 1.97,
+    "time": 2.03,
     "clips": [
      "Vital_Retreat"
     ]
@@ -6085,53 +6087,53 @@
   ],
   "longest": {
    "idle": {
-    "dur": 15.6,
-    "at": 1110.5,
+    "dur": 14,
+    "at": 1088.5,
     "clip": "Cafe_Idle"
-   },
-   "drag": {
-    "dur": 1.5,
-    "at": 6.73,
-    "clip": "Formation_Pickup"
-   },
-   "fall": {
-    "dur": 0.2,
-    "at": 8.23,
-    "clip": "Formation_Pickup"
    },
    "walk": {
     "dur": 7.5,
-    "at": 17.33,
+    "at": 179.63,
     "clip": "Cafe_Walk"
    },
    "action": {
-    "dur": 9.1,
-    "at": 384.53,
+    "dur": 8.5,
+    "at": 165.2,
     "clip": "Normal_Attack_Start"
    },
    "battle": {
     "dur": 3.5,
-    "at": 1653.3,
-    "clip": "Normal_Idle"
+    "at": 322.4,
+    "clip": "Stand_Attack_Delay"
    },
    "run": {
     "dur": 2.2,
-    "at": 1678.6,
+    "at": 593.83,
     "clip": "Move_Ing"
+   },
+   "armed": {
+    "dur": 19.4,
+    "at": 1015.2,
+    "clip": "Normal_Idle"
    },
    "ex": {
     "dur": 4.9,
-    "at": 576.83,
+    "at": 258.33,
     "clip": "Stand_Attack_End"
    },
-   "armed": {
-    "dur": 18.7,
-    "at": 1178.47,
-    "clip": "Normal_Idle"
+   "drag": {
+    "dur": 1.5,
+    "at": 211.77,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 213.27,
+    "clip": "Formation_Pickup"
    },
    "nap": {
-    "dur": 12.1,
-    "at": 630.03,
+    "dur": 12.6,
+    "at": 731.7,
     "clip": "Vital_Death"
    }
   },
@@ -33785,7 +33787,7 @@
     ]
    },
    {
-    "name": "더블클릭 EX → 전투",
+    "name": "더블클릭 EX → 대기 (전투 없음)",
     "ok": true,
     "why": "",
     "time": 5.17,
@@ -33826,7 +33828,7 @@
     "name": "걷기",
     "ok": true,
     "why": "",
-    "time": 4.7,
+    "time": 7.47,
     "clips": [
      "Cafe_Walk",
      "Cafe_Idle"
@@ -33844,33 +33846,33 @@
   ],
   "longest": {
    "idle": {
-    "dur": 23.6,
-    "at": 723.17,
+    "dur": 22.1,
+    "at": 1097,
     "clip": "Cafe_Idle"
    },
    "walk": {
     "dur": 7.5,
-    "at": 31.57,
+    "at": 3.87,
     "clip": "Cafe_Walk"
    },
    "action": {
     "dur": 5.3,
-    "at": 14.43,
+    "at": 31.97,
     "clip": "Cafe_Reaction"
    },
    "drag": {
     "dur": 1.5,
-    "at": 74.3,
+    "at": 87.37,
     "clip": "Formation_Pickup"
    },
    "fall": {
     "dur": 0.2,
-    "at": 75.8,
+    "at": 88.87,
     "clip": "Formation_Pickup"
    },
    "ex": {
     "dur": 5.2,
-    "at": 131.77,
+    "at": 165.77,
     "clip": "Exs"
    }
   },
@@ -36707,6 +36709,2367 @@
     "dur": 0.2,
     "at": 649.73,
     "clip": "Formation_Pickup"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Akane (Bunny Girl).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 5.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 5.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 5.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 5.23,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.2,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 23.7,
+    "at": 791.83,
+    "clip": "Cafe_Idle"
+   },
+   "action": {
+    "dur": 5.7,
+    "at": 3.93,
+    "clip": "Cafe_Reaction"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 106.67,
+    "clip": "Cafe_Walk"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 50.73,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 52.23,
+    "clip": "Formation_Pickup"
+   },
+   "ex": {
+    "dur": 5.2,
+    "at": 227.73,
+    "clip": "Exs"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Akane (School Uniform).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 (EX 없음 → 클릭 반응)",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 24.3,
+    "at": 537.5,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 5.17,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 7.5,
+    "at": 14.97,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 51.87,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 53.37,
+    "clip": "Formation_Pickup"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Atsuko (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 6.57,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 6.57,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 6.57,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 4.6,
+    "clips": [
+     "Exs01",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 6.8,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 14.5,
+    "at": 1738.63,
+    "clip": "Cafe_Idle"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 6.7,
+    "clip": "Cafe_Idle"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 8.2,
+    "clip": "Cafe_Idle"
+   },
+   "action": {
+    "dur": 6.6,
+    "at": 15.57,
+    "clip": "Cafe_Reaction"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 56.2,
+    "clip": "Cafe_Walk"
+   },
+   "ex": {
+    "dur": 4.6,
+    "at": 279.83,
+    "clip": "Exs01"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Eimi (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 5.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 5.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 5.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 (EX 없음 → 클릭 반응)",
+    "ok": true,
+    "why": "",
+    "time": 5.63,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 22.1,
+    "at": 998.6,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 16.3,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 5.7,
+    "at": 55.2,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 181.9,
+    "clip": "Cafe_Idle"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 183.4,
+    "clip": "Cafe_Idle"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Fubuki (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 6.8,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 6.83,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 6.83,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 4.77,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 26.7,
+    "at": 770.33,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 13.07,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 6.8,
+    "at": 33.77,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 96.67,
+    "clip": "Cafe_Idle"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 98.17,
+    "clip": "Cafe_Idle"
+   },
+   "ex": {
+    "dur": 4.8,
+    "at": 149.67,
+    "clip": "Exs"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Fuuka (New Year).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 7.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 7.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 7.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 8.3,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 6.77,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 20.5,
+    "at": 1438.47,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 3.07,
+    "clip": "Cafe_Walk"
+   },
+   "ex": {
+    "dur": 8.3,
+    "at": 21,
+    "clip": "Exs"
+   },
+   "action": {
+    "dur": 7.7,
+    "at": 33.2,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 72.57,
+    "clip": "Cafe_Idle"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 74.07,
+    "clip": "Cafe_Idle"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Hanae (Christmas).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 3.23,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 3.23,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 3.23,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 4.23,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 20.3,
+    "at": 56.97,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 32.7,
+    "clip": "Cafe_Walk"
+   },
+   "ex": {
+    "dur": 4.2,
+    "at": 24,
+    "clip": "Exs"
+   },
+   "action": {
+    "dur": 3.2,
+    "at": 77.27,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 112.6,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 114.1,
+    "clip": "Formation_Pickup"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Haruka (New Year).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 4.13,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 4.17,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 4.17,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 6.4,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 23.7,
+    "at": 953.97,
+    "clip": "Cafe_Idle"
+   },
+   "action": {
+    "dur": 4.2,
+    "at": 7.6,
+    "clip": "Cafe_Reaction"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 47.9,
+    "clip": "Cafe_Walk"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 56.37,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 57.87,
+    "clip": "Formation_Pickup"
+   },
+   "ex": {
+    "dur": 6.4,
+    "at": 139.2,
+    "clip": "Exs"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Haruna (Sportswear).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 7.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 7.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 7.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 (EX 없음 → 클릭 반응)",
+    "ok": true,
+    "why": "",
+    "time": 7.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 28.2,
+    "at": 1463.57,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 60.8,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 7.3,
+    "at": 19.73,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 30.7,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 32.2,
+    "clip": "Formation_Pickup"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Hinata (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 5.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 5.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 5.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 7.27,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.2,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 1.33,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 24.3,
+    "at": 674.83,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 6.87,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 5.3,
+    "at": 20.53,
+    "clip": "Cafe_Reaction"
+   },
+   "ex": {
+    "dur": 7.3,
+    "at": 83.5,
+    "clip": "Exs"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 220.87,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 222.37,
+    "clip": "Formation_Pickup"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Ichika (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 9.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 9.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 9.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 10,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 22.2,
+    "at": 672.4,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 35.77,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 9.3,
+    "at": 19.1,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 74.83,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 76.33,
+    "clip": "Formation_Pickup"
+   },
+   "ex": {
+    "dur": 10,
+    "at": 133.2,
+    "clip": "Exs"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Izumi (New Year).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 14,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 14,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 14,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 (EX 없음 → 클릭 반응)",
+    "ok": true,
+    "why": "",
+    "time": 13.97,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 17.5,
+    "at": 1328.63,
+    "clip": "Cafe_Idle"
+   },
+   "action": {
+    "dur": 14,
+    "at": 5.2,
+    "clip": "Cafe_Reaction"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 118.27,
+    "clip": "Cafe_Walk"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 366.83,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 368.33,
+    "clip": "Formation_Pickup"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Karin (School Uniform).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 9.1,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 9.1,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 9.1,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 7.2,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 6.63,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 22.4,
+    "at": 501.93,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 73.97,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 9.1,
+    "at": 30.53,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 187.2,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 188.7,
+    "clip": "Formation_Pickup"
+   },
+   "ex": {
+    "dur": 7.2,
+    "at": 262.47,
+    "clip": "Exs"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Kikyou (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 7.63,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 7.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (5초)",
+    "ok": true,
+    "why": "",
+    "time": 5.47,
+    "clips": [
+     "Normal_Idle",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 (EX 없음 → 클릭 반응)",
+    "ok": true,
+    "why": "",
+    "time": 7.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 → 클릭으로 깨우기",
+    "ok": true,
+    "why": "",
+    "time": 10.63,
+    "clips": [
+     "Vital_Death",
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (20초)",
+    "ok": true,
+    "why": "",
+    "time": 37.07,
+    "clips": [
+     "Normal_Idle",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.5,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄)",
+    "ok": true,
+    "why": "",
+    "time": 2.03,
+    "clips": [
+     "Vital_Retreat"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 10.5,
+    "at": 756.07,
+    "clip": "Cafe_Idle"
+   },
+   "action": {
+    "dur": 7.7,
+    "at": 5.47,
+    "clip": "Cafe_Reaction"
+   },
+   "armed": {
+    "dur": 32.1,
+    "at": 1275.4,
+    "clip": "Normal_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 120.3,
+    "clip": "Cafe_Walk"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 131.93,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 133.43,
+    "clip": "Formation_Pickup"
+   },
+   "nap": {
+    "dur": 28.3,
+    "at": 1179.13,
+    "clip": "Vital_Death"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Kirino (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 9.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 9.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (5초)",
+    "ok": true,
+    "why": "",
+    "time": 11.53,
+    "clips": [
+     "Normal_Ilde",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 (EX 없음 → 클릭 반응)",
+    "ok": true,
+    "why": "",
+    "time": 9.67,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 → 클릭으로 깨우기",
+    "ok": true,
+    "why": "",
+    "time": 12.67,
+    "clips": [
+     "Vital_Death",
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (20초)",
+    "ok": true,
+    "why": "",
+    "time": 32.43,
+    "clips": [
+     "Normal_Ilde",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 15.7,
+    "at": 912.03,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 7.67,
+    "clip": "Cafe_Walk"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 21.5,
+    "clip": "Cafe_Idle"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 23,
+    "clip": "Cafe_Idle"
+   },
+   "armed": {
+    "dur": 30.1,
+    "at": 77.03,
+    "clip": "Normal_Ilde"
+   },
+   "action": {
+    "dur": 9.7,
+    "at": 152.73,
+    "clip": "Cafe_Reaction"
+   },
+   "nap": {
+    "dur": 15.4,
+    "at": 1643.13,
+    "clip": "Vital_Death"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Koyuki (Pajama).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 9.13,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 9.13,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 9.13,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 5.3,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.2,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 7.47,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 20,
+    "at": 1471.03,
+    "clip": "Cafe_Idle"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 8.57,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 10.07,
+    "clip": "Formation_Pickup"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 60.13,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 9.1,
+    "at": 40.87,
+    "clip": "Cafe_Reaction"
+   },
+   "ex": {
+    "dur": 5.3,
+    "at": 164.47,
+    "clip": "Exs"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Maki (Camping).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 15.73,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 15.73,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 15.73,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 4.97,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 5.57,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 22,
+    "at": 1302.6,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 20.73,
+    "clip": "Cafe_Walk"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 11.6,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 13.1,
+    "clip": "Formation_Pickup"
+   },
+   "action": {
+    "dur": 15.7,
+    "at": 45.43,
+    "clip": "Cafe_Reaction"
+   },
+   "ex": {
+    "dur": 5,
+    "at": 71.8,
+    "clip": "Exs"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Mashiro (Swimsuit).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 3.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 3.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 3.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 (EX 없음 → 클릭 반응)",
+    "ok": true,
+    "why": "",
+    "time": 3.33,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 1.77,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 19.8,
+    "at": 585.47,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 5.9,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 3.3,
+    "at": 42.73,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 472.57,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 474.07,
+    "clip": "Formation_Pickup"
+   }
+  },
+  "stuck": [],
+  "errors": []
+ },
+ "Michiru (Dress).glb": {
+  "tests": [
+   {
+    "name": "클릭 반응",
+    "ok": true,
+    "why": "",
+    "time": 9.17,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "클릭 반응 (두 번째)",
+    "ok": true,
+    "why": "",
+    "time": 9.17,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "잠깐 무장 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 9.17,
+    "clips": [
+     "Cafe_Reaction",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "더블클릭 EX → 대기 (전투 없음)",
+    "ok": true,
+    "why": "",
+    "time": 4.4,
+    "clips": [
+     "Exs",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "낮잠 (낮잠·무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "전투 (무장 없음 → 대기)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "집어 들었다 놓기",
+    "ok": true,
+    "why": "",
+    "time": 1.23,
+    "clips": [
+     "Formation_Pickup",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "걷기",
+    "ok": true,
+    "why": "",
+    "time": 2.3,
+    "clips": [
+     "Cafe_Walk",
+     "Cafe_Idle"
+    ]
+   },
+   {
+    "name": "종료 (밧줄 동작 없음)",
+    "ok": true,
+    "why": "",
+    "time": 0,
+    "clips": [
+     "Cafe_Idle"
+    ]
+   }
+  ],
+  "longest": {
+   "idle": {
+    "dur": 20.3,
+    "at": 1412.87,
+    "clip": "Cafe_Idle"
+   },
+   "walk": {
+    "dur": 7.5,
+    "at": 95.2,
+    "clip": "Cafe_Walk"
+   },
+   "action": {
+    "dur": 9.2,
+    "at": 12.2,
+    "clip": "Cafe_Reaction"
+   },
+   "drag": {
+    "dur": 1.5,
+    "at": 57.53,
+    "clip": "Formation_Pickup"
+   },
+   "fall": {
+    "dur": 0.2,
+    "at": 59.03,
+    "clip": "Formation_Pickup"
+   },
+   "ex": {
+    "dur": 4.4,
+    "at": 107.67,
+    "clip": "Exs"
    }
   },
   "stuck": [],

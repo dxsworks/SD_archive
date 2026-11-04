@@ -267,6 +267,7 @@ let clipTurns = new Map(); // 동작 이름 → 원래 호시노와 같은 방�
 let clipHeads = new Map(); // 동작 이름 → 얼굴이 보는 방향 (얼굴이 보이게 돌릴 때 씀)
 let clipEnds = new Map();  // 동작 이름 → 동작이 끝난 순간 몸 가운데 (모델 기준)
 let clipLifts = new Map(); // 동작 이름 → [처음, 끝] 골반 높이 (모델 기준)
+let clipReaches = new Map(); // EX 이름 → 동작 내내 몸 가운데가 가장 멀리 간 거리 (모델 기준)
 let clipHips = new Map();  // 동작 이름 → 막 시작했을 때 몸(허벅지 선) 방향 (모델 기준)
 let clipFronts = new Map(); // 동작 이름 → 몸 앞쪽 방향 (모델 기준, 0 = 카메라 쪽, 어깨선·허벅지 선으로 잼)
 let thighs = [];
@@ -467,7 +468,7 @@ async function loadModel() {
   form2Off = idle2 ? clipsChangingParts(gltf.scene, gltf.animations, idle2) : new Set();
   markForm2Props(idle2);
   formEx = findFormEx(idle2);
-  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts, lifts: clipLifts } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
+  ({ turns: clipTurns, heads: clipHeads, ends: clipEnds, hips: clipHips, fronts: clipFronts, lifts: clipLifts, reaches: clipReaches } = measureClips(gltf.scene, gltf.animations, (n) => clipKey(n)));
   thighs = thighBones(gltf.scene).filter(Boolean);
   deployStances = findDeployStances();
   proneStances = findProneStances();
@@ -1302,9 +1303,11 @@ function moveUnder(went) {
 // 창은 몸 둘레만큼이라 펫 방향에 따라 EX 도중 창 옆·아래로 걸어 나가 잘렸음(스물셋째 묶음). 매 프레임 펫 자리를 골반 밑으로 옮기고
 // 모델 위치 보정으로 몸은 화면에 그대로 둔다(걷기처럼 창만 움직임). EX가 끝나거나 끊기면 남은 보정을 섞는 동안 푼다(stepOff)
 // ?exFollow=0이면 예전처럼 EX가 끝난 뒤에만 옮김 (stayWhereEnded, 비교용)
+// 끝은 제자리여도 도중에 멀리 가는 EX도 따라간다(clipReaches, 스물넷째 묶음): 코유키(잠옷)는 옆으로 1.4단위 비켜 선 자세로 시작해
+// 시작 0.2초에 몸이 창 옆 끝까지 미끄러졌고, 미치루(드레스)는 넘어지며 옆으로 가 창 끝에 닿았음
 const FOLLOW_EX = new URLSearchParams(location.search).get('exFollow') !== '0';
 let following = false;
-const walksAway = (name) => /^exs/.test(clipKey(name)) && (clipEnds.get(name)?.length() ?? 0) >= EX_STAY;
+const walksAway = (name) => /^exs/.test(clipKey(name)) && (clipReaches.get(name) ?? clipEnds.get(name)?.length() ?? 0) >= EX_STAY;
 function bodyOffset() { // 골반의 모델 위치 보정 공간 자리 (바닥 평면)
   root.updateMatrixWorld(true);
   const v = thighs[0].getWorldPosition(new THREE.Vector3()).add(thighs[1].getWorldPosition(new THREE.Vector3())).multiplyScalar(0.5);
@@ -1801,6 +1804,7 @@ window.__pet = {
   get gearClips() { return [...gearClips]; },
   get form2Off() { return [...form2Off]; },
   form2Looks,
+  get clipReaches() { return Object.fromEntries([...clipReaches].map(([n, v]) => [n, +v.toFixed(2)])); },
   get clipEnds() { return Object.fromEntries([...clipEnds].map(([n, v]) => [n, [+v.x.toFixed(3), +v.z.toFixed(3)]])); },
   get clipHeads() { return Object.fromEntries([...clipHeads].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
   get clipFronts() { return Object.fromEntries([...clipFronts].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },

@@ -57,12 +57,15 @@ const ACCEPTED = [
   ...exAndAfter('Saya.glb', ['왼쪽', '오른쪽', '아래'], 'EX 3초 동안 몸이 바닥 아래로 내려가(게임에선 땅에 가려짐) 창 아래로 사라지고 던진 병만 창 옆까지 굴러감'),
   ...exAndAfter('Saki.glb', '위', 'EX에서 높이 뛰어올라 매달려 있다가 끝나기 직전 0.2초쯤 머리가 창 위로 나감 (창을 늘리지 않음)'),
   { kind: 'edge', model: 'Rio.glb', clip: /^Exs$/i, side: '위', why: 'EX 드론이 창 위 19px까지 감 (기준 35px, 잘리지는 않음)' },
+  // 스물넷째 묶음(2026-11-05): 영상(reports/batch-24-*.mp4) 보고 사용자 모두 "그대로"
+  ...exAndAfter('Fuuka (New Year).glb', ['왼쪽', '오른쪽', '아래'], 'EX에서 스쿠터를 타고 약 6단위(보통 크기 1300px) 멀리 감. 창은 몸을 따라가지만 바닥(화면) 끝에서 멈춰 몸이 창 밖(화면 밖)으로 나갔다가 화면 끝에 서서 끝남'),
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },
   { kind: 'angle', model: 'Shun.glb', key: /^Normal\d*_Idle\d* → Normal\d*_Attack_Start$/i, why: '뛰고 나서 등을 보인 채 사격 시작 (드묾, 2026-10-20 사용자 "괜찮음")' },
   { kind: 'angle', model: 'Wakamo.glb', key: /^Exs → Normal_Idle$/i, why: 'EX가 몸을 반 바퀴 돌려 끝나(전투 대기와 170°) 이어 받기 한도를 넘은 56°를 휙 돎. EX 뒤 뛰어서 돌아서기와 비교 영상 보고 2026-10-30 사용자 "그대로"' },
   { kind: 'angle', model: 'Ichika.glb', key: /^Normal_Idle → Normal_Callsign$/i, why: '잠깐 무장 중 등을 보이는 쪽일 때 반대쪽 적을 향해 전투를 시작하면 구호에서 이어 받기 한도를 넘은 51°를 돎 (드묾, 영상 보고 2026-10-31 사용자 "그대로 두기")' },
+  { kind: 'angle', model: 'Kikyou (Swimsuit).glb', key: /^Cafe_\w+ → Normal_Idle$/i, why: '무장 대기가 공중에 엎드려 떠서 헤엄치는 자세(이벤트 동작)라 서 있는 평소 대기와 몸(허벅지 선) 방향이 171° 달라 이어 받기 한도를 넘은 51°를 돎. 영상 보고 2026-11-05 사용자 "그대로"' },
   { kind: 'angle', model: 'Reisa.glb', key: /^Normal_\w+ → Normal_\w+$/i, why: '구호(54°)·사격 시작(20°)·재장전(15°)이 몸을 한쪽으로 돌려 끝나 총 자세가 이어지는 동안 이어 받은 방향이 쌓이다가 가끔 이어 받기 한도를 넘은 50°쯤을 정면 쪽으로 돎 (30분에 0~1번, 총 자세로 넘어감 약 500번 중. 이치카와 같은 종류라 2026-11-01 그 결정대로 둠)' },
 ];
 const accepted = (model, w) => ACCEPTED.find((a) => a.kind === w.kind && (!a.model || a.model === model)

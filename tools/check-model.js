@@ -40,7 +40,9 @@ const companionsOf = (file, all) => {
 const KNOWN_UNUSED = [
   /^exs/, /^stand_idle$/, /^kneel_idle$/, /^vital_panic$/, /^vital_dying_ing$/, /^vital_hit$/,
   /^tactical_start/, /^formation_idle_random$/, /^formation_formchange/, /^move_end_stand_random$/,
-  /^nonweapon_/, /^tank_/, /^riding_/, /^sm\d/, /^st_/, /^dicerace_/, /^tss_/,
+  /^nonweapon_/, /^tank_/, /^riding_/, /^sm\d/, /^st_/, /^b_st_/, /^dicerace_/, /^tss_/,
+  // 탈것 학생(앞말을 뗀 이름): 등장(노도카(온천) Appear), 탈것이 부서져 엎어짐(Destory 오타), 수영복 히후미 엎어진 채 대기(Vital_Exit), 이로하 EX 컷인·상호작용
+  /^appear(ance)?$/, /^vital_dest(roy|ory)$/, /^vital_exit$/, /^ridingex_cutin$/, /^tsainteraction$/,
 ];
 
 function levenshtein(a, b) {

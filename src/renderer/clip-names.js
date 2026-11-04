@@ -45,8 +45,10 @@ export const OTHER_CLIPS = ['Move_Ing', 'Move_Jump', JUMP_VARIANT, 'Vital_Retrea
 // 학생별로 안 쓰는 동작 (사용자 결정). 펫은 모델을 읽을 때 지우고 검사 도구도 없는 것으로 본다
 // 2026-10-29 Toki: 로봇(기계 장갑 CH0187_Machine)을 탄 모습은 안 씀 → 02 차림 전부, EX 둘(Exs01은 로봇을 부르고 Exs02는 탄 채),
 //   로봇에서 내리는 FormRelease, 로봇에 탄 승리 포즈(Victory_*_Random). EX가 없으니 더블클릭은 EX 없는 학생처럼
+// 2026-11-04 Iroha: 같은 전차 동작이 Tank_·SM015601_Riding_ 두 벌 → EX(RidingEx01)가 있는 Riding만 씀 (비교 영상 보고 사용자)
 export const SKIP_CLIPS = {
   'Toki.glb': [/02(_|$)/i, /machine/i, /^exs/i, /^formrelease/i, /^victory_(start|end)_random$/i],
+  'Iroha.glb': [/^tank_/i],
 };
 export const skipClip = (model, name) => (SKIP_CLIPS[model] ?? []).some((r) => r.test(name));
 // 카페 동작이 없는 학생은 "<학생> (Cafe).glb"의 카페 차림을 붙여 쓴다 (pet.js borrowCafeOutfit, src/model-files.js)
@@ -74,6 +76,7 @@ export const CLIP_TYPOS = {
   normal_callsign1: 'normal_callsign',   // Koyuki (움직임이 다른 구호 1·2: 같은 이름에 묶으면 2는 안 나옴
   normal_callsign2: 'normal_callsign_random', //   → 2는 다른 학생의 두 번째 구호(_Random)처럼 잠깐 무장에서 섞음)
   normal_reload_01: 'normal_reload_random', // Izumi (Swimsuit) (몸 움직임이 다른 재장전: 수박·코코넛 주스를 꺼내 발밑에 두고 사라짐 → 재장전 변형처럼 섞음)
+  normal_attack_strat: 'normal_attack_start', // Iroha Tank_Normal_Attack_Strat
 };
 // 승리 포즈·쓰러짐·퇴장·뛰기·차림 풀기 앞에 Normal_이 붙은 학생 (Shiroko＊Terror Normal01_Victory_Start·Normal02_Vital_Death·
 // Normal02_FormRelease, Kazusa Normal_Move_Ing) → 앞의 Normal_을 뗀다. 조사 295개 중 Normal_이 없는 같은 이름과 같이 있는 모델은 없음
@@ -87,11 +90,27 @@ const ORIGINAL_PREFIX = /^original_/;
 // 차림 번호가 이름 맨 앞에 붙은 학생 (Hoshino (Battle) 01_Cafe_Idle, 02_Normal_Idle: 동작 57개 모두) → 떼고 차림 번호로 읽는다.
 // 조사 295개 중 숫자로 시작하는 이름은 이 학생뿐
 const FRONT_FORM = /^0(\d)_/;
+// 탈것을 타고 싸우는 학생: 무장·전투 동작 이름 앞에 탈것 이름이 붙음 (Cherino (Hot Spring)·Hifumi (Swimsuit)·Iroha Tank_Normal_Idle,
+// Akari (New Year) SM019601_, Himari (Battle) SM033201_, Sena SM008101_, Nodoka (Hot Spring) SM016501_) → 떼고 읽는다.
+// 조사 295개 중 같은 이름이 앞말 없이도 있는 모델은 없음
+const VEHICLE_PREFIX = /^(tank|sm\d{6})_/i; // 차림 번호보다 먼저 뗀다 (SM033201의 M03을 차림 3으로 읽지 않게)
+// 탈것 학생만 쓰는 다른 이름 (앞말을 뗀 뒤): Cherino (Hot Spring) Tank_Idle·Tank_Reload, Sena SM008101_Normal_Attack_Reload,
+// Iroha SM015601_Riding_* (같은 전차 동작 두 벌 중 EX가 있는 쪽, Tank_ 쪽은 SKIP_CLIPS. 차림 번호를 뗀 뒤라 RidingEx01 → ridingex).
+// Ibuki의 앞말 없는 Riding_*(안 씀)는 그대로
+const VEHICLE_NAMES = {
+  idle: 'normal_idle', reload: 'normal_reload', normal_attack_reload: 'normal_reload',
+  riding_idle: 'normal_idle', riding_reload: 'normal_reload', riding_ing: 'move_ing', riding_end_normal: 'move_end_normal',
+  riding_retreat: 'vital_retreat', ridingex: 'exs', ridingpublic: 'public',
+  riding_attack_start: 'normal_attack_start', riding_attack_ing: 'normal_attack_ing',
+  riding_attack_end: 'normal_attack_end', riding_attack_delay: 'normal_attack_delay',
+};
 // 묶는 이름: 차림 번호를 떼고, 소문자로, 띄어쓰기는 _로 (Hanae "Formation Pickup"), 오타는 맞는 이름으로
 export function clipKey(name, onForm) {
-  const key = name.replace(FRONT_FORM, (_, n) => { onForm?.(Number(n)); return ''; })
+  const vehicle = VEHICLE_PREFIX.test(name);
+  let key = name.replace(VEHICLE_PREFIX, '').replace(FRONT_FORM, (_, n) => { onForm?.(Number(n)); return ''; })
     .replace(SPLIT_NUMBER, '$1').replace(FORM_NUMBER, (_, ch, n) => { onForm?.(Number(n)); return ch; })
     .toLowerCase().replace(/ /g, '_').replace(ORIGINAL_PREFIX, '').replace(NORMAL_PREFIX, '');
+  if (vehicle) key = VEHICLE_NAMES[key] ?? key;
   return CLIP_TYPOS[key] ?? key;
 }
 // 동작 이름들을 묶는다 → index: 묶은 이름 → [{ name, form }], forms: 이 모델에 있는 차림 번호들

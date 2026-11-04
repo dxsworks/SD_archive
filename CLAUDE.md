@@ -57,6 +57,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   - `npx electron tools/sheet-check.js "모델.glb" [출력.png] [--picks]` 펫이 쓰는 동작마다 5장 시트(`__pet.sheet`). `--picks`는 사람이 볼 동작만 이유와 함께(`__pet.picks`: 몸이 크게 뜸(골반이 서 있을 때의 1.6배 넘게), 낮잠 끝에 몸에서 멀리 떨어진 조각, 빌려온 동작, EX 여러 개, 장비 모습이 다름, 02 차림)
   - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
   - `node tools/make-pack.js [--out=dist/students.zip] [--local-only]` **학생 압축**(배포용, 설치 파일과 따로): 원본 저장소를 한 커밋으로 고정해 `.glb`를 받아(`pack-cache/`, git 해시로 확인, `models/`에 같은 게 있으면 복사) 펫으로 쓸 수 있는 학생과 짝 파일(`<학생> (…)`)만 zip으로. 압축 안에 `students-pack.json`(커밋·파일별 해시·검사한 학생)과 `읽어주세요.txt`. zip은 파이썬 `zipfile`로 씀(Node zlib보다 4% 작음). `--local-only`는 받지 않고 시험
+  - `node tools/upstream-check.js` **원본 변경 보기**(받지 않음, 약 5초): 원본 main의 `.glb` 목록을 받은 원본(`pack-cache`)과 git 해시로 비교해 새로 생김·바뀜·없어짐과 크기. 바뀐 게 있으면 크기를 알리고 허락받아 `make-pack.js`로 받기 → 검사 → 압축 다시 만들기
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
 - 브라우저 미리보기 창이 숨겨지면 rAF가 멈춰서 시간 기반 확인이 틀린다 → Electron 테스트 스크립트를 쓴다.
@@ -202,7 +203,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   4. ~~설치 파일 정리~~ 완료(2026-10-30 사용자): 설치 파일엔 호시노만(`build.files` `models/Hoshino.glb`, 86MB), 나머지는 학생 압축으로. 삭제할 때 받은 학생·설정(`%APPDATA%/bluearchive-desktop-pet`)은 늘 지움(`nsis.deleteAppDataOnUninstall`, 덮어 설치(`--updated`)엔 안 지움. 개발용 `npm start`도 같은 폴더라 이 컴퓨터에서 설치본을 지우면 같이 사라짐). README "배포용 설치 파일"에 학생 압축 푸는 법
   5. ~~학생 압축 다시 만들기~~ 완료(2026-10-30): `students-pack.json`에서 토키·사오리(드레스)는 학생(`pet: true`), `(Cafe)` 파일은 짝 파일(`pet: false`)로 확인. 예전 압축은 토키 빠짐·사오리(드레스)가 사오리의 짝 파일이었음
   6. ~~GitHub Releases에 올리기~~ 완료(2026-11-01 사용자 허락): 저장소 `dxsworks/SD_archive`(공개, 파일 하나 2GB까지) 릴리스 [v1.1.0](https://github.com/dxsworks/SD_archive/releases/tag/v1.1.0)(Latest, 태그 = 버전을 1.1.0으로 올린 main 커밋)에 설치 파일 `BlueArchivePet-Setup-1.1.0.exe`(86MB, 호시노만, 검사한 학생 115명 목록)와 `students.zip`(906MB). GitHub은 첨부 이름의 한글·공백을 바꾸므로 설치 파일은 영어 이름으로 복사해 올림. 예전 v1.0.0(2026-10-14, 학생 4명 든 99MB, 받은 사람 0)은 그대로 둠. 다시 올릴 때도 **올리기 전에 사용자 확인**(밖으로 나가는 일). 게임 원본 에셋을 다시 배포하는 것이라 신고·내려질 위험은 사용자에게 이미 말해 둠
-- 그 뒤 할 것(2026-11-04 사용자: 둘 다 하기로, 하나씩): 원본 저장소 변경 따라가기(새 학생·바뀐 학생을 검사해 압축 다시 만들기), 앱 자동 업데이트(`electron-updater` + Releases)
+- 그 뒤 할 것(2026-11-04 사용자: 둘 다 하기로, 하나씩): 원본 변경 따라가기는 `tools/upstream-check.js`를 만듦(2026-11-04 확인: 원본은 `06bb8e9`(2026-10-14) 뒤로 그대로, 289개 모두 같음). 원본 저장소 변경 따라가기(새 학생·바뀐 학생을 검사해 압축 다시 만들기), 앱 자동 업데이트(`electron-updater` + Releases)
 
 2번·4번 문서는 `docs/special-students.md`(2026-11-04 사용자: models.md는 도구로 다시 만드니 새 문서 하나). 그 밖에: 클릭 반응 중 원래 짧은 동작(카페 반응 2.3~2.7초, 무장·전투 중 구호·재장전 1.5~2.2초)이 짧게 느껴지면 손볼 수 있다고 물었더니 "괜찮음"(2026-11-04 사용자, 그대로).
 

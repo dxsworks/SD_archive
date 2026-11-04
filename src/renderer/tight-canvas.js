@@ -8,16 +8,20 @@ import * as THREE from 'three';
 const MIN_WEIGHT = 0.1; // 이보다 작게 붙은 뼈는 그 정점의 반지름에 안 셈 (머리카락 끝이 골반에 0.01로 붙은 것 등)
 
 // 모델을 읽을 때 한 번: 메시마다 [뼈, 반지름(뼈 자신의 좌표 단위)] 목록. 뼈에 안 붙은 메시는 바운딩 구
-export function meshSpheres(root) {
+// thickOf(mesh): 외곽선 두께(메시 좌표 단위, outline.js). 반지름에 더한다: 동작이 뼈 크기를 키운 작은 소품은 외곽선도 같이 커져
+// 여유(CANVAS_PAD 12px)를 넘었음 (리츠 EX에서 두고 가는 고리, 외곽선이 소품만큼 두꺼워 캔버스 끝에서 11px 잘림, 2026-11-04)
+export function meshSpheres(root, thickOf = () => 0) {
   const out = [];
   const v = new THREE.Vector3();
   const local = new THREE.Vector3();
+  const m = new THREE.Matrix4();
   root.traverse((mesh) => {
     if (!mesh.isMesh) return;
     const pos = mesh.geometry.attributes.position;
+    const thick = thickOf(mesh);
     if (!mesh.isSkinnedMesh) {
       if (!mesh.geometry.boundingSphere) mesh.geometry.computeBoundingSphere();
-      out.push({ mesh, center: mesh.geometry.boundingSphere.center.clone(), radius: mesh.geometry.boundingSphere.radius });
+      out.push({ mesh, center: mesh.geometry.boundingSphere.center.clone(), radius: mesh.geometry.boundingSphere.radius + thick });
       return;
     }
     const { bones, boneInverses } = mesh.skeleton;
@@ -34,7 +38,8 @@ export function meshSpheres(root) {
       }
     }
     const joints = [];
-    bones.forEach((bone, j) => { if (radius[j] > 0) joints.push({ bone, radius: radius[j] }); });
+    // 외곽선 두께를 뼈 좌표 단위로 (bindMatrix → 뼈 역행렬의 크기)
+    bones.forEach((bone, j) => { if (radius[j] > 0) joints.push({ bone, radius: radius[j] + thick * maxScale(m.multiplyMatrices(boneInverses[j], mesh.bindMatrix)) }); });
     out.push({ mesh, joints });
   });
   return out;

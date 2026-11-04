@@ -13,6 +13,7 @@
 - **한 번에 하나씩** 진행하고, 단계가 끝나면 보고한 뒤 다음으로 넘어갈지 묻는다.
 - 동작은 정해진 순서로 잇기보다 **무작위로 섞는 쪽**을 선호한다(예외: 사격 `Start → Ing → End → Delay` 순서는 고정).
 - "마저해줘"처럼 대상이 애매하면 추측해서 크게 작업하지 말고 먼저 확인한다.
+- **커밋·PR에 Claude 표시를 붙이지 않는다**(2026-11-04 사용자: GitHub 기여자에 claude가 안 나오게). `Co-Authored-By: Claude …` 줄, "Generated with Claude Code" 문구 모두 넣지 않음(`.claude/settings.json` `attribution`도 빈 값)
 
 ## 실행 / 구조
 

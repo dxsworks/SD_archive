@@ -165,34 +165,56 @@ export function limitRevivedScales(root, animations) {
     const of = new Map(animations.map((clip) => {
       const f = above.map((n) => scaleOfClip.get(clip).get(n)?.createInterpolant() ?? largest(n.scale.toArray()));
       const own = transformTracks(clip, node).map((tr, i) => (tr ? tr.createInterpolant() : rest[i]));
+      const values = (t) => own.map((x) => (Array.isArray(x) ? x : x.evaluate(t)));
       return [clip.name, {
         parent: (t) => f.reduce((p, x) => p * (typeof x === 'number' ? x : largest(x.evaluate(t))), 1),
+        values,
         apply: (t) => {
-          const [pos, quat, scale] = own.map((x) => (Array.isArray(x) ? x : x.evaluate(t)));
+          const [pos, quat, scale] = values(t);
           node.position.fromArray(pos);
           node.quaternion.fromArray(quat).normalize();
           node.scale.fromArray(scale);
         },
       }];
     }));
-    return { of, restParent };
+    return { node, above, of, restParent };
   });
+  const pos = new THREE.Vector3(), scl = new THREE.Vector3(), tmp = new THREE.Vector3();
   // 크기 상한 = 지금 섞이는 동작들의 그 순간 값 중 최대 (모든 동작의 최대로 하면 나구사는 재장전 한 순간에 총알이 0.97배라
   // 카페 → EX를 섞는 동안 총알이 평소 0.1배의 10배로 커지는 걸 못 막았음). 동작 하나뿐이고 가중치가 1이면 섞는 게 아님
   return (mixer) => {
     const actions = mixer._actions.slice(0, mixer._nActiveActions).filter((a) => a.getEffectiveWeight() > 0);
     const weight = actions.reduce((s, a) => s + a.getEffectiveWeight(), 0);
     if (actions.length < 2 && weight > 0.999) return;
-    for (const { of, restParent } of revivedList) {
+    for (const { node, above, of, restParent } of revivedList) {
       let hidden = weight < 0.999 && restParent < HIDDEN_SCALE; // 가중치가 모자라면 믹서가 기본 값을 섞음
       let pick = null;
+      const hiders = [];
       for (const a of actions) {
         const f = of.get(a.getClip().name);
         if (!f) continue;
-        if (f.parent(a.time) < HIDDEN_SCALE) hidden = true;
+        const p = f.parent(a.time);
+        if (p < HIDDEN_SCALE) { hidden = true; hiders.push({ a, f, p }); }
         else if (!pick || a.getEffectiveWeight() > pick.a.getEffectiveWeight()) pick = { a, f };
       }
-      if (hidden && pick) pick.f.apply(pick.a.time);
+      if (hidden && pick) { pick.f.apply(pick.a.time); continue; }
+      // 섞이는 동작이 모두 부모를 숨기는데 숨긴 크기가 다르면(수영복 히후미 카페 0.01배·몸 100배 / 집어 들기 0.0001배·몸 10000배,
+      // 몸 위치도 그 배율로 최대 7000) 위치·크기를 따로 섞어 섞는 0.2초 동안 몸이 창 밖으로 날아갔음
+      // → 부모 크기를 곱한 값(실제 크기)으로 섞고 지금 부모 크기로 나눈다. 숨긴 크기가 같으면 믹서가 섞은 것과 같음
+      if (pick || hiders.length < 2 || weight < 0.999) continue;
+      const ps = hiders.map((h) => h.p);
+      if (Math.max(...ps) < Math.min(...ps) * 1.5) continue;
+      pos.set(0, 0, 0); scl.set(0, 0, 0);
+      for (const { a, f, p } of hiders) {
+        const [hp, , hs] = f.values(a.time);
+        const w = a.getEffectiveWeight() / weight;
+        pos.add(tmp.fromArray(hp).multiplyScalar(w * p));
+        scl.add(tmp.fromArray(hs).multiplyScalar(w * p));
+      }
+      const now = above.reduce((s, n) => s * size(n.scale), 1);
+      if (now <= 0) continue;
+      node.position.copy(pos).divideScalar(now);
+      node.scale.copy(scl).divideScalar(now);
     }
     for (const { node, chain, of, rest } of limits) {
       let max = weight < 0.999 ? rest : 0; // 가중치가 모자라면 믹서가 기본 값을 섞음

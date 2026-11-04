@@ -4,10 +4,12 @@
 // 2026-11-02 사용자 "아야네만 창 넓히기": 수영복 아야네는 무장·전투를 헬기를 타고 하는데, 펫이 옆을 보면(전투 중 뛰기·그 직후)
 // 헬기 몸통·꼬리가 옆으로 놓여 창 옆으로 한쪽 최대 약 250px 나갔음(앞을 볼 땐 0~43px) → 6.55단위(보통 862 → 1410px).
 // 캔버스는 캐릭터 둘레만 그려서(tight-canvas.js) 다른 학생 GPU는 그대로
+// 2026-11-04 사용자 "두 학생만 넓히기": 체리노(온천)·이로하는 무장·전투를 전차를 타고 하는데, 전차가 옆으로 놓이면(전투 중 뛴 뒤)
+// 도저 날·포신이 창 옆으로 한쪽 최대 약 150px 나갔음 → 5.7단위(보통 862 → 1228px)
 const path = require('path');
 
 const VIEW_WIDTH = 4.0;
-const WIDE_WINDOW = { 'Ayane (Swimsuit).glb': 6.55 };
+const WIDE_WINDOW = { 'Ayane (Swimsuit).glb': 6.55, 'Cherino (Hot Spring).glb': 5.7, 'Iroha.glb': 5.7 };
 
 // 그 학생 창의 가로 px: 창 크기 프리셋의 가로(보통 862)에 넓힌 비율을 곱한다
 const windowWidth = (model, w) => Math.round((w * (WIDE_WINDOW[path.basename(model ?? '')] ?? VIEW_WIDTH)) / VIEW_WIDTH);

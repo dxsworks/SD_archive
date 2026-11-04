@@ -883,12 +883,13 @@ function armedIdle() {
 
 // 장비 모습이 평소와 다른 동작은 뺀다 (Shiroko＊Terror Normal01_Callsign_Random은 드론이 나옴). 다 빠지면 원래대로
 const calmList = (names) => { const ok = names.filter((n) => canPlay(n) && calmOk(n)); return ok.length ? ok : names; };
-const armedFidget = () => { const name = pickRandom(calmList(ARMED_FIDGETS)); playSequence([name.endsWith('_Reload') ? variantClip(name) : name]); };
+// 구호·재장전이 하나도 없는 학생(아카리(새해): 탈것 동작이 대기·사격·뛰기·총 꺼내기뿐)은 무장 중 할 동작 없이 대기만
+const armedFidget = () => { const name = pickRandom(calmList(ARMED_FIDGETS)); if (name) playSequence([name.endsWith('_Reload') ? variantClip(name) : name]); else armedIdle(); };
 
 function chooseArmedBehavior() {
   if (clock() > armed.until) { armed = null; toIdle(); return; }
   pickWeighted([
-    [armedFidget, 60],
+    [armedFidget, ARMED_FIDGETS.some(has) ? 60 : 0],
     [startBattle, battleReady() ? 10 : 0],
     [armedIdle, 30],
   ])();
@@ -1356,7 +1357,7 @@ function react() {
   lastInteraction = clock();
   if (state === 'nap') { wakeUp(); return; }
   if (battle) { battleReply(); return; } // 전투 중에는 구호나 재장전으로 대답하고 계속 싸운다
-  if (armed) { playSequence([pickRandom(calmList(ARMED_REACTIONS))]); return; }
+  if (armed) { const name = pickRandom(calmList(ARMED_REACTIONS)); if (name) playSequence([name]); return; } // 대답할 동작이 없으면 그대로
   const options = [...(has(REACTION) && calmOk(REACTION) ? [[REACTION]] : []), ...victoryPoses()];
   if (!options.length) options.push([REACTION]);
   const first = pickRandom(options.map(([name]) => name)); // 바로 전과 같은 반응은 되도록 피함

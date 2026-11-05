@@ -100,6 +100,7 @@ function buildSubs(rows, level) {
   for (const [item, row] of rows) {
     if (!item.submenu) continue;
     const col = colAt(level + 1);
+    if (item.submenu.some((s) => s.note)) col.classList.add('wide'); // 그리기 전에 넓혀야 판 높이·창 너비를 맞게 잼
     const sub = el('div', 'panel sub');
     const subList = el('div', 'list');
     const subRows = item.submenu.map((s) => {

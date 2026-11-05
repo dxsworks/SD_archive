@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage, shell, net, Notification } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { modelFiles } = require('./model-files');
+const { studentStore } = require('./student-store');
 const { windowWidth } = require('./pet-window');
 const { startUpdater } = require('./updater');
 
@@ -41,6 +42,8 @@ let settings = { ...DEFAULT_SETTINGS };
 
 // 앱 이름(productName)이 '샬레 당번'으로 바뀌어도 설정·저장소는 예전 폴더 그대로 쓴다
 app.setPath('userData', path.join(app.getPath('appData'), 'bluearchive-desktop-pet'));
+// 시험용: 다른 설정·받은 학생 폴더로 켠다 (설치본·개발용과 실행 잠금도 따로라 같이 켜짐)
+if (process.env.PET_USER_DATA) app.setPath('userData', path.resolve(process.env.PET_USER_DATA));
 
 function settingsPath() {
   return path.join(app.getPath('userData'), 'settings.json');
@@ -210,6 +213,51 @@ function openModelsFolder() {
   shell.openPath(userModelsDir());
 }
 
+// 앱 안에서 학생 받기 (student-store.js): 학생 메뉴에 아직 없는 학생도 크기와 함께 나오고, 고르면 받아서 바로 바꾼다.
+// 목록·학생 파일은 버전 릴리스와 따로 둔 릴리스(태그 students)에 있다. 시험: PET_STUDENTS_URL=<students-index.json이 있는 주소>
+const STUDENTS_URL = process.env.PET_STUDENTS_URL ?? 'https://github.com/dxsworks/SD_archive/releases/download/students';
+const STUDENTS_REFRESH = 6 * 60 * 60 * 1000;
+let store = null; // app ready 뒤에 만듦 (net.fetch)
+let wantModel = null; // 받는 중에 다른 학생을 고르면 마지막에 고른 학생만 바꾼다
+
+function startStudentStore() {
+  store = studentStore({
+    dir: userModelsDir(),
+    cacheFile: path.join(app.getPath('userData'), 'students-index.json'),
+    baseUrl: STUDENTS_URL.replace(/\/$/, ''),
+    fetch: (url) => net.fetch(url),
+    has: (file) => !!studentFiles.pathOf(file),
+    onChange: rebuildMenus,
+  });
+  store.refresh();
+  setInterval(() => store.refresh(), STUDENTS_REFRESH);
+}
+
+function downloadAndUse(file) {
+  wantModel = file;
+  store.download(file).then(() => {
+    if (wantModel === file) setModel(file);
+    else rebuildMenus();
+  }).catch((err) => {
+    console.error('학생 받기 실패:', err.message);
+    notify('학생을 받지 못했어요', `${studentInfo(file).label}: 인터넷 연결을 확인하고 학생 메뉴에서 다시 골라 주세요.`);
+  });
+}
+
+function notify(title, body) {
+  app.setAppUserModelId('com.bluearchive.desktoppet'); // 윈도우 알림은 앱 ID가 있어야 뜬다 (updater.js와 같음)
+  if (Notification.isSupported()) new Notification({ title, body }).show();
+}
+
+const MB = (n) => `${(n / 1e6).toFixed(1)}MB`;
+// 아직 없는 학생 이름 옆 글자: 받을 크기 / 받는 중 % / 실패 (메뉴 칸이 좁아 짧게: "받기 · 2.7MB"는 학생 이름이 잘렸음)
+function downloadNote(file) {
+  const job = store?.job(file);
+  if (job?.error) return '다시 받기';
+  if (job) return `받는 중 ${job.total ? Math.floor((job.got / job.total) * 100) : 0}%`;
+  return `↓ ${MB(store.sizeOf(file))}`;
+}
+
 // 학생 메뉴를 학원별로 나누는 표 (students.json). 파일 이름 "Hoshino (Swimsuit).glb" → 아비도스 / "호시노 (수영복)"
 // 표에 없는 학생은 '기타'에 영어 이름 그대로
 const STUDENTS = require('./students.json');
@@ -227,30 +275,35 @@ function studentInfo(file) {
 }
 
 // 학생 메뉴: 학원 → 학생. 표의 학원은 학생이 아직 없어도 모두 순서대로 (나중에 학생을 다 넣을 것, 2026-10-29 사용자). 기타는 있을 때만 맨 끝
-// 맨 아래 "학생 폴더 열기": 학생 압축을 풀어 넣는 곳 (받은 학생 폴더, 2026-10-29 사용자: 학생은 압축으로 따로 배포)
+// 맨 아래 "학생 폴더 열기": 받은 학생이 있는 곳 (예전에 받은 학생 압축을 직접 풀어 넣어도 됨)
+// 아직 없는 학생(앱 안에서 받기 목록에만 있는 것)도 같이 나오고, 고르면 받는다
 function studentMenu(models) {
   const openFolder = { label: '학생 폴더 열기', click: openModelsFolder };
-  if (!models.length) return [{ label: '학생이 없습니다', enabled: false }, { type: 'separator' }, openFolder];
-  return [...schoolMenus(models), { type: 'separator' }, openFolder];
+  const local = new Set(models);
+  const remote = (store?.remotePets() ?? []).map((f) => f.file).filter((f) => !local.has(f));
+  const tail = [{ type: 'separator' }, openFolder];
+  if (store?.indexError) tail.unshift({ label: '학생 목록 다시 받기', note: '실패', click: () => store.refresh() });
+  if (!models.length && !remote.length) return [{ label: '학생이 없습니다', enabled: false }, ...tail];
+  return [...schoolMenus(models, remote), ...tail];
 }
 
-function schoolMenus(models) {
+function schoolMenus(models, remote) {
   const bySchool = new Map(STUDENTS.schools.map((s) => [s.name, []]));
-  for (const file of models) {
+  for (const [file, have] of [...models.map((f) => [f, true]), ...remote.map((f) => [f, false])]) {
     const { school, label } = studentInfo(file);
     if (!bySchool.has(school)) bySchool.set(school, []);
-    bySchool.get(school).push({ file, label });
+    bySchool.get(school).push({ file, label, have });
   }
   return [...bySchool].map(([school, list]) => ({
     label: school,
     submenu: !list.length ? [{ label: '아직 학생이 없습니다', enabled: false }] : list
       .sort((a, b) => a.label.localeCompare(b.label, 'ko'))
-      .map(({ file, label }) => ({
+      .map(({ file, label, have }) => ({
         label,
-        note: CHECKED.has(file) ? undefined : UNCHECKED_NOTE,
+        note: !have ? downloadNote(file) : CHECKED.has(file) ? undefined : UNCHECKED_NOTE,
         type: 'radio',
         checked: settings.model === file,
-        click: () => setModel(file),
+        click: () => (have ? setModel(file) : downloadAndUse(file)),
       })),
   }));
 }
@@ -595,6 +648,7 @@ if (!app.requestSingleInstanceLock()) {
     createFxWindow();
     createMenuWindow(); // 처음 우클릭할 때 만들면 창을 띄우고 페이지를 읽느라 늦게 떴음
     createTray();
+    startStudentStore();
     updater = startUpdater({ onReady: (version) => { updateReady = version; rebuildMenus(); } });
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

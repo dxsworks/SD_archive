@@ -52,15 +52,14 @@
       "artifactName": "BlueArchivePet-Setup-${version}.${ext}"
     },
     "nsis": {
-      "oneClick": false,
+      "oneClick": true,
       "perMachine": false,
-      "include": "build/installer.nsh",
-      "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": "always",
       "createStartMenuShortcut": true,
       "shortcutName": "샬레 당번",
       "uninstallDisplayName": "샬레 당번",
       "installerIcon": "assets/pet.ico",
+      "installerHeaderIcon": "assets/pet.ico",
       "uninstallerIcon": "assets/pet.ico",
       "installerLanguages": [
         "ko_KR"

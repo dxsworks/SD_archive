@@ -43,6 +43,7 @@ node tools/make-pack.js
 앱을 삭제하면 `%APPDATA%\bluearchive-desktop-pet`(받은 학생·설정)도 같이 지워집니다(`nsis.deleteAppDataOnUninstall`, 새 버전을 덮어 설치할 때는 안 지움). 개발용 `npm start`도 같은 폴더를 쓰니 이 컴퓨터에서 설치본을 삭제하면 개발용 설정·받은 학생도 사라집니다.
 
 - three.js `examples/jsm`은 electron-builder가 기본으로 빼므로 쓰는 파일(GLTFLoader 등)을 `build.files`에 직접 적어 두었습니다. 새 addon을 import하면 거기에도 추가
+- 설치 파일은 늘 지금 사용자로만 설치합니다(`build/installer.nsh`, "모든 사용자/전용" 화면 없음). 이 파일은 영어(ASCII)로만 씁니다: 한글 주석을 넣었더니 설치 파일이 켜자마자 꺼졌음(`System.dll` 0xC0000005)
 - `models`가 링크(junction)이면 빌드에 안 들어갑니다(워크트리에서 빌드할 때는 `models/Hoshino.glb`를 복사해 둠)
 - 빌드 중 `Cannot create symbolic link` 오류가 나면 `%LOCALAPPDATA%\electron-builder\Cache\winCodeSign`의 `.7z`를 `winCodeSign-2.6.0` 폴더에 `darwin` 빼고 직접 풀면 됩니다(Windows 개발자 모드를 켜도 됨)
 

@@ -54,6 +54,7 @@
     "nsis": {
       "oneClick": false,
       "perMachine": false,
+      "include": "build/installer.nsh",
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": "always",
       "createStartMenuShortcut": true,

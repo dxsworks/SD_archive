@@ -39,11 +39,15 @@ function modelFiles(dirs) {
   // 아리스(배틀) (Carrier)·(Scenario)처럼 동작 몇 개뿐인 장면용 모델은 학생 메뉴에서 뺀다 (애니메이션 보기 창에는 모두 나옴)
   // 카페 대기가 없어도 "<학생> (Cafe).glb"에 있으면 씀: 펫이 그 카페 차림을 붙여 오간다 (pet.js borrowCafeOutfit, Toki·Saori (Dress)).
   // 그때 (Cafe) 파일은 그 학생에 합쳐진 것이라 따로 메뉴에 안 냄
+  // "<학생> (Carrier).glb"도 본체가 있으면 안 냄: 에이미(배틀)·유즈(배틀) (Carrier)는 본체와 같은 Cafe_Idle·Cafe_Walk 둘뿐이라
+  // 카페 대기가 있어도 장면용 짝 파일 (2026-11-05 사용자 "메뉴에서 빼기")
   const CAFE_SUFFIX = ' (Cafe).glb';
+  const PAIR_SUFFIX = / \(Carrier( \d+)?\)\.glb$/i;
   const cafeOf = (file) => path.basename(file).replace(/\.glb$/i, CAFE_SUFFIX);
   function usable(file) {
     const name = path.basename(file ?? '');
     if (name.endsWith(CAFE_SUFFIX) && pathOf(name.slice(0, -CAFE_SUFFIX.length) + '.glb')) return false;
+    if (PAIR_SUFFIX.test(name) && pathOf(name.replace(PAIR_SUFFIX, '.glb'))) return false;
     return hasCafeIdle(pathOf(name)) || hasCafeIdle(pathOf(cafeOf(name)));
   }
 

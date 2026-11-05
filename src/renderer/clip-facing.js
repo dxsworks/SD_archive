@@ -31,6 +31,7 @@ const FOLLOW = {
 const MIN_TURN = THREE.MathUtils.degToRad(20); // 이보다 작은 차이는 그냥 둔다
 const SAMPLES = 8;
 const HIP_AT = 0.15; // 넘어갈 때 섞는 시간(0.2초 안팎) 동안의 자세
+const REACH_STEP = 1 / 15; // EX 동안 몸 가운데를 재는 간격(초)
 
 // 두 허벅지 뼈를 잇는 선의 방향(라디안, space 기준 Y축 회전). 몸 전체가 보는 쪽이 돌면 같이 돈다
 export function hipYaw(thighs, space) {
@@ -49,6 +50,8 @@ const armBones = (root) => ['L', 'R'].map((s) => root.getObjectByName(`Bip001_${
 //   fronts: 동작 이름 → 몸 앞쪽 방향(라디안, 모델 기준, 0 = 카메라 쪽). 어깨선·허벅지 선에 수직인 방향을 동작 내내 평균.
 //         다른 값과 달리 Cafe_Idle을 정면으로 두지 않고 뼈 위치로만 잰다 (Shun은 Cafe_Idle부터 다리가 40°쯤 비껴 서 있음)
 //   lifts: 동작 이름 → [처음, 끝] 골반 높이 (모델 기준). 앉았는지 섰는지 비교할 때 씀 (Otogi 거치 자세)
+//   reaches: EX 이름 → 동작 내내 몸 가운데(ends와 같은 범위)가 모델 가운데에서 가장 멀리 간 거리 (바닥 평면).
+//         끝은 제자리여도 도중에 멀리 가는 EX(코유키(잠옷)는 옆으로 1.4단위 비켜 선 자세로 시작)도 창이 몸을 따라가게 할 때 씀
 export function measureClips(root, animations, nameKey) {
   const turns = new Map();
   const heads = new Map();
@@ -56,6 +59,7 @@ export function measureClips(root, animations, nameKey) {
   const hips = new Map();
   const fronts = new Map();
   const lifts = new Map();
+  const reaches = new Map();
   const thighs = thighBones(root);
   const arms = armBones(root);
   const lines = [thighs, arms].filter((pair) => pair.every(Boolean));
@@ -65,7 +69,7 @@ export function measureClips(root, animations, nameKey) {
   // 차림 번호가 앞에 붙은 이름(Hoshino (Battle) 01_Cafe_Idle)도 묶는 이름으로 찾는다
   const base = animations.find((c) => c.name === 'Cafe_Idle') ?? animations.find((c) => nameKey(c.name) === 'cafe_idle');
   const limbs = [/^bip001[ _]l[ _]hand$/i, /^bip001[ _]r[ _]hand$/i, /^bip001[ _]l[ _]foot$/i, /^bip001[ _]r[ _]foot$/i].map(bone);
-  if (!pelvis || !head || !base) return { turns, heads, ends, hips, fronts, lifts };
+  if (!pelvis || !head || !base) return { turns, heads, ends, hips, fronts, lifts, reaches };
   const body = [pelvis, head, ...limbs.filter(Boolean)];
 
   // 재는 동안 움직인 뼈·모프를 원래대로 되돌리려고 저장
@@ -110,10 +114,18 @@ export function measureClips(root, animations, nameKey) {
     const liftStart = lift();
     pose(clip, Math.max(0, clip.duration - 1e-3)); // 끝 프레임 (duration에 딱 맞추면 처음으로 돌아감)
     lifts.set(clip.name, [liftStart, lift()]);
-    const box = new THREE.Box3();
-    for (const b of body) box.expandByPoint(root.worldToLocal(b.getWorldPosition(new THREE.Vector3())));
-    ends.set(clip.name, box.getCenter(new THREE.Vector3()).setY(0));
+    const center = () => {
+      const box = new THREE.Box3();
+      for (const b of body) box.expandByPoint(root.worldToLocal(b.getWorldPosition(new THREE.Vector3())));
+      return box.getCenter(new THREE.Vector3()).setY(0);
+    };
+    ends.set(clip.name, center());
     const key = nameKey(clip.name);
+    if (key.startsWith('exs')) {
+      let far = ends.get(clip.name).length();
+      for (let t = 0; t < clip.duration; t += REACH_STEP) { pose(clip, t); far = Math.max(far, center().length()); }
+      reaches.set(clip.name, far);
+    }
     const ref = REFERENCE[key];
     const form = /[a-z]0(\d)/i.exec(clip.name)?.[1] ?? '1';
     if (ref === undefined) {
@@ -145,5 +157,5 @@ export function measureClips(root, animations, nameKey) {
     if (m) o.morphTargetInfluences.splice(0, m.length, ...m);
   }
   root.updateMatrixWorld(true);
-  return { turns, heads, ends, hips, fronts, lifts };
+  return { turns, heads, ends, hips, fronts, lifts, reaches };
 }

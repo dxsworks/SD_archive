@@ -25,6 +25,41 @@ export function showSwitchedWeapons(root, animations) {
   }
 }
 
+// EX 끝에 몸을 모프로 숨긴 채 끝나는 동작이 있다 (세리카(새해) Exs 5.77초 중 4.87초부터 몸·무기를 숨겨 빗자루·헤일로만 0.9초 떠 있고,
+// 평소 대기로 섞이며 작은 몸이 커지듯 다시 나타났음. 원본 289개 중 이 학생뿐) → 몸(가장 큰 메시의 절반 이상인 숨김 타깃)이
+// 보이다가 끝까지 숨는 구간이 있으면 그 앞에서 동작을 끝낸다(clip.duration만 줄임, 키는 그대로). 모델을 읽은 뒤 한 번
+export function trimVanishingEnd(root, animations, test) {
+  const size = (mesh) => { mesh.geometry.computeBoundingBox(); return mesh.geometry.boundingBox.getSize(new THREE.Vector3()).length(); };
+  let biggest = 0;
+  root.traverse((o) => { if (o.isMesh) biggest = Math.max(biggest, size(o)); });
+  // 몸 = 무기·방패가 아닌 큰 메시. 숨김 타깃이 없으면 늘 보임 (코타마는 큰 무전기(무기)만 EX 끝에 숨어 안 자름)
+  const parts = new Map(findHiddenParts(root).map(([mesh, i]) => [mesh, i]));
+  const bodies = [];
+  root.traverse((o) => { if (o.isMesh && !/weapon|shield/i.test(o.name) && size(o) >= biggest * 0.5) bodies.push([o, parts.get(o)]); });
+  const trimmed = {};
+  for (const clip of animations) {
+    if (!test(clip.name)) continue;
+    // 몸마다 끝까지 숨는 시각 (끝에 보이면 Infinity). 몸이 모두 숨는 때부터 자름: 몸 두 벌을 바꾸는 EX(토키 Exs01 A → B)는 안 자름
+    let cut = 0;
+    for (const [mesh, i] of bodies) {
+      if (i === undefined) { cut = Infinity; continue; }
+      const tr = clip.tracks.find((t) => t.name === `${THREE.PropertyBinding.sanitizeNodeName(mesh.name)}.morphTargetInfluences`);
+      if (!tr) { if (mesh.morphTargetInfluences[i] < 0.5) cut = Infinity; continue; }
+      const n = tr.getValueSize();
+      const hid = [...tr.times].map((_, k) => tr.values[k * n + i] >= 0.5);
+      let k = hid.length;
+      while (k > 0 && hid[k - 1]) k--;
+      // 숨기 직전 순간에서 자름: 끝난 동작은 마지막 순간에 멈춘 채 다음 동작과 섞이므로, 숨는 키 시각에서 자르면 섞는 동안 몸이 줄며 사라졌음.
+      // 계단식 키(세리카(새해))는 그 1/60초 앞, 직선 보간은 앞 키(값이 아직 보임)
+      const before = k === 0 || k === hid.length ? 0 : tr.getInterpolation() === THREE.InterpolateDiscrete
+        ? Math.max(tr.times[k - 1], tr.times[k] - 1 / 60) : tr.times[k - 1];
+      cut = Math.max(cut, k === hid.length ? Infinity : before);
+    }
+    if (cut > clip.duration * 0.5 && cut < clip.duration) { trimmed[clip.name] = [+clip.duration.toFixed(2), +cut.toFixed(2)]; clip.duration = cut; }
+  }
+  return trimmed;
+}
+
 function findHiddenParts(root) {
   const parts = [];
   root.traverse((o) => {

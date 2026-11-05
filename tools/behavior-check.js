@@ -46,6 +46,11 @@ app.whenReady().then(async () => {
     const canArm = await js(`__pet.has('Normal_Idle')`);
     const hasEx = await js(`__pet.has('Exs') || __pet.exVariants.length > 0`);
     const hasRope = await js(`__pet.has('Vital_Retreat')`);
+    // 클릭 반응은 카페 반응 또는 승리 포즈 짝(Start → End)이라 그 길이 + 여유 3초가 20초보다 길면 그만큼 기다린다:
+    // 츠바키(가이드) 카페 반응은 27초짜리라 20초에 "안 돌아옴"으로 걸렸음 (2026-11-05)
+    const clipLen = await js('__pet.clipLengths');
+    const longestOf = (re) => Math.max(0, ...Object.entries(clipLen).filter(([n]) => re.test(n)).map(([, d]) => d));
+    const reactLimit = Math.max(longestOf(/cafe_reaction/i), longestOf(/victory_start/i) + longestOf(/victory_end/i)) + 3;
     for (let [name, start, until, limit, mid] of TESTS) {
       // 낮잠 동작(Vital_Death)이 없는 학생(수영복 아야네)은 낮잠 대신 잠깐 무장으로 들어가는지만 (무장 15~40초 뒤 자동 전투로도
       // 이어져 대기까지는 길이가 무작위라 60초를 넘기도 했음. 무장 → 대기는 '잠깐 무장 (5초)'가 봄)
@@ -58,6 +63,7 @@ app.whenReady().then(async () => {
       if (!hasEx && name.startsWith('더블클릭')) name = '더블클릭 (EX 없음 → 클릭 반응)';
       else if (!canArm && name.startsWith('더블클릭')) name = '더블클릭 EX → 대기 (전투 없음)';
       if (!hasRope && name.startsWith('종료')) name = '종료 (밧줄 동작 없음)';
+      if (name.startsWith('클릭 반응')) limit = Math.max(limit, reactLimit);
       await js('__pet.reset(); 0');
       await js(`${start}; 0`);
       let trace = [];

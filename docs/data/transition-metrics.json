@@ -518651,5 +518651,7607 @@
     }
    ]
   }
+ ],
+ "Mimori (Swimsuit).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 70,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 126,
+   "own": 46,
+   "gap": 175,
+   "slide": 52,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 126,
+     "own": 46,
+     "gap": 175,
+     "slide": 52,
+     "twist": 0
+    },
+    {
+     "spin": 85,
+     "own": 46,
+     "gap": 138,
+     "slide": 40,
+     "twist": 0
+    },
+    {
+     "spin": 22,
+     "own": 46,
+     "gap": 23,
+     "slide": 14,
+     "twist": 0
+    },
+    {
+     "spin": 13,
+     "own": 46,
+     "gap": 37,
+     "slide": 19,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 68,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 3,
+   "gap": 5,
+   "slide": 26,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 13,
+     "own": 3,
+     "gap": 5,
+     "slide": 26,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 55,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 151,
+   "own": 3,
+   "gap": 151,
+   "slide": 63,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 151,
+     "own": 3,
+     "gap": 151,
+     "slide": 63,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 78,
+     "own": 3,
+     "gap": 83,
+     "slide": 28,
+     "twist": 0
+    },
+    {
+     "spin": 40,
+     "own": 3,
+     "gap": 43,
+     "slide": 24,
+     "twist": 0
+    },
+    {
+     "spin": 32,
+     "own": 3,
+     "gap": 32,
+     "slide": 31,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 53,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 99,
+   "own": 16,
+   "gap": 99,
+   "slide": 31,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 85,
+     "own": 16,
+     "gap": 85,
+     "slide": 27,
+     "twist": 0
+    },
+    {
+     "spin": 99,
+     "own": 16,
+     "gap": 99,
+     "slide": 31,
+     "twist": 0
+    },
+    {
+     "spin": 99,
+     "own": 16,
+     "gap": 99,
+     "slide": 30,
+     "twist": 0
+    },
+    {
+     "spin": 99,
+     "own": 16,
+     "gap": 99,
+     "slide": 30,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 238,
+   "own": 16,
+   "gap": 167,
+   "slide": 48,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 238,
+     "own": 16,
+     "gap": 122,
+     "slide": 48,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 193,
+     "own": 16,
+     "gap": 167,
+     "slide": 28,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 65,
+     "own": 16,
+     "gap": 58,
+     "slide": 38,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 98,
+     "own": 16,
+     "gap": 98,
+     "slide": 31,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 16,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 16,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 16,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 16,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Misaki (Swimsuit).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 68,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 123,
+   "own": 17,
+   "gap": 153,
+   "slide": 52,
+   "twist": 142,
+   "examples": [
+    {
+     "spin": 123,
+     "own": 17,
+     "gap": 153,
+     "slide": 52,
+     "twist": 142
+    },
+    {
+     "spin": 69,
+     "own": 17,
+     "gap": 95,
+     "slide": 43,
+     "twist": 85
+    },
+    {
+     "spin": 58,
+     "own": 17,
+     "gap": 59,
+     "slide": 21,
+     "twist": 59
+    },
+    {
+     "spin": 1,
+     "own": 17,
+     "gap": 3,
+     "slide": 28,
+     "twist": 24
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 55,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 55,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 135,
+   "own": 0,
+   "gap": 135,
+   "slide": 78,
+   "twist": 163,
+   "examples": [
+    {
+     "spin": 135,
+     "own": 0,
+     "gap": 135,
+     "slide": 24,
+     "twist": 163
+    },
+    {
+     "spin": 98,
+     "own": 0,
+     "gap": 98,
+     "slide": 78,
+     "twist": 96
+    },
+    {
+     "spin": 72,
+     "own": 0,
+     "gap": 72,
+     "slide": 26,
+     "twist": 43
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 13,
+     "slide": 27,
+     "twist": 14
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 50,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 21,
+   "own": 14,
+   "gap": 21,
+   "slide": 15,
+   "twist": 13,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 14,
+     "gap": 13,
+     "slide": 5,
+     "twist": 13,
+     "click": true
+    },
+    {
+     "spin": 16,
+     "own": 14,
+     "gap": 16,
+     "slide": 15,
+     "twist": 13,
+     "click": true
+    },
+    {
+     "spin": -1,
+     "own": 14,
+     "gap": 2,
+     "slide": 15,
+     "twist": 13,
+     "click": true
+    },
+    {
+     "spin": 21,
+     "own": 14,
+     "gap": 21,
+     "slide": 15,
+     "twist": 13
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 121,
+   "own": 14,
+   "gap": 146,
+   "slide": 37,
+   "twist": 136,
+   "examples": [
+    {
+     "spin": 121,
+     "own": 14,
+     "gap": 146,
+     "slide": 29,
+     "twist": 136,
+     "click": true
+    },
+    {
+     "spin": 83,
+     "own": 14,
+     "gap": 85,
+     "slide": 37,
+     "twist": 122,
+     "click": true
+    },
+    {
+     "spin": 36,
+     "own": 14,
+     "gap": 56,
+     "slide": 20,
+     "twist": 54,
+     "click": true
+    },
+    {
+     "spin": 10,
+     "own": 14,
+     "gap": 10,
+     "slide": 21,
+     "twist": 10,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 94,
+   "own": 0,
+   "gap": 94,
+   "slide": 54,
+   "twist": 266,
+   "examples": [
+    {
+     "spin": 54,
+     "own": 0,
+     "gap": 41,
+     "slide": 44,
+     "twist": 158
+    },
+    {
+     "spin": 37,
+     "own": 0,
+     "gap": 12,
+     "slide": 32,
+     "twist": 176
+    },
+    {
+     "spin": 94,
+     "own": 0,
+     "gap": 94,
+     "slide": 54,
+     "twist": 266
+    },
+    {
+     "spin": 45,
+     "own": 0,
+     "gap": 39,
+     "slide": 35,
+     "twist": 219
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 6,
+   "own": 0,
+   "gap": 6,
+   "slide": 9,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 0,
+     "gap": 6,
+     "slide": 9,
+     "twist": 8
+    },
+    {
+     "spin": 6,
+     "own": 0,
+     "gap": 6,
+     "slide": 9,
+     "twist": 8
+    },
+    {
+     "spin": 6,
+     "own": 0,
+     "gap": 6,
+     "slide": 9,
+     "twist": 8
+    },
+    {
+     "spin": 6,
+     "own": 0,
+     "gap": 6,
+     "slide": 9,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 94,
+   "own": 2,
+   "gap": 93,
+   "slide": 54,
+   "twist": 216,
+   "examples": [
+    {
+     "spin": 57,
+     "own": 2,
+     "gap": 11,
+     "slide": 52,
+     "twist": 157,
+     "click": true
+    },
+    {
+     "spin": 58,
+     "own": 2,
+     "gap": 40,
+     "slide": 42,
+     "twist": 178,
+     "click": true
+    },
+    {
+     "spin": 66,
+     "own": 2,
+     "gap": 55,
+     "slide": 42,
+     "twist": 189,
+     "click": true
+    },
+    {
+     "spin": 94,
+     "own": 2,
+     "gap": 93,
+     "slide": 54,
+     "twist": 216,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 14,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 14,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 14,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 14,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 14,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 28,
+   "own": 2,
+   "gap": 29,
+   "slide": 4,
+   "twist": 18,
+   "examples": [
+    {
+     "spin": 28,
+     "own": 2,
+     "gap": 29,
+     "slide": 3,
+     "twist": 18
+    },
+    {
+     "spin": 25,
+     "own": 2,
+     "gap": 26,
+     "slide": 3,
+     "twist": 17
+    },
+    {
+     "spin": 11,
+     "own": 2,
+     "gap": 13,
+     "slide": 3,
+     "twist": 8
+    },
+    {
+     "spin": 19,
+     "own": 2,
+     "gap": 20,
+     "slide": 4,
+     "twist": 8
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 49,
+   "own": 2,
+   "gap": 50,
+   "slide": 6,
+   "twist": 51,
+   "examples": [
+    {
+     "spin": 45,
+     "own": 2,
+     "gap": 27,
+     "slide": 6,
+     "twist": 51
+    },
+    {
+     "spin": 19,
+     "own": 2,
+     "gap": 20,
+     "slide": 3,
+     "twist": 15
+    },
+    {
+     "spin": 45,
+     "own": 2,
+     "gap": 46,
+     "slide": 6,
+     "twist": 33
+    },
+    {
+     "spin": 49,
+     "own": 2,
+     "gap": 50,
+     "slide": 6,
+     "twist": 20
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 104,
+   "own": 2,
+   "gap": 107,
+   "slide": 54,
+   "twist": 228,
+   "examples": [
+    {
+     "spin": 56,
+     "own": 2,
+     "gap": 39,
+     "slide": 43,
+     "twist": 177,
+     "click": true
+    },
+    {
+     "spin": 104,
+     "own": 2,
+     "gap": 107,
+     "slide": 54,
+     "twist": 228,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 37,
+   "own": 2,
+   "gap": 40,
+   "slide": 4,
+   "twist": 22,
+   "examples": [
+    {
+     "spin": 37,
+     "own": 2,
+     "gap": 40,
+     "slide": 4,
+     "twist": 22
+    }
+   ]
+  }
+ ],
+ "Miyu (Swimsuit).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 77,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 109,
+   "own": 22,
+   "gap": 141,
+   "slide": 46,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 109,
+     "own": 22,
+     "gap": 141,
+     "slide": 46,
+     "twist": 0
+    },
+    {
+     "spin": 64,
+     "own": 22,
+     "gap": 92,
+     "slide": 36,
+     "twist": 0
+    },
+    {
+     "spin": 32,
+     "own": 22,
+     "gap": 57,
+     "slide": 29,
+     "twist": 0
+    },
+    {
+     "spin": -1,
+     "own": 22,
+     "gap": 2,
+     "slide": 21,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 63,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 1,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 59,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 144,
+   "own": 1,
+   "gap": 146,
+   "slide": 66,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 144,
+     "own": 1,
+     "gap": 146,
+     "slide": 66,
+     "twist": 0
+    },
+    {
+     "spin": 71,
+     "own": 1,
+     "gap": 73,
+     "slide": 18,
+     "twist": 0
+    },
+    {
+     "spin": 66,
+     "own": 1,
+     "gap": 66,
+     "slide": 21,
+     "twist": 0
+    },
+    {
+     "spin": 6,
+     "own": 1,
+     "gap": 5,
+     "slide": 23,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 54,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 110,
+   "own": 3,
+   "gap": 110,
+   "slide": 144,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 110,
+     "own": 3,
+     "gap": 110,
+     "slide": 144,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 3,
+     "gap": 1,
+     "slide": 2,
+     "twist": 0
+    },
+    {
+     "spin": 1,
+     "own": 3,
+     "gap": 1,
+     "slide": 2,
+     "twist": 0
+    },
+    {
+     "spin": 1,
+     "own": 3,
+     "gap": 1,
+     "slide": 2,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 150,
+   "own": 3,
+   "gap": 155,
+   "slide": 29,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 150,
+     "own": 3,
+     "gap": 155,
+     "slide": 26,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 82,
+     "own": 3,
+     "gap": 82,
+     "slide": 25,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 104,
+     "own": 3,
+     "gap": 108,
+     "slide": 29,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 17,
+     "own": 3,
+     "gap": 17,
+     "slide": 16,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 7,
+   "own": 1,
+   "gap": 7,
+   "slide": 7,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 7,
+     "own": 1,
+     "gap": 7,
+     "slide": 7,
+     "twist": 0
+    },
+    {
+     "spin": 7,
+     "own": 1,
+     "gap": 7,
+     "slide": 7,
+     "twist": 0
+    },
+    {
+     "spin": 7,
+     "own": 1,
+     "gap": 7,
+     "slide": 7,
+     "twist": 0
+    },
+    {
+     "spin": 7,
+     "own": 1,
+     "gap": 7,
+     "slide": 7,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 286,
+   "own": 1,
+   "gap": 139,
+   "slide": 66,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 286,
+     "own": 1,
+     "gap": 71,
+     "slide": 66,
+     "twist": 0
+    },
+    {
+     "spin": 252,
+     "own": 1,
+     "gap": 105,
+     "slide": 59,
+     "twist": 0
+    },
+    {
+     "spin": 252,
+     "own": 1,
+     "gap": 105,
+     "slide": 59,
+     "twist": 0
+    },
+    {
+     "spin": 218,
+     "own": 1,
+     "gap": 139,
+     "slide": 52,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 15,
+   "own": 7,
+   "gap": 16,
+   "slide": 6,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 4,
+     "own": 7,
+     "gap": 6,
+     "slide": 6,
+     "twist": 0
+    },
+    {
+     "spin": 15,
+     "own": 7,
+     "gap": 16,
+     "slide": 6,
+     "twist": 0
+    },
+    {
+     "spin": 3,
+     "own": 7,
+     "gap": 2,
+     "slide": 6,
+     "twist": 0
+    },
+    {
+     "spin": 5,
+     "own": 7,
+     "gap": 5,
+     "slide": 6,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 63,
+   "own": 40,
+   "gap": 56,
+   "slide": 16,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 46,
+     "own": 40,
+     "gap": 10,
+     "slide": 8,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 45,
+     "own": 40,
+     "gap": 23,
+     "slide": 10,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 57,
+     "own": 40,
+     "gap": 49,
+     "slide": 14,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 63,
+     "own": 40,
+     "gap": 56,
+     "slide": 16,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 231,
+   "own": 40,
+   "gap": 125,
+   "slide": 40,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 231,
+     "own": 40,
+     "gap": 125,
+     "slide": 31,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 42,
+     "own": 40,
+     "gap": 9,
+     "slide": 40,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 38,
+     "own": 40,
+     "gap": 2,
+     "slide": 32,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 98,
+   "own": 7,
+   "gap": 101,
+   "slide": 15,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 98,
+     "own": 7,
+     "gap": 101,
+     "slide": 15,
+     "twist": 0
+    },
+    {
+     "spin": 43,
+     "own": 7,
+     "gap": 53,
+     "slide": 9,
+     "twist": 0
+    },
+    {
+     "spin": 8,
+     "own": 7,
+     "gap": 9,
+     "slide": 3,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 45,
+   "own": 40,
+   "gap": 8,
+   "slide": 14,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 45,
+     "own": 40,
+     "gap": 8,
+     "slide": 3,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 30,
+     "own": 40,
+     "gap": 6,
+     "slide": 14,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 258,
+   "own": 3,
+   "gap": 100,
+   "slide": 96,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 258,
+     "own": 3,
+     "gap": 100,
+     "slide": 96,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 31,
+   "own": 7,
+   "gap": 33,
+   "slide": 7,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 31,
+     "own": 7,
+     "gap": 33,
+     "slide": 7,
+     "twist": 0
+    }
+   ]
+  }
+ ],
+ "Mutsuki (Dress).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 78,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 152,
+   "own": 30,
+   "gap": 176,
+   "slide": 34,
+   "twist": 149,
+   "examples": [
+    {
+     "spin": 152,
+     "own": 30,
+     "gap": 176,
+     "slide": 34,
+     "twist": 149
+    },
+    {
+     "spin": 97,
+     "own": 30,
+     "gap": 120,
+     "slide": 25,
+     "twist": 103
+    },
+    {
+     "spin": 35,
+     "own": 30,
+     "gap": 42,
+     "slide": 33,
+     "twist": 41
+    },
+    {
+     "spin": 4,
+     "own": 30,
+     "gap": 21,
+     "slide": 22,
+     "twist": 53
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 66,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 1,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 52,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 125,
+   "own": 1,
+   "gap": 128,
+   "slide": 55,
+   "twist": 207,
+   "examples": [
+    {
+     "spin": 125,
+     "own": 1,
+     "gap": 128,
+     "slide": 55,
+     "twist": 150
+    },
+    {
+     "spin": 104,
+     "own": 1,
+     "gap": 104,
+     "slide": 35,
+     "twist": 98,
+     "click": true
+    },
+    {
+     "spin": 70,
+     "own": 1,
+     "gap": 70,
+     "slide": 29,
+     "twist": 207
+    },
+    {
+     "spin": 18,
+     "own": 1,
+     "gap": 18,
+     "slide": 24,
+     "twist": 147
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 45,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 25,
+   "own": 26,
+   "gap": 25,
+   "slide": 6,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": 20,
+     "own": 26,
+     "gap": 19,
+     "slide": 5,
+     "twist": 2
+    },
+    {
+     "spin": 25,
+     "own": 26,
+     "gap": 25,
+     "slide": 6,
+     "twist": 2
+    },
+    {
+     "spin": 25,
+     "own": 26,
+     "gap": 25,
+     "slide": 6,
+     "twist": 2,
+     "click": true
+    },
+    {
+     "spin": 25,
+     "own": 26,
+     "gap": 25,
+     "slide": 6,
+     "twist": 2,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 23,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 109,
+   "own": 26,
+   "gap": 120,
+   "slide": 79,
+   "twist": 315,
+   "examples": [
+    {
+     "spin": 109,
+     "own": 26,
+     "gap": 120,
+     "slide": 79,
+     "twist": 315,
+     "click": true
+    },
+    {
+     "spin": 82,
+     "own": 26,
+     "gap": 92,
+     "slide": 25,
+     "twist": 157,
+     "click": true
+    },
+    {
+     "spin": 55,
+     "own": 26,
+     "gap": 63,
+     "slide": 30,
+     "twist": 169,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 26,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 23,
+   "own": 1,
+   "gap": 23,
+   "slide": 8,
+   "twist": 8,
+   "examples": [
+    {
+     "spin": 19,
+     "own": 1,
+     "gap": 8,
+     "slide": 8,
+     "twist": 8
+    },
+    {
+     "spin": 19,
+     "own": 1,
+     "gap": 12,
+     "slide": 8,
+     "twist": 7
+    },
+    {
+     "spin": 23,
+     "own": 1,
+     "gap": 23,
+     "slide": 7,
+     "twist": 4
+    },
+    {
+     "spin": 21,
+     "own": 1,
+     "gap": 20,
+     "slide": 7,
+     "twist": 4
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 11,
+   "own": 40,
+   "gap": 24,
+   "slide": 6,
+   "twist": 9,
+   "examples": [
+    {
+     "spin": 11,
+     "own": 40,
+     "gap": 24,
+     "slide": 6,
+     "twist": 9
+    },
+    {
+     "spin": 6,
+     "own": 40,
+     "gap": 1,
+     "slide": 5,
+     "twist": 5
+    },
+    {
+     "spin": 5,
+     "own": 40,
+     "gap": 6,
+     "slide": 6,
+     "twist": 6
+    },
+    {
+     "spin": 5,
+     "own": 40,
+     "gap": 7,
+     "slide": 5,
+     "twist": 6
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 26,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 26,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 26,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 26,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 64,
+   "own": 40,
+   "gap": 78,
+   "slide": 16,
+   "twist": 72,
+   "examples": [
+    {
+     "spin": 50,
+     "own": 40,
+     "gap": 78,
+     "slide": 14,
+     "twist": 55
+    },
+    {
+     "spin": 64,
+     "own": 40,
+     "gap": 65,
+     "slide": 8,
+     "twist": 11
+    },
+    {
+     "spin": 52,
+     "own": 40,
+     "gap": 52,
+     "slide": 16,
+     "twist": 72
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 18,
+   "own": 40,
+   "gap": 22,
+   "slide": 6,
+   "twist": 65,
+   "examples": [
+    {
+     "spin": 4,
+     "own": 40,
+     "gap": 11,
+     "slide": 2,
+     "twist": 7
+    },
+    {
+     "spin": 18,
+     "own": 40,
+     "gap": 22,
+     "slide": 6,
+     "twist": 65
+    }
+   ]
+  }
+ ],
+ "Nagisa (Swimsuit).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 73,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 134,
+   "own": 45,
+   "gap": 172,
+   "slide": 51,
+   "twist": 139,
+   "examples": [
+    {
+     "spin": 134,
+     "own": 45,
+     "gap": 172,
+     "slide": 51,
+     "twist": 139
+    },
+    {
+     "spin": 83,
+     "own": 45,
+     "gap": 126,
+     "slide": 36,
+     "twist": 77
+    },
+    {
+     "spin": 58,
+     "own": 45,
+     "gap": 93,
+     "slide": 28,
+     "twist": 45
+    },
+    {
+     "spin": 21,
+     "own": 45,
+     "gap": 32,
+     "slide": 18,
+     "twist": 33
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 70,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 59,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 3,
+   "own": 30,
+   "gap": 10,
+   "slide": 3,
+   "twist": 11,
+   "examples": [
+    {
+     "spin": 3,
+     "own": 30,
+     "gap": 10,
+     "slide": 3,
+     "twist": 11,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 30,
+     "gap": 0,
+     "slide": 2,
+     "twist": 2
+    },
+    {
+     "spin": -2,
+     "own": 30,
+     "gap": 0,
+     "slide": 2,
+     "twist": 2,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 30,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 53,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 155,
+   "own": 0,
+   "gap": 156,
+   "slide": 46,
+   "twist": 138,
+   "examples": [
+    {
+     "spin": 155,
+     "own": 0,
+     "gap": 156,
+     "slide": 46,
+     "twist": 136
+    },
+    {
+     "spin": 91,
+     "own": 0,
+     "gap": 91,
+     "slide": 41,
+     "twist": 105,
+     "click": true
+    },
+    {
+     "spin": 49,
+     "own": 0,
+     "gap": 49,
+     "slide": 43,
+     "twist": 46
+    },
+    {
+     "spin": 10,
+     "own": 0,
+     "gap": 0,
+     "slide": 23,
+     "twist": 138
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 78,
+   "own": 30,
+   "gap": 119,
+   "slide": 30,
+   "twist": 116,
+   "examples": [
+    {
+     "spin": 78,
+     "own": 30,
+     "gap": 119,
+     "slide": 24,
+     "twist": 109,
+     "click": true
+    },
+    {
+     "spin": 67,
+     "own": 30,
+     "gap": 103,
+     "slide": 25,
+     "twist": 87,
+     "click": true
+    },
+    {
+     "spin": 75,
+     "own": 30,
+     "gap": 80,
+     "slide": 29,
+     "twist": 116,
+     "click": true
+    },
+    {
+     "spin": 5,
+     "own": 30,
+     "gap": 5,
+     "slide": 30,
+     "twist": 110,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 92,
+   "own": 0,
+   "gap": 93,
+   "slide": 55,
+   "twist": 83,
+   "examples": [
+    {
+     "spin": 39,
+     "own": 0,
+     "gap": 13,
+     "slide": 55,
+     "twist": 57,
+     "click": true
+    },
+    {
+     "spin": 41,
+     "own": 0,
+     "gap": 26,
+     "slide": 55,
+     "twist": 60
+    },
+    {
+     "spin": 92,
+     "own": 0,
+     "gap": 93,
+     "slide": 54,
+     "twist": 83
+    },
+    {
+     "spin": 69,
+     "own": 0,
+     "gap": 69,
+     "slide": 54,
+     "twist": 71
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 40,
+   "own": 0,
+   "gap": 19,
+   "slide": 14,
+   "twist": 23,
+   "examples": [
+    {
+     "spin": 40,
+     "own": 0,
+     "gap": 19,
+     "slide": 14,
+     "twist": 23
+    },
+    {
+     "spin": 40,
+     "own": 0,
+     "gap": 19,
+     "slide": 14,
+     "twist": 23
+    },
+    {
+     "spin": 40,
+     "own": 0,
+     "gap": 19,
+     "slide": 14,
+     "twist": 23
+    },
+    {
+     "spin": 40,
+     "own": 0,
+     "gap": 19,
+     "slide": 14,
+     "twist": 23
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 109,
+   "own": 2,
+   "gap": 113,
+   "slide": 53,
+   "twist": 94,
+   "examples": [
+    {
+     "spin": 38,
+     "own": 2,
+     "gap": 15,
+     "slide": 52,
+     "twist": 28,
+     "click": true
+    },
+    {
+     "spin": 109,
+     "own": 2,
+     "gap": 113,
+     "slide": 52,
+     "twist": 94,
+     "click": true
+    },
+    {
+     "spin": 101,
+     "own": 2,
+     "gap": 105,
+     "slide": 53,
+     "twist": 91,
+     "click": true
+    },
+    {
+     "spin": 83,
+     "own": 2,
+     "gap": 85,
+     "slide": 52,
+     "twist": 78,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 30,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 30,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 30,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 30,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 30,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 109,
+   "own": 2,
+   "gap": 112,
+   "slide": 90,
+   "twist": 130,
+   "examples": [
+    {
+     "spin": 54,
+     "own": 2,
+     "gap": 36,
+     "slide": 90,
+     "twist": 130,
+     "click": true
+    },
+    {
+     "spin": 109,
+     "own": 2,
+     "gap": 112,
+     "slide": 62,
+     "twist": 73,
+     "click": true
+    },
+    {
+     "spin": 79,
+     "own": 2,
+     "gap": 73,
+     "slide": 69,
+     "twist": 40,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 31,
+   "gap": 14,
+   "slide": 11,
+   "twist": 41,
+   "examples": [
+    {
+     "spin": 13,
+     "own": 31,
+     "gap": 14,
+     "slide": 11,
+     "twist": 41
+    },
+    {
+     "spin": 2,
+     "own": 31,
+     "gap": 5,
+     "slide": 10,
+     "twist": 27
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 98,
+   "own": 2,
+   "gap": 102,
+   "slide": 54,
+   "twist": 111,
+   "examples": [
+    {
+     "spin": 38,
+     "own": 2,
+     "gap": 13,
+     "slide": 54,
+     "twist": 28,
+     "click": true
+    },
+    {
+     "spin": 98,
+     "own": 2,
+     "gap": 102,
+     "slide": 52,
+     "twist": 111,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 96,
+   "own": 31,
+   "gap": 99,
+   "slide": 22,
+   "twist": 129,
+   "examples": [
+    {
+     "spin": 96,
+     "own": 31,
+     "gap": 99,
+     "slide": 21,
+     "twist": 129
+    },
+    {
+     "spin": 26,
+     "own": 31,
+     "gap": 28,
+     "slide": 22,
+     "twist": 11
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 8,
+   "own": 31,
+   "gap": 10,
+   "slide": 10,
+   "twist": 31,
+   "examples": [
+    {
+     "spin": -3,
+     "own": 31,
+     "gap": 6,
+     "slide": 9,
+     "twist": 31
+    },
+    {
+     "spin": 8,
+     "own": 31,
+     "gap": 10,
+     "slide": 10,
+     "twist": 26
+    }
+   ]
+  }
+ ],
+ "Pina (Guide).glb": [
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 59,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 1,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 1,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 55,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 124,
+   "own": 36,
+   "gap": 134,
+   "slide": 37,
+   "twist": 134,
+   "examples": [
+    {
+     "spin": 90,
+     "own": 36,
+     "gap": 134,
+     "slide": 37,
+     "twist": 107
+    },
+    {
+     "spin": 124,
+     "own": 36,
+     "gap": 125,
+     "slide": 37,
+     "twist": 134
+    },
+    {
+     "spin": 13,
+     "own": 36,
+     "gap": 46,
+     "slide": 27,
+     "twist": 26
+    },
+    {
+     "spin": 22,
+     "own": 36,
+     "gap": 22,
+     "slide": 27,
+     "twist": 61
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 49,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 52,
+   "gap": 1,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 1,
+     "own": 52,
+     "gap": 1,
+     "slide": 0,
+     "twist": -1,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 52,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 52,
+     "gap": 1,
+     "slide": 0,
+     "twist": -1
+    },
+    {
+     "spin": 0,
+     "own": 52,
+     "gap": 0,
+     "slide": 0,
+     "twist": -1
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 31,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 104,
+   "own": 1,
+   "gap": 104,
+   "slide": 53,
+   "twist": 187,
+   "examples": [
+    {
+     "spin": 104,
+     "own": 1,
+     "gap": 104,
+     "slide": 50,
+     "twist": 158
+    },
+    {
+     "spin": 55,
+     "own": 1,
+     "gap": 55,
+     "slide": 21,
+     "twist": 187
+    },
+    {
+     "spin": 99,
+     "own": 1,
+     "gap": 101,
+     "slide": 53,
+     "twist": 136
+    },
+    {
+     "spin": 18,
+     "own": 1,
+     "gap": 19,
+     "slide": 38,
+     "twist": 139
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 18,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 32,
+   "own": 1,
+   "gap": 33,
+   "slide": 6,
+   "twist": 11,
+   "examples": [
+    {
+     "spin": 20,
+     "own": 1,
+     "gap": 3,
+     "slide": 6,
+     "twist": 11
+    },
+    {
+     "spin": 23,
+     "own": 1,
+     "gap": 14,
+     "slide": 5,
+     "twist": 7
+    },
+    {
+     "spin": 32,
+     "own": 1,
+     "gap": 33,
+     "slide": 5,
+     "twist": 5
+    },
+    {
+     "spin": 28,
+     "own": 1,
+     "gap": 26,
+     "slide": 5,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 16,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 141,
+   "own": 52,
+   "gap": 141,
+   "slide": 67,
+   "twist": 357,
+   "examples": [
+    {
+     "spin": 141,
+     "own": 52,
+     "gap": 141,
+     "slide": 67,
+     "twist": 260,
+     "click": true
+    },
+    {
+     "spin": 120,
+     "own": 52,
+     "gap": 121,
+     "slide": 26,
+     "twist": 210,
+     "click": true
+    },
+    {
+     "spin": 106,
+     "own": 52,
+     "gap": 107,
+     "slide": 66,
+     "twist": 357,
+     "click": true
+    },
+    {
+     "spin": 39,
+     "own": 52,
+     "gap": 39,
+     "slide": 29,
+     "twist": 50,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 52,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 52,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 52,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 52,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 52,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 45,
+   "own": 5,
+   "gap": 51,
+   "slide": 6,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": 45,
+     "own": 5,
+     "gap": 51,
+     "slide": 6,
+     "twist": 15
+    },
+    {
+     "spin": 20,
+     "own": 5,
+     "gap": 13,
+     "slide": 5,
+     "twist": 16
+    },
+    {
+     "spin": 22,
+     "own": 5,
+     "gap": 17,
+     "slide": 5,
+     "twist": 10
+    },
+    {
+     "spin": 28,
+     "own": 5,
+     "gap": 29,
+     "slide": 5,
+     "twist": 12
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 263,
+   "own": 1,
+   "gap": 125,
+   "slide": 52,
+   "twist": 239,
+   "examples": [
+    {
+     "spin": 263,
+     "own": 1,
+     "gap": 2,
+     "slide": 52,
+     "twist": 239
+    },
+    {
+     "spin": 174,
+     "own": 1,
+     "gap": 54,
+     "slide": 29,
+     "twist": 159,
+     "click": true
+    },
+    {
+     "spin": 144,
+     "own": 1,
+     "gap": 24,
+     "slide": 31,
+     "twist": 157,
+     "click": true
+    },
+    {
+     "spin": 137,
+     "own": 1,
+     "gap": 125,
+     "slide": 22,
+     "twist": 114
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 115,
+   "own": 5,
+   "gap": 119,
+   "slide": 9,
+   "twist": 30,
+   "examples": [
+    {
+     "spin": 115,
+     "own": 5,
+     "gap": 119,
+     "slide": 8,
+     "twist": 15
+    },
+    {
+     "spin": 115,
+     "own": 5,
+     "gap": 119,
+     "slide": 6,
+     "twist": 27
+    },
+    {
+     "spin": 100,
+     "own": 5,
+     "gap": 104,
+     "slide": 6,
+     "twist": 30
+    },
+    {
+     "spin": 50,
+     "own": 5,
+     "gap": 56,
+     "slide": 9,
+     "twist": 12
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 65,
+   "own": 5,
+   "gap": 69,
+   "slide": 8,
+   "twist": 61,
+   "examples": [
+    {
+     "spin": 19,
+     "own": 5,
+     "gap": 9,
+     "slide": 5,
+     "twist": 42
+    },
+    {
+     "spin": 20,
+     "own": 5,
+     "gap": 13,
+     "slide": 4,
+     "twist": 7
+    },
+    {
+     "spin": 65,
+     "own": 5,
+     "gap": 69,
+     "slide": 8,
+     "twist": 61
+    },
+    {
+     "spin": 20,
+     "own": 5,
+     "gap": 20,
+     "slide": 5,
+     "twist": 7
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 39,
+   "own": 155,
+   "gap": 69,
+   "slide": 62,
+   "twist": 56,
+   "examples": [
+    {
+     "spin": 39,
+     "own": 155,
+     "gap": 69,
+     "slide": 62,
+     "twist": 56,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 155,
+     "gap": 3,
+     "slide": 24,
+     "twist": 18,
+     "click": true
+    },
+    {
+     "spin": 3,
+     "own": 155,
+     "gap": 24,
+     "slide": 14,
+     "twist": 23,
+     "click": true
+    },
+    {
+     "spin": 11,
+     "own": 155,
+     "gap": 35,
+     "slide": 10,
+     "twist": 28,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 80,
+   "own": 155,
+   "gap": 123,
+   "slide": 55,
+   "twist": 143,
+   "examples": [
+    {
+     "spin": 80,
+     "own": 155,
+     "gap": 123,
+     "slide": 55,
+     "twist": 143,
+     "click": true
+    },
+    {
+     "spin": -3,
+     "own": 155,
+     "gap": 6,
+     "slide": 14,
+     "twist": 8,
+     "click": true
+    },
+    {
+     "spin": -13,
+     "own": 155,
+     "gap": 13,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 34,
+   "own": 155,
+   "gap": 55,
+   "slide": 38,
+   "twist": 35,
+   "examples": [
+    {
+     "spin": 20,
+     "own": 155,
+     "gap": 19,
+     "slide": 38,
+     "twist": 35,
+     "click": true
+    },
+    {
+     "spin": 34,
+     "own": 155,
+     "gap": 55,
+     "slide": 19,
+     "twist": 33,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Reisa (Magical).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 63,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 106,
+   "own": 35,
+   "gap": 158,
+   "slide": 59,
+   "twist": 110,
+   "examples": [
+    {
+     "spin": 106,
+     "own": 35,
+     "gap": 158,
+     "slide": 59,
+     "twist": 110
+    },
+    {
+     "spin": 61,
+     "own": 35,
+     "gap": 108,
+     "slide": 46,
+     "twist": 63
+    },
+    {
+     "spin": 50,
+     "own": 35,
+     "gap": 50,
+     "slide": 5,
+     "twist": 75
+    },
+    {
+     "spin": -3,
+     "own": 35,
+     "gap": 10,
+     "slide": 20,
+     "twist": 23
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 60,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 46,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 143,
+   "own": 0,
+   "gap": 143,
+   "slide": 47,
+   "twist": 170,
+   "examples": [
+    {
+     "spin": 143,
+     "own": 0,
+     "gap": 143,
+     "slide": 39,
+     "twist": 170
+    },
+    {
+     "spin": 101,
+     "own": 0,
+     "gap": 101,
+     "slide": 47,
+     "twist": 74
+    },
+    {
+     "spin": 53,
+     "own": 0,
+     "gap": 53,
+     "slide": 32,
+     "twist": 82
+    },
+    {
+     "spin": 10,
+     "own": 0,
+     "gap": 10,
+     "slide": 32,
+     "twist": 17
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 46,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -5,
+   "own": 18,
+   "gap": 7,
+   "slide": 14,
+   "twist": 10,
+   "examples": [
+    {
+     "spin": -5,
+     "own": 18,
+     "gap": 4,
+     "slide": 14,
+     "twist": 9,
+     "click": true
+    },
+    {
+     "spin": -5,
+     "own": 18,
+     "gap": 7,
+     "slide": 14,
+     "twist": 9
+    },
+    {
+     "spin": -5,
+     "own": 18,
+     "gap": 7,
+     "slide": 14,
+     "twist": 10
+    },
+    {
+     "spin": -5,
+     "own": 18,
+     "gap": 7,
+     "slide": 14,
+     "twist": 9,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 110,
+   "own": 18,
+   "gap": 130,
+   "slide": 34,
+   "twist": 112,
+   "examples": [
+    {
+     "spin": 110,
+     "own": 18,
+     "gap": 130,
+     "slide": 34,
+     "twist": 112,
+     "click": true
+    },
+    {
+     "spin": 85,
+     "own": 18,
+     "gap": 104,
+     "slide": 29,
+     "twist": 93,
+     "click": true
+    },
+    {
+     "spin": 56,
+     "own": 18,
+     "gap": 72,
+     "slide": 28,
+     "twist": 52,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 18,
+     "gap": 0,
+     "slide": 27,
+     "twist": 14,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 19,
+   "own": 0,
+   "gap": 19,
+   "slide": 12,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": 19,
+     "own": 0,
+     "gap": 19,
+     "slide": 12,
+     "twist": 16
+    },
+    {
+     "spin": 19,
+     "own": 0,
+     "gap": 19,
+     "slide": 12,
+     "twist": 16
+    },
+    {
+     "spin": 19,
+     "own": 0,
+     "gap": 19,
+     "slide": 12,
+     "twist": 16
+    },
+    {
+     "spin": 19,
+     "own": 0,
+     "gap": 19,
+     "slide": 12,
+     "twist": 16
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 18,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 18,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 18,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 18,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 18,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 22,
+   "own": 11,
+   "gap": 22,
+   "slide": 23,
+   "twist": 40,
+   "examples": [
+    {
+     "spin": 22,
+     "own": 11,
+     "gap": 22,
+     "slide": 23,
+     "twist": 40
+    },
+    {
+     "spin": 9,
+     "own": 11,
+     "gap": 9,
+     "slide": 14,
+     "twist": 8
+    },
+    {
+     "spin": -1,
+     "own": 11,
+     "gap": 12,
+     "slide": 13,
+     "twist": 12
+    },
+    {
+     "spin": 5,
+     "own": 11,
+     "gap": 5,
+     "slide": 14,
+     "twist": 7
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 72,
+   "own": 11,
+   "gap": 72,
+   "slide": 24,
+   "twist": 67,
+   "examples": [
+    {
+     "spin": 72,
+     "own": 11,
+     "gap": 72,
+     "slide": 24,
+     "twist": 67
+    },
+    {
+     "spin": 53,
+     "own": 11,
+     "gap": 53,
+     "slide": 20,
+     "twist": 13
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 36,
+   "own": 11,
+   "gap": 37,
+   "slide": 27,
+   "twist": 40,
+   "examples": [
+    {
+     "spin": 36,
+     "own": 11,
+     "gap": 37,
+     "slide": 27,
+     "twist": 40
+    }
+   ]
+  }
+ ],
+ "Saya (Casual).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 88,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 148,
+   "own": 36,
+   "gap": 154,
+   "slide": 43,
+   "twist": 154,
+   "examples": [
+    {
+     "spin": 148,
+     "own": 36,
+     "gap": 154,
+     "slide": 43,
+     "twist": 154
+    },
+    {
+     "spin": 75,
+     "own": 36,
+     "gap": 100,
+     "slide": 33,
+     "twist": 96
+    },
+    {
+     "spin": 57,
+     "own": 36,
+     "gap": 63,
+     "slide": 15,
+     "twist": 63
+    },
+    {
+     "spin": 3,
+     "own": 37,
+     "gap": 5,
+     "slide": 4,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 73,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 8,
+   "own": 0,
+   "gap": 7,
+   "slide": 6,
+   "twist": 20,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 0,
+     "gap": 7,
+     "slide": 6,
+     "twist": 20
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 72,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 151,
+   "own": 0,
+   "gap": 151,
+   "slide": 62,
+   "twist": 155,
+   "examples": [
+    {
+     "spin": 151,
+     "own": 0,
+     "gap": 151,
+     "slide": 62,
+     "twist": 155,
+     "click": true
+    },
+    {
+     "spin": 137,
+     "own": 0,
+     "gap": 137,
+     "slide": 34,
+     "twist": 110
+    },
+    {
+     "spin": 43,
+     "own": 0,
+     "gap": 44,
+     "slide": 27,
+     "twist": 69
+    },
+    {
+     "spin": 18,
+     "own": 0,
+     "gap": 18,
+     "slide": 5,
+     "twist": 6
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 63,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 37,
+   "gap": 13,
+   "slide": 4,
+   "twist": 11,
+   "examples": [
+    {
+     "spin": -11,
+     "own": 37,
+     "gap": 13,
+     "slide": 4,
+     "twist": 11,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 37,
+     "gap": 1,
+     "slide": 1,
+     "twist": 3,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 37,
+     "gap": 1,
+     "slide": 1,
+     "twist": 3
+    },
+    {
+     "spin": 1,
+     "own": 37,
+     "gap": 1,
+     "slide": 1,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 277,
+   "own": 0,
+   "gap": 130,
+   "slide": 93,
+   "twist": 304,
+   "examples": [
+    {
+     "spin": 277,
+     "own": 0,
+     "gap": 70,
+     "slide": 93,
+     "twist": 304
+    },
+    {
+     "spin": 262,
+     "own": 0,
+     "gap": 96,
+     "slide": 88,
+     "twist": 289
+    },
+    {
+     "spin": 229,
+     "own": 0,
+     "gap": 130,
+     "slide": 77,
+     "twist": 255
+    },
+    {
+     "spin": 214,
+     "own": 0,
+     "gap": 7,
+     "slide": 74,
+     "twist": 241
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 120,
+   "own": 37,
+   "gap": 169,
+   "slide": 26,
+   "twist": 91,
+   "examples": [
+    {
+     "spin": 120,
+     "own": 37,
+     "gap": 169,
+     "slide": 23,
+     "twist": 70,
+     "click": true
+    },
+    {
+     "spin": 90,
+     "own": 37,
+     "gap": 97,
+     "slide": 26,
+     "twist": 91,
+     "click": true
+    },
+    {
+     "spin": 17,
+     "own": 37,
+     "gap": 20,
+     "slide": 22,
+     "twist": 64,
+     "click": true
+    },
+    {
+     "spin": -13,
+     "own": 37,
+     "gap": 22,
+     "slide": 10,
+     "twist": 29,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 71,
+   "own": 400,
+   "gap": 160,
+   "slide": 2,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": 71,
+     "own": 400,
+     "gap": 71,
+     "slide": 0,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": -71,
+     "own": 400,
+     "gap": 160,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 35,
+     "own": 400,
+     "gap": 35,
+     "slide": 0,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": 28,
+     "own": 400,
+     "gap": 28,
+     "slide": 2,
+     "twist": 1,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 44,
+   "own": 400,
+   "gap": 160,
+   "slide": 4,
+   "twist": 1,
+   "examples": [
+    {
+     "spin": -58,
+     "own": 400,
+     "gap": 160,
+     "slide": 0,
+     "twist": -1,
+     "click": true
+    },
+    {
+     "spin": -60,
+     "own": 400,
+     "gap": 153,
+     "slide": 0,
+     "twist": -1,
+     "click": true
+    },
+    {
+     "spin": 39,
+     "own": 400,
+     "gap": 39,
+     "slide": 2,
+     "twist": 1,
+     "click": true
+    },
+    {
+     "spin": 44,
+     "own": 400,
+     "gap": 44,
+     "slide": 4,
+     "twist": 1,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 37,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 37,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 37,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 37,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 37,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 49,
+   "own": 400,
+   "gap": 50,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 49,
+     "own": 400,
+     "gap": 50,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Serika (New Year).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 80,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 130,
+   "own": 30,
+   "gap": 131,
+   "slide": 29,
+   "twist": 176,
+   "examples": [
+    {
+     "spin": 130,
+     "own": 30,
+     "gap": 131,
+     "slide": 13,
+     "twist": 176
+    },
+    {
+     "spin": 80,
+     "own": 30,
+     "gap": 121,
+     "slide": 29,
+     "twist": 92
+    },
+    {
+     "spin": 47,
+     "own": 30,
+     "gap": 83,
+     "slide": 23,
+     "twist": 83
+    },
+    {
+     "spin": 10,
+     "own": 30,
+     "gap": 28,
+     "slide": 16,
+     "twist": 86
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 67,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 0,
+   "gap": 13,
+   "slide": 9,
+   "twist": 10,
+   "examples": [
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 13,
+     "slide": 9,
+     "twist": 10
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 61,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 162,
+   "own": 0,
+   "gap": 162,
+   "slide": 58,
+   "twist": 182,
+   "examples": [
+    {
+     "spin": 162,
+     "own": 0,
+     "gap": 162,
+     "slide": 22,
+     "twist": 182
+    },
+    {
+     "spin": 124,
+     "own": 0,
+     "gap": 124,
+     "slide": 58,
+     "twist": 136
+    },
+    {
+     "spin": 51,
+     "own": 0,
+     "gap": 51,
+     "slide": 17,
+     "twist": 59
+    },
+    {
+     "spin": 23,
+     "own": 0,
+     "gap": 23,
+     "slide": 26,
+     "twist": 42
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 54,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 6,
+   "own": 73,
+   "gap": 8,
+   "slide": 1,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 73,
+     "gap": 8,
+     "slide": 1,
+     "twist": 4,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 73,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -2,
+     "own": 73,
+     "gap": 0,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -2,
+     "own": 73,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 15,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 96,
+   "own": 0,
+   "gap": 96,
+   "slide": 33,
+   "twist": 105,
+   "examples": [
+    {
+     "spin": 54,
+     "own": 0,
+     "gap": 2,
+     "slide": 27,
+     "twist": 57
+    },
+    {
+     "spin": 58,
+     "own": 0,
+     "gap": 45,
+     "slide": 24,
+     "twist": 68
+    },
+    {
+     "spin": 58,
+     "own": 0,
+     "gap": 45,
+     "slide": 24,
+     "twist": 68
+    },
+    {
+     "spin": 96,
+     "own": 0,
+     "gap": 96,
+     "slide": 33,
+     "twist": 105
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 119,
+   "own": 73,
+   "gap": 157,
+   "slide": 43,
+   "twist": 118,
+   "examples": [
+    {
+     "spin": 119,
+     "own": 73,
+     "gap": 157,
+     "slide": 33,
+     "twist": 118,
+     "click": true
+    },
+    {
+     "spin": 93,
+     "own": 73,
+     "gap": 123,
+     "slide": 43,
+     "twist": 85,
+     "click": true
+    },
+    {
+     "spin": 24,
+     "own": 73,
+     "gap": 48,
+     "slide": 14,
+     "twist": 59,
+     "click": true
+    },
+    {
+     "spin": 36,
+     "own": 73,
+     "gap": 50,
+     "slide": 21,
+     "twist": 52,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 5,
+   "own": 157,
+   "gap": 98,
+   "slide": 37,
+   "twist": 110,
+   "examples": [
+    {
+     "spin": -23,
+     "own": 157,
+     "gap": 8,
+     "slide": 37,
+     "twist": 52,
+     "click": true
+    },
+    {
+     "spin": -32,
+     "own": 157,
+     "gap": 25,
+     "slide": 35,
+     "twist": 55,
+     "click": true
+    },
+    {
+     "spin": -29,
+     "own": 157,
+     "gap": 38,
+     "slide": 34,
+     "twist": 62,
+     "click": true
+    },
+    {
+     "spin": 5,
+     "own": 157,
+     "gap": 98,
+     "slide": 36,
+     "twist": 110,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 47,
+   "own": 157,
+   "gap": 159,
+   "slide": 76,
+   "twist": 415,
+   "examples": [
+    {
+     "spin": 25,
+     "own": 157,
+     "gap": 60,
+     "slide": 31,
+     "twist": 63,
+     "click": true
+    },
+    {
+     "spin": 47,
+     "own": 157,
+     "gap": 159,
+     "slide": 41,
+     "twist": 415,
+     "click": true
+    },
+    {
+     "spin": 38,
+     "own": 157,
+     "gap": 144,
+     "slide": 76,
+     "twist": 125,
+     "click": true
+    },
+    {
+     "spin": -2,
+     "own": 157,
+     "gap": 86,
+     "slide": 61,
+     "twist": 72,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 73,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 73,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 73,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -17,
+   "own": 157,
+   "gap": 14,
+   "slide": 28,
+   "twist": 56,
+   "examples": [
+    {
+     "spin": -17,
+     "own": 157,
+     "gap": 14,
+     "slide": 28,
+     "twist": 56,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Serika (Swimsuit).glb": [
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 56,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 19,
+   "own": 3,
+   "gap": 19,
+   "slide": 7,
+   "twist": 21,
+   "examples": [
+    {
+     "spin": 19,
+     "own": 3,
+     "gap": 19,
+     "slide": 7,
+     "twist": 21
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 55,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 6,
+   "own": 32,
+   "gap": 30,
+   "slide": 7,
+   "twist": 25,
+   "examples": [
+    {
+     "spin": 6,
+     "own": 32,
+     "gap": 30,
+     "slide": 7,
+     "twist": 25
+    },
+    {
+     "spin": -2,
+     "own": 32,
+     "gap": 4,
+     "slide": 1,
+     "twist": 6
+    },
+    {
+     "spin": -1,
+     "own": 32,
+     "gap": 3,
+     "slide": 0,
+     "twist": 2
+    },
+    {
+     "spin": 0,
+     "own": 32,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 54,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 86,
+   "own": 29,
+   "gap": 130,
+   "slide": 50,
+   "twist": 113,
+   "examples": [
+    {
+     "spin": 86,
+     "own": 29,
+     "gap": 130,
+     "slide": 50,
+     "twist": 113
+    },
+    {
+     "spin": 40,
+     "own": 29,
+     "gap": 80,
+     "slide": 38,
+     "twist": 58
+    },
+    {
+     "spin": 7,
+     "own": 29,
+     "gap": 37,
+     "slide": 30,
+     "twist": 29
+    },
+    {
+     "spin": 14,
+     "own": 29,
+     "gap": 14,
+     "slide": 19,
+     "twist": 11
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 43,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 111,
+   "own": 3,
+   "gap": 111,
+   "slide": 41,
+   "twist": 154,
+   "examples": [
+    {
+     "spin": 111,
+     "own": 3,
+     "gap": 111,
+     "slide": 25,
+     "twist": 154
+    },
+    {
+     "spin": 102,
+     "own": 3,
+     "gap": 109,
+     "slide": 41,
+     "twist": 133
+    },
+    {
+     "spin": 23,
+     "own": 3,
+     "gap": 10,
+     "slide": 22,
+     "twist": 46
+    },
+    {
+     "spin": 14,
+     "own": 3,
+     "gap": 17,
+     "slide": 31,
+     "twist": 49
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 19,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 105,
+   "own": 3,
+   "gap": 53,
+   "slide": 35,
+   "twist": 84,
+   "examples": [
+    {
+     "spin": 105,
+     "own": 3,
+     "gap": 53,
+     "slide": 35,
+     "twist": 84
+    },
+    {
+     "spin": 71,
+     "own": 3,
+     "gap": 19,
+     "slide": 35,
+     "twist": 84
+    },
+    {
+     "spin": 44,
+     "own": 3,
+     "gap": 8,
+     "slide": 35,
+     "twist": 84
+    },
+    {
+     "spin": 29,
+     "own": 3,
+     "gap": 29,
+     "slide": 35,
+     "twist": 84
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 32,
+   "gap": 4,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 32,
+     "gap": 4,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 32,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 32,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 32,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 101,
+   "own": 45,
+   "gap": 105,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 101,
+     "own": 45,
+     "gap": 105,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 80,
+     "own": 45,
+     "gap": 83,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 10,
+     "own": 45,
+     "gap": 1,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 30,
+     "own": 45,
+     "gap": 31,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 81,
+   "own": 32,
+   "gap": 112,
+   "slide": 45,
+   "twist": 239,
+   "examples": [
+    {
+     "spin": 74,
+     "own": 32,
+     "gap": 105,
+     "slide": 36,
+     "twist": 239,
+     "click": true
+    },
+    {
+     "spin": 81,
+     "own": 32,
+     "gap": 112,
+     "slide": 45,
+     "twist": 65,
+     "click": true
+    },
+    {
+     "spin": 58,
+     "own": 32,
+     "gap": 89,
+     "slide": 30,
+     "twist": 44,
+     "click": true
+    },
+    {
+     "spin": 4,
+     "own": 32,
+     "gap": 7,
+     "slide": 23,
+     "twist": 37,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 113,
+   "own": 45,
+   "gap": 116,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 113,
+     "own": 45,
+     "gap": 116,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 95,
+     "own": 45,
+     "gap": 98,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 13,
+     "own": 45,
+     "gap": 3,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 15,
+     "own": 45,
+     "gap": 9,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 69,
+   "own": 45,
+   "gap": 72,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 69,
+     "own": 45,
+     "gap": 72,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 41,
+     "own": 45,
+     "gap": 44,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 14,
+     "own": 45,
+     "gap": 15,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Reaction",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 28,
+   "own": 32,
+   "gap": 28,
+   "slide": 43,
+   "twist": 82,
+   "examples": [
+    {
+     "spin": 28,
+     "own": 32,
+     "gap": 28,
+     "slide": 43,
+     "twist": 82,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Shigure (Hot Spring).glb": [
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 66,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 57,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 21,
+   "own": 9,
+   "gap": 24,
+   "slide": 11,
+   "twist": 19,
+   "examples": [
+    {
+     "spin": 21,
+     "own": 9,
+     "gap": 24,
+     "slide": 11,
+     "twist": 18,
+     "click": true
+    },
+    {
+     "spin": 21,
+     "own": 9,
+     "gap": 24,
+     "slide": 11,
+     "twist": 19
+    },
+    {
+     "spin": 21,
+     "own": 9,
+     "gap": 24,
+     "slide": 11,
+     "twist": 19
+    },
+    {
+     "spin": 21,
+     "own": 9,
+     "gap": 24,
+     "slide": 11,
+     "twist": 19,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 51,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 109,
+   "own": 30,
+   "gap": 153,
+   "slide": 35,
+   "twist": 127,
+   "examples": [
+    {
+     "spin": 109,
+     "own": 30,
+     "gap": 153,
+     "slide": 35,
+     "twist": 127
+    },
+    {
+     "spin": 59,
+     "own": 30,
+     "gap": 99,
+     "slide": 28,
+     "twist": 75
+    },
+    {
+     "spin": 58,
+     "own": 30,
+     "gap": 58,
+     "slide": 14,
+     "twist": 70
+    },
+    {
+     "spin": -2,
+     "own": 30,
+     "gap": 3,
+     "slide": 17,
+     "twist": 12
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 38,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 162,
+   "own": 0,
+   "gap": 162,
+   "slide": 60,
+   "twist": 160,
+   "examples": [
+    {
+     "spin": 162,
+     "own": 0,
+     "gap": 162,
+     "slide": 60,
+     "twist": 160
+    },
+    {
+     "spin": 92,
+     "own": 0,
+     "gap": 92,
+     "slide": 50,
+     "twist": 98
+    },
+    {
+     "spin": 39,
+     "own": 0,
+     "gap": 39,
+     "slide": 16,
+     "twist": 43,
+     "click": true
+    },
+    {
+     "spin": 3,
+     "own": 0,
+     "gap": 3,
+     "slide": 29,
+     "twist": 18
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 9,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 9,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 9,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 9,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 9,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 212,
+   "own": 1,
+   "gap": 180,
+   "slide": 104,
+   "twist": 165,
+   "examples": [
+    {
+     "spin": 212,
+     "own": 1,
+     "gap": 148,
+     "slide": 104,
+     "twist": 165,
+     "click": true
+    },
+    {
+     "spin": 101,
+     "own": 1,
+     "gap": 87,
+     "slide": 48,
+     "twist": 61,
+     "click": true
+    },
+    {
+     "spin": 180,
+     "own": 1,
+     "gap": 180,
+     "slide": 75,
+     "twist": 141,
+     "click": true
+    },
+    {
+     "spin": 145,
+     "own": 1,
+     "gap": 145,
+     "slide": 79,
+     "twist": 150,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 105,
+   "own": 0,
+   "gap": 97,
+   "slide": 65,
+   "twist": 97,
+   "examples": [
+    {
+     "spin": 76,
+     "own": 0,
+     "gap": 10,
+     "slide": 55,
+     "twist": 68
+    },
+    {
+     "spin": 71,
+     "own": 0,
+     "gap": 45,
+     "slide": 57,
+     "twist": 79
+    },
+    {
+     "spin": 100,
+     "own": 0,
+     "gap": 63,
+     "slide": 61,
+     "twist": 93
+    },
+    {
+     "spin": 105,
+     "own": 0,
+     "gap": 97,
+     "slide": 65,
+     "twist": 97,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Reaction",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 71,
+   "own": 9,
+   "gap": 35,
+   "slide": 47,
+   "twist": 78,
+   "examples": [
+    {
+     "spin": 71,
+     "own": 9,
+     "gap": 35,
+     "slide": 47,
+     "twist": 68,
+     "click": true
+    },
+    {
+     "spin": 63,
+     "own": 9,
+     "gap": 18,
+     "slide": 46,
+     "twist": 69,
+     "click": true
+    },
+    {
+     "spin": 56,
+     "own": 9,
+     "gap": 1,
+     "slide": 45,
+     "twist": 70,
+     "click": true
+    },
+    {
+     "spin": 52,
+     "own": 9,
+     "gap": 24,
+     "slide": 46,
+     "twist": 78,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 166,
+   "own": 9,
+   "gap": 170,
+   "slide": 72,
+   "twist": 285,
+   "examples": [
+    {
+     "spin": 166,
+     "own": 9,
+     "gap": 170,
+     "slide": 72,
+     "twist": 285,
+     "click": true
+    },
+    {
+     "spin": 114,
+     "own": 9,
+     "gap": 119,
+     "slide": 37,
+     "twist": 96,
+     "click": true
+    },
+    {
+     "spin": 40,
+     "own": 9,
+     "gap": 45,
+     "slide": 14,
+     "twist": 56,
+     "click": true
+    },
+    {
+     "spin": 66,
+     "own": 9,
+     "gap": 69,
+     "slide": 39,
+     "twist": 210,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 111,
+   "own": 1,
+   "gap": 106,
+   "slide": 64,
+   "twist": 83,
+   "examples": [
+    {
+     "spin": 70,
+     "own": 1,
+     "gap": 5,
+     "slide": 42,
+     "twist": 28,
+     "click": true
+    },
+    {
+     "spin": 67,
+     "own": 1,
+     "gap": 35,
+     "slide": 48,
+     "twist": 31,
+     "click": true
+    },
+    {
+     "spin": 83,
+     "own": 1,
+     "gap": 69,
+     "slide": 55,
+     "twist": 53,
+     "click": true
+    },
+    {
+     "spin": 111,
+     "own": 1,
+     "gap": 106,
+     "slide": 64,
+     "twist": 83,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 97,
+   "own": 1,
+   "gap": 88,
+   "slide": 51,
+   "twist": 67,
+   "examples": [
+    {
+     "spin": 71,
+     "own": 1,
+     "gap": 45,
+     "slide": 47,
+     "twist": 34,
+     "click": true
+    },
+    {
+     "spin": 84,
+     "own": 1,
+     "gap": 71,
+     "slide": 47,
+     "twist": 54,
+     "click": true
+    },
+    {
+     "spin": 97,
+     "own": 1,
+     "gap": 88,
+     "slide": 51,
+     "twist": 67,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Shiroko (Swimsuit).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 72,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 187,
+   "own": 23,
+   "gap": 171,
+   "slide": 23,
+   "twist": 190,
+   "examples": [
+    {
+     "spin": 187,
+     "own": 23,
+     "gap": 171,
+     "slide": 23,
+     "twist": 190
+    },
+    {
+     "spin": 134,
+     "own": 23,
+     "gap": 135,
+     "slide": 13,
+     "twist": 165
+    },
+    {
+     "spin": 91,
+     "own": 23,
+     "gap": 92,
+     "slide": 8,
+     "twist": 134
+    },
+    {
+     "spin": 35,
+     "own": 23,
+     "gap": 35,
+     "slide": 19,
+     "twist": 88
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 60,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 130,
+   "own": 0,
+   "gap": 130,
+   "slide": 44,
+   "twist": 136,
+   "examples": [
+    {
+     "spin": 101,
+     "own": 0,
+     "gap": 101,
+     "slide": 41,
+     "twist": 136
+    },
+    {
+     "spin": 130,
+     "own": 0,
+     "gap": 130,
+     "slide": 44,
+     "twist": 127
+    },
+    {
+     "spin": 92,
+     "own": 0,
+     "gap": 92,
+     "slide": 36,
+     "twist": 89
+    },
+    {
+     "spin": 31,
+     "own": 0,
+     "gap": 31,
+     "slide": 28,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 48,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 0,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 41,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 28,
+   "own": 15,
+   "gap": 29,
+   "slide": 12,
+   "twist": 29,
+   "examples": [
+    {
+     "spin": 28,
+     "own": 15,
+     "gap": 29,
+     "slide": 12,
+     "twist": 29,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 15,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 15,
+     "gap": 2,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 15,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 13,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 75,
+   "own": 0,
+   "gap": 75,
+   "slide": 37,
+   "twist": 77,
+   "examples": [
+    {
+     "spin": 40,
+     "own": 0,
+     "gap": 14,
+     "slide": 24,
+     "twist": 41
+    },
+    {
+     "spin": 44,
+     "own": 0,
+     "gap": 33,
+     "slide": 23,
+     "twist": 46
+    },
+    {
+     "spin": 57,
+     "own": 0,
+     "gap": 51,
+     "slide": 27,
+     "twist": 59
+    },
+    {
+     "spin": 75,
+     "own": 0,
+     "gap": 75,
+     "slide": 37,
+     "twist": 77
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 111,
+   "own": 15,
+   "gap": 136,
+   "slide": 50,
+   "twist": 118,
+   "examples": [
+    {
+     "spin": 97,
+     "own": 16,
+     "gap": 98,
+     "slide": 50,
+     "twist": 118,
+     "click": true
+    },
+    {
+     "spin": 111,
+     "own": 15,
+     "gap": 136,
+     "slide": 33,
+     "twist": 115,
+     "click": true
+    },
+    {
+     "spin": 21,
+     "own": 15,
+     "gap": 14,
+     "slide": 47,
+     "twist": 56,
+     "click": true
+    },
+    {
+     "spin": 57,
+     "own": 15,
+     "gap": 69,
+     "slide": 44,
+     "twist": 37,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 30,
+   "own": 75,
+   "gap": 59,
+   "slide": 45,
+   "twist": 86,
+   "examples": [
+    {
+     "spin": 30,
+     "own": 75,
+     "gap": 59,
+     "slide": 26,
+     "twist": 50,
+     "click": true
+    },
+    {
+     "spin": 12,
+     "own": 75,
+     "gap": 36,
+     "slide": 18,
+     "twist": 27,
+     "click": true
+    },
+    {
+     "spin": 20,
+     "own": 75,
+     "gap": 50,
+     "slide": 45,
+     "twist": 86,
+     "click": true
+    },
+    {
+     "spin": -4,
+     "own": 75,
+     "gap": 12,
+     "slide": 21,
+     "twist": 34,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 15,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 15,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 15,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 16,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 16,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 121,
+   "own": 75,
+   "gap": 158,
+   "slide": 135,
+   "twist": 219,
+   "examples": [
+    {
+     "spin": 54,
+     "own": 75,
+     "gap": 86,
+     "slide": 48,
+     "twist": 69,
+     "click": true
+    },
+    {
+     "spin": 121,
+     "own": 75,
+     "gap": 158,
+     "slide": 135,
+     "twist": 219,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 31,
+   "own": 75,
+   "gap": 59,
+   "slide": 38,
+   "twist": 57,
+   "examples": [
+    {
+     "spin": 31,
+     "own": 75,
+     "gap": 59,
+     "slide": 38,
+     "twist": 57,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 75,
+     "gap": 13,
+     "slide": 19,
+     "twist": 24,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Shizuko (Swimsuit).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 70,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 136,
+   "own": 22,
+   "gap": 138,
+   "slide": 30,
+   "twist": 162,
+   "examples": [
+    {
+     "spin": 136,
+     "own": 22,
+     "gap": 138,
+     "slide": 16,
+     "twist": 162
+    },
+    {
+     "spin": 86,
+     "own": 22,
+     "gap": 87,
+     "slide": 11,
+     "twist": 142
+    },
+    {
+     "spin": 46,
+     "own": 22,
+     "gap": 71,
+     "slide": 30,
+     "twist": 60
+    },
+    {
+     "spin": 0,
+     "own": 22,
+     "gap": 8,
+     "slide": 17,
+     "twist": 69
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 67,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 11,
+   "own": 3,
+   "gap": 15,
+   "slide": 3,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 11,
+     "own": 3,
+     "gap": 15,
+     "slide": 3,
+     "twist": 4
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 54,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 161,
+   "own": 3,
+   "gap": 161,
+   "slide": 74,
+   "twist": 137,
+   "examples": [
+    {
+     "spin": 161,
+     "own": 3,
+     "gap": 161,
+     "slide": 74,
+     "twist": 137
+    },
+    {
+     "spin": 88,
+     "own": 3,
+     "gap": 93,
+     "slide": 25,
+     "twist": 86
+    },
+    {
+     "spin": 69,
+     "own": 3,
+     "gap": 69,
+     "slide": 11,
+     "twist": 69
+    },
+    {
+     "spin": 6,
+     "own": 3,
+     "gap": 6,
+     "slide": 16,
+     "twist": 14
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 54,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 16,
+   "own": 23,
+   "gap": 30,
+   "slide": 6,
+   "twist": 20,
+   "examples": [
+    {
+     "spin": 16,
+     "own": 23,
+     "gap": 30,
+     "slide": 6,
+     "twist": 20,
+     "click": true
+    },
+    {
+     "spin": -4,
+     "own": 23,
+     "gap": 2,
+     "slide": 2,
+     "twist": 2
+    },
+    {
+     "spin": -5,
+     "own": 23,
+     "gap": 2,
+     "slide": 2,
+     "twist": 3
+    },
+    {
+     "spin": -4,
+     "own": 23,
+     "gap": 2,
+     "slide": 1,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 125,
+   "own": 23,
+   "gap": 144,
+   "slide": 41,
+   "twist": 131,
+   "examples": [
+    {
+     "spin": 125,
+     "own": 23,
+     "gap": 144,
+     "slide": 16,
+     "twist": 131,
+     "click": true
+    },
+    {
+     "spin": 86,
+     "own": 23,
+     "gap": 104,
+     "slide": 41,
+     "twist": 95,
+     "click": true
+    },
+    {
+     "spin": 39,
+     "own": 23,
+     "gap": 50,
+     "slide": 15,
+     "twist": 42,
+     "click": true
+    },
+    {
+     "spin": 23,
+     "own": 23,
+     "gap": 34,
+     "slide": 8,
+     "twist": 13,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 290,
+   "own": 3,
+   "gap": 86,
+   "slide": 157,
+   "twist": 307,
+   "examples": [
+    {
+     "spin": 290,
+     "own": 3,
+     "gap": 69,
+     "slide": 157,
+     "twist": 307
+    },
+    {
+     "spin": 77,
+     "own": 3,
+     "gap": 19,
+     "slide": 75,
+     "twist": 75
+    },
+    {
+     "spin": 80,
+     "own": 3,
+     "gap": 55,
+     "slide": 65,
+     "twist": 94
+    },
+    {
+     "spin": 100,
+     "own": 3,
+     "gap": 86,
+     "slide": 60,
+     "twist": 117
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 246,
+   "own": 35,
+   "gap": 179,
+   "slide": 135,
+   "twist": 239,
+   "examples": [
+    {
+     "spin": 64,
+     "own": 35,
+     "gap": 45,
+     "slide": 45,
+     "twist": 94,
+     "click": true
+    },
+    {
+     "spin": 246,
+     "own": 35,
+     "gap": 111,
+     "slide": 135,
+     "twist": 239,
+     "click": true
+    },
+    {
+     "spin": 178,
+     "own": 35,
+     "gap": 179,
+     "slide": 123,
+     "twist": 172,
+     "click": true
+    },
+    {
+     "spin": 161,
+     "own": 35,
+     "gap": 164,
+     "slide": 87,
+     "twist": 156,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 23,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 23,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 23,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 23,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 23,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 56,
+   "own": 35,
+   "gap": 5,
+   "slide": 67,
+   "twist": 78,
+   "examples": [
+    {
+     "spin": 56,
+     "own": 35,
+     "gap": 2,
+     "slide": 67,
+     "twist": 78,
+     "click": true
+    },
+    {
+     "spin": 45,
+     "own": 35,
+     "gap": 5,
+     "slide": 37,
+     "twist": 55,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 185,
+   "own": 35,
+   "gap": 172,
+   "slide": 110,
+   "twist": 189,
+   "examples": [
+    {
+     "spin": 185,
+     "own": 35,
+     "gap": 172,
+     "slide": 110,
+     "twist": 189,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Sumire (Part-Timer).glb": [
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 58,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 3,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 3,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 56,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 156,
+   "own": 35,
+   "gap": 157,
+   "slide": 30,
+   "twist": 160,
+   "examples": [
+    {
+     "spin": 156,
+     "own": 35,
+     "gap": 157,
+     "slide": 17,
+     "twist": 160
+    },
+    {
+     "spin": 103,
+     "own": 35,
+     "gap": 104,
+     "slide": 9,
+     "twist": 110
+    },
+    {
+     "spin": 13,
+     "own": 35,
+     "gap": 51,
+     "slide": 30,
+     "twist": 31
+    },
+    {
+     "spin": 1,
+     "own": 35,
+     "gap": 1,
+     "slide": 19,
+     "twist": 10
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 54,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 28,
+   "own": 6,
+   "gap": 38,
+   "slide": 7,
+   "twist": 20,
+   "examples": [
+    {
+     "spin": 28,
+     "own": 6,
+     "gap": 38,
+     "slide": 7,
+     "twist": 20,
+     "click": true
+    },
+    {
+     "spin": 5,
+     "own": 6,
+     "gap": 14,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 11,
+     "own": 6,
+     "gap": 11,
+     "slide": 1,
+     "twist": 0
+    },
+    {
+     "spin": 3,
+     "own": 6,
+     "gap": 12,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 43,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 166,
+   "own": 3,
+   "gap": 166,
+   "slide": 71,
+   "twist": 162,
+   "examples": [
+    {
+     "spin": 166,
+     "own": 3,
+     "gap": 166,
+     "slide": 71,
+     "twist": 162
+    },
+    {
+     "spin": 100,
+     "own": 3,
+     "gap": 105,
+     "slide": 40,
+     "twist": 96,
+     "click": true
+    },
+    {
+     "spin": 57,
+     "own": 3,
+     "gap": 57,
+     "slide": 25,
+     "twist": 68
+    },
+    {
+     "spin": 6,
+     "own": 3,
+     "gap": 1,
+     "slide": 27,
+     "twist": 10
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 6,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 6,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 6,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 6,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 6,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 10,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 123,
+   "own": 6,
+   "gap": 124,
+   "slide": 64,
+   "twist": 130,
+   "examples": [
+    {
+     "spin": 123,
+     "own": 6,
+     "gap": 124,
+     "slide": 64,
+     "twist": 130,
+     "click": true
+    },
+    {
+     "spin": 79,
+     "own": 6,
+     "gap": 80,
+     "slide": 24,
+     "twist": 75,
+     "click": true
+    },
+    {
+     "spin": 21,
+     "own": 6,
+     "gap": 21,
+     "slide": 35,
+     "twist": 51,
+     "click": true
+    },
+    {
+     "spin": 6,
+     "own": 6,
+     "gap": 6,
+     "slide": 28,
+     "twist": 11,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 9,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 15,
+   "own": 3,
+   "gap": 18,
+   "slide": 28,
+   "twist": 111,
+   "examples": [
+    {
+     "spin": 12,
+     "own": 3,
+     "gap": 18,
+     "slide": 26,
+     "twist": 111
+    },
+    {
+     "spin": 4,
+     "own": 3,
+     "gap": 7,
+     "slide": 25,
+     "twist": 103
+    },
+    {
+     "spin": 15,
+     "own": 3,
+     "gap": 15,
+     "slide": 28,
+     "twist": 92
+    },
+    {
+     "spin": 6,
+     "own": 3,
+     "gap": 6,
+     "slide": 26,
+     "twist": 93
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 99,
+   "own": 3,
+   "gap": 99,
+   "slide": 128,
+   "twist": 138,
+   "examples": [
+    {
+     "spin": 37,
+     "own": 3,
+     "gap": 22,
+     "slide": 113,
+     "twist": 50
+    },
+    {
+     "spin": 99,
+     "own": 3,
+     "gap": 99,
+     "slide": 128,
+     "twist": 138
+    },
+    {
+     "spin": 35,
+     "own": 3,
+     "gap": 31,
+     "slide": 94,
+     "twist": 75
+    },
+    {
+     "spin": 51,
+     "own": 3,
+     "gap": 51,
+     "slide": 97,
+     "twist": 90
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 12,
+   "own": 8,
+   "gap": 19,
+   "slide": 24,
+   "twist": 86,
+   "examples": [
+    {
+     "spin": 4,
+     "own": 8,
+     "gap": 3,
+     "slide": 24,
+     "twist": 65
+    },
+    {
+     "spin": 10,
+     "own": 8,
+     "gap": 9,
+     "slide": 24,
+     "twist": 86
+    },
+    {
+     "spin": 12,
+     "own": 8,
+     "gap": 19,
+     "slide": 24,
+     "twist": 78
+    },
+    {
+     "spin": 5,
+     "own": 8,
+     "gap": 8,
+     "slide": 22,
+     "twist": 74
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 12,
+   "own": 8,
+   "gap": 14,
+   "slide": 24,
+   "twist": 82,
+   "examples": [
+    {
+     "spin": 11,
+     "own": 8,
+     "gap": 13,
+     "slide": 24,
+     "twist": 68
+    },
+    {
+     "spin": 12,
+     "own": 8,
+     "gap": 14,
+     "slide": 4,
+     "twist": 11
+    },
+    {
+     "spin": 6,
+     "own": 8,
+     "gap": 14,
+     "slide": 23,
+     "twist": 80
+    },
+    {
+     "spin": -2,
+     "own": 8,
+     "gap": 3,
+     "slide": 23,
+     "twist": 82
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 94,
+   "own": 98,
+   "gap": 177,
+   "slide": 19,
+   "twist": 44,
+   "examples": [
+    {
+     "spin": 49,
+     "own": 98,
+     "gap": 67,
+     "slide": 4,
+     "twist": 11,
+     "click": true
+    },
+    {
+     "spin": 70,
+     "own": 98,
+     "gap": 159,
+     "slide": 19,
+     "twist": 44,
+     "click": true
+    },
+    {
+     "spin": 94,
+     "own": 98,
+     "gap": 177,
+     "slide": 14,
+     "twist": 43,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 33,
+   "own": 98,
+   "gap": 121,
+   "slide": 14,
+   "twist": 42,
+   "examples": [
+    {
+     "spin": -4,
+     "own": 98,
+     "gap": 0,
+     "slide": 11,
+     "twist": 42,
+     "click": true
+    },
+    {
+     "spin": 33,
+     "own": 98,
+     "gap": 121,
+     "slide": 14,
+     "twist": 29,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -15,
+   "own": 98,
+   "gap": 65,
+   "slide": 14,
+   "twist": 29,
+   "examples": [
+    {
+     "spin": -15,
+     "own": 98,
+     "gap": 65,
+     "slide": 14,
+     "twist": 29,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 113,
+   "own": 8,
+   "gap": 119,
+   "slide": 57,
+   "twist": 185,
+   "examples": [
+    {
+     "spin": 113,
+     "own": 8,
+     "gap": 119,
+     "slide": 57,
+     "twist": 185
+    }
+   ]
+  }
+ ],
+ "Tomoe (Qipao).glb": [
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 74,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 2,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 71,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 161,
+   "own": 30,
+   "gap": 163,
+   "slide": 39,
+   "twist": 174,
+   "examples": [
+    {
+     "spin": 161,
+     "own": 30,
+     "gap": 163,
+     "slide": 39,
+     "twist": 174
+    },
+    {
+     "spin": 47,
+     "own": 30,
+     "gap": 88,
+     "slide": 27,
+     "twist": 61
+    },
+    {
+     "spin": 19,
+     "own": 30,
+     "gap": 55,
+     "slide": 20,
+     "twist": 31
+    },
+    {
+     "spin": 4,
+     "own": 30,
+     "gap": 4,
+     "slide": 13,
+     "twist": 24
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 64,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -4,
+   "own": 35,
+   "gap": 8,
+   "slide": 1,
+   "twist": 6,
+   "examples": [
+    {
+     "spin": -6,
+     "own": 35,
+     "gap": 7,
+     "slide": 1,
+     "twist": 6,
+     "click": true
+    },
+    {
+     "spin": -5,
+     "own": 35,
+     "gap": 8,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -4,
+     "own": 35,
+     "gap": 5,
+     "slide": 0,
+     "twist": 1
+    },
+    {
+     "spin": -6,
+     "own": 35,
+     "gap": 8,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 57,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 155,
+   "own": 2,
+   "gap": 156,
+   "slide": 69,
+   "twist": 184,
+   "examples": [
+    {
+     "spin": 155,
+     "own": 2,
+     "gap": 156,
+     "slide": 69,
+     "twist": 174
+    },
+    {
+     "spin": 64,
+     "own": 2,
+     "gap": 68,
+     "slide": 46,
+     "twist": 184
+    },
+    {
+     "spin": 56,
+     "own": 2,
+     "gap": 60,
+     "slide": 37,
+     "twist": 74
+    },
+    {
+     "spin": 9,
+     "own": 2,
+     "gap": 9,
+     "slide": 25,
+     "twist": 28
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 11,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 72,
+   "own": 35,
+   "gap": 127,
+   "slide": 35,
+   "twist": 130,
+   "examples": [
+    {
+     "spin": 72,
+     "own": 35,
+     "gap": 127,
+     "slide": 25,
+     "twist": 130,
+     "click": true
+    },
+    {
+     "spin": 47,
+     "own": 35,
+     "gap": 53,
+     "slide": 30,
+     "twist": 70,
+     "click": true
+    },
+    {
+     "spin": 30,
+     "own": 35,
+     "gap": 78,
+     "slide": 24,
+     "twist": 58,
+     "click": true
+    },
+    {
+     "spin": -4,
+     "own": 35,
+     "gap": 35,
+     "slide": 35,
+     "twist": 30,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 35,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 35,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 35,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 35,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 35,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Fomation_Pickup → Cafe_Idle",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 53,
+   "own": 2,
+   "gap": 53,
+   "slide": 8,
+   "twist": 10,
+   "examples": [
+    {
+     "spin": 35,
+     "own": 2,
+     "gap": 21,
+     "slide": 8,
+     "twist": 10
+    },
+    {
+     "spin": 53,
+     "own": 2,
+     "gap": 53,
+     "slide": 6,
+     "twist": 5
+    },
+    {
+     "spin": 49,
+     "own": 2,
+     "gap": 49,
+     "slide": 6,
+     "twist": 4
+    },
+    {
+     "spin": 46,
+     "own": 2,
+     "gap": 46,
+     "slide": 6,
+     "twist": 3
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Fomation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 24,
+   "gap": 15,
+   "slide": 4,
+   "twist": 4,
+   "examples": [
+    {
+     "spin": 8,
+     "own": 24,
+     "gap": 8,
+     "slide": 3,
+     "twist": 4
+    },
+    {
+     "spin": 13,
+     "own": 24,
+     "gap": 15,
+     "slide": 4,
+     "twist": 2
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Fomation_Pickup",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 48,
+   "own": 24,
+   "gap": 74,
+   "slide": 8,
+   "twist": 52,
+   "examples": [
+    {
+     "spin": 48,
+     "own": 24,
+     "gap": 74,
+     "slide": 8,
+     "twist": 45
+    },
+    {
+     "spin": 8,
+     "own": 24,
+     "gap": 8,
+     "slide": 7,
+     "twist": 52
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Fomation_Pickup",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 16,
+   "own": 24,
+   "gap": 9,
+   "slide": 4,
+   "twist": 7,
+   "examples": [
+    {
+     "spin": 16,
+     "own": 24,
+     "gap": 9,
+     "slide": 4,
+     "twist": 7
+    }
+   ]
+  }
+ ],
+ "Tsubaki (Guide).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 38,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 1,
+   "own": 13,
+   "gap": 2,
+   "slide": 8,
+   "twist": 13,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 1,
+     "slide": 8,
+     "twist": 13,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 8,
+     "twist": 13,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 1,
+     "slide": 8,
+     "twist": 13,
+     "click": true
+    },
+    {
+     "spin": 1,
+     "own": 13,
+     "gap": 2,
+     "slide": 8,
+     "twist": 13
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 38,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 9,
+   "own": 2,
+   "gap": 12,
+   "slide": 20,
+   "twist": 184,
+   "examples": [
+    {
+     "spin": 9,
+     "own": 2,
+     "gap": 12,
+     "slide": 10,
+     "twist": 20
+    },
+    {
+     "spin": 7,
+     "own": 2,
+     "gap": 8,
+     "slide": 20,
+     "twist": 184,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 2,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 8,
+     "own": 2,
+     "gap": 8,
+     "slide": 8,
+     "twist": 13,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 27,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 13,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 26,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 138,
+   "own": 4,
+   "gap": 143,
+   "slide": 40,
+   "twist": 125,
+   "examples": [
+    {
+     "spin": 138,
+     "own": 4,
+     "gap": 143,
+     "slide": 40,
+     "twist": 125
+    },
+    {
+     "spin": 106,
+     "own": 4,
+     "gap": 107,
+     "slide": 15,
+     "twist": 90
+    },
+    {
+     "spin": 53,
+     "own": 4,
+     "gap": 56,
+     "slide": 25,
+     "twist": 39
+    },
+    {
+     "spin": 32,
+     "own": 4,
+     "gap": 33,
+     "slide": 13,
+     "twist": 27
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 20,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 160,
+   "own": 2,
+   "gap": 161,
+   "slide": 55,
+   "twist": 161,
+   "examples": [
+    {
+     "spin": 160,
+     "own": 2,
+     "gap": 161,
+     "slide": 55,
+     "twist": 161
+    },
+    {
+     "spin": 80,
+     "own": 2,
+     "gap": 85,
+     "slide": 40,
+     "twist": 95
+    },
+    {
+     "spin": 60,
+     "own": 2,
+     "gap": 60,
+     "slide": 31,
+     "twist": 60
+    },
+    {
+     "spin": 9,
+     "own": 2,
+     "gap": 9,
+     "slide": 30,
+     "twist": 7
+    }
+   ]
+  },
+  {
+   "key": "Exs → Cafe_Idle",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 328,
+   "own": 2,
+   "gap": 134,
+   "slide": 165,
+   "twist": 341,
+   "examples": [
+    {
+     "spin": 328,
+     "own": 2,
+     "gap": 25,
+     "slide": 165,
+     "twist": 341
+    },
+    {
+     "spin": 312,
+     "own": 2,
+     "gap": 42,
+     "slide": 158,
+     "twist": 324
+    },
+    {
+     "spin": 291,
+     "own": 2,
+     "gap": 63,
+     "slide": 150,
+     "twist": 303
+    },
+    {
+     "spin": 221,
+     "own": 2,
+     "gap": 134,
+     "slide": 122,
+     "twist": 233
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 5,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 122,
+   "own": 13,
+   "gap": 139,
+   "slide": 45,
+   "twist": 131,
+   "examples": [
+    {
+     "spin": 122,
+     "own": 13,
+     "gap": 139,
+     "slide": 45,
+     "twist": 131,
+     "click": true
+    },
+    {
+     "spin": 101,
+     "own": 13,
+     "gap": 102,
+     "slide": 42,
+     "twist": 117,
+     "click": true
+    },
+    {
+     "spin": 15,
+     "own": 13,
+     "gap": 16,
+     "slide": 16,
+     "twist": 19,
+     "click": true
+    },
+    {
+     "spin": 14,
+     "own": 13,
+     "gap": 14,
+     "slide": 35,
+     "twist": 129,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 257,
+   "own": 15,
+   "gap": 105,
+   "slide": 20,
+   "twist": 43,
+   "examples": [
+    {
+     "spin": 69,
+     "own": 15,
+     "gap": 9,
+     "slide": 4,
+     "twist": 28,
+     "click": true
+    },
+    {
+     "spin": 65,
+     "own": 15,
+     "gap": 1,
+     "slide": 4,
+     "twist": 33,
+     "click": true
+    },
+    {
+     "spin": 257,
+     "own": 15,
+     "gap": 75,
+     "slide": 20,
+     "twist": 43,
+     "click": true
+    },
+    {
+     "spin": 98,
+     "own": 15,
+     "gap": 105,
+     "slide": 5,
+     "twist": 13,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs",
+   "count": 2,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 67,
+   "own": 15,
+   "gap": 63,
+   "slide": 2,
+   "twist": 16,
+   "examples": [
+    {
+     "spin": 65,
+     "own": 15,
+     "gap": 7,
+     "slide": 2,
+     "twist": 16,
+     "click": true
+    },
+    {
+     "spin": 67,
+     "own": 15,
+     "gap": 63,
+     "slide": 1,
+     "twist": 8,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs",
+   "count": 1,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 54,
+   "own": 15,
+   "gap": 33,
+   "slide": 1,
+   "twist": 10,
+   "examples": [
+    {
+     "spin": 54,
+     "own": 15,
+     "gap": 33,
+     "slide": 1,
+     "twist": 10,
+     "click": true
+    }
+   ]
+  }
+ ],
+ "Yuzu (Battle).glb": [
+  {
+   "key": "Cafe_Idle → Cafe_Walk",
+   "count": 55,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 155,
+   "own": 18,
+   "gap": 179,
+   "slide": 46,
+   "twist": 151,
+   "examples": [
+    {
+     "spin": 155,
+     "own": 18,
+     "gap": 179,
+     "slide": 46,
+     "twist": 151
+    },
+    {
+     "spin": 72,
+     "own": 18,
+     "gap": 74,
+     "slide": 10,
+     "twist": 150
+    },
+    {
+     "spin": 37,
+     "own": 18,
+     "gap": 38,
+     "slide": 12,
+     "twist": 111
+    },
+    {
+     "spin": 19,
+     "own": 18,
+     "gap": 25,
+     "slide": 20,
+     "twist": 74
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Cafe_Reaction",
+   "count": 51,
+   "mark": null,
+   "verdict": "ok",
+   "spin": -6,
+   "own": 13,
+   "gap": 7,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": -6,
+     "own": 13,
+     "gap": 7,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": -6,
+     "own": 13,
+     "gap": 7,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -6,
+     "own": 13,
+     "gap": 7,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": -6,
+     "own": 13,
+     "gap": 7,
+     "slide": 0,
+     "twist": 0
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Idle",
+   "count": 47,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 25,
+   "own": 0,
+   "gap": 25,
+   "slide": 4,
+   "twist": 2,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 0,
+     "own": 0,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0
+    },
+    {
+     "spin": 25,
+     "own": 0,
+     "gap": 25,
+     "slide": 4,
+     "twist": 2,
+     "click": true
+    },
+    {
+     "spin": 25,
+     "own": 0,
+     "gap": 25,
+     "slide": 4,
+     "twist": 2,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Idle",
+   "count": 41,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 158,
+   "own": 0,
+   "gap": 159,
+   "slide": 38,
+   "twist": 143,
+   "examples": [
+    {
+     "spin": 158,
+     "own": 0,
+     "gap": 159,
+     "slide": 38,
+     "twist": 143
+    },
+    {
+     "spin": 120,
+     "own": 0,
+     "gap": 120,
+     "slide": 31,
+     "twist": 103
+    },
+    {
+     "spin": 44,
+     "own": 0,
+     "gap": 45,
+     "slide": 18,
+     "twist": 119
+    },
+    {
+     "spin": 20,
+     "own": 0,
+     "gap": 20,
+     "slide": 16,
+     "twist": 106
+    }
+   ]
+  },
+  {
+   "key": "Exs01 → Cafe_Idle",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 106,
+   "own": 0,
+   "gap": 106,
+   "slide": 39,
+   "twist": 55,
+   "examples": [
+    {
+     "spin": 45,
+     "own": 0,
+     "gap": 30,
+     "slide": 39,
+     "twist": 40
+    },
+    {
+     "spin": 106,
+     "own": 0,
+     "gap": 106,
+     "slide": 34,
+     "twist": 55
+    },
+    {
+     "spin": 54,
+     "own": 0,
+     "gap": 54,
+     "slide": 33,
+     "twist": 41
+    },
+    {
+     "spin": 54,
+     "own": 0,
+     "gap": 54,
+     "slide": 33,
+     "twist": 41
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Cafe_Reaction",
+   "count": 14,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 0,
+   "own": 13,
+   "gap": 0,
+   "slide": 0,
+   "twist": 0,
+   "examples": [
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    },
+    {
+     "spin": 0,
+     "own": 13,
+     "gap": 0,
+     "slide": 0,
+     "twist": 0,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Formation_Pickup → Cafe_Idle",
+   "count": 12,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 13,
+   "own": 0,
+   "gap": 0,
+   "slide": 5,
+   "twist": 10,
+   "examples": [
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 0,
+     "slide": 5,
+     "twist": 10
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 0,
+     "slide": 5,
+     "twist": 10
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 0,
+     "slide": 5,
+     "twist": 10
+    },
+    {
+     "spin": 13,
+     "own": 0,
+     "gap": 0,
+     "slide": 5,
+     "twist": 10
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Exs01",
+   "count": 8,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 74,
+   "own": 0,
+   "gap": 74,
+   "slide": 33,
+   "twist": 48,
+   "examples": [
+    {
+     "spin": 42,
+     "own": 0,
+     "gap": 22,
+     "slide": 30,
+     "twist": 18,
+     "click": true
+    },
+    {
+     "spin": 74,
+     "own": 0,
+     "gap": 74,
+     "slide": 24,
+     "twist": 48,
+     "click": true
+    },
+    {
+     "spin": 43,
+     "own": 0,
+     "gap": 38,
+     "slide": 32,
+     "twist": 21,
+     "click": true
+    },
+    {
+     "spin": 66,
+     "own": 0,
+     "gap": 66,
+     "slide": 33,
+     "twist": 38,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Cafe_Reaction",
+   "count": 7,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 111,
+   "own": 13,
+   "gap": 115,
+   "slide": 27,
+   "twist": 168,
+   "examples": [
+    {
+     "spin": 111,
+     "own": 13,
+     "gap": 115,
+     "slide": 27,
+     "twist": 115,
+     "click": true
+    },
+    {
+     "spin": 87,
+     "own": 13,
+     "gap": 104,
+     "slide": 17,
+     "twist": 168,
+     "click": true
+    },
+    {
+     "spin": 13,
+     "own": 13,
+     "gap": 16,
+     "slide": 16,
+     "twist": 94,
+     "click": true
+    },
+    {
+     "spin": 6,
+     "own": 13,
+     "gap": 23,
+     "slide": 16,
+     "twist": 125,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Formation_Pickup",
+   "count": 6,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 34,
+   "own": 11,
+   "gap": 41,
+   "slide": 23,
+   "twist": 148,
+   "examples": [
+    {
+     "spin": 34,
+     "own": 11,
+     "gap": 41,
+     "slide": 23,
+     "twist": 148
+    },
+    {
+     "spin": 29,
+     "own": 11,
+     "gap": 35,
+     "slide": 22,
+     "twist": 145
+    },
+    {
+     "spin": 29,
+     "own": 11,
+     "gap": 35,
+     "slide": 22,
+     "twist": 145
+    },
+    {
+     "spin": 21,
+     "own": 11,
+     "gap": 24,
+     "slide": 21,
+     "twist": 139
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Formation_Pickup",
+   "count": 4,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 128,
+   "own": 11,
+   "gap": 137,
+   "slide": 43,
+   "twist": 210,
+   "examples": [
+    {
+     "spin": 128,
+     "own": 11,
+     "gap": 137,
+     "slide": 30,
+     "twist": 210
+    },
+    {
+     "spin": 93,
+     "own": 11,
+     "gap": 96,
+     "slide": 43,
+     "twist": 88
+    },
+    {
+     "spin": 87,
+     "own": 11,
+     "gap": 95,
+     "slide": 43,
+     "twist": 108
+    },
+    {
+     "spin": 45,
+     "own": 11,
+     "gap": 47,
+     "slide": 12,
+     "twist": 27
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Walk → Exs01",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 191,
+   "own": 0,
+   "gap": 169,
+   "slide": 68,
+   "twist": 194,
+   "examples": [
+    {
+     "spin": 191,
+     "own": 0,
+     "gap": 169,
+     "slide": 68,
+     "twist": 88,
+     "click": true
+    },
+    {
+     "spin": 159,
+     "own": 0,
+     "gap": 159,
+     "slide": 55,
+     "twist": 80,
+     "click": true
+    },
+    {
+     "spin": 149,
+     "own": 0,
+     "gap": 149,
+     "slide": 31,
+     "twist": 194,
+     "click": true
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Reaction → Formation_Pickup",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 41,
+   "own": 11,
+   "gap": 48,
+   "slide": 22,
+   "twist": 148,
+   "examples": [
+    {
+     "spin": 41,
+     "own": 11,
+     "gap": 48,
+     "slide": 22,
+     "twist": 148
+    },
+    {
+     "spin": 29,
+     "own": 11,
+     "gap": 36,
+     "slide": 9,
+     "twist": 142
+    },
+    {
+     "spin": 17,
+     "own": 11,
+     "gap": 18,
+     "slide": 7,
+     "twist": 134
+    }
+   ]
+  },
+  {
+   "key": "Cafe_Idle → Exs01",
+   "count": 3,
+   "mark": null,
+   "verdict": "ok",
+   "spin": 74,
+   "own": 0,
+   "gap": 74,
+   "slide": 35,
+   "twist": 40,
+   "examples": [
+    {
+     "spin": 39,
+     "own": 0,
+     "gap": 18,
+     "slide": 35,
+     "twist": 20,
+     "click": true
+    },
+    {
+     "spin": 38,
+     "own": 0,
+     "gap": 17,
+     "slide": 35,
+     "twist": 17,
+     "click": true
+    },
+    {
+     "spin": 74,
+     "own": 0,
+     "gap": 74,
+     "slide": 31,
+     "twist": 40,
+     "click": true
+    }
+   ]
+  }
  ]
 }

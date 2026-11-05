@@ -32,13 +32,19 @@ npm run dist
 
 자동 업데이트는 이 기능이 든 버전(1.1.0 다음 버전)부터 됩니다. 1.1.0 이하를 쓰는 사람은 한 번은 직접 받아 설치해야 합니다. 시험할 때는 설치본(또는 `dist/win-unpacked`)을 환경 변수 `PET_UPDATE_URL=<latest.yml과 설치 파일이 있는 주소>`로 켜면 GitHub 대신 거기서 찾습니다.
 
-설치 파일에 든 학생은 호시노(`models/Hoshino.glb`) 하나뿐이고, 다른 학생은 학생 압축으로 따로 배포합니다.
+설치 파일에 든 학생은 호시노(`models/Hoshino.glb`) 하나뿐이고, 다른 학생은 **앱 안에서 받습니다**(1.3.0부터, `src/student-store.js`). 학생 메뉴에 아직 없는 학생도 받을 크기(`↓ 2.7MB`)와 함께 나오고, 고르면 그 학생 파일만 받아 원본과 같은지(git 해시) 확인한 뒤 받은 학생 폴더(`%APPDATA%\bluearchive-desktop-pet\models`)에 풀어 두고 바로 그 학생으로 바뀝니다. 같이 있어야 하는 짝 파일(토키·사오리(드레스) 카페 옷, 아리스(배틀) 장비)도 같이 받습니다. 받는 중엔 메뉴에 `받는 중 N%`, 실패하면 `다시 받기`와 윈도우 알림. 학생 목록은 켤 때와 6시간마다 받고 마지막 것을 저장해 둬서 인터넷이 없어도 메뉴에 나옵니다.
+
+학생 파일은 릴리스 [`students`](https://github.com/dxsworks/SD_archive/releases/tag/students)(Latest 아님: 자동 업데이트는 Latest 릴리스만 봄)에 학생마다 brotli로 압축한 `<이름>.glb.br`(원본의 약 46%, 모두 787MB)과 목록 `students-index.json`으로 올려 둡니다.
 
 ```bash
-node tools/make-pack.js
+node tools/make-pack.js --commit=<원본 커밋> --cache=<받은 원본 폴더> --split=dist/students
+gh release upload students -R dxsworks/SD_archive --clobber dist/students/*.glb.br   # 바뀐 파일만 올려도 됨
+gh release upload students -R dxsworks/SD_archive --clobber dist/students/students-index.json   # 목록은 맨 마지막에
 ```
 
-`dist/students.zip`(약 0.9GB)에 펫으로 쓸 수 있는 학생이 모두 들어갑니다. 받는 사람은 캐릭터 우클릭 → 학생 → 학생 폴더 열기(`%APPDATA%\bluearchive-desktop-pet\models`)에 압축을 풀면 됩니다(압축 안 `읽어주세요.txt`에도 같은 설명).
+`--split`은 지난 목록과 해시가 같은 학생은 다시 압축하지 않습니다. 목록의 `checked`가 메뉴의 '검사 전' 표시에는 안 쓰이고(앱에 든 `src/checked-students.json`을 씀), 학생을 새로 붙이면 학생 파일을 올리고 앱도 새 버전으로 내야 '검사 전'이 빠집니다. 시험할 때는 `PET_STUDENTS_URL=<목록과 학생 파일이 있는 주소>`(예: `dist/students`를 `python -m http.server`로), 설정·받은 학생 폴더를 따로 쓰려면 `PET_USER_DATA=<폴더>`.
+
+예전 방식인 학생 압축 하나(`node tools/make-pack.js` → `dist/students.zip`, 받은 학생 폴더에 풀기)도 그대로 만들 수 있고, 풀어 둔 학생은 받은 학생으로 칩니다.
 
 앱을 삭제하면 `%APPDATA%\bluearchive-desktop-pet`(받은 학생·설정)도 같이 지워집니다(`nsis.deleteAppDataOnUninstall`, 새 버전을 덮어 설치할 때는 안 지움). 개발용 `npm start`도 같은 폴더를 쓰니 이 컴퓨터에서 설치본을 삭제하면 개발용 설정·받은 학생도 사라집니다.
 

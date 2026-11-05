@@ -1,7 +1,7 @@
 {
   "name": "bluearchive-desktop-pet",
   "productName": "샬레 당번",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "샬레 당번",
   "main": "src/main.js",
   "private": true,

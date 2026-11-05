@@ -1736,10 +1736,13 @@ function updateMousePassthrough() {
 }
 
 // 학생 받는 중 표시 (main.js sendDownloadBadge, 2026-11-05 사용자): 머리 위에 이름·진행 막대, 몸을 따라감.
-// 높이는 매 프레임 머리 뼈 아래(머리카락·헤일로·모자)에 붙은 메시의 뼈 위치 + 반지름 중 가장 위 (몸 전체 범위로 잡으면 팔·총을 든 자세에서 떴음)
+// 높이는 매 프레임 머리 뼈 아래(머리카락·헤일로·모자)에 붙은 메시의 뼈 위치 + 반지름 중 가장 위 (몸 전체 범위로 잡으면 팔·총을 든 자세에서 떴음).
+// 가로는 펫 발밑 가운데, 높이는 천천히 따라감: 머리를 따라가면 대기 자세 흔들림에 표시가 좌우로 왔다 갔다 했음(사용자)
 const badgeEl = document.getElementById('dl');
 const BADGE_BASE_H = 1140; // 이 창 높이(보통 크기)에서 글자 12px. 작게·크게는 0.9~1.3배
 const BADGE_GAP = 4;       // 머리 위 끝과 꼬리 사이 (창 px)
+const BADGE_FOLLOW = 3;    // 높이 따라가기 (1/초, 0.33초에 63%)
+let badgeY = null;         // 따라가는 머리 위 끝 (창 px)
 let badge = null;          // { label, got, total, error } | null
 let headParts = null;      // 머리 뼈 아래 것들 (처음 띄울 때 모음, 학생을 바꾸면 페이지를 다시 읽음)
 const badgeTmp = new THREE.Vector3();
@@ -1753,7 +1756,7 @@ function setBadge(d) {
   badgeEl.querySelector('.bar i').style.width = !d.error && d.got ? `${pct}%` : ''; // 아직 0이면 오가는 막대(.wait), 실패면 빨간 막대
   badgeEl.classList.toggle('wait', !d.error && !d.got);
   badgeEl.classList.toggle('error', !!d.error);
-  updateBadge();
+  updateBadge(0);
 }
 // 머리 위 끝 (창 px). 머리 뼈가 없으면 null
 function headTop(k) {
@@ -1776,17 +1779,17 @@ function headTop(k) {
   }
   return top;
 }
-function updateBadge() {
-  if (!badge) return;
+function updateBadge(dt) {
+  if (!badge) { badgeY = null; return; }
   const k = winBox.clientHeight / (camera.top - camera.bottom); // 창 px / 단위
-  let x, y = headTop(k);
-  if (y != null) x = toWindowPx(bodyBones[3].getWorldPosition(badgeTmp)).x;
-  else { // 머리 뼈가 없는 모델: 그림 위 끝 가운데
+  let x = toWindowPx(root.getWorldPosition(badgeTmp)).x, y = headTop(k);
+  if (y == null) { // 머리 뼈가 없는 모델: 그림 위 끝
     const b = neededCanvas({ raw: true });
     if (!b) return;
-    x = (b.left + b.right) / 2;
     y = b.top;
   }
+  badgeY = badgeY == null ? y : badgeY + (y - badgeY) * (1 - Math.exp(-dt * BADGE_FOLLOW));
+  y = badgeY;
   const s = Math.min(1.3, Math.max(0.9, winBox.clientHeight / BADGE_BASE_H));
   const w = badgeEl.offsetWidth, h = badgeEl.offsetHeight;
   x = Math.min(winBox.clientWidth - (w * s) / 2 - 4, Math.max((w * s) / 2 + 4, x));
@@ -1816,7 +1819,7 @@ function frame(now) {
   updateRope(); // 손 위치는 이번 프레임 자세로
   updateShadow(dt);
   updateCanvas(dt);
-  updateBadge();
+  updateBadge(dt);
   const t2 = performance.now();
   renderer.render(scene, camera);
   const t3 = performance.now();

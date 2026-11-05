@@ -8,7 +8,7 @@ import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
   DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, SHOT_VARIANTS, OTHER_CLIPS, JUMP_VARIANT, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf, skipClip, cafeOutfitFile, hasCafeIdle,
-  formVariants,
+  formVariants, BORROWED_FROM,
 } from './clip-names.js';
 
 // ---- 화면 구성 ----
@@ -297,7 +297,7 @@ function toUnlit(mat) {
 //   그 밖에 빠진 모프 값(입 모양 등)은 바꿔치기 전 원래 동작에서 채운다
 const BORROWED_CLIPS = {
   'Arisu (Battle).glb': {
-    from: 'Arisu (Battle) (Carrier).glb',
+    from: BORROWED_FROM['Arisu (Battle).glb'],
     clips: { Idle: 'Cafe_Idle', Walk: 'Cafe_Walk' },
     look: 'Formation_Idle',
     lookTracks: /^CH0334_(Arms_)?Body/,

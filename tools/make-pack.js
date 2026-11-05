@@ -7,10 +7,14 @@
 //     --cache       받은 원본을 두는 곳 (다시 돌리면 같은 파일은 안 받음, git 제외)
 //     --commit      원본 커밋 (기본: 지금 main)
 //     --local-only  받지 않고 캐시·models/에 이미 있는 파일만으로 (시험용)
+//     --split[=dir] zip 대신 학생 파일마다 brotli로 압축한 <이름>.glb.br + 목록 students-index.json (기본 dist/students/).
+//                   앱 안에서 고른 학생만 받게 할 때 릴리스에 올리는 것 (2026-11-05 사용자: 앱 안에서 받기, 압축해서).
+//                   brotli는 원본의 약 44%(zip 53%), 푸는 데 학생 하나 0.05초. 같은 원본(sha1)은 다시 압축하지 않음
 // 받은 파일은 git 해시(blob sha1)로 원본과 같은지 확인한다. 압축 안에는 students-pack.json(원본 커밋, 파일별 크기·해시, 검사한 학생)과 안내문
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const zlib = require('zlib');
 const { execFileSync } = require('child_process');
 const { modelFiles } = require('../src/model-files');
 
@@ -20,6 +24,8 @@ const arg = (name, def) => process.argv.find((a) => a.startsWith(`--${name}=`))?
 const OUT = path.resolve(arg('out', path.join(ROOT, 'dist', 'students.zip')));
 const CACHE = path.resolve(arg('cache', path.join(ROOT, 'pack-cache')));
 const LOCAL_ONLY = process.argv.includes('--local-only');
+const SPLIT = process.argv.some((a) => a === '--split' || a.startsWith('--split='))
+  ? path.resolve(arg('split', path.join(ROOT, 'dist', 'students'))) : null;
 const PARALLEL = 4;
 const MB = (n) => `${(n / 1e6).toFixed(1)}MB`;
 
@@ -116,6 +122,53 @@ function writeZip(out, texts, files) {
   return fs.statSync(out).size;
 }
 
+// 릴리스 첨부 이름: GitHub이 한글·공백·괄호를 바꾸니 영어 소문자·숫자·-만 (Hoshino (Swimsuit).glb → hoshino-swimsuit.glb.br)
+const assetName = (file) => `${file.replace(/\.glb$/i, '').normalize('NFKC').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.glb.br`;
+const brotli = (buf) => new Promise((resolve, reject) => zlib.brotliCompress(buf, {
+  params: {
+    [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+    [zlib.constants.BROTLI_PARAM_LGWIN]: 24,
+    [zlib.constants.BROTLI_PARAM_SIZE_HINT]: buf.length,
+  },
+}, (err, out) => (err ? reject(err) : resolve(out))));
+
+// 학생 파일마다 <첨부 이름> + students-index.json. 앞서 만든 목록에 sha1이 같은 파일이 있으면 그대로 둔다(압축이 1MB에 2초쯤 걸림)
+async function writeSplit(dir, manifest, packed) {
+  fs.mkdirSync(dir, { recursive: true });
+  const indexFile = path.join(dir, 'students-index.json');
+  let before = new Map();
+  try { before = new Map(JSON.parse(fs.readFileSync(indexFile, 'utf8')).files.map((f) => [f.file, f])); } catch {}
+  const assets = new Map();
+  for (const f of manifest.files) {
+    f.asset = assetName(f.file);
+    if (assets.has(f.asset)) throw new Error(`첨부 이름이 겹침: ${f.file} / ${assets.get(f.asset)}`);
+    assets.set(f.asset, f.file);
+  }
+  const queue = [...manifest.files];
+  let done = 0;
+  await Promise.all(Array.from({ length: PARALLEL }, async () => {
+    for (let f; (f = queue.shift()); ) {
+      const out = path.join(dir, f.asset);
+      const old = before.get(f.file);
+      if (old?.sha1 === f.sha1 && old.asset === f.asset && fs.existsSync(out) && fs.statSync(out).size === old.packed) {
+        f.packed = old.packed;
+      } else {
+        const buf = await brotli(fs.readFileSync(path.join(CACHE, f.file)));
+        fs.writeFileSync(`${out}.part`, buf);
+        fs.renameSync(`${out}.part`, out);
+        f.packed = buf.length;
+        console.log(`[${++done}] ${f.file} ${MB(f.size)} → ${MB(f.packed)}`);
+      }
+    }
+  }));
+  // 원본에서 없어진 학생 파일과 끊긴 .part 정리 (이 도구가 만든 이름만)
+  for (const name of fs.readdirSync(dir)) {
+    if (/\.glb\.br(\.part)?$/.test(name) && !assets.has(name)) fs.rmSync(path.join(dir, name), { force: true });
+  }
+  fs.writeFileSync(indexFile, JSON.stringify(manifest, null, 2));
+  return manifest.files.reduce((n, f) => n + f.packed, 0);
+}
+
 const README = `샬레 당번 학생 모음
 
 1. 샬레 당번 캐릭터를 우클릭 → 학생 → 학생 폴더 열기
@@ -143,15 +196,29 @@ async function main() {
   const skipped = have.filter((e) => !packed.includes(e));
 
   const checked = require('../src/checked-students.json').files;
+  // 학생을 쓸 때 같이 있어야 하는 파일: 카페 차림 (Cafe) 파일, 동작을 빌려 오는 파일 (앱에서 학생을 받을 때 같이 받음)
+  const { cafeOutfitFile, BORROWED_FROM } = await import('../src/renderer/clip-names.js');
+  const packedNames = new Set(packed.map(name));
+  const needsOf = (file) => [cafeOutfitFile(file), BORROWED_FROM[file]].filter((f) => f && packedNames.has(f));
   const manifest = {
     repo: REPO,
     commit,
     made: new Date().toISOString().slice(0, 10),
-    checked: checked.filter((f) => packed.some((e) => name(e) === f)),
-    files: packed.map((e) => ({ file: name(e), size: e.size, sha1: e.sha, pet: usable.includes(e) })),
+    checked: checked.filter((f) => packedNames.has(f)),
+    files: packed.map((e) => {
+      const pet = usable.includes(e);
+      const needs = pet ? needsOf(name(e)) : [];
+      return { file: name(e), size: e.size, sha1: e.sha, pet, ...(needs.length ? { needs } : {}) };
+    }),
   };
   const raw = packed.reduce((n, e) => n + e.size, 0);
   console.log(`압축에 넣을 것: 학생 ${usable.length}개 + 짝 파일 ${companions.length}개 (${MB(raw)}), 뺀 것 ${skipped.length}개 (카페 대기 없음)`);
+  if (SPLIT) {
+    const size = await writeSplit(SPLIT, manifest, packed);
+    console.log(`→ ${SPLIT} 파일 ${manifest.files.length}개 + students-index.json, ${MB(size)} (원본의 ${Math.round((size / raw) * 100)}%)`);
+    if (missing.length) console.log(`못 받은 파일 ${missing.length}개는 빠짐: ${missing.slice(0, 5).map(name).join(', ')}${missing.length > 5 ? ' …' : ''}`);
+    return;
+  }
   const size = writeZip(OUT, [
     ['읽어주세요.txt', `\ufeff${README.replace(/\n/g, '\r\n')}`],
     ['students-pack.json', JSON.stringify(manifest, null, 2)],

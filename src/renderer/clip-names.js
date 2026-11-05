@@ -54,6 +54,8 @@ export const SKIP_CLIPS = {
 export const skipClip = (model, name) => (SKIP_CLIPS[model] ?? []).some((r) => r.test(name));
 // 카페 동작이 없는 학생은 "<학생> (Cafe).glb"의 카페 차림을 붙여 쓴다 (pet.js borrowCafeOutfit, src/model-files.js)
 export const cafeOutfitFile = (model) => model.replace(/\.glb$/i, ' (Cafe).glb');
+// 다른 파일에서 동작을 빌려 오는 학생 (pet.js BORROWED_CLIPS). 학생을 앱에서 받을 때 이 파일도 같이 받는다 (tools/make-pack.js needs)
+export const BORROWED_FROM = { 'Arisu (Battle).glb': 'Arisu (Battle) (Carrier).glb' };
 export const hasCafeIdle = (names) => names.some((n) => /cafe_idle/i.test(n));
 
 // 자세 하나에서 쓰는 동작: 대기, 사격 4단계, 재장전, 구호, 뛰어와서 그 자세 잡기

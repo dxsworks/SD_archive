@@ -1735,6 +1735,65 @@ function updateMousePassthrough() {
   canvas.style.cursor = drag?.moved ? 'grabbing' : hovering ? 'grab' : 'default';
 }
 
+// 학생 받는 중 표시 (main.js sendDownloadBadge, 2026-11-05 사용자): 머리 위에 이름·진행 막대, 몸을 따라감.
+// 높이는 매 프레임 머리 뼈 아래(머리카락·헤일로·모자)에 붙은 메시의 뼈 위치 + 반지름 중 가장 위 (몸 전체 범위로 잡으면 팔·총을 든 자세에서 떴음)
+const badgeEl = document.getElementById('dl');
+const BADGE_BASE_H = 1140; // 이 창 높이(보통 크기)에서 글자 12px. 작게·크게는 0.9~1.3배
+const BADGE_GAP = 4;       // 머리 위 끝과 꼬리 사이 (창 px)
+let badge = null;          // { label, got, total, error } | null
+let headParts = null;      // 머리 뼈 아래 것들 (처음 띄울 때 모음, 학생을 바꾸면 페이지를 다시 읽음)
+const badgeTmp = new THREE.Vector3();
+function setBadge(d) {
+  badge = d;
+  badgeEl.hidden = !d;
+  if (!d) return;
+  const pct = d.total ? Math.floor((d.got / d.total) * 100) : 0;
+  badgeEl.querySelector('.name').textContent = d.label;
+  badgeEl.querySelector('.pct').textContent = d.error ? '받지 못했어요' : d.got ? `받는 중 ${pct}%` : '받는 중';
+  badgeEl.querySelector('.bar i').style.width = !d.error && d.got ? `${pct}%` : ''; // 아직 0이면 오가는 막대(.wait), 실패면 빨간 막대
+  badgeEl.classList.toggle('wait', !d.error && !d.got);
+  badgeEl.classList.toggle('error', !!d.error);
+  updateBadge();
+}
+// 머리 위 끝 (창 px). 머리 뼈가 없으면 null
+function headTop(k) {
+  const head = bodyBones[3];
+  if (!head || bodyBones.length !== 4) return null;
+  if (!headParts) { headParts = new Set(); head.traverse((o) => headParts.add(o)); }
+  let top = toWindowPx(head.getWorldPosition(badgeTmp)).y;
+  const add = (world, r) => { const y = toWindowPx(world).y - r * k; if (y < top) top = y; };
+  for (const sp of canvasSpheres) {
+    if (!sp.mesh.visible) continue;
+    if (sp.joints) {
+      for (const { bone, radius } of sp.joints) {
+        if (!headParts.has(bone)) continue;
+        const sc = bone.matrixWorld.getMaxScaleOnAxis();
+        if (sc > 1e-4) add(badgeTmp.setFromMatrixPosition(bone.matrixWorld), radius * sc);
+      }
+    } else if (headParts.has(sp.mesh.parent)) {
+      add(badgeTmp.copy(sp.center).applyMatrix4(sp.mesh.matrixWorld), sp.radius * sp.mesh.matrixWorld.getMaxScaleOnAxis());
+    }
+  }
+  return top;
+}
+function updateBadge() {
+  if (!badge) return;
+  const k = winBox.clientHeight / (camera.top - camera.bottom); // 창 px / 단위
+  let x, y = headTop(k);
+  if (y != null) x = toWindowPx(bodyBones[3].getWorldPosition(badgeTmp)).x;
+  else { // 머리 뼈가 없는 모델: 그림 위 끝 가운데
+    const b = neededCanvas({ raw: true });
+    if (!b) return;
+    x = (b.left + b.right) / 2;
+    y = b.top;
+  }
+  const s = Math.min(1.3, Math.max(0.9, winBox.clientHeight / BADGE_BASE_H));
+  const w = badgeEl.offsetWidth, h = badgeEl.offsetHeight;
+  x = Math.min(winBox.clientWidth - (w * s) / 2 - 4, Math.max((w * s) / 2 + 4, x));
+  y = Math.max(h * s + 4, y - BADGE_GAP);
+  badgeEl.style.transform = `translate(${x - w / 2}px, ${y - h}px) scale(${s})`; // 아래 가운데(꼬리)가 (x, y)
+}
+
 // ---- 메인 루프 (항상 60fps) ----
 // 예전엔 대기·낮잠을 30fps로 그렸는데 숨쉬기·흔들림이 뚝뚝 끊겨 보였음(2026-10-20 사용자: 렉 걸린 느낌).
 // 한 프레임 CPU가 1~2ms라(tools/perf-check.js) 늘 60fps로 그려도 부담이 적다. 주사율이 더 높은 모니터에서도 60fps까지만
@@ -1757,6 +1816,7 @@ function frame(now) {
   updateRope(); // 손 위치는 이번 프레임 자세로
   updateShadow(dt);
   updateCanvas(dt);
+  updateBadge();
   const t2 = performance.now();
   renderer.render(scene, camera);
   const t3 = performance.now();
@@ -1777,6 +1837,7 @@ async function main() {
     else if (!['drag', 'fall', 'retreat', 'gone'].includes(state)) COMMANDS[cmd]?.();
   });
   bridge.onSettings((s) => { settings = { ...settings, ...s }; if (!settings.walk && state === 'walk') toIdle(); });
+  bridge.onDownload?.(setBadge);
   bridge.onBoundsChanged(async () => {
     await refreshBounds();
     layout();
@@ -1789,6 +1850,7 @@ async function main() {
 // 디버깅/테스트용
 window.__pet = {
   play, has, ...COMMANDS,
+  badge: setBadge, // 받는 중 표시 시험·녹화: __pet.badge({ label, got, total, error }) | null
   get state() { return state; },
   get floorPos() { return { x: pos.x, z: pos.z, lift, scale: root.scale.x, facing }; },
   placeAt(x, y) { const p = floor.toFloor(x, y); if (p) { floor.clamp(pos.set(p.x, 0, p.z)); placeWindow(); } }, // 녹화용: 발을 화면 (x, y) px에
@@ -2339,6 +2401,6 @@ function createBrowserStub() {
     move(x, y) { if (sim) Object.assign(winBox.style, { left: `${x}px`, top: `${y}px` }); },
     cursor: (e) => ({ x: e.clientX, y: e.clientY }),
     setIgnoreMouse() {}, showMenu() {}, quit() {}, fx() {},
-    onCommand() {}, onSettings() {}, onBoundsChanged() {},
+    onCommand() {}, onSettings() {}, onBoundsChanged() {}, onDownload() {},
   };
 }

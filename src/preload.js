@@ -14,5 +14,6 @@ contextBridge.exposeInMainWorld('petBridge', {
   onCommand: (cb) => ipcRenderer.on('pet:command', (_e, cmd) => cb(cmd)),
   onSettings: (cb) => ipcRenderer.on('pet:settings', (_e, s) => cb(s)),
   onBoundsChanged: (cb) => ipcRenderer.on('pet:bounds-changed', () => cb()),
+  onDownload: (cb) => ipcRenderer.on('pet:download', (_e, d) => cb(d)), // 학생 받는 중 표시 { label, got, total, error } | null
   quit: () => ipcRenderer.send('pet:quit'),
 });

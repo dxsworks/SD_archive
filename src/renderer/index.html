@@ -10,6 +10,29 @@
     canvas { display: block; position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
     /* 브라우저 흉내 모드(?sim): 페이지 = 바탕화면 */
     body.sim { background: linear-gradient(#41557d, #1c2333); }
+    /* 학생 받는 중 표시 (pet.js updateBadge가 머리 위에 둠, 메뉴와 같은 색). 클릭은 그대로 아래로 (마우스 판정은 캔버스만 봄) */
+    #dl {
+      position: absolute; left: 0; top: 0; pointer-events: none; transform-origin: 50% 100%;
+      font-family: 'Pretendard', 'Malgun Gothic', 'Segoe UI', sans-serif; font-size: 12px; color: #2b3a4a;
+    }
+    #dl[hidden] { display: none; }
+    #dl .box {
+      position: relative; min-width: 128px; padding: 5px 10px 7px; background: #fff; border: 1px solid #d6e4f0; border-radius: 5px;
+      box-shadow: 0 4px 10px rgba(24, 70, 120, 0.22), 0 1px 2px rgba(24, 70, 120, 0.18);
+    }
+    #dl .box::after { /* 머리를 가리키는 꼬리 */
+      content: ''; position: absolute; left: 50%; bottom: -5px; width: 8px; height: 8px; margin-left: -4px;
+      background: #fff; border: solid #d6e4f0; border-width: 0 1px 1px 0; transform: rotate(45deg);
+    }
+    #dl .row { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+    #dl .name { font-weight: bold; }
+    #dl .pct { margin-left: auto; font-size: 10.5px; color: #6a7f93; }
+    #dl .bar { position: relative; height: 4px; margin-top: 5px; border-radius: 2px; background: #dbe7f2; overflow: hidden; }
+    #dl .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: #2a95f2; transform: skewX(-20deg); transition: width 0.25s linear; }
+    #dl.wait .bar i { width: 35%; transition: none; animation: dl-wait 1.1s ease-in-out infinite; } /* 아직 받은 게 없음 (GitHub 첫 연결) */
+    @keyframes dl-wait { from { left: -35%; } to { left: 100%; } }
+    #dl.error .bar i { width: 100%; background: #e0475b; transform: none; }
+    #dl.error .pct { color: #e0475b; }
   </style>
   <script type="importmap">
     {
@@ -21,7 +44,9 @@
   </script>
 </head>
 <body>
-  <div id="frame"><canvas id="pet"></canvas></div>
+  <div id="frame"><canvas id="pet"></canvas>
+    <div id="dl" hidden><div class="box"><div class="row"><span class="name"></span><span class="pct"></span></div><div class="bar"><i></i></div></div></div>
+  </div>
   <script type="module" src="pet.js"></script>
 </body>
 </html>

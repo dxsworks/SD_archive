@@ -102,6 +102,7 @@ function createWindow() {
   win.once('ready-to-show', () => { win.showInactive(); restartMouseForwarding(); });
   // 페이지가 뜰 때마다(다시 불러오기 포함) 마우스 이동 넘겨받기를 다시 건다
   win.webContents.on('did-finish-load', restartMouseForwarding);
+  win.webContents.on('did-finish-load', sendDownloadBadge); // 받는 중에 페이지를 다시 읽었으면 (크기 바꾸기 등은 안 읽음)
   win.on('closed', () => {
     win = null;
     if (fxWin && !fxWin.isDestroyed()) fxWin.close();
@@ -227,7 +228,7 @@ function startStudentStore() {
     baseUrl: STUDENTS_URL.replace(/\/$/, ''),
     fetch: (url) => net.fetch(url),
     has: (file) => !!studentFiles.pathOf(file),
-    onChange: rebuildMenus,
+    onChange: () => { rebuildMenus(); sendDownloadBadge(); },
   });
   store.refresh();
   setInterval(() => store.refresh(), STUDENTS_REFRESH);
@@ -241,7 +242,20 @@ function downloadAndUse(file) {
   }).catch((err) => {
     console.error('학생 받기 실패:', err.message);
     notify('학생을 받지 못했어요', `${studentInfo(file).label}: 인터넷 연결을 확인하고 학생 메뉴에서 다시 골라 주세요.`);
+    setTimeout(() => { // 펫 위 '받지 못했어요'는 잠깐만
+      if (wantModel !== file || !store.job(file)?.error) return;
+      wantModel = null;
+      sendDownloadBadge();
+    }, BADGE_ERROR_MS);
   });
+}
+
+// 받는 동안 펫 머리 위에 학생 이름·진행 막대 (2026-11-05 사용자: GitHub 첫 연결이 가끔 10초쯤 걸려 고른 뒤 아무 반응이 없어 보였음).
+// 마지막에 고른 학생 것만. 다 받으면 학생이 바뀌며 페이지를 다시 읽어 사라지고, 실패하면 BADGE_ERROR_MS 동안 '받지 못했어요'
+const BADGE_ERROR_MS = 4000;
+function sendDownloadBadge() {
+  const job = wantModel && store?.job(wantModel);
+  sendToPet('pet:download', job ? { label: studentInfo(wantModel).label, got: job.got, total: job.total, error: !!job.error } : null);
 }
 
 function notify(title, body) {
@@ -314,6 +328,7 @@ const CHECKED = new Set(require('./checked-students.json').files);
 const UNCHECKED_NOTE = '검사 전';
 
 function setModel(file) {
+  wantModel = null; // 받는 중에 다른(이미 있는) 학생을 고르면 받은 뒤 그 학생으로 바꾸지 않음
   settings.model = file;
   saveSettings();
   rebuildMenus();

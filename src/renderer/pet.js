@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
-import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, limitRevivedScales, showSwitchedWeapons, hiddenPropsAt, showsProp } from './hidden-parts.js';
+import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, limitRevivedScales, showSwitchedWeapons, trimVanishingEnd, hiddenPropsAt, showsProp } from './hidden-parts.js';
 import { addOutlines, outlineThickness } from './outline.js';
 import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
@@ -433,6 +433,7 @@ function applyOutfit() {
   for (const m of wearCafe ? cafeOutfit.battle : cafeOutfit.cafe) m.visible = false;
 }
 
+let trimmedEnds = {}; // 끝을 자른 동작 → [원래 길이, 자른 길이] (__pet.trimmedEnds)
 async function loadModel() {
   const gltf = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readModel()), '');
   await borrowClips(gltf);
@@ -441,6 +442,8 @@ async function loadModel() {
   restUnderHiddenBones(gltf.scene, gltf.animations); // 숨긴 소품 아래 뼈가 섞일 때 늘어나지 않게
   const limitRevived = limitRevivedScales(gltf.scene, gltf.animations); // 되살리는 뼈가 섞일 때 부풀지 않게 (동작을 틀기 전 기본 값으로 잼)
   showSwitchedWeapons(gltf.scene, gltf.animations); // 키가 없는 동작에서 무기가 기본 값(숨김)으로 돌아가지 않게 (메구)
+  // EX 끝에 몸을 숨긴 채 끝나면 그 앞에서 끝냄 (세리카(새해), hidden-parts.js trimVanishingEnd). ?exTrim=0이면 그대로(비교용)
+  if (new URLSearchParams(location.search).get('exTrim') !== '0') trimmedEnds = trimVanishingEnd(gltf.scene, gltf.animations, (n) => /^exs/.test(clipKey(n)));
 
   gltf.scene.traverse((obj) => {
     if (!obj.isMesh) return;
@@ -1812,6 +1815,7 @@ window.__pet = {
   get proneStances() { return [...proneStances]; },
   get clipLifts() { return Object.fromEntries([...clipLifts].map(([n, v]) => [n, v.map((y) => +y.toFixed(3))])); },
   get clipHips() { return Object.fromEntries([...clipHips].map(([n, r]) => [n, Math.round(THREE.MathUtils.radToDeg(r))])); },
+  get trimmedEnds() { return trimmedEnds; },
   get clipLengths() { return Object.fromEntries(Object.entries(clips).map(([n, c]) => [n, +c.duration.toFixed(2)])); }, // 행동 검사 멈춤 기준용
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
   perfStart() { perfLog = []; },

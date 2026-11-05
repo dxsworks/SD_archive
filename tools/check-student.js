@@ -59,6 +59,9 @@ const ACCEPTED = [
   { kind: 'edge', model: 'Rio.glb', clip: /^Exs$/i, side: '위', why: 'EX 드론이 창 위 19px까지 감 (기준 35px, 잘리지는 않음)' },
   // 스물넷째 묶음(2026-11-05): 영상(reports/batch-24-*.mp4) 보고 사용자 모두 "그대로"
   ...exAndAfter('Fuuka (New Year).glb', ['왼쪽', '오른쪽', '아래'], 'EX에서 스쿠터를 타고 약 6단위(보통 크기 1300px) 멀리 감. 창은 몸을 따라가지만 바닥(화면) 끝에서 멈춰 몸이 창 밖(화면 밖)으로 나갔다가 화면 끝에 서서 끝남'),
+  // 스물다섯째 묶음(2026-11-05): 위와 같은 종류라 그 결정대로 묻지 않고 둠
+  ...exAndAfter('Saya (Casual).glb', ['왼쪽', '오른쪽', '아래'], 'EX에서 스케이트보드를 타고 약 6.2단위 멀리 감(후우카(새해) 스쿠터와 같은 종류). 화면 맨 아래에 서 있으면 창이 바닥 끝에서 멈춰 몸이 창 아래 끝에 닿음'),
+  ...exAndAfter('Pina (Guide).glb', ['왼쪽', '오른쪽'], 'EX 시작에 옆에 놓이는 상자 소품이 창 옆 끝에 닿음(펫 방향 따라 1px까지), 몸은 창 안 (리츠·미노리와 같은 종류)'),
   { kind: 'angle', key: /^Exs\w* → \w+_Callsign/i, why: 'EX 뒤 구호 (드묾, 그대로 둠)' },
   { kind: 'angle', key: /^Move_End_\w+ → Normal\d*_Idle\d*$/i, why: '화면 안쪽으로 뛰어간 뒤 등을 보인 채 대기로 50°쯤 돎 (드묾, 2026-10-23 사용자 "알고 둠")' },
   { kind: 'angle', model: 'Arisu (Battle).glb', key: /^Public01 → Normal_Callsign_Random$/i, why: '위 창 끝 닿음과 같은 경우' },

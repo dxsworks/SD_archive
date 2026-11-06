@@ -106,6 +106,17 @@ async function loadStudent(m, i) {
   const end = gltf.animations.find((c) => c.name === m.end);
   if (!start || !end) throw new Error(`${m.name}: ${m.start}/${m.end} 동작이 없음 (${gltf.animations.filter((c) => /Interaction/.test(c.name)).map((c) => c.name)})`);
   const clips = [start, end];
+  // 게임에서 뽑은 합동 동작엔 모프 값(몸 두 벌 고르기)이 없다 → 그 학생 보통 승리 포즈의 몸 고르기 값을 동작 내내 씀
+  // (아리스(배틀): 기본은 장비 없는 몸 CH0334_Body라 장비 뼈는 움직이는데 기계가 안 보이고 공중에 떠 있었음)
+  const pose = gltf.animations.find((c) => c.name === 'Victory_Start');
+  for (const tr of pose?.tracks ?? []) {
+    if (!tr.name.endsWith('.morphTargetInfluences') || !/_Body(_\d+)?\./.test(tr.name)) continue;
+    const n = tr.getValueSize();
+    for (const c of clips) {
+      if (c.tracks.some((t) => t.name === tr.name)) continue;
+      c.tracks.push(new THREE.NumberKeyframeTrack(tr.name, [0, c.duration], [...tr.values.slice(0, n), ...tr.values.slice(0, n)]));
+    }
+  }
   const model = gltf.scene;
   const meshes = [];
   const weapons = [];
@@ -538,6 +549,15 @@ window.__placer = {
     const r = canvas.getBoundingClientRect();
     return { x: r.left + ((p.x + 1) / 2) * r.width, y: r.top + ((1 - p.y) / 2) * r.height };
   },
+  // 학생 i의 뼈 월드 위치 (시험용, 지금 자리·방향 그대로)
+  world: (i, bone = 'Bip001') => {
+    const o = students[i]?.model.getObjectByName(bone);
+    return o && o.getWorldPosition(new THREE.Vector3()).toArray().map((n) => round(n, 1000));
+  },
+  morphs: (i) => { const out = {}; students[i].model.traverse((o) => { if (o.morphTargetInfluences?.length && /_Body/.test(o.name)) out[o.name] = [...o.morphTargetInfluences]; }); return out; },
+  boneNames: (i) => { const out = []; students[i].model.traverse((o) => { if (o.isBone) out.push(o.name); }); return out; },
+  // 학생 i의 값을 한 번에 (시험용)
+  set: (i, o) => { Object.assign(memberValues(combo.id, combo.members[i]), o); changed(); },
   ids: () => combos.map((c) => c.id),
   open: (id) => openCombo(id),
   at: async (t) => { setTime(t); await frame(); return time; },
@@ -546,7 +566,7 @@ window.__placer = {
   turn: (i, d) => turn(i, d),
   flip: (i) => { const v = memberValues(combo.id, combo.members[i]); v.flip = !v.flip; changed(); },
   pause: () => { if (playing) togglePlay(); },
-  view: (o) => { Object.assign(view, o); layout(); draw(); },
+  view: (o) => { Object.assign(view, o, Array.isArray(o.target) ? { target: new THREE.Vector3(...o.target) } : {}); layout(); draw(); },
   save: () => save(),
 };
 main().catch(showError);

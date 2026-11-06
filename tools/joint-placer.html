@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>합동 승리 배치</title>
+  <style>
+    :root {
+      --bg: #f4f5f8; --panel: #ffffff; --line: #e1e4ea; --text: #1d2230; --muted: #6b7385;
+      --accent: #3d7bf7; --accent-soft: #e6eefe; --stage: #e9ecf2; --warn: #c2410c;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #16181d; --panel: #1e2128; --line: #2c313b; --text: #e6e8ee; --muted: #8b93a5;
+        --accent: #6c9cff; --accent-soft: #24304a; --stage: #23272f; --warn: #fb923c;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 13px/1.4 "Segoe UI", "Malgun Gothic", system-ui, sans-serif; }
+    body { display: grid; grid-template-columns: 230px 1fr 330px; grid-template-rows: 1fr auto; height: 100vh; }
+    body.record { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+    body.record aside, body.record footer, body.record #hint, body.record #side { display: none; }
+    aside { overflow-y: auto; overflow-x: hidden; background: var(--panel); border-right: 1px solid var(--line); padding: 8px 0 12px; }
+    aside h2, #side h2 { font-size: 11px; letter-spacing: .04em; color: var(--muted); margin: 6px 14px 6px; font-weight: 600; }
+    .combo { display: block; width: 100%; text-align: left; border: 0; background: transparent; padding: 6px 14px; color: var(--text); font: inherit; cursor: pointer; }
+    .combo:hover { background: var(--accent-soft); }
+    .combo.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+    .combo small { display: block; color: var(--muted); font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .combo .tag { float: right; font-size: 11px; color: var(--muted); font-weight: 400; }
+    .combo .tag.done { color: #16a34a; }
+    main { position: relative; background: var(--stage); min-height: 0; min-width: 0; }
+    main canvas { display: block; width: 100%; height: 100%; outline: none; }
+    #title { position: absolute; left: 14px; top: 10px; font-size: 16px; font-weight: 600; pointer-events: none; }
+    #title small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); }
+    #hint { position: absolute; left: 14px; bottom: 10px; color: var(--muted); font-size: 12px; pointer-events: none; line-height: 1.6; }
+    #side { grid-row: 1 / 3; grid-column: 3; overflow-y: auto; overflow-x: hidden; background: var(--panel); border-left: 1px solid var(--line); padding: 8px 0 14px; }
+    .member { margin: 4px 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+    .member.sel { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+    .member .head { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+    .member .chip { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+    .member .slot { margin-left: auto; font-weight: 400; font-size: 11px; color: var(--muted); }
+    .member .vals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 6px; }
+    .member label { display: flex; flex-direction: column; font-size: 11px; color: var(--muted); }
+    .member input[type=number] { width: 100%; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 3px 5px; }
+    .member .row2 { display: flex; gap: 12px; margin-top: 6px; font-size: 12px; color: var(--muted); }
+    .member .row2 label { flex-direction: row; align-items: center; gap: 4px; font-size: 12px; }
+    .tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 10px 4px; }
+    .opts { margin: 8px 14px; display: flex; flex-direction: column; gap: 6px; color: var(--muted); }
+    .opts label { display: flex; align-items: center; gap: 6px; }
+    .note { margin: 6px 14px; color: var(--warn); font-size: 12px; }
+    select, button { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
+    button { cursor: pointer; white-space: nowrap; }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    #saved { margin: 4px 14px; font-size: 12px; color: var(--muted); word-break: break-all; }
+    #saved.dirty { color: var(--warn); }
+    footer { grid-column: 1 / 3; display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--panel); border-top: 1px solid var(--line); }
+    footer input[type=range] { flex: 1; }
+    #time { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 150px; text-align: right; }
+  </style>
+  <script type="importmap">
+    { "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+  </script>
+</head>
+<body>
+  <aside>
+    <h2>조합</h2>
+    <div id="list"></div>
+  </aside>
+  <main>
+    <canvas id="stage" tabindex="0"></canvas>
+    <div id="title"></div>
+    <div id="hint">
+      학생 클릭: 고르기 · 끌기: 좌우·앞뒤 이동 (Shift: 한 방향만) · 휠: 돌리기 5° (Shift 1°) · Ctrl+휠: 확대<br>
+      방향키: 0.01 이동 (Shift 0.05, 앞뒤는 '바로 위' 보기가 편함) · Q/E: 1° (Shift 5°) · Tab: 다음 학생 · 스페이스: 재생/멈춤 · ,/.: 한 프레임 · 오른쪽 끌기: 화면 옮기기 · Ctrl+S: 저장
+    </div>
+  </main>
+  <div id="side">
+    <h2>학생 (자리 x · 앞뒤 z · 방향°)</h2>
+    <div id="members"></div>
+    <div class="note" id="note"></div>
+    <div class="tools">
+      <button id="mirrorAll" title="모든 학생의 x와 방향을 반대로 (자리 번호 ↔ 좌우가 반대였을 때)">자리 좌우 바꾸기</button>
+      <button id="reset" title="이 조합을 처음 값(게임 장면 값을 짐작으로 옮긴 것)으로">처음 값으로</button>
+    </div>
+    <div class="opts">
+      <label><input type="checkbox" id="done"> 이 조합 맞춤 끝 (목록에 ✓)</label>
+      <label><input type="checkbox" id="skip"> 이 조합은 안 씀</label>
+    </div>
+    <h2>보기</h2>
+    <div class="opts">
+      <label>위에서 보는 각도 <select id="tilt">
+        <option value="12" selected>12° (펫과 같게)</option><option value="35">35°</option><option value="60">60°</option><option value="90">90° (바로 위)</option>
+      </select></label>
+      <label>옆으로 돌려 보기 <select id="yaw">
+        <option value="-90">왼쪽 90°</option><option value="-45">왼쪽 45°</option><option value="0" selected>정면</option><option value="45">오른쪽 45°</option><option value="90">오른쪽 90°</option>
+      </select></label>
+      <label><input type="checkbox" id="rings" checked> 발밑 고리·방향 표시</label>
+      <label><input type="checkbox" id="outlines" checked> 외곽선</label>
+    </div>
+    <div class="tools">
+      <button class="primary" id="save">저장 (Ctrl+S)</button>
+    </div>
+    <div id="saved"></div>
+  </div>
+  <footer>
+    <button id="play">멈춤</button>
+    <button id="prev" title="한 프레임 뒤로 (,)">◀</button>
+    <button id="next" title="한 프레임 앞으로 (.)">▶</button>
+    <label>속도 <select id="speed">
+      <option value="1" selected>1×</option><option value="0.5">0.5×</option><option value="0.25">0.25×</option><option value="0.1">0.1×</option>
+    </select></label>
+    <input type="range" id="seek" min="0" max="10000" value="0">
+    <span id="time"></span>
+  </footer>
+  <script type="module" src="joint-placer-page.js"></script>
+</body>
+</html>

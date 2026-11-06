@@ -2,8 +2,7 @@
 // 학생마다 자리(x, z)·방향(도)·거울 뒤집기를 맞춰 저장한다. 좌표는 펫과 같은 three.js 단위(캐릭터 키 ≈ 1), 방향 0 = 카메라(+z)를 봄
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { hiddenPartsUpdater, showSwitchedWeapons, restUnderHiddenBones, limitRevivedScales } from '../src/renderer/hidden-parts.js';
-import { addOutlines } from '../src/renderer/outline.js';
+import { jointStudent } from '../src/renderer/joint-model.js';
 
 const $ = (id) => document.getElementById(id);
 const RECORD = new URLSearchParams(location.search).has('record');
@@ -63,7 +62,7 @@ new ResizeObserver(() => { layout(); draw(); }).observe(canvas);
 let combos = [];     // tools/joint-placer.js combos()
 let placement = {};  // 저장 값: { [조합 id]: { skip, done, members: [{ name, cid, x, z, deg, flip }] } }
 let combo = null;    // 지금 조합
-let students = [];   // 지금 장면의 학생 { m, holder, model, mixer, start, end, ... }
+let students = [];   // 지금 장면의 학생 { m, holder, model, j: joint-model.js jointStudent, ... }
 let selected = -1;
 let time = 0;
 let length = 1;
@@ -74,12 +73,6 @@ let loading = 0;
 const unlit = (m) => new THREE.MeshBasicMaterial({
   name: m.name, map: m.map, color: m.color, transparent: m.transparent, alphaTest: m.alphaTest, side: THREE.DoubleSide,
 });
-
-// 그 동작이 무기 뼈대를 움직일 때만 무기가 보임 (펫과 같은 규칙, pet.js clipAnimates)
-function clipAnimates(clip, mesh) {
-  const bones = new Set(mesh.skeleton?.bones.map((b) => THREE.PropertyBinding.sanitizeNodeName(b.name)) ?? []);
-  return clip.tracks.some((t) => bones.has(t.name.slice(0, t.name.lastIndexOf('.'))));
-}
 
 function marker(color) {
   const g = new THREE.Group();
@@ -102,63 +95,18 @@ async function loadStudent(m, i) {
   const res = await fetch(`/game-cache/${m.file.split('/').map(encodeURIComponent).join('/')}`);
   if (!res.ok) throw new Error(`${m.file}: ${res.status}`);
   const gltf = await new GLTFLoader().parseAsync(await res.arrayBuffer(), '');
-  const start = gltf.animations.find((c) => c.name === m.start);
-  const end = gltf.animations.find((c) => c.name === m.end);
-  if (!start || !end) throw new Error(`${m.name}: ${m.start}/${m.end} 동작이 없음 (${gltf.animations.filter((c) => /Interaction/.test(c.name)).map((c) => c.name)})`);
-  const clips = [start, end];
-  // 게임에서 뽑은 합동 동작엔 모프 값(몸 두 벌 고르기)이 없다 → 그 학생 보통 승리 포즈의 몸 고르기 값을 동작 내내 씀
-  // (아리스(배틀): 기본은 장비 없는 몸 CH0334_Body라 장비 뼈는 움직이는데 기계가 안 보이고 공중에 떠 있었음)
-  const pose = gltf.animations.find((c) => c.name === 'Victory_Start');
-  for (const tr of pose?.tracks ?? []) {
-    if (!tr.name.endsWith('.morphTargetInfluences') || !/_Body(_\d+)?\./.test(tr.name)) continue;
-    const n = tr.getValueSize();
-    for (const c of clips) {
-      if (c.tracks.some((t) => t.name === tr.name)) continue;
-      c.tracks.push(new THREE.NumberKeyframeTrack(tr.name, [0, c.duration], [...tr.values.slice(0, n), ...tr.values.slice(0, n)]));
-    }
-  }
-  const model = gltf.scene;
-  const meshes = [];
-  const weapons = [];
-  model.traverse((o) => {
-    if (!o.isMesh) return;
-    o.frustumCulled = false;
-    meshes.push(o);
-    if (/weapon|shield/i.test(o.name)) weapons.push(o);
-    o.material = Array.isArray(o.material) ? o.material.map(unlit) : unlit(o.material);
-  });
-  // 펫과 같은 손질: 숨긴 소품 아래 뼈, 되살리는 뼈 크기, 기본 숨김 무기
-  restUnderHiddenBones(model, clips);
-  const limit = limitRevivedScales(model, clips);
-  showSwitchedWeapons(model, clips);
-  const hide = hiddenPartsUpdater(model);
-  const outline = addOutlines(model);
-  const outlines = [];
-  model.traverse((o) => { if (o.isMesh && !meshes.includes(o)) outlines.push(o); });
+  let j;
+  try { j = jointStudent(gltf, m.start, m.end, unlit); } catch (e) { throw new Error(`${m.name}: ${e.message}`); }
   const holder = new THREE.Group();
-  holder.add(model);
+  holder.add(j.model);
   const mark = marker(COLORS[i % COLORS.length]);
   scene.add(mark);
-  const mixer = new THREE.AnimationMixer(model);
-  const actions = clips.map((c) => {
-    const a = mixer.clipAction(c);
-    a.setLoop(THREE.LoopOnce, 1);
-    a.clampWhenFinished = true;
-    a.play();
-    a.paused = true;
-    return a;
-  });
-  return { m, holder, model, mixer, actions, meshes, weapons, hide, limit, outline, outlines, mark, color: COLORS[i % COLORS.length], phase: -1 };
+  return { m, holder, model: j.model, j, outlines: j.outlines, mark, color: COLORS[i % COLORS.length] };
 }
 
 function dispose(s) {
   scene.remove(s.holder, s.mark);
-  s.mixer.stopAllAction();
-  s.holder.traverse((o) => {
-    if (!o.isMesh) return;
-    o.geometry.dispose();
-    for (const mat of [].concat(o.material)) { mat.map?.dispose(); mat.dispose(); }
-  });
+  s.j.dispose();
 }
 
 const valuesOf = (id) => placement[id] ?? (placement[id] = { skip: false, done: false, members: [] });
@@ -182,7 +130,7 @@ async function openCombo(id) {
   if (token !== loading) { loaded.forEach(dispose); return length; }
   students = loaded;
   for (const s of students) scene.add(s.holder);
-  length = Math.max(...students.map((s) => s.actions[0].getClip().duration + s.actions[1].getClip().duration));
+  length = Math.max(...students.map((s) => s.j.length));
   time = 0;
   selected = RECORD ? -1 : 0;
   apply();
@@ -221,30 +169,13 @@ function showMarks() {
 function setTime(t) {
   time = t;
   for (const s of students) {
-    const [a0, a1] = s.actions;
-    const d0 = a0.getClip().duration;
-    const d1 = a1.getClip().duration;
-    const phase = t < d0 ? 0 : 1;
-    a0.enabled = phase === 0;
-    a1.enabled = phase === 1;
-    a0.time = Math.min(t, d0 - 1e-4);
-    a1.time = Math.min(Math.max(0, t - d0), d1 - 1e-4);
-    s.mixer.update(0);
-    s.limit(s.mixer);
-    if (phase !== s.phase) {
-      s.phase = phase;
-      const clip = s.actions[phase].getClip();
-      s.weaponOn = new Map(s.weapons.map((w) => [w, clipAnimates(clip, w)]));
-    }
-    s.hide();
-    for (const w of s.weapons) if (!s.weaponOn.get(w)) w.visible = false;
-    s.outline();
+    s.j.set(t);
     if (!$('outlines').checked) for (const o of s.outlines) o.visible = false;
   }
   draw();
   if (!RECORD) {
     $('seek').value = String(Math.round((t / length) * 10000));
-    const parts = students.map((s) => (t < s.actions[0].getClip().duration ? 'Start' : 'End'));
+    const parts = students.map((s) => (t < s.j.startLength ? 'Start' : 'End'));
     $('time').textContent = `${t.toFixed(2)} / ${length.toFixed(2)}s · ${Math.round(t * 30)}프레임 ${[...new Set(parts)].join('/')}`;
   } else {
     $('title').querySelector('small').textContent = `${combo.members.map((m) => korean(m.name)).join(' · ')}   ${t.toFixed(1)}s`;

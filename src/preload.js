@@ -16,4 +16,10 @@ contextBridge.exposeInMainWorld('petBridge', {
   onBoundsChanged: (cb) => ipcRenderer.on('pet:bounds-changed', () => cb()),
   onDownload: (cb) => ipcRenderer.on('pet:download', (_e, d) => cb(d)), // 학생 받는 중 표시 { label, got, total, error } | null
   quit: () => ipcRenderer.send('pet:quit'),
+  // 합동 승리 (joint-main.js)
+  status: (st) => ipcRenderer.send('pet:status', st), // { state, x, z, area }
+  onJoint: (cb) => ipcRenderer.on('pet:joint', (_e, m) => cb(m)), // gather | host | away | back | abort
+  readJointFile: (model) => ipcRenderer.invoke('pet:read-joint-file', model),
+  jointReady: () => ipcRenderer.send('pet:joint-ready'),
+  jointDone: (ends) => ipcRenderer.send('pet:joint-done', ends),
 });

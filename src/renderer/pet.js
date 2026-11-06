@@ -5,6 +5,7 @@ import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, limitRevi
 import { addOutlines, outlineThickness } from './outline.js';
 import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
+import { jointStudent } from './joint-model.js';
 import {
   ANIM, REACTION, ARMED_IDLE, ARMED_FIDGETS, ARMED_REACTIONS, STANCES, STANCE_IDLE, ATTACK_STEPS, BATTLE_ENTRY,
   DRAW_WEAPON, RUN_CALLSIGN, VICTORIES, RELOAD_VARIANT, RELOAD_VARIANTS, SHOT_VARIANTS, OTHER_CLIPS, JUMP_VARIANT, FORM_RELEASE, stanceAll, clipKey, indexClips, exVariants as exVariantsOf, skipClip, cafeOutfitFile, hasCafeIdle,
@@ -161,7 +162,8 @@ function neededCanvas({ raw = false } = {}) {
 
 // 그리기 직전에 (이번 프레임 자세로)
 function updateCanvas(dt) {
-  const want = FULL_CANVAS || state === 'retreat' || state === 'gone' || !canvasSpheres.length ? null : neededCanvas();
+  // 합동 승리 중(joint)은 다른 학생도 그리니 창 전체
+  const want = FULL_CANVAS || state === 'retreat' || state === 'gone' || state === 'joint' || !canvasSpheres.length ? null : neededCanvas();
   if (!want) { canvasShrink = 0; setCanvasRect(null); return; }
   const W = winBox.clientWidth, H = winBox.clientHeight;
   const grown = {
@@ -784,8 +786,10 @@ const pivotTarget = new THREE.Vector3(); // 자세에 따라 모델 위치 보�
 let lastInteraction = clock();
 
 function setState(next) {
+  const changed = next !== state;
   state = next;
   stateTime = 0;
+  if (changed) sendStatus();
   pivotTarget.set(0, 0, 0);
   if (next === 'pose' || next === 'replay') { following = false; stepOff = null; } // 재기·다시 틀기는 앞 EX의 창 따라가기를 안 이어 받음
 }
@@ -1484,6 +1488,9 @@ function update(dt) {
     case 'replay':
       updateReplay();
       break;
+    case 'joint':
+      updateJoint(dt);
+      break;
     case 'idle':
       if (lift > 0) { fallVelocity = 0; setState('fall'); }
       else if (stateTime > idleDuration) chooseNextBehavior();
@@ -1575,6 +1582,169 @@ function update(dt) {
   }
 }
 
+// ---- 합동 승리 (main: joint-main.js, 2026-11-07 사용자) ----
+// 조합 학생이 다 떠 있으면 메인이 가끔 한 학생을 다른 학생 쪽으로 걷게 하고(gather), 가까이 모이면 한 학생(host) 창에 모두를 그린다
+// (몸이 겹치는 장면이 창마다 따로면 앞뒤가 틀어짐). host: 합동 동작 모델(joint-glb)을 읽어 조합 가운데(at)에 배치 도구에서 맞춘
+// 자리(x, z, 방향, 거울)로 놓고 Start → End를 같이 튼다. 그동안 자기 모델은 숨기고 창 전체 캔버스. 끝나면 학생마다 끝난 바닥 자리를
+// 메인에 알리고 자기 자리로 돌아가 평소 대기. 나머지 학생(away)은 그동안 자기 창을 비우고, 끝나면 알려 준 자리(back)에 다시 나타난다
+const JOINT_BUSY = ['jointload', 'jointwait', 'joint', 'away'];
+const JOINT_OUT = ['drag', 'fall', 'retreat', 'gone']; // 들려 있거나 떨어지는 중·종료 중엔 안 낌
+const JOINT_HOLD = 0.4;   // 다 끝난 뒤 마지막 자세로 잠깐 더
+const GATHER_NEAR = 0.15; // 모일 자리(메인이 정한 배치 자리)에서 이만큼 안이면 안 걸음 (바닥 단위)
+let statusTime = 0;
+let jointShow = null; // host: { list: [{ m, j, holder, shadow, hip }], group, t, length }
+let jointToken = 0;
+
+function sendStatus() {
+  statusTime = 0;
+  bridge.status?.({ state, x: pos.x, z: pos.z, area: `${workArea.x},${workArea.y},${workArea.width},${workArea.height}` });
+}
+
+function onJoint(msg) {
+  if (msg.type === 'gather') gatherTo(msg);
+  else if (msg.type === 'host') hostJoint(msg.combo, msg.at);
+  else if (msg.type === 'hold') holdForJoint();
+  else if (msg.type === 'away') goAway();
+  else if (msg.type === 'back') comeBack(msg);
+  else if (msg.type === 'abort') leaveJoint();
+}
+
+// force: 메뉴 "지금 모이기" → 낮잠·무장·전투·동작 중이어도 그만두고 감 (들려 있거나 떨어지는 중·종료 중엔 안 함)
+function gatherTo({ x, z, force }) {
+  if (force ? [...JOINT_OUT, ...JOINT_BUSY].includes(state) : state !== 'idle' && state !== 'walk') return;
+  const dx = x - pos.x, dz = z - pos.z;
+  const d = Math.hypot(dx, dz);
+  if (force && state !== 'idle' && state !== 'walk') { endBattle(); armed = null; if (d < GATHER_NEAR) toIdle(); }
+  if (d < GATHER_NEAR) return;
+  walkTarget.set(x, 0, z);
+  floor.clamp(walkTarget);
+  setState('walk');
+  play('walk');
+}
+
+const showSelf = (on) => { pivot.visible = on; shadow.visible = on; };
+
+async function hostJoint(combo, at) {
+  if (state !== 'idle' && state !== 'walk') { bridge.jointDone(null); return; }
+  const token = ++jointToken;
+  setState('jointload'); // 읽는 동안 제자리 대기
+  play('idle');
+  const list = [];
+  try {
+    for (const m of combo.members) {
+      const gltf = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readJointFile(m.model)), '');
+      list.push({ m, j: jointStudent(gltf, m.start, m.end, toUnlit) });
+    }
+  } catch (e) {
+    console.warn('합동 승리 모델을 읽지 못함', e);
+  }
+  if (token !== jointToken || state !== 'jointload' || list.length !== combo.members.length) {
+    for (const x of list) x.j.dispose();
+    if (state === 'jointload') toIdle();
+    if (token === jointToken) bridge.jointDone(null);
+    return;
+  }
+  floor.clamp(pos.set(at.x, 0, at.z));
+  const group = new THREE.Group();
+  for (const x of list) {
+    x.holder = new THREE.Group();
+    x.holder.position.set(x.m.x, 0, x.m.z);
+    x.holder.rotation.y = THREE.MathUtils.degToRad(x.m.deg);
+    if (x.m.flip) x.holder.scale.x = -1;
+    x.holder.add(x.j.model);
+    x.shadow = new THREE.Mesh(shadow.geometry, shadow.material);
+    x.shadow.rotation.x = -Math.PI / 2;
+    x.shadow.renderOrder = -1;
+    x.hip = x.j.model.getObjectByName('Bip001') ?? x.j.model;
+    group.add(x.holder, x.shadow);
+    x.j.set(0);
+  }
+  root.add(group);
+  showSelf(false);
+  jointShow = { list, group, t: 0, length: Math.max(...list.map((x) => x.j.length)) + JOINT_HOLD };
+  setState('joint');
+  updateJointShadows();
+  bridge.jointReady();
+}
+
+const jointTmp = new THREE.Vector3();
+function updateJointShadows() {
+  root.updateMatrixWorld(true);
+  for (const x of jointShow.list) {
+    const p = jointShow.group.worldToLocal(x.hip.getWorldPosition(jointTmp));
+    x.shadow.position.set(p.x, 0.002, p.z);
+  }
+}
+
+function updateJoint(dt) {
+  jointShow.t += dt;
+  for (const x of jointShow.list) x.j.set(Math.min(jointShow.t, x.j.length));
+  updateJointShadows();
+  if (jointShow.t >= jointShow.length) finishJoint();
+}
+
+// 학생마다 끝난 자리: 골반을 바닥에 내린 점을 화면 px → 바닥 좌표로
+function jointEnds() {
+  root.updateMatrixWorld(true);
+  return jointShow.list.map((x) => {
+    const local = jointShow.group.worldToLocal(x.hip.getWorldPosition(jointTmp));
+    local.y = 0;
+    const px = toWindowPx(jointShow.group.localToWorld(local));
+    const p = floor.toFloor(winX + px.x, winY + px.y);
+    if (!p) return { x: pos.x, z: pos.z };
+    floor.clamp(p);
+    return { x: p.x, z: p.z };
+  });
+}
+
+function clearJoint() {
+  if (!jointShow) return;
+  root.remove(jointShow.group);
+  for (const x of jointShow.list) x.j.dispose();
+  jointShow = null;
+  showSelf(true);
+}
+
+function finishJoint() {
+  const ends = jointEnds();
+  const me = jointShow.list.findIndex((x) => x.m.model === settings.model);
+  if (ends[me]) pos.set(ends[me].x, 0, ends[me].z);
+  clearJoint();
+  toIdle({ fade: 0 });
+  updateShadow(0, { snap: true });
+  bridge.jointDone(ends);
+}
+
+// 하던 동작(무장·전투·낮잠 등)을 그만두고
+function stopForJoint(next) {
+  if (JOINT_OUT.includes(state)) return false;
+  endBattle();
+  armed = null;
+  setState(next);
+  play('idle');
+  return true;
+}
+const holdForJoint = () => stopForJoint('jointwait'); // host가 읽는 동안 제자리 대기
+function goAway() {
+  if (state !== 'away' && stopForJoint('away')) showSelf(false);
+}
+
+function comeBack({ x, z }) {
+  if (state !== 'away' && state !== 'jointwait') return;
+  floor.clamp(pos.set(x, 0, z));
+  showSelf(true);
+  toIdle({ fade: 0 });
+  placeWindow();
+  updateShadow(0, { snap: true });
+}
+
+// 그만두기 (메인이 abort, 종료): host면 장면을 치우고, 비운 창이면 다시 보이게
+function leaveJoint() {
+  jointToken++;
+  if (state === 'joint' || jointShow) { clearJoint(); toIdle({ fade: 0 }); }
+  else if (state === 'away' || state === 'jointload' || state === 'jointwait') { showSelf(true); toIdle({ fade: 0 }); }
+}
+
 // ---- 마우스: 캐릭터 위에서만 클릭을 받고 나머지는 통과 ----
 let mouse = null;      // 창 기준 좌표 (캔버스는 창의 일부)
 let hovering = false;
@@ -1591,7 +1761,7 @@ window.addEventListener('blur', () => { if (!drag) mouse = null; });
 window.addEventListener('contextmenu', (e) => e.preventDefault());
 
 canvas.addEventListener('pointerdown', (e) => {
-  if (!hovering || state === 'retreat' || state === 'gone') return;
+  if (!hovering || ['retreat', 'gone', ...JOINT_BUSY].includes(state)) return;
   if (e.button === 2) { bridge.showMenu(); return; }
   if (e.button !== 0) return;
   canvas.setPointerCapture(e.pointerId);
@@ -1813,6 +1983,7 @@ function frame(now) {
   const t0 = performance.now();
   update(dt);
   mixer.update(dt);
+  if ((statusTime += dt) > 1) sendStatus();
   const t1 = performance.now();
   updateHiddenParts();
   updateOutlines();
@@ -1836,9 +2007,10 @@ async function main() {
   toIdle();
 
   bridge.onCommand((cmd) => {
-    if (cmd === 'retreat') retreat(); // 종료는 들고 있거나 떨어지는 중에도 바로
-    else if (!['drag', 'fall', 'retreat', 'gone'].includes(state)) COMMANDS[cmd]?.();
+    if (cmd === 'retreat') { leaveJoint(); retreat(); } // 종료는 들고 있거나 떨어지는 중에도 바로 (합동 승리 중이면 그만두고)
+    else if (!['drag', 'fall', 'retreat', 'gone', ...JOINT_BUSY].includes(state)) COMMANDS[cmd]?.();
   });
+  bridge.onJoint?.(onJoint);
   bridge.onSettings((s) => { settings = { ...settings, ...s }; if (!settings.walk && state === 'walk') toIdle(); });
   bridge.onDownload?.(setBadge);
   bridge.onBoundsChanged(async () => {

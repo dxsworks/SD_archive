@@ -5,6 +5,7 @@ const { modelFiles } = require('./model-files');
 const { studentStore } = require('./student-store');
 const { windowWidth } = require('./pet-window');
 const { startUpdater } = require('./updater');
+const { jointVictory } = require('./joint-main');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
 // 창은 월드 단위로 가로 4.0 × 세로 5.30 (pet.js VIEW_HEIGHT, 수영복 아야네만 가로 6.55: pet-window.js). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
@@ -38,6 +39,7 @@ const DEFAULT_SETTINGS = { model: 'Hoshino.glb', pets: null, size: 'medium', wal
 
 const pets = []; // { model, win, leaving: 돌려보내는 중, gone: 종료하며 퇴장을 마침 }
 let tray = null;
+let joint = null; // 합동 승리 (joint-main.js), app ready 뒤에 만듦
 let viewerWin = null;
 let fxWin = null; // 클릭 효과 창 (펫이 있는 모니터 전체를 덮는 투명 창)
 let fxDisplayId = null;
@@ -141,6 +143,7 @@ function createWindow(model, bounds) {
   win.webContents.on('did-finish-load', () => restartMouseForwarding(pet));
   win.webContents.on('did-finish-load', sendDownloadBadge); // 받는 중에 페이지를 다시 읽었으면 (크기 바꾸기 등은 안 읽음)
   win.on('closed', () => {
+    joint?.abortFor(pet);
     pet.win = null;
     pets.splice(pets.indexOf(pet), 1);
     if (!pets.length) {
@@ -179,6 +182,7 @@ function addPet(model, near) {
 function dismissPet(pet) {
   if (!alive(pet) || pet.leaving) return;
   if (livePets().length <= 1) { quitWithRetreat(); return; }
+  joint?.abortFor(pet);
   pet.leaving = true;
   sendToPet(pet, 'pet:command', 'retreat');
   setTimeout(() => { if (alive(pet)) pet.win.close(); }, 5000);
@@ -408,6 +412,7 @@ const UNCHECKED_NOTE = '검사 전';
 function setModel(pet, file) {
   if (want) { want = null; sendDownloadBadge(); } // 받는 중에 다른(이미 있는) 학생을 고르면 받은 뒤 그 학생으로 바꾸지 않음
   if (!alive(pet)) return;
+  joint?.abortFor(pet);
   pet.model = file;
   savePets();
   rebuildMenus();
@@ -450,6 +455,7 @@ function quitWithRetreat() {
   const live = livePets();
   if (quitting || !live.length) { quitApp(); return; }
   quitting = true;
+  joint?.abortFor(null);
   savePets();
   for (const pet of live) sendToPet(pet, 'pet:command', 'retreat');
   setTimeout(quitApp, 5000);
@@ -472,6 +478,7 @@ function buildMenuTemplate(pet = null) {
   const target = alive(pet) ? pet : livePets()[0];
   const command = (cmd) => () => (pet ? sendToPet(pet, 'pet:command', cmd) : sendToAll('pet:command', cmd));
   const count = livePets().length;
+  const jointMenu = pet ? joint?.menuFor(pet, () => count < MAX_PETS) : null; // 합동 승리: 이 학생이 든 조합이 있을 때만
   return [
     {
       label: '동작',
@@ -492,6 +499,7 @@ function buildMenuTemplate(pet = null) {
     count < MAX_PETS
       ? { label: '학생 하나 더 띄우기', submenu: studentMenu(models, target, true) }
       : { label: '학생 하나 더 띄우기', note: `최대 ${MAX_PETS}명`, enabled: false },
+    ...(jointMenu ? [jointMenu] : []),
     ...(pet && count > 1 ? [{ label: '이 학생 돌려보내기', danger: true, click: () => dismissPet(pet) }] : []),
     {
       label: '돌아다니기',
@@ -747,6 +755,16 @@ ipcMain.on('pet:quit', (e) => {
   if (!quitting || livePets().every((p) => p.gone)) quitApp();
 });
 
+// 합동 승리 (joint-main.js)
+ipcMain.on('pet:status', (e, s) => { const pet = petOf(e.sender); if (pet) pet.status = s; });
+ipcMain.handle('pet:read-joint-file', (_e, model) => {
+  const file = joint?.fileOf(model);
+  if (!file) throw new Error(`합동 동작 모델이 없습니다: ${model}`);
+  return fs.readFileSync(file);
+});
+ipcMain.on('pet:joint-ready', (e) => { const pet = petOf(e.sender); if (pet) joint?.onReady(pet); });
+ipcMain.on('pet:joint-done', (e, ends) => { const pet = petOf(e.sender); if (pet) joint?.onDone(pet, ends); });
+
 ipcMain.on('pet:show-menu', (e) => {
   const pet = petOf(e.sender);
   if (pet) showPetMenu(pet);
@@ -754,7 +772,7 @@ ipcMain.on('pet:show-menu', (e) => {
 
 // 시험용: 화면 밖에서 메인 쪽을 움직여 보는 도구가 쓴다 (PET_TEST_HOOK=1)
 if (process.env.PET_TEST_HOOK) {
-  global.__petMain = { pets, settings: () => settings, addPet, dismissPet, setModel, setSize, buildMenuTemplate, quitWithRetreat, resetPosition };
+  global.__petMain = { pets, joint: () => joint, settings: () => settings, addPet, dismissPet, setModel, setSize, buildMenuTemplate, quitWithRetreat, resetPosition };
 }
 
 // ---- 앱 수명주기 ----
@@ -773,6 +791,7 @@ if (!app.requestSingleInstanceLock()) {
     createMenuWindow(); // 처음 우클릭할 때 만들면 창을 띄우고 페이지를 읽느라 늦게 떴음
     createTray();
     startStudentStore();
+    joint = jointVictory({ livePets, alive, sendToPet, addPet, userData: app.getPath('userData'), label: (f) => studentInfo(f).label });
     updater = startUpdater({ onReady: (version) => { updateReady = version; rebuildMenus(); } });
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

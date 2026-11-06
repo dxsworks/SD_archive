@@ -19,49 +19,9 @@ const arg = (name) => process.argv.find((a) => a.startsWith(`--${name}=`))?.slic
 const OUT = path.resolve(arg('out') ?? path.join(ROOT, 'docs', 'data', 'joint-victory-placement.json'));
 const RECORD = arg('record');
 
-// game-cache는 메인 폴더에만 있음(worktree에서 돌려도 찾게 위로 올라가며 찾음)
-function findCache() {
-  for (let d = ROOT; ; d = path.dirname(d)) {
-    if (fs.existsSync(path.join(d, 'game-cache', 'joint-glb'))) return path.join(d, 'game-cache');
-    if (path.dirname(d) === d) throw new Error('game-cache/joint-glb 폴더를 찾지 못함');
-  }
-}
-const CACHE = findCache();
-
-// 처음 자리(우리 좌표 x, z, 회전도): game-cache/tools/build_slots.py와 같은 값.
-// 공격 학생 자리 1~4(First/Second/Third/Leader), 지원(스페셜) 학생은 Support_* (z 0.41)
-const MAIN = { 1: [-0.9, 0, 20], 2: [-0.3, 0, 5], 3: [0.3, 0, 5], 4: [0.9, 0, -20] };
-const SUP = { 1: [0.37, 0.41, 5], 2: [-0.37, 0.41, -5], 3: [-0.37, 0.41, -5], 4: [-0.37, 0.41, -5], 5: [-0.37, 0.41, -5], 6: [-0.37, 0.41, -5] };
-const NOTES = {
-  13: '게임에선 케이가 따로 있는 기계 장비(carrier) 위에 올라탐: 장비가 없어 불완전',
-};
-// 표의 동작 이름 → 우리 복사본의 이름 (game-cache/tools/build_all.py와 같은 규칙)
-const ourClip = (p) => {
-  const m = /Victory_(Start|End)_interaction(_0\d)?$/i.exec(p.split('/').pop());
-  return m && `Victory_${m[1]}_Interaction${m[2] ?? ''}`;
-};
-
-function combos() {
-  const plan = JSON.parse(fs.readFileSync(path.join(CACHE, 'joint-slot', 'plan.json'), 'utf8'));
-  let rows = JSON.parse(fs.readFileSync(path.join(CACHE, 'tables-victory-interaction.json'), 'utf8'));
-  rows = rows.DataList ?? rows;
-  return plan.map((p) => {
-    const row = rows.find((r) => r.InteractionId === p.row);
-    const members = p.members.map((m) => {
-      const name = path.basename(m.model).replace(/ r\d+\.glb$/, '');
-      let start = 'Victory_Start_Interaction';
-      let end = 'Victory_End_Interaction';
-      for (let i = 1; i <= 6 && row; i++) {
-        if (row[`VictoryStartAnimationPath0${i}`]?.split('/')[0].toLowerCase() !== m.cid) continue;
-        start = ourClip(row[`VictoryStartAnimationPath0${i}`]) ?? start;
-        end = ourClip(row[`VictoryEndAnimationPath0${i}`]) ?? end;
-      }
-      const [x, z, deg] = (m.special ? SUP : MAIN)[m.idx];
-      return { name, cid: m.cid, idx: m.idx, special: m.special, file: `joint-glb/${name}.glb`, start, end, def: { x, z, deg, flip: false } };
-    });
-    return { id: String(p.row), members, note: NOTES[p.row] ?? '' };
-  });
-}
+const { combos: comboList, findCache } = require('./joint-combos');
+const CACHE = findCache(ROOT);
+const combos = () => comboList(CACHE);
 
 const load = () => (fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {});
 function save(data) {

@@ -178,7 +178,7 @@ function addPet(model, near) {
   rebuildMenus();
 }
 
-// 이 학생 돌려보내기: 종료처럼 밧줄에 매달려 올라간 뒤 그 창만 닫는다 (마지막 한 명은 안 됨, 그때는 종료)
+// 이 학생만 보내기(펫 우클릭 메뉴 "종료"): 종료처럼 밧줄에 매달려 올라간 뒤 그 창만 닫는다 (마지막 한 명이면 앱 종료)
 function dismissPet(pet) {
   if (!alive(pet) || pet.leaving) return;
   if (livePets().length <= 1) { quitWithRetreat(); return; }
@@ -498,7 +498,6 @@ function buildMenuTemplate(pet = null) {
     count < MAX_PETS
       ? { label: '학생 하나 더 띄우기', submenu: studentMenu(models, target, true) }
       : { label: '학생 하나 더 띄우기', note: `최대 ${MAX_PETS}명`, enabled: false },
-    ...(pet && count > 1 ? [{ label: '이 학생 돌려보내기', danger: true, click: () => dismissPet(pet) }] : []),
     {
       label: '돌아다니기',
       type: 'checkbox',
@@ -544,7 +543,8 @@ function buildMenuTemplate(pet = null) {
     { label: '위치 초기화', click: resetPosition },
     { type: 'separator' },
     ...(updateReady ? [{ label: `업데이트하고 다시 시작 (${updateReady})`, click: updateAndRestart }] : []),
-    { label: '종료', click: quitWithRetreat },
+    // 펫 우클릭 메뉴의 종료는 그 학생만 밧줄로 보냄(2026-11-07 사용자, 예전 "이 학생 돌려보내기"), 마지막 한 명이면 앱 종료. 트레이 종료는 모두
+    { label: '종료', danger: true, click: pet && count > 1 ? () => dismissPet(pet) : quitWithRetreat },
   ];
 }
 

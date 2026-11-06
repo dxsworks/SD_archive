@@ -3,7 +3,7 @@
 // - 다 떠 있으면 가끔 한 학생이 다른 조합 학생 옆 자기 배치 자리로 걸어감(gather) → 모두 배치 자리 가까이면 JOINT_CHANCE로 발동
 // - 발동: 조합 학생 중 한 명(host) 창에 모두를 그리고(몸이 겹치는 장면이 창마다 따로면 앞뒤가 틀어짐) 나머지 창은 비움(away),
 //   끝나면 host가 학생마다 끝난 자리를 알려 주고 그 자리로 돌아감(back)
-// - 우클릭 메뉴 "합동 승리": 이 학생이 들어간 조합마다 떠 있는 학생 ✓, 없는 학생은 누르면 띄움 (main.js buildMenuTemplate)
+// - 우클릭 메뉴 이름 위 얼굴 줄: 이 학생이 들어간 조합마다 떠 있는 학생 얼굴, 없는 학생은 흐린 얼굴 + (누르면 띄움), 다 있으면 ▶ = 지금 모이기 (src/menu)
 // 펫 쪽은 pet.js "합동 승리" (host 읽는 동안 나머지는 hold). 상태는 펫이 1초마다·상태가 바뀔 때 알려 옴(pet:status: state, 바닥 x·z, 작업 영역)
 const path = require('path');
 const fs = require('fs');
@@ -133,26 +133,26 @@ function jointVictory({ livePets, alive, sendToPet, addPet, userData, label }) {
     members.forEach((p, i) => { if (p !== host && p !== pet && alive(p)) sendToPet(p, 'pet:joint', { type: 'back', ...from[i] }); });
   }
 
-  // 우클릭 메뉴 "합동 승리": 이 학생이 들어간 조합마다 (없으면 null)
-  function menuFor(pet, canAdd) {
-    const mine = ready.filter((c) => c.members.some((m) => m.model === pet.model));
-    if (!mine.length) return null;
-    const items = [];
-    for (const c of mine) {
+  // 우클릭 메뉴 이름 위 얼굴 줄 (2026-11-07 사용자: 글자 없이 아이콘으로, 초안 A): 이 학생이 들어간 조합마다 한 줄.
+  // 학생마다 { model, here: 떠 있음, me: 우클릭한 학생, add: 없는 학생 띄우기(자리 없으면 null) }, go: 다 있으면 "지금 모이기"
+  function rowsFor(pet, canAdd) {
+    return ready.filter((c) => c.members.some((m) => m.model === pet.model)).map((c) => {
       const ps = petsFor(c);
-      if (items.length) items.push({ type: 'separator' });
-      if (mine.length > 1) items.push({ label: `${c.members.length}명이 함께`, enabled: false }); // 밴드처럼 조합이 여럿이면 어느 조합인지
-      c.members.forEach((m, i) => {
-        if (ps[i]) items.push({ label: `✓ ${label(m.model)}`, enabled: false });
-        else items.push({ label: `${label(m.model)} 띄우기`, enabled: canAdd(), note: canAdd() ? undefined : '자리 없음', click: () => addPet(m.model, pet) });
-      });
-      if (ps.every(Boolean)) items.push({ label: '지금 모이기', click: () => { const mm = mem(c); mm.force = true; mm.near = false; } });
-    }
-    return { label: '합동 승리', submenu: items };
+      return {
+        members: c.members.map((m, i) => ({
+          model: m.model,
+          label: label(m.model),
+          here: !!ps[i],
+          me: ps[i] === pet,
+          add: !ps[i] && canAdd() ? () => addPet(m.model, pet) : null,
+        })),
+        go: ps.every(Boolean) ? () => { const mm = mem(c); mm.force = true; mm.near = false; } : null,
+      };
+    });
   }
 
   setInterval(tick, TICK);
-  return { fileOf, menuFor, onReady, onDone, abortFor, get active() { return active; } };
+  return { fileOf, rowsFor, onReady, onDone, abortFor, get active() { return active; } };
 }
 
 module.exports = { jointVictory };

@@ -120,7 +120,33 @@ function buildSubs(rows, level) {
   return bottom;
 }
 
-function render({ items, title, roomRight }) {
+// 합동 승리 얼굴 줄 (메인 joint-main.js rowsFor, 2026-11-07 사용자: 이름 위에, 글자 없이 아이콘으로):
+// 조합마다 트로피 + 학생 얼굴(우클릭한 학생은 노란 테두리, 없는 학생은 흐리고 + → 누르면 띄움) + ▶(다 있으면 켜짐 → 지금 모이기)
+const TROPHY = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v6a5 5 0 0 1-10 0V4z"/><path d="M17 6h2a2 2 0 0 1 0 4h-2M7 6H5a2 2 0 0 0 0 4h2"/></svg>';
+function jointRow(r) {
+  const row = el('div', 'jrow');
+  const cup = el('span', 'cup');
+  cup.innerHTML = TROPHY;
+  row.append(cup);
+  for (const m of r.members) {
+    const f = el('span', `face${m.here ? '' : ' away'}${m.me ? ' me' : ''}${m.add ? ' add' : ''}`);
+    f.title = m.label;
+    const img = el('img');
+    img.src = m.face;
+    img.onerror = () => { img.remove(); f.prepend(el('span', 'ini', m.label.slice(0, 1))); };
+    f.append(img);
+    if (!m.here) f.append(el('b', 'plus', '+'));
+    if (m.add) f.addEventListener('click', () => bridge.click(m.add));
+    row.append(f);
+  }
+  const go = el('span', `go${r.go ? ' on' : ''}`);
+  go.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12"><path d="M7 4v16l13-8z" fill="currentColor"/></svg>';
+  if (r.go) go.addEventListener('click', () => bridge.click(r.go));
+  row.append(go);
+  return row;
+}
+
+function render({ items, title, roomRight, joint = [] }) {
   openRows = [];
   cols = [];
   subMax = 0;
@@ -138,10 +164,13 @@ function render({ items, title, roomRight }) {
     return [item, row];
   });
   main.append(head, list);
-  root.append(main);
+  const col = el('div', 'maincol'); // 이름 위 얼굴 줄 + 메인 판
+  for (const r of joint) col.append(jointRow(r));
+  col.append(main);
+  root.append(col);
 
   // 창 높이는 가장 아래로 내려가는 판에 맞춘다
-  const bottom = Math.max(main.offsetHeight, buildSubs(rows, 0));
+  const bottom = Math.max(col.offsetHeight, buildSubs(rows, 0));
 
   const pad = 10;
   const w = Math.ceil(root.scrollWidth);
@@ -150,7 +179,7 @@ function render({ items, title, roomRight }) {
   // 커서 오른쪽에 다 안 들어가면 하위 메뉴가 왼쪽으로 펼쳐지게 뒤집고, 메인은 창을 커서 왼쪽에 둔다
   const flip = w > roomRight;
   if (flip) root.classList.add('flip');
-  bridge.ready(seq, w, h, flip, main.offsetHeight, Math.ceil(Math.max(main.offsetHeight, subMax) + pad * 2));
+  bridge.ready(seq, w, h, flip, col.offsetHeight, Math.ceil(Math.max(col.offsetHeight, subMax) + pad * 2));
 }
 bridge.onOpen((data) => {
   seq = data.seq;
@@ -172,5 +201,5 @@ window.addEventListener('keydown', (e) => { if (e.key === 'Escape') bridge.close
 window.addEventListener('contextmenu', (e) => e.preventDefault());
 // 판 바깥(투명한 곳)을 누르면 닫기
 window.addEventListener('mousedown', (e) => {
-  if (!e.target.closest('.panel')) bridge.close();
+  if (!e.target.closest('.panel, .jrow')) bridge.close();
 });

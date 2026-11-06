@@ -478,7 +478,6 @@ function buildMenuTemplate(pet = null) {
   const target = alive(pet) ? pet : livePets()[0];
   const command = (cmd) => () => (pet ? sendToPet(pet, 'pet:command', cmd) : sendToAll('pet:command', cmd));
   const count = livePets().length;
-  const jointMenu = pet ? joint?.menuFor(pet, () => count < MAX_PETS) : null; // 합동 승리: 이 학생이 든 조합이 있을 때만
   return [
     {
       label: '동작',
@@ -499,7 +498,6 @@ function buildMenuTemplate(pet = null) {
     count < MAX_PETS
       ? { label: '학생 하나 더 띄우기', submenu: studentMenu(models, target, true) }
       : { label: '학생 하나 더 띄우기', note: `최대 ${MAX_PETS}명`, enabled: false },
-    ...(jointMenu ? [jointMenu] : []),
     ...(pet && count > 1 ? [{ label: '이 학생 돌려보내기', danger: true, click: () => dismissPet(pet) }] : []),
     {
       label: '돌아다니기',
@@ -621,6 +619,7 @@ function toMenuItems(template) {
   });
 }
 
+const jointRows = (pet) => joint?.rowsFor(pet, () => livePets().length < MAX_PETS);
 function showPetMenu(pet) {
   if (!menuWin) createMenuWindow();
   menuClicks = new Map();
@@ -628,7 +627,13 @@ function showPetMenu(pet) {
   const p = screen.getCursorScreenPoint();
   const wa = screen.getDisplayNearestPoint(p).workArea;
   menuAt = { seq: ++menuSeq, p, wa };
-  const data = { seq: menuSeq, items, title: studentInfo(pet.model).label, roomRight: wa.x + wa.width - p.x };
+  // 합동 승리 얼굴 줄 (joint-main.js rowsFor): 누르는 것은 메뉴 항목처럼 id로
+  const clickId = (fn) => { if (!fn) return null; const id = menuClicks.size + 1; menuClicks.set(id, { click: fn, item: {} }); return id; };
+  const jointData = (jointRows(pet) ?? []).map((r) => ({
+    members: r.members.map((m) => ({ face: `faces/${encodeURIComponent(m.model.replace(/\.glb$/i, '.png'))}`, label: m.label, here: m.here, me: m.me, add: clickId(m.add) })),
+    go: clickId(r.go),
+  }));
+  const data = { seq: menuSeq, items, joint: jointData, title: studentInfo(pet.model).label, roomRight: wa.x + wa.width - p.x };
   if (menuWin.webContents.isLoading()) menuWin.webContents.once('did-finish-load', () => menuWin.webContents.send('menu:open', data));
   else menuWin.webContents.send('menu:open', data);
 }
@@ -772,7 +777,16 @@ ipcMain.on('pet:show-menu', (e) => {
 
 // 시험용: 화면 밖에서 메인 쪽을 움직여 보는 도구가 쓴다 (PET_TEST_HOOK=1)
 if (process.env.PET_TEST_HOOK) {
-  global.__petMain = { pets, joint: () => joint, settings: () => settings, addPet, dismissPet, setModel, setSize, buildMenuTemplate, quitWithRetreat, resetPosition };
+  global.__petMain = { pets, joint: () => joint, settings: () => settings, addPet, dismissPet, setModel, setSize, buildMenuTemplate, quitWithRetreat, resetPosition,
+    // 우클릭 메뉴를 화면 밖(보이지 않게)에서 그려 PNG로: 커서·포커스를 건드리지 않음
+    async menuShot(pet, file) {
+      showPetMenu(pet);
+      menuAt = null; // menu:ready로 커서 옆에 옮기지 않게
+      menuWin.setBounds({ x: -4000, y: 0, width: 600, height: 700 });
+      await new Promise((r) => setTimeout(r, 600));
+      fs.writeFileSync(file, (await menuWin.webContents.capturePage()).toPNG());
+      return file;
+    } };
 }
 
 // ---- 앱 수명주기 ----

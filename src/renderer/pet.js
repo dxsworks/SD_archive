@@ -1625,10 +1625,9 @@ function gatherTo({ x, z, force }) {
 const showSelf = (on) => { pivot.visible = on; shadow.visible = on; };
 
 async function hostJoint(combo, at) {
-  if (state !== 'idle' && state !== 'walk') { bridge.jointDone(null); return; }
+  if (!['idle', 'walk', 'armed'].includes(state)) { bridge.jointDone(null); return; }
   const token = ++jointToken;
-  setState('jointload'); // 읽는 동안 제자리 대기
-  play('idle');
+  stopForJoint('jointload'); // 읽는 동안 제자리 대기 (무장이면 그만둠)
   const list = [];
   try {
     for (const m of combo.members) {

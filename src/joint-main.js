@@ -14,8 +14,12 @@ const JOINT_CHANCE = 0.7;   // 가까이 모였을 때 발동 확률 (모일 때
 const GATHER_CHANCE = 0.06; // 다 떠 있는데 떨어져 있으면 판정마다 이 확률로 한 학생이 다른 학생 쪽으로 걸어감 (약 30초에 한 번)
 const RETRY_AFTER = 45e3;   // 굴려서 안 됐으면 이만큼 뒤에 다시
 const COOLDOWN = 180e3;     // 한 조합을 하고 나서 다음까지
-const NEAR = 0.6; // 가까이 모임: 학생마다 배치 자리(나머지 학생으로 짐작한 조합 가운데 + 자리)에서 이 안 (바닥 단위)
-const CALM = new Set(['idle', 'walk']);   // 이 상태일 때만 끼움 (전투·낮잠·들기·EX 중엔 안 함)
+// 가까이 모임: 학생끼리 가장 먼 거리가 그 조합 배치 자리끼리 가장 먼 거리 + NEAR 안 (바닥 단위). 어떤 순서로 붙어 있어도 됨
+// (2026-11-07 사용자: 끌어다 붙여 놓아도 높은 확률로. 예전엔 각자 배치 자리 0.6 안이어야 해서 바로 옆에 붙이면 안 됐음).
+// 순서가 배치와 다르면 합동 장면이 시작될 때 자리를 바꾸며 조금 순간이동함. 걸어서 모일 때(gather)는 배치 자리로 감
+const NEAR = 0.6;
+const CALM = new Set(['idle', 'walk', 'armed']); // 이 상태일 때만 끼움 (무장은 그만두고, 전투·낮잠·들기·EX·동작 중엔 끝날 때까지 기다림)
+const MOVER = new Set(['idle', 'walk']);         // 걸어서 모일 학생
 
 // 합동 동작 모델 폴더: 받은 것(userData/joint-glb) → 개발용 game-cache/joint-glb(프로젝트 폴더나 그 위, worktree에서도 찾게)
 function findJointDir(userData, from) {
@@ -52,6 +56,9 @@ function jointVictory({ livePets, alive, sendToPet, addPet, userData, label }) {
     return { x: list.reduce((s, [p, m]) => s + p.status.x - m.x, 0) / list.length, z: list.reduce((s, [p, m]) => s + p.status.z - m.z, 0) / list.length };
   };
   // 학생 p가 자기 배치 자리에서 떨어진 거리 (나머지 학생으로 짐작한 가운데 기준)
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
+  const span = (pts) => Math.max(0, ...pts.flatMap((a, i) => pts.slice(i + 1).map((b) => dist(a, b))));
+  const isNear = (c, ps) => span(ps.map((p) => p.status)) <= span(c.members) + NEAR;
   const offSlot = (c, ps, p) => {
     const o = originOf(c, ps, ps.filter((q) => q !== p));
     const m = c.members[ps.indexOf(p)];
@@ -66,7 +73,7 @@ function jointVictory({ livePets, alive, sendToPet, addPet, userData, label }) {
       const ps = petsFor(c);
       const m = mem(c);
       if (!ps.every(Boolean) || !sameArea(ps)) { m.near = false; m.force = false; continue; }
-      const near = ps.every((p) => offSlot(c, ps, p) <= NEAR);
+      const near = isNear(c, ps);
       if (!near && (m.force || (now >= m.next && Math.random() < GATHER_CHANCE))) gather(c, ps, m.force);
       if (!ps.every((p) => CALM.has(p.status.state))) continue; // 가까운지(near)는 모두 평소일 때만 새로 봄 → 낮잠에서 깨면 그때 굴림
       if (near && !m.near && (m.force || now >= m.next)) {
@@ -88,7 +95,7 @@ function jointVictory({ livePets, alive, sendToPet, addPet, userData, label }) {
   // 메뉴 "지금 모이기"(force)면 모두가 함께 짐작한 가운데의 자기 자리로, 하던 동작(낮잠·무장·전투)도 그만두고
   function gather(c, ps, force) {
     const far = (p) => offSlot(c, ps, p);
-    const calm = ps.filter((p) => CALM.has(p.status.state));
+    const calm = ps.filter((p) => MOVER.has(p.status.state));
     const movers = force ? ps : calm.length ? [calm.reduce((a, b) => (far(b) > far(a) ? b : a))] : [];
     for (const p of movers) {
       if (p.status.state === 'walk' && p.gathering && Date.now() < p.gathering) continue;

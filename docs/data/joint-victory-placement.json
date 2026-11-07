@@ -1,0 +1,411 @@
+{
+  "1": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Hina (Dress)",
+        "cid": "ch0230",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Ako (Dress)",
+        "cid": "ch0231",
+        "x": 0.33,
+        "z": -0.69,
+        "deg": 60,
+        "flip": false
+      }
+    ]
+  },
+  "3": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Kazusa (Band)",
+        "cid": "ch0250",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Airi (Band)",
+        "cid": "ch0251",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Yoshimi (Band)",
+        "cid": "ch0220",
+        "x": 0.9,
+        "z": 0,
+        "deg": -20,
+        "flip": false
+      }
+    ]
+  },
+  "4": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Midori (Maid)",
+        "cid": "ch0202",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Momoi (Maid)",
+        "cid": "ch0201",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "5": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Shiroko",
+        "cid": "shiroko_original",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Shiroko＊Terror",
+        "cid": "ch0263",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "6": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Mine (Idol)",
+        "cid": "ch0275",
+        "x": -0.75,
+        "z": 0.2,
+        "deg": 20,
+        "flip": false
+      },
+      {
+        "name": "Mari (Idol)",
+        "cid": "ch0273",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Sakurako (Idol)",
+        "cid": "ch0274",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "7": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Neru (School Uniform)",
+        "cid": "ch0280",
+        "x": -0.37,
+        "z": 0.02,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Seia",
+        "cid": "ch0070",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "8": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Hikari",
+        "cid": "ch0242",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Nozomi",
+        "cid": "ch0243",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "9": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Natsu (Band)",
+        "cid": "ch0221",
+        "x": -0.9,
+        "z": 0,
+        "deg": 20,
+        "flip": false
+      },
+      {
+        "name": "Kazusa (Band)",
+        "cid": "ch0250",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Airi (Band)",
+        "cid": "ch0251",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Yoshimi (Band)",
+        "cid": "ch0220",
+        "x": 0.9,
+        "z": 0,
+        "deg": -20,
+        "flip": false
+      }
+    ]
+  },
+  "10": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Seia (Swimsuit)",
+        "cid": "ch0295",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Nagisa (Swimsuit)",
+        "cid": "ch0293",
+        "x": 0.17,
+        "z": 0.12,
+        "deg": -5,
+        "flip": false
+      },
+      {
+        "name": "Mika (Swimsuit)",
+        "cid": "ch0294",
+        "x": 0.9,
+        "z": 0,
+        "deg": -20,
+        "flip": false
+      }
+    ]
+  },
+  "11": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Saori (Swimsuit)",
+        "cid": "ch0266",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Hiyori (Swimsuit)",
+        "cid": "ch0269",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Misaki (Swimsuit)",
+        "cid": "ch0268",
+        "x": -0.37,
+        "z": 0.41,
+        "deg": -5,
+        "flip": false
+      },
+      {
+        "name": "Atsuko (Swimsuit)",
+        "cid": "ch0267",
+        "x": -0.29,
+        "z": 0.29,
+        "deg": -5,
+        "flip": false
+      }
+    ]
+  },
+  "12": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Suzumi (Magical)",
+        "cid": "ch0325",
+        "x": -0.45,
+        "z": 0.48,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Reisa (Magical)",
+        "cid": "ch0326",
+        "x": 0.33,
+        "z": 0.18,
+        "deg": -5,
+        "flip": false
+      }
+    ]
+  },
+  "13": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Arisu (Battle)",
+        "cid": "ch0334",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Kei",
+        "cid": "ch0335",
+        "x": 0.36,
+        "z": -0.03,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "14": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Arisu",
+        "cid": "aris_original",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Kei",
+        "cid": "ch0335",
+        "x": 0.38,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "15": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Toki (Battle)",
+        "cid": "ch0333",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Rio (Battle)",
+        "cid": "ch0331",
+        "x": 0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "16": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Himari (Battle)",
+        "cid": "ch0332",
+        "x": -0.37,
+        "z": 0.41,
+        "deg": -5,
+        "flip": false
+      },
+      {
+        "name": "Eimi (Battle)",
+        "cid": "ch0337",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      }
+    ]
+  },
+  "17": {
+    "done": true,
+    "skip": false,
+    "members": [
+      {
+        "name": "Kirara",
+        "cid": "kirara_original",
+        "x": -0.3,
+        "z": 0,
+        "deg": 5,
+        "flip": false
+      },
+      {
+        "name": "Erika",
+        "cid": "ch0076",
+        "x": -0.37,
+        "z": 0.41,
+        "deg": -5,
+        "flip": false
+      }
+    ]
+  },
+  "_about": "합동 승리 배치 (tools/joint-placer.js). 조합 id = 게임 표 CharacterVictoryInteractionExcel의 InteractionId. 학생마다 x(좌우, 오른쪽 +)·z(앞뒤, 카메라 쪽 +)는 펫 좌표 단위(캐릭터 키 ≈ 1), deg는 y축 회전(0 = 카메라를 봄, + = 위에서 볼 때 반시계), flip은 모델을 좌우 거울로. done = 사람이 맞춤 끝, skip = 이 조합 안 씀"
+}

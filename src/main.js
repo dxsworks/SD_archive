@@ -5,6 +5,7 @@ const { modelFiles } = require('./model-files');
 const { studentStore } = require('./student-store');
 const { windowWidth } = require('./pet-window');
 const { startUpdater } = require('./updater');
+const { jointVictory } = require('./joint-main');
 
 // 창 크기 프리셋 (DIP 단위, [너비, 높이])
 // 창은 월드 단위로 가로 4.0 × 세로 5.30 (pet.js VIEW_HEIGHT, 수영복 아야네만 가로 6.55: pet-window.js). 캐릭터 크기는 높이로 정해진다(보통 = 1단위당 215px).
@@ -25,15 +26,20 @@ const SIZES = {
   large: { label: '크게', w: 1231, h: 1632, fx: 0.65 },
 };
 const BELOW = 0.85 / 5.30; // 창 높이 중 발 자리보다 아래인 비율 (pet.js FOOT_MARGIN의 대부분)
-// 지금 학생의 창 크기: 프리셋 크기에, 몸보다 훨씬 넓게 움직이는 학생(수영복 아야네 헬기)은 가로만 넓힘 (pet-window.js)
-const sizeOf = (key = settings.size) => ({ ...SIZES[key], w: windowWidth(settings.model, SIZES[key].w) });
+// 학생의 창 크기: 프리셋 크기에, 몸보다 훨씬 넓게 움직이는 학생(수영복 아야네 헬기)은 가로만 넓힘 (pet-window.js)
+const sizeOf = (model, key = settings.size) => ({ ...SIZES[key], w: windowWidth(model, SIZES[key].w) });
 // 발이 작업 영역 맨 아래에 서도록 둘 때 창의 y
 const bottomY = (wa, h) => Math.round(wa.y + wa.height - h + h * BELOW);
 
-const DEFAULT_SETTINGS = { model: 'Hoshino.glb', size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };
+// 여러 학생 동시에 (2026-11-06 사용자 "단순하게 먼저"): 펫마다 창 하나·학생 하나. 띄운 학생은 settings.pets(파일 이름 목록)에 저장,
+// settings.model은 첫 번째 펫 (예전 버전으로 돌아가도 그 학생으로 켜지게). 크기·돌아다니기·클릭 효과 등은 모두 같이 쓴다
+// 화면 밖 창 4명 시험: 모두 60fps, GPU 3D 1명 7~8% → 4명 약 31%
+const MAX_PETS = 4;
+const DEFAULT_SETTINGS = { model: 'Hoshino.glb', pets: null, size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };
 
-let win = null;
+const pets = []; // { model, win, leaving: 돌려보내는 중, gone: 종료하며 퇴장을 마침 }
 let tray = null;
+let joint = null; // 합동 승리 (joint-main.js), app ready 뒤에 만듦
 let viewerWin = null;
 let fxWin = null; // 클릭 효과 창 (펫이 있는 모니터 전체를 덮는 투명 창)
 let fxDisplayId = null;
@@ -56,6 +62,18 @@ function loadSettings() {
     settings = { ...DEFAULT_SETTINGS };
   }
   if (!SIZES[settings.size]) settings.size = DEFAULT_SETTINGS.size;
+  if (!Array.isArray(settings.pets) || !settings.pets.length) settings.pets = [settings.model];
+  settings.pets = settings.pets.slice(0, MAX_PETS);
+}
+
+// 지금 띄운 학생을 설정에 (앱을 끄며 창이 닫힐 때는 안 함: 다음에 켜면 그대로 나오게)
+function savePets() {
+  if (appQuitting) return;
+  const live = livePets();
+  if (!live.length) return;
+  settings.pets = live.map((p) => p.model);
+  settings.model = settings.pets[0];
+  saveSettings();
 }
 
 function saveSettings() {
@@ -70,12 +88,33 @@ function workAreaFor(bounds) {
   return screen.getDisplayMatching(bounds).workArea;
 }
 
-function createWindow() {
-  const { w, h } = sizeOf();
-  const wa = screen.getPrimaryDisplay().workArea;
-  const bounds = { x: Math.round(wa.x + wa.width - w - 120), y: bottomY(wa, h), width: w, height: h };
+const alive = (p) => p?.win && !p.win.isDestroyed();
+const livePets = () => pets.filter(alive);
+const petOf = (sender) => pets.find((p) => alive(p) && p.win.webContents === sender);
 
-  win = new BrowserWindow({
+// 처음 자리: 주 모니터 오른쪽 아래, 둘째부터는 왼쪽으로 반 창씩 비켜서
+function homeBounds(model, index) {
+  const { w, h } = sizeOf(model);
+  const wa = screen.getPrimaryDisplay().workArea;
+  const x = Math.max(wa.x, Math.round(wa.x + wa.width - w - 120 - index * w * 0.55));
+  return { x, y: bottomY(wa, h), width: w, height: h };
+}
+
+// 더 부른 학생: 메뉴를 연 학생 옆(왼쪽, 자리가 없으면 오른쪽)에 같은 발 높이로
+function besideBounds(model, near) {
+  const { w, h } = sizeOf(model);
+  const b = near.win.getBounds();
+  const wa = workAreaFor(b);
+  const footY = b.y + b.height * (1 - BELOW);
+  let x = Math.round(b.x + b.width / 2 - w / 2 - b.width * 0.55);
+  if (x < wa.x) x = Math.round(b.x + b.width / 2 - w / 2 + b.width * 0.55);
+  x = Math.max(wa.x, Math.min(x, wa.x + wa.width - w));
+  return { x, y: Math.round(footY - h * (1 - BELOW)), width: w, height: h };
+}
+
+function createWindow(model, bounds) {
+  const pet = { model, win: null };
+  const win = new BrowserWindow({
     ...bounds,
     transparent: true,
     backgroundColor: '#00000000',
@@ -99,31 +138,61 @@ function createWindow() {
   // 캐릭터가 없는 투명 영역은 클릭이 아래 창으로 통과하도록 시작
   win.setIgnoreMouseEvents(true, { forward: true });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
-  win.once('ready-to-show', () => { win.showInactive(); restartMouseForwarding(); });
+  win.once('ready-to-show', () => { win.showInactive(); restartMouseForwarding(pet); });
   // 페이지가 뜰 때마다(다시 불러오기 포함) 마우스 이동 넘겨받기를 다시 건다
-  win.webContents.on('did-finish-load', restartMouseForwarding);
+  win.webContents.on('did-finish-load', () => restartMouseForwarding(pet));
   win.webContents.on('did-finish-load', sendDownloadBadge); // 받는 중에 페이지를 다시 읽었으면 (크기 바꾸기 등은 안 읽음)
   win.on('closed', () => {
-    win = null;
-    if (fxWin && !fxWin.isDestroyed()) fxWin.close();
-    if (menuWin && !menuWin.isDestroyed()) menuWin.close();
+    joint?.abortFor(pet);
+    pet.win = null;
+    pets.splice(pets.indexOf(pet), 1);
+    if (!pets.length) {
+      if (fxWin && !fxWin.isDestroyed()) fxWin.close();
+      if (menuWin && !menuWin.isDestroyed()) menuWin.close();
+      return;
+    }
+    if (appQuitting) return;
+    if (quitting) { if (livePets().every((p) => p.gone)) quitApp(); return; }
+    savePets();
+    rebuildMenus();
   });
+  pet.win = win;
+  pets.push(pet);
+  return pet;
 }
 
 // 클릭 통과 중에도 마우스 이동을 페이지로 넘겨받기(forward). Electron은 이미 켜져 있으면 다시 켜도 아무것도 안 해서,
 // 페이지가 새로 뜨며 마우스를 받는 안쪽 창이 바뀌어도 예전 창에 걸려 있었다 → 이동마다 mouseleave가 같이 와서
 // 펫 위인지 판정을 못 함(켜고 몇 초~1분 넘게 클릭 안 됨, 2026-10-23 사용자). 껐다 켜면 지금 창에 다시 걸린다
-function restartMouseForwarding() {
-  if (!win) return;
-  win.setIgnoreMouseEvents(false);
-  win.setIgnoreMouseEvents(true, { forward: true });
+function restartMouseForwarding(pet) {
+  if (!alive(pet)) return;
+  pet.win.setIgnoreMouseEvents(false);
+  pet.win.setIgnoreMouseEvents(true, { forward: true });
+}
+
+// 학생 하나 더 띄우기 (최대 MAX_PETS)
+function addPet(model, near) {
+  if (livePets().length >= MAX_PETS) return;
+  createWindow(model, alive(near) ? besideBounds(model, near) : homeBounds(model, pets.length));
+  savePets();
+  rebuildMenus();
+}
+
+// 이 학생만 보내기(펫 우클릭 메뉴 "종료"): 종료처럼 밧줄에 매달려 올라간 뒤 그 창만 닫는다 (마지막 한 명이면 앱 종료)
+function dismissPet(pet) {
+  if (!alive(pet) || pet.leaving) return;
+  if (livePets().length <= 1) { quitWithRetreat(); return; }
+  joint?.abortFor(pet);
+  pet.leaving = true;
+  sendToPet(pet, 'pet:command', 'retreat');
+  setTimeout(() => { if (alive(pet)) pet.win.close(); }, 5000);
 }
 
 // ---- 클릭 효과 창 ----
 // 펫 창은 작고 캐릭터를 따라 움직이므로, 효과는 화면 전체를 덮는 별도 창에 그린다.
 // 클릭은 항상 아래로 통과하고 포커스도 받지 않는다.
 function createFxWindow() {
-  const display = screen.getDisplayMatching(win.getBounds());
+  const display = screen.getDisplayMatching(pets[0].win.getBounds());
   fxDisplayId = display.id;
   fxWin = new BrowserWindow({
     ...display.bounds,
@@ -177,31 +246,35 @@ function relayFx(type) {
   sendFx(type, p.x - b.x, p.y - b.y);
 }
 
-function sendToPet(channel, payload) {
-  if (win && !win.isDestroyed()) win.webContents.send(channel, payload);
+function sendToPet(pet, channel, payload) {
+  if (alive(pet)) pet.win.webContents.send(channel, payload);
 }
+const sendToAll = (channel, payload) => livePets().forEach((p) => sendToPet(p, channel, payload));
 
+// 크기는 모든 학생이 같이 바꾼다
 function setSize(key) {
-  if (!SIZES[key] || !win) return;
-  const old = win.getBounds();
-  const { w, h } = sizeOf(key);
-  // 발밑 중앙을 기준으로 크기 변경
-  const x = Math.round(old.x + old.width / 2 - w / 2);
-  const y = Math.round(old.y + old.height * (1 - BELOW) - h * (1 - BELOW));
-  win.setBounds({ x, y, width: w, height: h });
+  if (!SIZES[key]) return;
   settings.size = key;
+  for (const pet of livePets()) {
+    const old = pet.win.getBounds();
+    const { w, h } = sizeOf(pet.model, key);
+    // 발밑 중앙을 기준으로 크기 변경
+    const x = Math.round(old.x + old.width / 2 - w / 2);
+    const y = Math.round(old.y + old.height * (1 - BELOW) - h * (1 - BELOW));
+    pet.win.setBounds({ x, y, width: w, height: h });
+    sendToPet(pet, 'pet:bounds-changed');
+  }
   saveSettings();
-  sendToPet('pet:bounds-changed');
   sendFxConfig();
   rebuildMenus();
 }
 
+// 위치 초기화: 모든 학생을 처음 자리로 (나란히)
 function resetPosition() {
-  if (!win) return;
-  const { w, h } = sizeOf();
-  const wa = screen.getPrimaryDisplay().workArea;
-  win.setBounds({ x: Math.round(wa.x + wa.width - w - 120), y: bottomY(wa, h), width: w, height: h });
-  sendToPet('pet:bounds-changed');
+  livePets().forEach((pet, i) => {
+    pet.win.setBounds(homeBounds(pet.model, i));
+    sendToPet(pet, 'pet:bounds-changed');
+  });
 }
 
 // 학생 폴더: 받은 학생(학생 압축을 풀어 넣는 곳, 메뉴 "학생 폴더 열기") → 설치 폴더 models/ 순서로 찾는다 (src/model-files.js)
@@ -219,7 +292,7 @@ function openModelsFolder() {
 const STUDENTS_URL = process.env.PET_STUDENTS_URL ?? 'https://github.com/dxsworks/SD_archive/releases/download/students';
 const STUDENTS_REFRESH = 6 * 60 * 60 * 1000;
 let store = null; // app ready 뒤에 만듦 (net.fetch)
-let wantModel = null; // 받는 중에 다른 학생을 고르면 마지막에 고른 학생만 바꾼다
+let want = null; // { file, pet, add } 받는 중에 다른 학생을 고르면 마지막에 고른 학생만 바꾼다(더 띄운다). pet = 메뉴를 연 학생
 
 function startStudentStore() {
   store = studentStore({
@@ -234,28 +307,37 @@ function startStudentStore() {
   setInterval(() => store.refresh(), STUDENTS_REFRESH);
 }
 
-function downloadAndUse(file) {
-  wantModel = file;
+function downloadAndUse(file, pet, add = false) {
+  const mine = { file, pet, add };
+  want = mine;
+  sendDownloadBadge();
   store.download(file).then(() => {
-    if (wantModel === file) setModel(file);
-    else rebuildMenus();
+    if (want !== mine) { rebuildMenus(); return; }
+    want = null;
+    sendDownloadBadge();
+    if (add) addPet(file, pet);
+    else setModel(pet, file);
   }).catch((err) => {
     console.error('학생 받기 실패:', err.message);
     notify('학생을 받지 못했어요', `${studentInfo(file).label}: 인터넷 연결을 확인하고 학생 메뉴에서 다시 골라 주세요.`);
     setTimeout(() => { // 펫 위 '받지 못했어요'는 잠깐만
-      if (wantModel !== file || !store.job(file)?.error) return;
-      wantModel = null;
+      if (want !== mine || !store.job(file)?.error) return;
+      want = null;
       sendDownloadBadge();
     }, BADGE_ERROR_MS);
   });
 }
 
 // 받는 동안 펫 머리 위에 학생 이름·진행 막대 (2026-11-05 사용자: GitHub 첫 연결이 가끔 10초쯤 걸려 고른 뒤 아무 반응이 없어 보였음).
-// 마지막에 고른 학생 것만. 다 받으면 학생이 바뀌며 페이지를 다시 읽어 사라지고, 실패하면 BADGE_ERROR_MS 동안 '받지 못했어요'
+// 마지막에 고른 학생 것만, 메뉴를 연 학생 머리 위에(그 학생이 없어졌으면 첫 학생). 다 받으면 학생이 바뀌며 페이지를 다시 읽어 사라지고,
+// 실패하면 BADGE_ERROR_MS 동안 '받지 못했어요'
 const BADGE_ERROR_MS = 4000;
 function sendDownloadBadge() {
-  const job = wantModel && store?.job(wantModel);
-  sendToPet('pet:download', job ? { label: studentInfo(wantModel).label, got: job.got, total: job.total, error: !!job.error } : null);
+  const job = want && store?.job(want.file);
+  const at = job ? (alive(want.pet) ? want.pet : livePets()[0]) : null;
+  for (const pet of livePets()) {
+    sendToPet(pet, 'pet:download', pet === at ? { label: studentInfo(want.file).label, got: job.got, total: job.total, error: !!job.error } : null);
+  }
 }
 
 function notify(title, body) {
@@ -291,17 +373,18 @@ function studentInfo(file) {
 // 학생 메뉴: 학원 → 학생. 표의 학원은 학생이 아직 없어도 모두 순서대로 (나중에 학생을 다 넣을 것, 2026-10-29 사용자). 기타는 있을 때만 맨 끝
 // 맨 아래 "학생 폴더 열기": 받은 학생이 있는 곳 (예전에 받은 학생 압축을 직접 풀어 넣어도 됨)
 // 아직 없는 학생(앱 안에서 받기 목록에만 있는 것)도 같이 나오고, 고르면 받는다
-function studentMenu(models) {
+// pet: 메뉴를 연 학생. add면 "학생 하나 더 띄우기"(고른 학생을 더 띄움, 체크 표시 없음), 아니면 그 학생을 바꿈
+function studentMenu(models, pet, add = false) {
   const openFolder = { label: '학생 폴더 열기', click: openModelsFolder };
   const local = new Set(models);
   const remote = (store?.remotePets() ?? []).map((f) => f.file).filter((f) => !local.has(f));
   const tail = [{ type: 'separator' }, openFolder];
   if (store?.indexError) tail.unshift({ label: '학생 목록 다시 받기', note: '실패', click: () => store.refresh() });
   if (!models.length && !remote.length) return [{ label: '학생이 없습니다', enabled: false }, ...tail];
-  return [...schoolMenus(models, remote), ...tail];
+  return [...schoolMenus(models, remote, pet, add), ...tail];
 }
 
-function schoolMenus(models, remote) {
+function schoolMenus(models, remote, pet, add) {
   const bySchool = new Map(STUDENTS.schools.map((s) => [s.name, []]));
   for (const [file, have] of [...models.map((f) => [f, true]), ...remote.map((f) => [f, false])]) {
     const { school, label } = studentInfo(file);
@@ -315,9 +398,8 @@ function schoolMenus(models, remote) {
       .map(({ file, label, have }) => ({
         label,
         note: !have ? downloadNote(file) : CHECKED.has(file) ? undefined : UNCHECKED_NOTE,
-        type: 'radio',
-        checked: settings.model === file,
-        click: () => (have ? setModel(file) : downloadAndUse(file)),
+        ...(add ? {} : { type: 'radio', checked: pet?.model === file }),
+        click: () => (!have ? downloadAndUse(file, pet, add) : add ? addPet(file, pet) : setModel(pet, file)),
       })),
   }));
 }
@@ -327,23 +409,25 @@ function schoolMenus(models, remote) {
 const CHECKED = new Set(require('./checked-students.json').files);
 const UNCHECKED_NOTE = '검사 전';
 
-function setModel(file) {
-  wantModel = null; // 받는 중에 다른(이미 있는) 학생을 고르면 받은 뒤 그 학생으로 바꾸지 않음
-  settings.model = file;
-  saveSettings();
+function setModel(pet, file) {
+  if (want) { want = null; sendDownloadBadge(); } // 받는 중에 다른(이미 있는) 학생을 고르면 받은 뒤 그 학생으로 바꾸지 않음
+  if (!alive(pet)) return;
+  joint?.abortFor(pet);
+  pet.model = file;
+  savePets();
   rebuildMenus();
-  fitWindowWidth();
-  if (win) win.reload();
+  fitWindowWidth(pet);
+  pet.win.reload();
 }
 
 // 학생마다 창 가로가 다를 수 있으니(pet-window.js) 학생을 바꾸면 발밑 가운데를 그대로 두고 가로만 맞춘다
-function fitWindowWidth() {
-  if (!win) return;
-  const old = win.getBounds();
-  const { w, h } = sizeOf();
+function fitWindowWidth(pet) {
+  if (!alive(pet)) return;
+  const old = pet.win.getBounds();
+  const { w, h } = sizeOf(pet.model);
   if (old.width === w) return;
-  win.setBounds({ x: Math.round(old.x + old.width / 2 - w / 2), y: old.y, width: w, height: h });
-  sendToPet('pet:bounds-changed');
+  pet.win.setBounds({ x: Math.round(old.x + old.width / 2 - w / 2), y: old.y, width: w, height: h });
+  sendToPet(pet, 'pet:bounds-changed');
 }
 
 function openViewer() {
@@ -363,12 +447,17 @@ function openViewer() {
   viewerWin.on('closed', () => { viewerWin = null; });
 }
 
-// 종료: 펫이 후퇴 동작으로 화면 밖으로 뛰어간 뒤 꺼진다. 다시 누르거나 응답이 없으면 바로 종료.
+// 종료: 모든 학생이 후퇴 동작(밧줄)으로 올라간 뒤 꺼진다. 다시 누르거나 응답이 없으면 바로 종료.
 let quitting = false;
+let appQuitting = false; // 창이 닫혀도 띄운 학생 목록을 지우지 않게
+app.on('before-quit', () => { appQuitting = true; });
 function quitWithRetreat() {
-  if (quitting || !win || win.isDestroyed()) { quitApp(); return; }
+  const live = livePets();
+  if (quitting || !live.length) { quitApp(); return; }
   quitting = true;
-  sendToPet('pet:command', 'retreat');
+  joint?.abortFor(null);
+  savePets();
+  for (const pet of live) sendToPet(pet, 'pet:command', 'retreat');
   setTimeout(quitApp, 5000);
 }
 
@@ -383,25 +472,32 @@ function updateAndRestart() {
   quitWithRetreat();
 }
 
-function buildMenuTemplate() {
+// pet: 우클릭한 학생 (동작·학생 바꾸기·돌려보내기가 그 학생에게). 트레이 메뉴는 pet 없이: 동작은 모든 학생, 학생 바꾸기는 첫 학생
+function buildMenuTemplate(pet = null) {
   const models = petModels();
+  const target = alive(pet) ? pet : livePets()[0];
+  const command = (cmd) => () => (pet ? sendToPet(pet, 'pet:command', cmd) : sendToAll('pet:command', cmd));
+  const count = livePets().length;
   return [
     {
       label: '동작',
       submenu: [
-        { label: '반응', click: () => sendToPet('pet:command', 'react') },
-        { label: '랜덤 행동', click: () => sendToPet('pet:command', 'fidget') },
-        { label: '낮잠', click: () => sendToPet('pet:command', 'nap') },
-        { label: '전투 모드', click: () => sendToPet('pet:command', 'battle') },
-        { label: '공격', click: () => sendToPet('pet:command', 'attack') },
-        { label: 'EX 스킬', click: () => sendToPet('pet:command', 'ex') },
+        { label: '반응', click: command('react') },
+        { label: '랜덤 행동', click: command('fidget') },
+        { label: '낮잠', click: command('nap') },
+        { label: '전투 모드', click: command('battle') },
+        { label: '공격', click: command('attack') },
+        { label: 'EX 스킬', click: command('ex') },
       ],
     },
     { label: '애니메이션 보기', click: openViewer },
     {
       label: '학생',
-      submenu: studentMenu(models),
+      submenu: studentMenu(models, target),
     },
+    count < MAX_PETS
+      ? { label: '학생 하나 더 띄우기', submenu: studentMenu(models, target, true) }
+      : { label: '학생 하나 더 띄우기', note: `최대 ${MAX_PETS}명`, enabled: false },
     {
       label: '돌아다니기',
       type: 'checkbox',
@@ -409,7 +505,7 @@ function buildMenuTemplate() {
       click: (item) => {
         settings.walk = item.checked;
         saveSettings();
-        sendToPet('pet:settings', settings);
+        sendToAll('pet:settings', { walk: settings.walk }); // settings.model(첫 학생)이 다른 학생 페이지의 학생을 덮지 않게
         rebuildMenus();
       },
     },
@@ -428,7 +524,7 @@ function buildMenuTemplate() {
       checked: settings.alwaysOnTop,
       click: (item) => {
         settings.alwaysOnTop = item.checked;
-        if (win) win.setAlwaysOnTop(item.checked);
+        for (const p of livePets()) p.win.setAlwaysOnTop(item.checked);
         saveSettings();
         rebuildMenus();
       },
@@ -447,7 +543,8 @@ function buildMenuTemplate() {
     { label: '위치 초기화', click: resetPosition },
     { type: 'separator' },
     ...(updateReady ? [{ label: `업데이트하고 다시 시작 (${updateReady})`, click: updateAndRestart }] : []),
-    { label: '종료', click: quitWithRetreat },
+    // 펫 우클릭 메뉴의 종료는 그 학생만 밧줄로 보냄(2026-11-07 사용자, 예전 "이 학생 돌려보내기"), 마지막 한 명이면 앱 종료. 트레이 종료는 모두
+    { label: '종료', danger: true, click: pet && count > 1 ? () => dismissPet(pet) : quitWithRetreat },
   ];
 }
 
@@ -516,20 +613,27 @@ function toMenuItems(template) {
       type: item.type ?? 'normal',
       checked: !!item.checked,
       enabled: item.enabled !== false,
-      danger: item.click === quitWithRetreat,
+      danger: item.danger || item.click === quitWithRetreat,
       submenu: item.submenu ? toMenuItems(item.submenu) : undefined,
     };
   });
 }
 
-function showPetMenu() {
+const jointRows = (pet) => joint?.rowsFor(pet, () => livePets().length < MAX_PETS);
+function showPetMenu(pet) {
   if (!menuWin) createMenuWindow();
   menuClicks = new Map();
-  const items = toMenuItems(buildMenuTemplate());
+  const items = toMenuItems(buildMenuTemplate(pet));
   const p = screen.getCursorScreenPoint();
   const wa = screen.getDisplayNearestPoint(p).workArea;
   menuAt = { seq: ++menuSeq, p, wa };
-  const data = { seq: menuSeq, items, title: studentInfo(settings.model).label, roomRight: wa.x + wa.width - p.x };
+  // 합동 승리 얼굴 줄 (joint-main.js rowsFor): 누르는 것은 메뉴 항목처럼 id로
+  const clickId = (fn) => { if (!fn) return null; const id = menuClicks.size + 1; menuClicks.set(id, { click: fn, item: {} }); return id; };
+  const jointData = (jointRows(pet) ?? []).map((r) => ({
+    members: r.members.map((m) => ({ face: `faces/${encodeURIComponent(m.model.replace(/\.glb$/i, '.png'))}`, label: m.label, here: m.here, me: m.me, add: clickId(m.add) })),
+    go: clickId(r.go),
+  }));
+  const data = { seq: menuSeq, items, joint: jointData, title: studentInfo(pet.model).label, roomRight: wa.x + wa.width - p.x };
   if (menuWin.webContents.isLoading()) menuWin.webContents.once('did-finish-load', () => menuWin.webContents.send('menu:open', data));
   else menuWin.webContents.send('menu:open', data);
 }
@@ -579,7 +683,7 @@ function rebuildMenus() {
 
 // 트레이(윈도우 기본 메뉴)에는 note 칸이 없어서 이름 뒤에 괄호로
 function forTray(template) {
-  return template.map(({ note, submenu, ...item }) => ({
+  return template.map(({ note, submenu, danger, ...item }) => ({
     ...item,
     ...(note && { label: `${item.label}  (${note})` }),
     ...(submenu && { submenu: forTray(submenu) }),
@@ -590,27 +694,31 @@ function createTray() {
   const icon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'tray.png'));
   tray = new Tray(icon.isEmpty() ? nativeImage.createEmpty() : icon);
   tray.setToolTip('샬레 당번');
-  tray.on('click', () => sendToPet('pet:command', 'react'));
+  tray.on('click', () => sendToAll('pet:command', 'react'));
   rebuildMenus();
 }
 
 // ---- IPC ----
-ipcMain.handle('pet:read-model', () => {
-  let file = studentFiles.pathOf(settings.model);
+// 페이지마다 자기 학생: 보낸 창(e.sender)으로 어느 학생인지 찾는다
+ipcMain.handle('pet:read-model', (e) => {
+  const pet = petOf(e.sender);
+  if (!pet) throw new Error('펫 창이 아닙니다');
+  let file = studentFiles.pathOf(pet.model);
   if (!file) {
     // 설정의 모델이 없으면(받은 학생 파일을 지웠을 때 등) 펫으로 쓸 수 있는 첫 번째 모델로 대체
     const first = petModels()[0] ?? studentFiles.list()[0];
     if (!first) throw new Error('models 폴더에 .glb 파일이 없습니다');
-    settings.model = first;
+    pet.model = first;
     file = studentFiles.pathOf(first);
-    fitWindowWidth();
+    fitWindowWidth(pet);
+    savePets();
   }
   return fs.readFileSync(file);
 });
 
-ipcMain.handle('pet:get-settings', () => settings);
+ipcMain.handle('pet:get-settings', (e) => ({ ...settings, model: petOf(e.sender)?.model ?? settings.model }));
 
-ipcMain.handle('pet:list-models', () => ({ models: studentFiles.list(), current: settings.model }));
+ipcMain.handle('pet:list-models', () => ({ models: studentFiles.list(), current: livePets()[0]?.model ?? settings.model }));
 
 ipcMain.handle('pet:read-model-file', (_e, name) => {
   const file = studentFiles.pathOf(name);
@@ -618,9 +726,10 @@ ipcMain.handle('pet:read-model-file', (_e, name) => {
   return fs.readFileSync(file);
 });
 
-ipcMain.handle('pet:get-bounds', () => {
-  if (!win) return null;
-  const b = win.getBounds();
+ipcMain.handle('pet:get-bounds', (e) => {
+  const pet = petOf(e.sender);
+  if (!pet) return null;
+  const b = pet.win.getBounds();
   return { win: b, workArea: workAreaFor(b) };
 });
 
@@ -629,24 +738,57 @@ ipcMain.handle('pet:get-work-area', (_e, x, y) => {
   return screen.getDisplayNearestPoint({ x: Math.round(x), y: Math.round(y) }).workArea;
 });
 
-ipcMain.on('pet:move', (_e, x, y) => {
-  if (!win) return;
-  const { w, h } = sizeOf();
+ipcMain.on('pet:move', (e, x, y) => {
+  const pet = petOf(e.sender);
+  if (!pet) return;
+  const { w, h } = sizeOf(pet.model);
   // setPosition은 고DPI에서 창 크기가 조금씩 변하는 문제가 있어 setBounds 사용
-  win.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: h });
+  pet.win.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: h });
 });
 
-ipcMain.on('pet:set-ignore', (_e, ignore) => {
-  if (win) win.setIgnoreMouseEvents(ignore, { forward: true });
+ipcMain.on('pet:set-ignore', (e, ignore) => {
+  petOf(e.sender)?.win.setIgnoreMouseEvents(ignore, { forward: true });
 });
 
 ipcMain.on('pet:fx', (_e, type) => relayFx(type));
 
-ipcMain.on('pet:quit', quitApp);
-
-ipcMain.on('pet:show-menu', () => {
-  if (win) showPetMenu();
+// 학생이 퇴장(밧줄)을 마침: 돌려보내는 학생이면 그 창만 닫고, 종료 중이면 모두 마쳤을 때 끈다
+ipcMain.on('pet:quit', (e) => {
+  const pet = petOf(e.sender);
+  if (pet && !quitting && (pet.leaving || livePets().length > 1)) { pet.win.close(); return; }
+  if (pet) pet.gone = true;
+  if (!quitting || livePets().every((p) => p.gone)) quitApp();
 });
+
+// 합동 승리 (joint-main.js)
+ipcMain.on('pet:status', (e, s) => { const pet = petOf(e.sender); if (pet) { pet.status = s; joint?.onStatus(pet); } });
+ipcMain.on('pet:joint-loaded', (e) => { const pet = petOf(e.sender); if (pet) joint?.onLoaded(pet); });
+ipcMain.handle('pet:read-joint-file', (_e, model) => {
+  const file = joint?.fileOf(model);
+  if (!file) throw new Error(`합동 동작 모델이 없습니다: ${model}`);
+  return fs.readFileSync(file);
+});
+ipcMain.on('pet:joint-ready', (e) => { const pet = petOf(e.sender); if (pet) joint?.onReady(pet); });
+ipcMain.on('pet:joint-done', (e, ends) => { const pet = petOf(e.sender); if (pet) joint?.onDone(pet, ends); });
+
+ipcMain.on('pet:show-menu', (e) => {
+  const pet = petOf(e.sender);
+  if (pet) showPetMenu(pet);
+});
+
+// 시험용: 화면 밖에서 메인 쪽을 움직여 보는 도구가 쓴다 (PET_TEST_HOOK=1)
+if (process.env.PET_TEST_HOOK) {
+  global.__petMain = { pets, joint: () => joint, settings: () => settings, addPet, dismissPet, setModel, setSize, buildMenuTemplate, quitWithRetreat, resetPosition,
+    // 우클릭 메뉴를 화면 밖(보이지 않게)에서 그려 PNG로: 커서·포커스를 건드리지 않음
+    async menuShot(pet, file) {
+      showPetMenu(pet);
+      menuAt = null; // menu:ready로 커서 옆에 옮기지 않게
+      menuWin.setBounds({ x: -4000, y: 0, width: 600, height: 700 });
+      await new Promise((r) => setTimeout(r, 600));
+      fs.writeFileSync(file, (await menuWin.webContents.capturePage()).toPNG());
+      return file;
+    } };
+}
 
 // ---- 앱 수명주기 ----
 if (!app.requestSingleInstanceLock()) {
@@ -654,16 +796,22 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   app.whenReady().then(() => {
     loadSettings();
-    // 설정의 모델이 펫으로 못 쓰는 장면용 모델이면(예: 메뉴에서 빠지기 전에 고른 Arisu (Battle) (Carrier)) 쓸 수 있는 첫 모델로
-    if (studentFiles.pathOf(settings.model) && !studentFiles.usable(settings.model)) {
-      const first = petModels()[0];
-      if (first) { settings.model = first; saveSettings(); }
-    }
-    createWindow();
+    // 설정의 모델이 펫으로 못 쓰는 장면용 모델이면(예: 메뉴에서 빠지기 전에 고른 Arisu (Battle) (Carrier)) 쓸 수 있는 첫 모델로.
+    // 파일이 아예 없는 학생은 페이지가 읽을 때(pet:read-model) 바꾼다
+    const first = petModels()[0];
+    settings.pets = settings.pets.map((m) => (studentFiles.pathOf(m) && !studentFiles.usable(m) && first ? first : m));
+    settings.pets.forEach((model, i) => createWindow(model, homeBounds(model, i)));
+    savePets();
     createFxWindow();
     createMenuWindow(); // 처음 우클릭할 때 만들면 창을 띄우고 페이지를 읽느라 늦게 떴음
     createTray();
     startStudentStore();
+    // stack: 펫 창을 이 순서로 위에 올림 (뒤에 있는 학생부터, 클릭 효과 창은 늘 맨 위)
+    const stack = (list) => {
+      for (const p of list) if (alive(p)) p.win.moveTop();
+      if (fxWin && !fxWin.isDestroyed()) fxWin.moveTop();
+    };
+    joint = jointVictory({ livePets, alive, sendToPet, addPet, stack, userData: app.getPath('userData'), label: (f) => studentInfo(f).label });
     updater = startUpdater({ onReady: (version) => { updateReady = version; rebuildMenus(); } });
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

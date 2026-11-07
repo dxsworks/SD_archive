@@ -1649,6 +1649,8 @@ const JOINT_OUT = ['drag', 'fall', 'retreat', 'gone']; // 들려 있거나 떨�
 const JOINT_HOLD = 0.4;     // 다 끝난 뒤 마지막 자세로 잠깐 더
 const JOINT_FADE_IN = 0.35; // 평소 대기 → 합동 Start
 const JOINT_FADE_OUT = 0.5; // 합동 End 마지막 자세 → 평소 대기
+const JOINT_HANDOFF = 0.25; // 시작: 나머지 창이 비워질 때까지 첫 그림 그대로 (대기만 흐름). 바로 섞기 시작하면 비우라는 신호가 가는 몇 프레임 동안
+                            // 움직이기 시작한 host 그림과 아직 안 비운 창이 같이 보여 먼 학생이 두 번 보였음(밴드 4명, 2026-11-07)
 const JOINT_TAIL = 0.3;     // 나머지 학생이 자기 창에 다시 나타날 때까지 host 창에도 그대로 그림 (창이 옮겨 간 걸 보고 나타남)
 const JOINT_WAIT_MAX = 20;  // 줄서서 이만큼 넘게 시작을 못 하면 그만둠 (메인이 사라졌을 때)
 const GATHER_NEAR = 0.15;   // 모일 자리(메인이 정한 배치 자리)에서 이만큼 안이면 안 걸음 (바닥 단위)
@@ -1784,7 +1786,7 @@ function startJoint(members) {
   });
   root.add(group);
   showSelf(false);
-  jointShow = { list, group, t: 0, end: Math.max(...list.map((x) => x.j.length)) + JOINT_HOLD, me, ended: null };
+  jointShow = { list, group, t: 0, wait: JOINT_HANDOFF, end: Math.max(...list.map((x) => x.j.length)) + JOINT_HOLD, me, ended: null };
   setState('joint');
   poseJoint();
   updateJointShadows();
@@ -1826,7 +1828,7 @@ function updateJointShadows() {
 
 function updateJoint(dt) {
   const sh = jointShow;
-  sh.t += dt;
+  if (sh.wait > 0) { sh.wait -= dt; for (const x of sh.list) x.idleT += dt; } else sh.t += dt;
   poseJoint();
   updateJointShadows();
   if (sh.ended === null && sh.t >= sh.end + JOINT_FADE_OUT) endJoint();

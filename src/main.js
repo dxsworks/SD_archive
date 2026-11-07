@@ -292,6 +292,9 @@ function openModelsFolder() {
 const STUDENTS_URL = process.env.PET_STUDENTS_URL ?? 'https://github.com/dxsworks/SD_archive/releases/download/students';
 const STUDENTS_REFRESH = 6 * 60 * 60 * 1000;
 let store = null; // app ready 뒤에 만듦 (net.fetch)
+let jointStore = null; // 합동 승리 동작 (같은 릴리스의 joint-index.json, tools/make-joint-pack.js). 조합 학생을 다 받으면 joint-main.js가 받음
+const jointClipsDir = () => path.join(app.getPath('userData'), 'joint-clips');
+const jointClipOf = (file) => { const f = path.join(jointClipsDir(), file); return fs.existsSync(f) ? f : null; };
 let want = null; // { file, pet, add } 받는 중에 다른 학생을 고르면 마지막에 고른 학생만 바꾼다(더 띄운다). pet = 메뉴를 연 학생
 
 function startStudentStore() {
@@ -303,8 +306,24 @@ function startStudentStore() {
     has: (file) => !!studentFiles.pathOf(file),
     onChange: () => { rebuildMenus(); sendDownloadBadge(); },
   });
+  jointStore = studentStore({
+    dir: jointClipsDir(),
+    cacheFile: path.join(app.getPath('userData'), 'joint-index.json'),
+    baseUrl: STUDENTS_URL.replace(/\/$/, ''),
+    fetch: (url) => net.fetch(url),
+    has: (file) => !!jointClipOf(file),
+    onChange: () => rebuildMenus(),
+    indexName: 'joint-index.json',
+  });
   store.refresh();
-  setInterval(() => store.refresh(), STUDENTS_REFRESH);
+  jointStore.refresh();
+  setInterval(() => { store.refresh(); jointStore.refresh(); }, STUDENTS_REFRESH);
+}
+
+// 합동 승리 얼굴 줄의 +: 받은 학생이면 바로 띄우고, 아니면 받은 뒤 띄움(받는 동안 메뉴를 연 학생 머리 위에 표시)
+function addStudent(file, near) {
+  if (studentFiles.pathOf(file)) addPet(file, near);
+  else if (store?.listed(file)) downloadAndUse(file, near, true);
 }
 
 function downloadAndUse(file, pet, add = false) {
@@ -763,10 +782,11 @@ ipcMain.on('pet:quit', (e) => {
 // 합동 승리 (joint-main.js)
 ipcMain.on('pet:status', (e, s) => { const pet = petOf(e.sender); if (pet) { pet.status = s; joint?.onStatus(pet); } });
 ipcMain.on('pet:joint-loaded', (e) => { const pet = petOf(e.sender); if (pet) joint?.onLoaded(pet); });
+// 합동 동작: 개발용 모델이면 { full }, 받은 합동 동작이면 { model: 학생 파일, clips } (pet.js가 합침)
 ipcMain.handle('pet:read-joint-file', (_e, model) => {
-  const file = joint?.fileOf(model);
-  if (!file) throw new Error(`합동 동작 모델이 없습니다: ${model}`);
-  return fs.readFileSync(file);
+  const src = joint?.sourceOf(model);
+  if (!src) throw new Error(`합동 동작이 없습니다: ${model}`);
+  return src.full ? { full: fs.readFileSync(src.full) } : { model: fs.readFileSync(src.model), clips: fs.readFileSync(src.clips) };
 });
 ipcMain.on('pet:joint-ready', (e) => { const pet = petOf(e.sender); if (pet) joint?.onReady(pet); });
 ipcMain.on('pet:joint-done', (e, ends) => { const pet = petOf(e.sender); if (pet) joint?.onDone(pet, ends); });
@@ -811,7 +831,12 @@ if (!app.requestSingleInstanceLock()) {
       for (const p of list) if (alive(p)) p.win.moveTop();
       if (fxWin && !fxWin.isDestroyed()) fxWin.moveTop();
     };
-    joint = jointVictory({ livePets, alive, sendToPet, addPet, stack, userData: app.getPath('userData'), label: (f) => studentInfo(f).label });
+    joint = jointVictory({
+      livePets, alive, sendToPet, addStudent, stack, label: (f) => studentInfo(f).label,
+      clips: { pathOf: jointClipOf, listed: (f) => !!jointStore?.listed(f), download: (f) => jointStore.download(f), job: (f) => jointStore?.job(f) },
+      studentPath: (f) => (studentFiles.usable(f) ? studentFiles.pathOf(f) : null),
+      canGetStudent: (f) => !!store?.listed(f),
+    });
     updater = startUpdater({ onReady: (version) => { updateReady = version; rebuildMenus(); } });
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

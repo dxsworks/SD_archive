@@ -44,6 +44,14 @@ gh release upload students -R dxsworks/SD_archive --clobber dist/students/studen
 
 `--split`은 지난 목록과 해시가 같은 학생은 다시 압축하지 않습니다. 목록의 `checked`가 메뉴의 '검사 전' 표시에는 안 쓰이고(앱에 든 `src/checked-students.json`을 씀), 학생을 새로 붙이면 학생 파일을 올리고 앱도 새 버전으로 내야 '검사 전'이 빠집니다. 시험할 때는 `PET_STUDENTS_URL=<목록과 학생 파일이 있는 주소>`(예: `dist/students`를 `python -m http.server`로), 설정·받은 학생 폴더를 따로 쓰려면 `PET_USER_DATA=<폴더>`.
 
+합동 승리 동작도 같은 릴리스에 둡니다. 조합 학생 파일을 다 받으면 앱이 그 조합의 합동 동작(학생당 0.2~0.5MB)만 받아 `%APPDATA%luearchive-desktop-pet\joint-clips`에 둡니다.
+
+```bash
+node tools/make-joint-pack.js   # game-cache/joint-glb → dist/joint
+gh release upload students -R dxsworks/SD_archive --clobber dist/joint/*.joint.br
+gh release upload students -R dxsworks/SD_archive --clobber dist/joint/joint-index.json   # 목록은 맨 마지막에
+```
+
 예전 방식인 학생 압축 하나(`node tools/make-pack.js` → `dist/students.zip`, 받은 학생 폴더에 풀기)도 그대로 만들 수 있고, 풀어 둔 학생은 받은 학생으로 칩니다.
 
 앱을 삭제하면 `%APPDATA%\bluearchive-desktop-pet`(받은 학생·설정)도 같이 지워집니다(`nsis.deleteAppDataOnUninstall`, 새 버전을 덮어 설치할 때는 안 지움). 개발용 `npm start`도 같은 폴더를 쓰니 이 컴퓨터에서 설치본을 삭제하면 개발용 설정·받은 학생도 사라집니다.

@@ -1,5 +1,7 @@
 // 합동 승리 (2026-11-07 사용자): 조합 학생이 바탕화면에 다 떠 있고 가까이 모이면 높은 확률로 같이 승리 포즈.
-// - 조합: joint-victory.json (tools/make-joint-data.js), 합동 동작이 든 학생 모델은 joint-glb/<학생 파일 이름>
+// - 조합: joint-victory.json (tools/make-joint-data.js). 합동 동작: 개발용은 game-cache/joint-glb/<학생 파일 이름>(학생 파일 + 합동 동작),
+//   배포는 합동 동작만 떼어 낸 것(tools/make-joint-pack.js)을 조합 학생을 다 받으면 그 조합 것만 받아(clips, student-store.js) 학생 파일에 붙여 읽음
+//   (2026-11-07 사용자: 조합 다 받으면 그것만. 학생 파일 통째면 35명 310MB, 떼어 내면 압축 14.5MB)
 // - 다 떠 있으면 가끔 한 학생이 다른 조합 학생 옆 자기 배치 자리로 걸어감(gather) → 모두 배치 자리 가까이면 JOINT_CHANCE로 발동
 // - 발동: 모두 자기 배치 자리로 걸어가 기다림(line → jointwait), 그동안 host(조합 가운데에 가장 가까운 학생)가 합동 동작 모델을 읽음.
 //   다 모이고 다 읽으면 host 창에 모두를 그리고(몸이 겹치는 장면이 창마다 따로면 앞뒤가 틀어짐, go) 나머지 창은 비움(away),
@@ -24,10 +26,10 @@ const LINING = new Set(['lineup', 'jointwait']);
 const CALM = new Set(['idle', 'walk', 'armed']); // 이 상태일 때만 끼움 (무장은 그만두고, 전투·낮잠·들기·EX·동작 중엔 끝날 때까지 기다림)
 const MOVER = new Set(['idle', 'walk']);         // 걸어서 모일 학생
 
-// 합동 동작 모델 폴더: 받은 것(userData/joint-glb) → 개발용 game-cache/joint-glb(프로젝트 폴더나 그 위, worktree에서도 찾게)
-function findJointDir(userData, from) {
-  const own = path.join(userData, 'joint-glb');
-  if (fs.existsSync(own)) return own;
+const CLIPS_RETRY = 10 * 60e3; // 합동 동작을 못 받았으면 이만큼 뒤에 다시
+
+// 개발용 합동 동작 모델 폴더 game-cache/joint-glb (프로젝트 폴더나 그 위, worktree에서도 찾게)
+function findJointDir(from) {
   for (let d = from; ; d = path.dirname(d)) {
     const dir = path.join(d, 'game-cache', 'joint-glb');
     if (fs.existsSync(dir)) return dir;
@@ -35,10 +37,33 @@ function findJointDir(userData, from) {
   }
 }
 
-function jointVictory({ livePets, alive, sendToPet, addPet, stack = () => {}, userData, label }) {
-  const dir = findJointDir(userData, __dirname);
-  const fileOf = (model) => (dir && fs.existsSync(path.join(dir, model)) ? path.join(dir, model) : null);
-  const ready = COMBOS.filter((c) => c.members.every((m) => fileOf(m.model)));
+// clips: 받는 합동 동작 { pathOf(학생 파일) → 받은 파일 | null, listed(학생 파일): 받을 수 있는지, download(학생 파일) → Promise, job(학생 파일) }
+// studentPath(학생 파일): 받은 학생 파일 | null, canGetStudent(학생 파일): 받을 수 있는 학생인지, addStudent(학생 파일, 옆 펫): 띄우기(없으면 받고)
+function jointVictory({ livePets, alive, sendToPet, addStudent, stack = () => {}, label, clips = null, studentPath = () => null, canGetStudent = () => false }) {
+  const dir = process.env.PET_JOINT_DEV === '0' ? null : findJointDir(__dirname); // 시험: PET_JOINT_DEV=0이면 받은 합동 동작만
+  const devFile = (model) => (dir && fs.existsSync(path.join(dir, model)) ? path.join(dir, model) : null);
+  // 학생 하나의 합동 동작: 개발용 모델 { full } → 받은 합동 동작 + 학생 파일 { clips, model }
+  const sourceOf = (model) => {
+    const full = devFile(model);
+    if (full) return { full };
+    const c = clips?.pathOf(model), s = studentPath(model);
+    return c && s ? { clips: c, model: s } : null;
+  };
+  const isReady = (c) => c.members.every((m) => sourceOf(m.model));
+  // 메뉴에 낼 조합: 학생마다 합동 동작이 있거나 받을 수 있고, 학생 파일도 있거나 받을 수 있음
+  const isKnown = (c) => c.members.every((m) => (devFile(m.model) || clips?.pathOf(m.model) || clips?.listed(m.model)) && (studentPath(m.model) || canGetStudent(m.model)));
+  const failed = new Map(); // 학생 파일 → 합동 동작을 못 받은 시각
+  // 조합 학생 파일을 다 받았는데 합동 동작이 없으면 그 조합 것만 받음 (다 받으면 다음 판정부터 발동할 수 있음)
+  function fetchClips() {
+    if (!clips) return;
+    for (const c of COMBOS) {
+      if (isReady(c) || !c.members.every((m) => studentPath(m.model))) continue;
+      for (const { model } of c.members) {
+        if (sourceOf(model) || !clips.listed(model) || clips.job(model) || Date.now() - (failed.get(model) ?? -Infinity) < CLIPS_RETRY) continue;
+        clips.download(model).catch((err) => { failed.set(model, Date.now()); console.error('합동 동작 받기 실패:', model, err.message); });
+      }
+    }
+  }
   const memory = new Map(); // 조합 id → { next: 다음에 굴릴 수 있는 시각, near: 지난 판정에 가까웠는지, force: 메뉴로 부름 }
   const mem = (c) => memory.get(c.id) ?? memory.set(c.id, { next: 0, near: false, force: false }).get(c.id);
   let active = null; // { combo, host, me, members: [pet], from: [{x,z}], phase: 'line' | 'show', loaded, since }
@@ -69,12 +94,14 @@ function jointVictory({ livePets, alive, sendToPet, addPet, stack = () => {}, us
   };
 
   function tick() {
+    fetchClips();
     if (active) {
       if (active.phase === 'line' && Date.now() - active.since > LINE_MAX) abortFor(null);
       return;
     }
     const now = Date.now();
     const options = [];
+    const ready = COMBOS.filter(isReady);
     for (const c of ready) {
       const ps = petsFor(c);
       const m = mem(c);
@@ -187,7 +214,7 @@ function jointVictory({ livePets, alive, sendToPet, addPet, stack = () => {}, us
   // 우클릭 메뉴 이름 위 얼굴 줄 (2026-11-07 사용자: 글자 없이 아이콘으로, 초안 A): 이 학생이 들어간 조합마다 한 줄.
   // 학생마다 { model, here: 떠 있음, me: 우클릭한 학생, add: 없는 학생 띄우기(자리 없으면 null) }, go: 다 있으면 "지금 모이기"
   function rowsFor(pet, canAdd) {
-    return ready.filter((c) => c.members.some((m) => m.model === pet.model)).map((c) => {
+    return COMBOS.filter((c) => c.members.some((m) => m.model === pet.model) && isKnown(c)).map((c) => {
       const ps = petsFor(c);
       return {
         members: c.members.map((m, i) => ({
@@ -195,7 +222,7 @@ function jointVictory({ livePets, alive, sendToPet, addPet, stack = () => {}, us
           label: label(m.model),
           here: !!ps[i],
           me: ps[i] === pet,
-          add: !ps[i] && canAdd() ? () => addPet(m.model, pet) : null,
+          add: !ps[i] && canAdd() ? () => addStudent(m.model, pet) : null,
         })),
         go: ps.every(Boolean) ? () => { const mm = mem(c); mm.force = true; mm.near = false; } : null,
       };
@@ -203,7 +230,7 @@ function jointVictory({ livePets, alive, sendToPet, addPet, stack = () => {}, us
   }
 
   setInterval(tick, TICK);
-  return { fileOf, rowsFor, onStatus, onLoaded, onReady, onDone, abortFor, get active() { return active; } };
+  return { sourceOf, rowsFor, onStatus, onLoaded, onReady, onDone, abortFor, get active() { return active; } };
 }
 
 module.exports = { jointVictory };

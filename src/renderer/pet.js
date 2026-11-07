@@ -1723,14 +1723,23 @@ function loadJoint(combo, me) {
   jointLoad = { token: jointToken, combo, me, list: null, started: false };
   if (state === 'jointwait') readJoint();
 }
+// 합동 동작이 든 학생 모델: 개발용은 통째(full), 받은 것은 학생 파일 + 합동 동작만 든 glb(뼈 노드 + 동작, tools/make-joint-pack.js)를 합침.
+// 노드 이름이 같아 동작 트랙(노드 이름.속성)이 학생 모델에 그대로 붙음
+async function readJointGltf(model) {
+  const src = await bridge.readJointFile(model);
+  const parse = (data) => new GLTFLoader().parseAsync(toArrayBuffer(data), '');
+  if (src.full) return parse(src.full);
+  const [gltf, extra] = await Promise.all([parse(src.model), parse(src.clips)]);
+  gltf.animations = [...gltf.animations, ...extra.animations];
+  return gltf;
+}
 async function readJoint() {
   const { token, combo } = jointLoad;
   jointLoad.started = true;
   const list = [];
   try {
     for (const m of combo.members) {
-      const gltf = await new GLTFLoader().parseAsync(toArrayBuffer(await bridge.readJointFile(m.model)), '');
-      list.push({ m, j: jointStudent(gltf, m.start, m.end, toUnlit) });
+      list.push({ m, j: jointStudent(await readJointGltf(m.model), m.start, m.end, toUnlit) });
     }
   } catch (e) {
     console.warn('합동 승리 모델을 읽지 못함', e);

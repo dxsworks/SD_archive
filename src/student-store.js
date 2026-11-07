@@ -9,14 +9,14 @@ const zlib = require('zlib');
 const crypto = require('crypto');
 const { promisify } = require('util');
 
-const INDEX = 'students-index.json';
 const PROGRESS_EVERY = 250; // 받는 중 메뉴를 다시 그리는 간격 (ms)
 const brotliDecompress = promisify(zlib.brotliDecompress);
 const blobSha = (buf) => crypto.createHash('sha1').update(`blob ${buf.length}\0`).update(buf).digest('hex');
 
 //   dir: 받은 학생 폴더, cacheFile: 마지막으로 받은 목록, baseUrl: 목록·학생 파일이 있는 주소(끝에 / 없이)
 //   has(file): 이미 있는 학생인지 (받은 학생 폴더·설치 폴더), onChange(): 목록·받기 상태가 바뀌면 (메뉴 다시 그리기)
-function studentStore({ dir, cacheFile, baseUrl, fetch, has, onChange = () => {} }) {
+//   indexName: 목록 파일 이름 (합동 승리 동작은 joint-index.json, tools/make-joint-pack.js. 받은 파일은 dir/<학생 파일 이름>)
+function studentStore({ dir, cacheFile, baseUrl, fetch, has, onChange = () => {}, indexName = 'students-index.json' }) {
   let index = readJson(cacheFile);
   let indexError = null; // 목록을 못 받았을 때 (저장해 둔 목록이 있으면 그걸 씀)
   const jobs = new Map(); // 학생 파일 → { got, total, error, promise }
@@ -25,7 +25,7 @@ function studentStore({ dir, cacheFile, baseUrl, fetch, has, onChange = () => {}
 
   async function refresh() {
     try {
-      const res = await fetch(`${baseUrl}/${INDEX}`);
+      const res = await fetch(`${baseUrl}/${indexName}`);
       if (!res.ok) throw new Error(`목록 ${res.status}`);
       const next = await res.json();
       if (!Array.isArray(next.files)) throw new Error('목록 모양이 다름');
@@ -98,6 +98,7 @@ function studentStore({ dir, cacheFile, baseUrl, fetch, has, onChange = () => {}
       return main ? [main, ...(main.needs ?? []).map(entry).filter(Boolean)].reduce((n, p) => n + p.packed, 0) : 0;
     },
     job: (file) => jobs.get(file) ?? null,
+    listed: (file) => !!entry(file), // 목록에 있어 받을 수 있는지
     get indexError() { return index ? null : indexError; }, // 저장해 둔 목록도 없을 때만
   };
 }

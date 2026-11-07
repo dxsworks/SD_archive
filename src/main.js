@@ -761,7 +761,8 @@ ipcMain.on('pet:quit', (e) => {
 });
 
 // 합동 승리 (joint-main.js)
-ipcMain.on('pet:status', (e, s) => { const pet = petOf(e.sender); if (pet) pet.status = s; });
+ipcMain.on('pet:status', (e, s) => { const pet = petOf(e.sender); if (pet) { pet.status = s; joint?.onStatus(pet); } });
+ipcMain.on('pet:joint-loaded', (e) => { const pet = petOf(e.sender); if (pet) joint?.onLoaded(pet); });
 ipcMain.handle('pet:read-joint-file', (_e, model) => {
   const file = joint?.fileOf(model);
   if (!file) throw new Error(`합동 동작 모델이 없습니다: ${model}`);
@@ -805,7 +806,12 @@ if (!app.requestSingleInstanceLock()) {
     createMenuWindow(); // 처음 우클릭할 때 만들면 창을 띄우고 페이지를 읽느라 늦게 떴음
     createTray();
     startStudentStore();
-    joint = jointVictory({ livePets, alive, sendToPet, addPet, userData: app.getPath('userData'), label: (f) => studentInfo(f).label });
+    // stack: 펫 창을 이 순서로 위에 올림 (뒤에 있는 학생부터, 클릭 효과 창은 늘 맨 위)
+    const stack = (list) => {
+      for (const p of list) if (alive(p)) p.win.moveTop();
+      if (fxWin && !fxWin.isDestroyed()) fxWin.moveTop();
+    };
+    joint = jointVictory({ livePets, alive, sendToPet, addPet, stack, userData: app.getPath('userData'), label: (f) => studentInfo(f).label });
     updater = startUpdater({ onReady: (version) => { updateReady = version; rebuildMenus(); } });
     if (process.argv.includes('--viewer')) openViewer(); // 시작하면서 애니메이션 보기 창 열기
   });

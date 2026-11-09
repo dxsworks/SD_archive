@@ -3,7 +3,7 @@
 바탕화면 위를 블루 아카이브 학생들이 돌아다닙니다. 걷고, 낮잠 자고, 가끔 총을 꺼내 전투를 벌이고, 같이 띄운 학생들이 모이면 합동 승리 포즈까지.
 
 <p align="center">
-  <img src="docs/media/joint-band.gif" alt="방과후 디저트부 네 명이 모여 합동 승리 무대를 하는 모습" width="760">
+  <img src="docs/media/social-preview.png" alt="샬레 당번: 방과후 디저트부 네 명이 나란히 선 모습" width="760">
 </p>
 
 <p align="center">

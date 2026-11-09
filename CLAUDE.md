@@ -2,7 +2,7 @@
 
 블루 아카이브 학생 3D 모델(.glb)을 바탕화면에서 돌아다니게 하는 Electron + three.js 앱. 지금은 호시노(`models/Hoshino.glb`) 한 명을 띄운다.
 
-- 사용법·조작: [README.md](README.md)
+- 사용법·조작: [README.md](README.md), 빌드·배포·개발 도구: [docs/development.md](docs/development.md)
 - **애니메이션 의미, 쓰는 것/안 쓰는 것, 다른 학생 붙이는 법: [docs/animations.md](docs/animations.md)** ← 작업 전에 먼저 읽기
 - 모델 295개 지원 현황: [docs/models.md](docs/models.md), 원본 데이터 [docs/data/model-survey.json](docs/data/model-survey.json)
 - EX가 여러 개인 학생·짝 파일이 있는 학생 정리: [docs/special-students.md](docs/special-students.md)
@@ -20,7 +20,7 @@
 ```bash
 npm start                      # 또는 start-pet.vbs 더블클릭 (콘솔 없이)
 npx electron . --viewer        # 애니메이션 보기 창도 같이 열기
-npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바로가기 생성). 주의점은 README "배포용 설치 파일"
+npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바로가기 생성). 주의점은 docs/development.md "배포용 설치 파일"
 ```
 
 - `src/main.js` 투명 창, 트레이/우클릭 메뉴, 설정(`%APPDATA%/bluearchive-desktop-pet/settings.json`), 종료 시 후퇴. **여러 학생 동시에**(2026-11-06~07 사용자 "학생마다 창"): 펫마다 창 하나·학생 하나, 최대 4명(`MAX_PETS`). 띄운 학생은 `settings.pets`(첫 학생은 `settings.model`에도, 예전 버전 호환), 메뉴 "학생 하나 더 띄우기"(메뉴를 연 학생 옆에)·펫 우클릭 메뉴 "종료"는 그 학생만 밧줄로 보냄(2026-11-07 사용자, 예전 "이 학생 돌려보내기" 항목을 합침, 마지막 한 명이면 앱 종료, 트레이 "종료"는 모두). 펫 우클릭 메뉴의 동작·학생 바꾸기는 그 학생만, 트레이 메뉴 동작은 모두, 크기·돌아다니기·위치 초기화는 모두 같이. 페이지는 IPC 보낸 창(`petOf(e.sender)`)으로 자기 학생을 앎. 시험: `PET_USER_DATA=<폴더> PET_TEST_HOOK=1`로 따로 켜고 `--inspect`로 메인의 `global.__petMain`(`addPet`·`dismissPet`·`setModel`·`quitWithRetreat` 등)을 부름. 화면 밖 창 4명: 모두 60fps, GPU 1명 7~8% → 4명 약 31%. 합동 승리(조합 배치 `docs/data/joint-victory-placement.json`)는 이 위에 얹을 것
@@ -36,7 +36,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 - `src/model-files.js` 학생 파일 찾기: 받은 학생 폴더(`%APPDATA%/bluearchive-desktop-pet/models`, 메뉴 학생 → "학생 폴더 열기") → 설치 폴더 `models/` 순. 펫으로 쓸 수 있는지(`usable`, 카페 대기 있음)도. 메인과 도구가 같이 씀(Electron 없이)
 - `src/student-store.js` 앱 안에서 학생 받기(2026-11-05 사용자, 1.3.0부터): 릴리스 `students`(Latest 아님)의 `students-index.json`을 켤 때와 6시간마다 받아(마지막 것은 `userData/students-index.json`에 저장) 학생 메뉴에 아직 없는 학생을 `↓ 크기`로 내고, 고르면 `<이름>.glb.br`(+ 짝 파일 `needs`)을 받아 brotli 풀고 git 해시 확인 → 받은 학생 폴더. 메인(`main.js` `downloadAndUse`, 마지막에 고른 학생만 바꿈)과 도구가 같이 씀(Electron 없이). 받는 동안 펫 머리 위에 학생 이름·진행 막대(`pet.js` `setBadge`, 아직 0이면 오가는 막대, 실패면 빨간 '받지 못했어요' 4초. 2026-11-05 사용자: GitHub 첫 연결이 가끔 10초쯤 걸려 고른 뒤 반응이 없어 보였음. 가로는 펫 발밑 가운데, 높이는 머리 뼈 아래 메시 위 끝을 천천히 따라감: 머리를 그대로 따라가면 대기 흔들림에 좌우로 왔다 갔다 했음). 시험은 `__pet.badge({label, got, total, error})` 시험은 `PET_STUDENTS_URL`, 설정 폴더 따로 `PET_USER_DATA`
 - `src/checked-students.json` 학생 검사를 통과한 학생 파일. 여기 없는 학생은 메뉴에 '검사 전'(우클릭 메뉴 `note`, 트레이는 괄호). 학생을 붙이면 여기 넣는다
-- `src/updater.js` 자동 업데이트(2026-11-04 사용자, `electron-updater`): 설치본은 켤 때와 6시간마다 GitHub Releases(`dxsworks/SD_archive`)를 보고 새 버전을 알아서 받아 둔 뒤 윈도우 알림 + 메뉴 "업데이트하고 다시 시작", 그냥 종료해도 설치. 릴리스엔 설치 파일과 `latest.yml`·`.blockmap`을 같이 올림(README "배포용 설치 파일"). 시험은 `PET_UPDATE_URL`
+- `src/updater.js` 자동 업데이트(2026-11-04 사용자, `electron-updater`): 설치본은 켤 때와 6시간마다 GitHub Releases(`dxsworks/SD_archive`)를 보고 새 버전을 알아서 받아 둔 뒤 윈도우 알림 + 메뉴 "업데이트하고 다시 시작", 그냥 종료해도 설치. 릴리스엔 설치 파일과 `latest.yml`·`.blockmap`을 같이 올림(docs/development.md "배포용 설치 파일"). 시험은 `PET_UPDATE_URL`
 - `src/fx/` 클릭 효과 창: 모니터 전체를 덮는 투명·클릭 통과 창에 [ba-click-fx](https://github.com/CialloKing/ba-click-fx)로 클릭 고리·끌기 트레일. 펫 창이 `petBridge.fx(down|move|up|cancel)` → 메인이 실제 커서 위치로 변환해 전달. 메뉴 "클릭 효과"로 끄기
 - `tools/` 테스트·조사 도구 (아래)
 
@@ -60,8 +60,8 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
   - `npx electron tools/behavior-check.js ["모델.glb" …]` 행동 테스트(가상 시계 `__pet.run`): 명령마다 대기로 돌아오는지 + 30분 동안 멈춤·오류 → `docs/data/behavior-check.json`
   - `npx electron tools/sheet-check.js "모델.glb" [출력.png] [--picks]` 펫이 쓰는 동작마다 5장 시트(`__pet.sheet`). `--picks`는 사람이 볼 동작만 이유와 함께(`__pet.picks`: 몸이 크게 뜸(골반이 서 있을 때의 1.6배 넘게), 낮잠 끝에 몸에서 멀리 떨어진 조각, 빌려온 동작, EX 여러 개, 장비 모습이 다름, 02 차림)
   - `node tools/check-model.js [모델.glb …]` 학생 검사(정적 서버 불필요): 펫이 그 학생에게 하는 것·경고·특징. `--survey`면 받지 않은 295개도 조사 데이터 이름으로, `--brief`는 한 줄씩
-  - `node tools/make-joint-pack.js [--src=game-cache/joint-glb] [--base=pack-cache] [--out=dist/joint]` **합동 승리 동작 묶음**(배포용): 합동 동작 모델에서 합동 동작만 떼어(원래 학생 파일과 노드가 같은지 확인) `<첨부 이름>.joint.br` + `joint-index.json`(파일별 크기·해시·동작 이름·원래 학생 파일 해시 `base`). 올리는 법 README "배포용 설치 파일"
-  - `node tools/make-pack.js [--out=dist/students.zip] [--local-only] [--split[=dist/students]]` **학생 압축**(배포용, 설치 파일과 따로): 원본 저장소를 한 커밋으로 고정해 `.glb`를 받아(`pack-cache/`, git 해시로 확인, `models/`에 같은 게 있으면 복사) 펫으로 쓸 수 있는 학생과 짝 파일(`<학생> (…)`)만 zip으로. 압축 안에 `students-pack.json`(커밋·파일별 해시·검사한 학생)과 `읽어주세요.txt`. zip은 파이썬 `zipfile`로 씀(Node zlib보다 4% 작음). `--local-only`는 받지 않고 시험. `--split`은 앱 안에서 받기용으로 학생마다 brotli(품질 11, 원본의 약 46%) `<영어 소문자 이름>.glb.br` + `students-index.json`(파일별 크기·해시·`needs`), 지난 목록과 해시가 같으면 다시 압축 안 함. 올리는 법 README "배포용 설치 파일"(목록은 맨 마지막에)
+  - `node tools/make-joint-pack.js [--src=game-cache/joint-glb] [--base=pack-cache] [--out=dist/joint]` **합동 승리 동작 묶음**(배포용): 합동 동작 모델에서 합동 동작만 떼어(원래 학생 파일과 노드가 같은지 확인) `<첨부 이름>.joint.br` + `joint-index.json`(파일별 크기·해시·동작 이름·원래 학생 파일 해시 `base`). 올리는 법 docs/development.md "배포용 설치 파일"
+  - `node tools/make-pack.js [--out=dist/students.zip] [--local-only] [--split[=dist/students]]` **학생 압축**(배포용, 설치 파일과 따로): 원본 저장소를 한 커밋으로 고정해 `.glb`를 받아(`pack-cache/`, git 해시로 확인, `models/`에 같은 게 있으면 복사) 펫으로 쓸 수 있는 학생과 짝 파일(`<학생> (…)`)만 zip으로. 압축 안에 `students-pack.json`(커밋·파일별 해시·검사한 학생)과 `읽어주세요.txt`. zip은 파이썬 `zipfile`로 씀(Node zlib보다 4% 작음). `--local-only`는 받지 않고 시험. `--split`은 앱 안에서 받기용으로 학생마다 brotli(품질 11, 원본의 약 46%) `<영어 소문자 이름>.glb.br` + `students-index.json`(파일별 크기·해시·`needs`), 지난 목록과 해시가 같으면 다시 압축 안 함. 올리는 법 docs/development.md "배포용 설치 파일"(목록은 맨 마지막에)
   - `node tools/upstream-check.js` **원본 변경 보기**(받지 않음, 약 5초): 원본 main의 `.glb` 목록을 받은 원본(`pack-cache`)과 git 해시로 비교해 새로 생김·바뀜·없어짐과 크기. 바뀐 게 있으면 크기를 알리고 허락받아 `make-pack.js`로 받기 → 검사 → 압축 다시 만들기
 - 펫 페이지를 여는 테스트 도구는 `"--model=Hoshino (Swimsuit).glb"`처럼 `models/` 안의 다른 모델을 고를 수 있다(기본 `Hoshino.glb`, 페이지 주소의 `?model=`)
 - 캡처 PNG는 2배 해상도(DPR 2)라 잘라낼 좌표도 2배로 계산한다.
@@ -217,7 +217,7 @@ npm run dist                   # 배포용 설치 파일(dist/, 바탕화면 바
 - 압축(원본 커밋 `06bb8e9`, 2026-11-01 다시 만듦): 학생 266 + 짝 파일 21, 원본 1.71GB → `dist/students.zip` 906MB. 빠진 것은 카페 대기 없는 `Nonomi`·`Material Development Club Member` 2개. 받은 원본은 `C:/project/bluearchive/pack-cache`(289개, `.git/info/exclude`로 git 제외)에 있어 다시 만들 때 안 받음: `node tools/make-pack.js --commit=06bb8e91b0b93ce9f8bf26c80ee94046fd1cb734 --cache=C:/project/bluearchive/pack-cache --out=C:/project/bluearchive/dist/students.zip`. 압축 안 `students-pack.json`의 검사한 학생 목록은 만들 때의 것(지금 압축은 115명 때) → 학생을 더 붙이고 다시 올릴 때는 다시 만들기 (원본 최신 커밋으로 바꾸려면 `--commit` 빼고, 새로 받을 게 있으면 크기 알리고 허락)
 - 빠진 학생: 원본에 모델이 없음 — 라나·안나·에리나(붉은겨울), 츠무기(와일드헌트), 코코로·코토네(오디세이). 카페 동작이 없어 못 씀 — `Nonomi` 기본 차림(카페 파일도 없음, 사용자 "어쩔 수 없다"), `Material Development Club Member`
 - **남은 순서**
-  4. ~~설치 파일 정리~~ 완료(2026-10-30 사용자): 설치 파일엔 호시노만(`build.files` `models/Hoshino.glb`, 86MB), 나머지는 학생 압축으로. 삭제할 때 받은 학생·설정(`%APPDATA%/bluearchive-desktop-pet`)은 늘 지움(`nsis.deleteAppDataOnUninstall`, 덮어 설치(`--updated`)엔 안 지움. 개발용 `npm start`도 같은 폴더라 이 컴퓨터에서 설치본을 지우면 같이 사라짐). README "배포용 설치 파일"에 학생 압축 푸는 법
+  4. ~~설치 파일 정리~~ 완료(2026-10-30 사용자): 설치 파일엔 호시노만(`build.files` `models/Hoshino.glb`, 86MB), 나머지는 학생 압축으로. 삭제할 때 받은 학생·설정(`%APPDATA%/bluearchive-desktop-pet`)은 늘 지움(`nsis.deleteAppDataOnUninstall`, 덮어 설치(`--updated`)엔 안 지움. 개발용 `npm start`도 같은 폴더라 이 컴퓨터에서 설치본을 지우면 같이 사라짐). docs/development.md "배포용 설치 파일"에 학생 압축 푸는 법
   5. ~~학생 압축 다시 만들기~~ 완료(2026-10-30): `students-pack.json`에서 토키·사오리(드레스)는 학생(`pet: true`), `(Cafe)` 파일은 짝 파일(`pet: false`)로 확인. 예전 압축은 토키 빠짐·사오리(드레스)가 사오리의 짝 파일이었음
   6. ~~GitHub Releases에 올리기~~ 완료(2026-11-01 사용자 허락): 저장소 `dxsworks/SD_archive`(공개, 파일 하나 2GB까지) 릴리스 [v1.1.0](https://github.com/dxsworks/SD_archive/releases/tag/v1.1.0)(Latest, 태그 = 버전을 1.1.0으로 올린 main 커밋)에 설치 파일 `BlueArchivePet-Setup-1.1.0.exe`(86MB, 호시노만, 검사한 학생 115명 목록)와 `students.zip`(906MB). GitHub은 첨부 이름의 한글·공백을 바꾸므로 설치 파일은 영어 이름으로 복사해 올림. 예전 v1.0.0(2026-10-14, 학생 4명 든 99MB, 받은 사람 0)은 그대로 둠. 다시 올릴 때도 **올리기 전에 사용자 확인**(밖으로 나가는 일). 게임 원본 에셋을 다시 배포하는 것이라 신고·내려질 위험은 사용자에게 이미 말해 둠
   7. 릴리스 [v1.2.0](https://github.com/dxsworks/SD_archive/releases/tag/v1.2.0)(2026-11-05 사용자 허락, Latest, 태그 = 버전 1.2.0 main 커밋 `2d145c4`): `BlueArchivePet-Setup-1.2.0.exe`(86MB, 검사한 학생 264명 = 학생 메뉴 전부)·`latest.yml`·`.blockmap`·`students.zip`(906MB, 학생 264 + 짝 파일 23, 원본 `06bb8e9` 그대로). 자동 업데이트가 든 첫 릴리스 → 1.1.0 사용자는 이걸 한 번 직접 설치. 다음 릴리스(1.2.1 이상) 때 설치본에서 알림·메뉴·설치를 실제로 확인할 것. `gh release create --target`은 전체 SHA(짧은 SHA는 422)

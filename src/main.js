@@ -34,7 +34,7 @@ const bottomY = (wa, h) => Math.round(wa.y + wa.height - h + h * BELOW);
 // 여러 학생 동시에 (2026-11-06 사용자 "단순하게 먼저"): 펫마다 창 하나·학생 하나. 띄운 학생은 settings.pets(파일 이름 목록)에 저장,
 // settings.model은 첫 번째 펫 (예전 버전으로 돌아가도 그 학생으로 켜지게). 크기·돌아다니기·클릭 효과 등은 모두 같이 쓴다
 // 화면 밖 창 4명 시험: 모두 60fps, GPU 3D 1명 7~8% → 4명 약 31%
-const MAX_PETS = 4;
+// 띄울 수 있는 수는 제한 없음(2026-11-18 사용자 "제한 없애자", 예전 최대 4명): 컴퓨터가 버티는 만큼
 const DEFAULT_SETTINGS = { model: 'Hoshino.glb', pets: null, size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };
 
 const pets = []; // { model, win, leaving: 돌려보내는 중, gone: 종료하며 퇴장을 마침 }
@@ -63,7 +63,6 @@ function loadSettings() {
   }
   if (!SIZES[settings.size]) settings.size = DEFAULT_SETTINGS.size;
   if (!Array.isArray(settings.pets) || !settings.pets.length) settings.pets = [settings.model];
-  settings.pets = settings.pets.slice(0, MAX_PETS);
 }
 
 // 지금 띄운 학생을 설정에 (앱을 끄며 창이 닫힐 때는 안 함: 다음에 켜면 그대로 나오게)
@@ -170,9 +169,8 @@ function restartMouseForwarding(pet) {
   pet.win.setIgnoreMouseEvents(true, { forward: true });
 }
 
-// 학생 하나 더 띄우기 (최대 MAX_PETS)
+// 학생 하나 더 띄우기
 function addPet(model, near) {
-  if (livePets().length >= MAX_PETS) return;
   createWindow(model, alive(near) ? besideBounds(model, near) : homeBounds(model, pets.length));
   savePets();
   rebuildMenus();
@@ -514,9 +512,7 @@ function buildMenuTemplate(pet = null) {
       label: '학생',
       submenu: studentMenu(models, target),
     },
-    count < MAX_PETS
-      ? { label: '학생 하나 더 띄우기', submenu: studentMenu(models, target, true) }
-      : { label: '학생 하나 더 띄우기', note: `최대 ${MAX_PETS}명`, enabled: false },
+    { label: '학생 하나 더 띄우기', submenu: studentMenu(models, target, true) },
     {
       label: '돌아다니기',
       type: 'checkbox',
@@ -638,7 +634,7 @@ function toMenuItems(template) {
   });
 }
 
-const jointRows = (pet) => joint?.rowsFor(pet, () => livePets().length < MAX_PETS);
+const jointRows = (pet) => joint?.rowsFor(pet, () => true);
 function showPetMenu(pet) {
   if (!menuWin) createMenuWindow();
   menuClicks = new Map();

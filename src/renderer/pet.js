@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DesktopFloor } from './floor.js';
 import { hiddenPartsUpdater, clipsChangingParts, restUnderHiddenBones, limitRevivedScales, showSwitchedWeapons, trimVanishingEnd, hiddenPropsAt, showsProp } from './hidden-parts.js';
-import { addOutlines, outlineThickness } from './outline.js';
+import { addOutlines, outlineThickness, setOutlinesEnabled } from './outline.js';
 import { meshSpheres, screenBounds } from './tight-canvas.js';
 import { measureClips, hipYaw, thighBones } from './clip-facing.js';
 import { jointStudent } from './joint-model.js';
@@ -74,15 +74,19 @@ const winBox = document.getElementById('frame'); // 펫 창 크기 상자. 캔�
 const bridge = window.petBridge ?? createBrowserStub();
 const cursorOf = bridge.cursor ?? ((e) => ({ x: e.screenX, y: e.screenY }));
 
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+// 메뉴 '그래픽'(2026-11-18 사용자): 안티앨리어싱은 GL을 만들 때만 정해져서 메인이 주소(?aa=0)를 바꿔 페이지를 다시 연다
+const ANTIALIAS = new URLSearchParams(location.search).get('aa') !== '0';
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: ANTIALIAS });
 renderer.setClearColor(0x000000, 0);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 50);
 
+let resScale = 1; // 메뉴 '그래픽' → 해상도 (1 선명 / 0.75 보통 / 0.5 낮음): 화면 배율에 곱함
+const pixelRatio = () => window.devicePixelRatio * resScale;
 function layout() {
-  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setPixelRatio(pixelRatio());
   // 원점(발밑)이 화면 맨 아래에서 FOOT_MARGIN 위에 오도록 시점 중심을 잡는다
   const targetY = (VIEW_HEIGHT / 2 - FOOT_MARGIN) / Math.cos(TILT);
   camera.position.set(0, targetY + 10 * Math.sin(TILT), 10 * Math.cos(TILT));
@@ -147,7 +151,7 @@ const shadowRim = Array.from({ length: 8 }, (_, i) => new THREE.Vector3(Math.cos
 const shadowRimWorld = shadowRim.map(() => new THREE.Vector3());
 function neededCanvas({ raw = false } = {}) {
   scene.updateMatrixWorld();
-  const points = shadow.visible && shadow.material.opacity > 0
+  const points = shadow.visible && shadow.material.visible && shadow.material.opacity > 0
     ? shadowRim.map((v, i) => shadowRimWorld[i].copy(v).multiplyScalar(SHADOW_SIZE / 2).applyMatrix4(shadow.matrixWorld)) : [];
   const b = screenBounds(canvasSpheres, points, toWindowPx, winBox.clientHeight / (camera.top - camera.bottom));
   if (!b || raw) return b;
@@ -2165,19 +2169,20 @@ function updateBadge(dt) {
   badgeEl.style.transform = `translate(${x - w / 2}px, ${y - h}px) scale(${s})`; // 아래 가운데(꼬리)가 (x, y)
 }
 
-// ---- 메인 루프 (항상 60fps) ----
+// ---- 메인 루프 (기본 60fps, 메뉴 '그래픽' → 프레임 수) ----
 // 예전엔 대기·낮잠을 30fps로 그렸는데 숨쉬기·흔들림이 뚝뚝 끊겨 보였음(2026-10-20 사용자: 렉 걸린 느낌).
 // 한 프레임 CPU가 1~2ms라(tools/perf-check.js) 늘 60fps로 그려도 부담이 적다. 주사율이 더 높은 모니터에서도 60fps까지만
-const TARGET_FPS = 60;
+// settings.fps: 60 / 30 / 0(모니터 주사율까지, 제한 없음)
 let lastFrame = performance.now();
 let speed = 1; // 느린 재생 (__pet.timeScale)
 function frame(now) {
   requestAnimationFrame(frame);
-  if (now - lastFrame < 1000 / TARGET_FPS - 2) return;
+  const fpsCap = settings.fps ?? 60;
+  if (fpsCap && now - lastFrame < 1000 / fpsCap - 2) return;
   const dt = Math.min((now - lastFrame) / 1000, 0.1) * speed;
   lastFrame = now;
 
-  if (renderer.getPixelRatio() !== window.devicePixelRatio) layout(); // 배율이 다른 모니터로 옮겨졌을 때
+  if (renderer.getPixelRatio() !== pixelRatio()) layout(); // 배율이 다른 모니터로 옮겨졌을 때
   const t0 = performance.now();
   update(dt);
   mixer.update(dt);
@@ -2197,8 +2202,17 @@ function frame(now) {
 }
 let perfLog = null; // 성능 재기 (tools/perf-check.js): __pet.perfStart() → __pet.perfStop()
 
+// 메뉴 '그래픽' 중 페이지를 다시 열지 않고 바뀌는 것 (프레임 수는 frame()이 settings.fps를 바로 봄)
+function applyGraphics() {
+  const res = [1, 0.75, 0.5].includes(settings.resolution) ? settings.resolution : 1;
+  if (res !== resScale) { resScale = res; layout(); }
+  setOutlinesEnabled(settings.outline !== false);
+  shadow.material.visible = settings.shadow !== false; // 합동 승리 그림자도 같은 재질
+}
+
 async function main() {
   settings = { ...settings, ...(await bridge.getSettings()) };
+  applyGraphics();
   await refreshBounds();
   syncFloorFromWindow();
   await loadModel();
@@ -2209,7 +2223,7 @@ async function main() {
     else if (!['drag', 'fall', 'retreat', 'gone', ...JOINT_BUSY].includes(state)) COMMANDS[cmd]?.();
   });
   bridge.onJoint?.(onJoint);
-  bridge.onSettings((s) => { settings = { ...settings, ...s }; if (!settings.walk && state === 'walk') toIdle(); });
+  bridge.onSettings((s) => { settings = { ...settings, ...s }; applyGraphics(); if (!settings.walk && state === 'walk') toIdle(); });
   bridge.onDownload?.(setBadge);
   bridge.onBoundsChanged(async () => {
     await refreshBounds();
@@ -2259,6 +2273,13 @@ window.__pet = {
   get clipLengths() { return Object.fromEntries(Object.entries(clips).map(([n, c]) => [n, +c.duration.toFixed(2)])); }, // 행동 검사 멈춤 기준용
   set timeScale(f) { speed = f; }, // 동작 확인용 느린 재생 (몸 돌리기도 같이 느려짐)
   perfStart() { perfLog = []; },
+  // 그래픽 설정이 먹었는지 (메뉴 '그래픽'): 안티앨리어싱·픽셀 배율·보이는 외곽선 메시 수·그림자
+  graphics() {
+    let outlines = 0;
+    scene.traverse((o) => { if (o.isMesh && o.visible && o.material?.side === THREE.BackSide) outlines++; });
+    return { antialias: renderer.getContext().getContextAttributes().antialias, pixelRatio: renderer.getPixelRatio(),
+      dpr: window.devicePixelRatio, outlines, shadow: shadow.material.visible, fps: settings.fps ?? 60 };
+  },
   perfStop() { const log = perfLog; perfLog = null; return log; },
   // 동작 확인용: 상태 머신을 멈추고(state 'pose') 이 동작만 반복
   pose(name, { face = FACE_FRONT, height = 0 } = {}) { endBattle(); armed = null; drag = null; setState('pose'); facing = face; lift = height; play(name); },

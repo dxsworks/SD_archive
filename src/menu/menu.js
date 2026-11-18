@@ -41,7 +41,7 @@ function rowFor(item, level) {
   if (item.submenu) {
     // 하나만 고르는 하위 메뉴면 지금 고른 것을 옆에 보여 줌 (크기: 보통). 더 아래 단계에 있으면 이 줄을 표시만 (학원)
     const picked = pickedIn(item.submenu);
-    if (picked && level === 0) row.append(el('span', 'hint', picked.label));
+    if (picked && level === 0 && !item.note) row.append(el('span', 'hint', picked.label)); // note가 있으면 그것만 (그래픽: 요약)
     else if (picked) row.classList.add('has-pick');
     row.append(el('span', 'arrow', '▶'));
   }

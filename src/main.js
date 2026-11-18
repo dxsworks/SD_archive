@@ -35,7 +35,12 @@ const bottomY = (wa, h) => Math.round(wa.y + wa.height - h + h * BELOW);
 // settings.model은 첫 번째 펫 (예전 버전으로 돌아가도 그 학생으로 켜지게). 크기·돌아다니기·클릭 효과 등은 모두 같이 쓴다
 // 화면 밖 창 4명 시험: 모두 60fps, GPU 3D 1명 7~8% → 4명 약 31%
 // 띄울 수 있는 수는 제한 없음(2026-11-18 사용자 "제한 없애자", 예전 최대 4명): 컴퓨터가 버티는 만큼
-const DEFAULT_SETTINGS = { model: 'Hoshino.glb', pets: null, size: 'medium', walk: true, alwaysOnTop: true, clickFx: true };
+// 그래픽 설정 (2026-11-18 사용자: 메뉴 '그래픽', 모든 학생에 같이). 기본값은 예전 그대로
+const GRAPHICS_DEFAULT = { fps: 60, antialias: true, resolution: 1, outline: true, shadow: true };
+const FPS_CHOICES = [[60, '60'], [30, '30 (가볍게)'], [0, '모니터 주사율까지']];
+const RES_CHOICES = [[1, '선명'], [0.75, '보통'], [0.5, '낮음']];
+const graphicsOf = () => ({ fps: settings.fps, resolution: settings.resolution, outline: settings.outline, shadow: settings.shadow });
+const DEFAULT_SETTINGS = { model: 'Hoshino.glb', pets: null, size: 'medium', walk: true, alwaysOnTop: true, clickFx: true, ...GRAPHICS_DEFAULT };
 
 const pets = []; // { model, win, leaving: 돌려보내는 중, gone: 종료하며 퇴장을 마침 }
 let tray = null;
@@ -62,6 +67,8 @@ function loadSettings() {
     settings = { ...DEFAULT_SETTINGS };
   }
   if (!SIZES[settings.size]) settings.size = DEFAULT_SETTINGS.size;
+  if (!FPS_CHOICES.some(([v]) => v === settings.fps)) settings.fps = GRAPHICS_DEFAULT.fps;
+  if (!RES_CHOICES.some(([v]) => v === settings.resolution)) settings.resolution = GRAPHICS_DEFAULT.resolution;
   if (!Array.isArray(settings.pets) || !settings.pets.length) settings.pets = [settings.model];
 }
 
@@ -136,7 +143,7 @@ function createWindow(model, bounds) {
   win.setBounds(bounds);
   // 캐릭터가 없는 투명 영역은 클릭이 아래 창으로 통과하도록 시작
   win.setIgnoreMouseEvents(true, { forward: true });
-  win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+  loadPetPage(win);
   win.once('ready-to-show', () => { win.showInactive(); restartMouseForwarding(pet); });
   // 페이지가 뜰 때마다(다시 불러오기 포함) 마우스 이동 넘겨받기를 다시 건다
   win.webContents.on('did-finish-load', () => restartMouseForwarding(pet));
@@ -159,6 +166,33 @@ function createWindow(model, bounds) {
   pets.push(pet);
   return pet;
 }
+
+// 펫 페이지 열기. 안티앨리어싱은 GL을 만들 때만 정해져 주소로 넘김(끄면 ?aa=0)
+function loadPetPage(win) {
+  win.loadFile(path.join(__dirname, 'renderer', 'index.html'), settings.antialias ? {} : { query: { aa: '0' } });
+}
+
+// 그래픽 설정 바꾸기: 안티앨리어싱은 펫 페이지를 다시 열고(학생이 대기부터 다시), 나머지는 페이지에 바로 알림
+function setGraphics(key, value) {
+  settings[key] = value;
+  saveSettings();
+  if (key === 'antialias') {
+    for (const p of livePets()) { joint?.abortFor(p); loadPetPage(p.win); }
+  } else {
+    sendToAll('pet:settings', graphicsOf());
+  }
+  rebuildMenus();
+}
+
+// 메뉴 옆 요약 (예: 60fps · 선명)
+const graphicsNote = () => `${settings.fps ? `${settings.fps}fps` : '주사율'} · ${RES_CHOICES.find(([v]) => v === settings.resolution)[1]}`;
+const graphicsMenu = () => [
+  { label: '프레임 수', submenu: FPS_CHOICES.map(([v, label]) => ({ label, type: 'radio', checked: settings.fps === v, click: () => setGraphics('fps', v) })) },
+  { label: '해상도', submenu: RES_CHOICES.map(([v, label]) => ({ label, type: 'radio', checked: settings.resolution === v, click: () => setGraphics('resolution', v) })) },
+  { label: '안티앨리어싱', type: 'checkbox', checked: settings.antialias, click: (item) => setGraphics('antialias', item.checked) },
+  { label: '외곽선', type: 'checkbox', checked: settings.outline, click: (item) => setGraphics('outline', item.checked) },
+  { label: '그림자', type: 'checkbox', checked: settings.shadow, click: (item) => setGraphics('shadow', item.checked) },
+];
 
 // 클릭 통과 중에도 마우스 이동을 페이지로 넘겨받기(forward). Electron은 이미 켜져 있으면 다시 켜도 아무것도 안 해서,
 // 페이지가 새로 뜨며 마우스를 받는 안쪽 창이 바뀌어도 예전 창에 걸려 있었다 → 이동마다 mouseleave가 같이 와서
@@ -533,6 +567,7 @@ function buildMenuTemplate(pet = null) {
         click: () => setSize(key),
       })),
     },
+    { label: '그래픽', note: graphicsNote(), submenu: graphicsMenu() },
     {
       label: '항상 위에 표시',
       type: 'checkbox',
@@ -794,7 +829,7 @@ ipcMain.on('pet:show-menu', (e) => {
 
 // 시험용: 화면 밖에서 메인 쪽을 움직여 보는 도구가 쓴다 (PET_TEST_HOOK=1)
 if (process.env.PET_TEST_HOOK) {
-  global.__petMain = { pets, joint: () => joint, settings: () => settings, addPet, dismissPet, setModel, setSize, buildMenuTemplate, quitWithRetreat, resetPosition,
+  global.__petMain = { pets, joint: () => joint, settings: () => settings, setGraphics, addPet, dismissPet, setModel, setSize, buildMenuTemplate, quitWithRetreat, resetPosition,
     // 우클릭 메뉴를 화면 밖(보이지 않게)에서 그려 PNG로: 커서·포커스를 건드리지 않음
     async menuShot(pet, file) {
       showPetMenu(pet);

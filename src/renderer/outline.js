@@ -5,6 +5,10 @@ import * as THREE from 'three';
 // 게임 느낌의 기본(키의 0.6%)에서 18%만 쓴다(사용자 결정).
 const THICKNESS = 0.006 * 0.18;
 
+// 메뉴 '그래픽' → 외곽선 끄기 (펫·합동 승리 모델 모두. 보기 창은 늘 켬)
+let enabled = true;
+export function setOutlinesEnabled(on) { enabled = on; }
+
 // 모델을 화면에 놓기 전(루트가 원점·배율 1일 때) 부른다. 돌려주는 함수를 매 프레임 불러 원본 메시의 보임/숨김을 따라가게 한다.
 export function addOutlines(root) {
   const thickOf = outlineThickness(root);
@@ -26,7 +30,7 @@ export function addOutlines(root) {
     mesh.parent.add(outline);
     return [mesh, outline];
   });
-  return () => { for (const [mesh, outline] of pairs) outline.visible = mesh.visible; };
+  return () => { for (const [mesh, outline] of pairs) outline.visible = enabled && mesh.visible; };
 }
 
 // 메시마다 외곽선 두께(메시 자신의 좌표 단위). 캐릭터 둘레 캔버스(tight-canvas.js)도 이만큼 넓혀 잡는다
